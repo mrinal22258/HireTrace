@@ -16,4 +16,9 @@ powershell.cmd
 video/
 scratch/
 .DS_Store
+hiretrace.db
+hiretrace.db-wal
+hiretrace.db-shm
+uploads/
+
 

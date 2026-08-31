@@ -832,7 +832,244 @@
       resize: vertical;
       min-height: 90px;
     }
+    /* File Upload Dropzones & Dual-Mode Intake */
+    .dropzone-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .dropzone-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .toggle-input-mode {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--pink-700);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .toggle-input-mode:hover {
+      background: var(--pink-100);
+      color: var(--pink-900);
+    }
+    .file-dropzone {
+      border: 2px dashed var(--border-subtle);
+      background: var(--pink-25);
+      border-radius: 10px;
+      padding: 0.9rem 1.1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .file-dropzone:hover {
+      border-color: var(--pink-400);
+      background: #FFFFFF;
+    }
+    .file-dropzone.dragover {
+      border-color: var(--pink-600);
+      background: var(--pink-50);
+      transform: scale(1.01);
+    }
+    .dropzone-icon {
+      font-size: 1.4rem;
+      margin-bottom: 0.2rem;
+      display: block;
+    }
+    .dropzone-text {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-head);
+    }
+    .dropzone-sub {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .dropzone-file-selected {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      background: #FFFFFF;
+      border: 1px solid var(--pink-200);
+      border-radius: 8px;
+      padding: 0.45rem 0.75rem;
+      margin-top: 0.3rem;
+    }
+    .dropzone-file-selected.active {
+      display: flex;
+    }
+    .file-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text-head);
+    }
+    .file-size-badge {
+      font-size: 0.68rem;
+      font-weight: normal;
+      color: var(--text-muted);
+      background: var(--pink-50);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .btn-remove-file {
+      background: transparent;
+      border: none;
+      color: var(--pink-700);
+      font-size: 1.1rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .btn-remove-file:hover {
+      background: var(--pink-100);
+      color: var(--pink-900);
+    }
+
+    .intake-tab-btn {
+      background: none;
+      border: 1px solid transparent;
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .intake-tab-btn:hover {
+      color: var(--pink-900);
+      background: var(--pink-50);
+    }
+    .intake-tab-btn.active {
+      color: #FFFFFF;
+      background: var(--pink-600);
+    }
+
+    .badge-evaluating {
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+      animation: pulse 1.5s infinite;
+    }
+    .badge-fast-reject {
+      background: #FEF3C7;
+      color: #B45309;
+      border: 1px solid #FDE68A;
+    }
+    @keyframes pulse {
+
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* Live Pipeline Stepper */
+    .pipeline-stepper-box {
+      background: var(--pink-25);
+      border: 1px solid var(--pink-200);
+      border-radius: 10px;
+      padding: 0.9rem 1.1rem;
+      margin-bottom: 0.8rem;
+      animation: modalFade 0.2s ease;
+    }
+    .stepper-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+    .stepper-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-head);
+    }
+    .stepper-pct {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--pink-700);
+    }
+    .stepper-progress-bar {
+      height: 6px;
+      background: var(--pink-100);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+    }
+    .stepper-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--pink-500), var(--pink-700));
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+    .stepper-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.3rem;
+    }
+    .stepper-step {
+      font-size: 0.64rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.2rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .stepper-step .step-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--pink-50);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+    }
+    .stepper-step.active {
+      color: var(--pink-800);
+      font-weight: 700;
+    }
+    .stepper-step.active .step-icon {
+      background: var(--pink-500);
+      color: #FFFFFF;
+      border-color: var(--pink-500);
+      box-shadow: 0 0 0 3px rgba(200, 139, 149, 0.25);
+    }
+    .stepper-step.done {
+      color: #059669;
+      font-weight: 600;
+    }
+    .stepper-step.done .step-icon {
+      background: #ECFDF5;
+      color: #059669;
+      border-color: #A7F3D0;
+    }
+    .stepper-msg {
+      font-size: 0.72rem;
+      color: var(--pink-800);
+      margin-top: 0.65rem;
+      font-family: var(--font-mono);
+      background: #FFFFFF;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid var(--pink-100);
+    }
+
     .modal-actions {
+
       display: flex;
       justify-content: flex-end;
       gap: 0.7rem;
@@ -940,7 +1177,19 @@
         <button class="filter-btn" onclick="filterCases('strong', this)">Strong</button>
         <button class="filter-btn" onclick="filterCases('weak', this)">Weak</button>
       </div>
+      <div class="sidebar-search-box" style="padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--border-subtle); background: var(--pink-25);">
+        <input type="text" id="candSearchInput" placeholder="🔍 Search applicant or role..." oninput="handleSearchFilterInput()" style="width: 100%; padding: 0.38rem 0.6rem; border: 1px solid var(--border-subtle); border-radius: 6px; font-size: 0.72rem; margin-bottom: 0.35rem; box-sizing: border-box;">
+        <select id="candQuadrantSelect" onchange="handleSearchFilterInput()" style="width: 100%; padding: 0.32rem 0.5rem; border: 1px solid var(--border-subtle); border-radius: 6px; font-size: 0.7rem; color: var(--text-head); background: #FFFFFF; box-sizing: border-box;">
+          <option value="all">All Evaluation Quadrants</option>
+          <option value="STRONG MATCH">Strong Match</option>
+          <option value="REVIEW REQUIRED">Review Required</option>
+          <option value="INSUFFICIENT EVIDENCE">Insufficient Evidence</option>
+          <option value="WEAK MATCH">Weak Match</option>
+          <option value="LOW_FIT_FAST_REJECT">Fast Reject (Tier 0)</option>
+        </select>
+      </div>
       <div class="candidate-list" id="candidateList">
+
         <!-- Injected via JS -->
       </div>
     </aside>
@@ -1109,7 +1358,7 @@ Loading benchmark evaluation...
   </div>
 
   <!-- Ingest New Applicant Modal -->
-  <div class="modal-overlay" id="applicantModal">
+<div class="modal-overlay" id="applicantModal">
     <div class="modal-card">
       <div class="modal-header">
         <div class="modal-title">
@@ -1119,50 +1368,236 @@ Loading benchmark evaluation...
         <button class="modal-close-btn" onclick="closeNewApplicantModal()">×</button>
       </div>
 
-      <form id="newApplicantForm" onsubmit="handleNewApplicantSubmit(event)">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
-          <div class="form-group">
-            <label class="form-label">Applicant Name *</label>
-            <input type="text" id="inputName" class="form-input" placeholder="e.g. Alex Morgan" required>
+      <!-- Intake Mode Tabs: Single vs Bulk -->
+      <div class="intake-tabs" style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.6rem;">
+        <button type="button" class="intake-tab-btn active" id="tabBtnSingle" onclick="switchIntakeMode('single')">👤 Single Applicant</button>
+        <button type="button" class="intake-tab-btn" id="tabBtnBulk" onclick="switchIntakeMode('bulk')">📁 Bulk Folder / ZIP Intake</button>
+      </div>
+
+      <!-- Single Applicant Ingestion Panel -->
+      <div id="singleIntakePanel">
+        <form id="newApplicantForm" onsubmit="handleNewApplicantSubmit(event)">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+            <div class="form-group">
+              <label class="form-label">Applicant Name *</label>
+              <input type="text" id="inputName" class="form-input" placeholder="e.g. Alex Morgan" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Target Role</label>
+              <input type="text" id="inputRole" class="form-input" placeholder="e.g. Senior Python & Distributed Systems Engineer" value="Senior Python & Distributed Systems Engineer">
+            </div>
           </div>
+
+          <!-- Slot 1: CV / Resume (Required) -->
+          <div class="dropzone-container" style="margin-bottom: 0.8rem;">
+            <div class="dropzone-header">
+              <label class="form-label">Curriculum Vitae / Resume *</label>
+              <button type="button" class="toggle-input-mode" id="toggleBtn-cv" onclick="toggleInputMode('cv')">✍ Paste text instead</button>
+            </div>
+            <div class="file-dropzone" id="dropzone-cv" onclick="triggerFileInput('cv')">
+              <input type="file" id="fileCv" accept=".pdf,.docx,.txt,.md" style="display:none" onchange="handleFileSelected('cv', this.files[0])">
+              <span class="dropzone-icon">📄</span>
+              <div class="dropzone-text">Drag & drop resume (.pdf, .docx, .txt, .md) or click to browse</div>
+              <div class="dropzone-sub">Layout-aware extraction via pdfplumber & python-docx</div>
+            </div>
+            <div class="dropzone-file-selected" id="fileSelected-cv">
+              <div class="file-info">
+                <span>📎</span>
+                <span id="fileName-cv">filename.pdf</span>
+                <span class="file-size-badge" id="fileSize-cv">0 KB</span>
+              </div>
+              <button type="button" class="btn-remove-file" onclick="removeFile('cv')" title="Remove file">×</button>
+            </div>
+            <div class="textarea-container" id="textareaContainer-cv">
+              <textarea id="inputCv" class="form-textarea" placeholder="Paste full candidate CV text here (experience, skills, open source, projects)..." rows="5"></textarea>
+            </div>
+          </div>
+
+          <!-- Slot 2: Interview Notes (Optional) -->
+          <div class="dropzone-container" style="margin-bottom: 0.8rem;">
+            <div class="dropzone-header">
+              <label class="form-label">Interview Transcript (Optional)</label>
+              <button type="button" class="toggle-input-mode" id="toggleBtn-interview" onclick="toggleInputMode('interview')">✍ Paste text instead</button>
+            </div>
+            <div class="file-dropzone" id="dropzone-interview" onclick="triggerFileInput('interview')">
+              <input type="file" id="fileInterview" accept=".pdf,.docx,.txt,.md" style="display:none" onchange="handleFileSelected('interview', this.files[0])">
+              <span class="dropzone-icon">🎙</span>
+              <div class="dropzone-text">Drop interview notes (.pdf, .docx, .txt, .md) or click to browse</div>
+              <div class="dropzone-sub">Screening transcripts, verbatim Q&A, or interviewer debriefs</div>
+            </div>
+            <div class="dropzone-file-selected" id="fileSelected-interview">
+              <div class="file-info">
+                <span>📎</span>
+                <span id="fileName-interview">interview.docx</span>
+                <span class="file-size-badge" id="fileSize-interview">0 KB</span>
+              </div>
+              <button type="button" class="btn-remove-file" onclick="removeFile('interview')" title="Remove file">×</button>
+            </div>
+            <div class="textarea-container" id="textareaContainer-interview">
+              <textarea id="inputInterview" class="form-textarea" placeholder="Paste interview Q&A transcript or interviewer notes here..." rows="4"></textarea>
+            </div>
+          </div>
+
+          <!-- Slot 3: Technical Assessment (Optional) -->
+          <div class="dropzone-container" style="margin-bottom: 0.8rem;">
+            <div class="dropzone-header">
+              <label class="form-label">Technical Assessment (Optional)</label>
+              <button type="button" class="toggle-input-mode" id="toggleBtn-assessment" onclick="toggleInputMode('assessment')">✍ Paste text instead</button>
+            </div>
+            <div class="file-dropzone" id="dropzone-assessment" onclick="triggerFileInput('assessment')">
+              <input type="file" id="fileAssessment" accept=".pdf,.docx,.txt,.md" style="display:none" onchange="handleFileSelected('assessment', this.files[0])">
+              <span class="dropzone-icon">💻</span>
+              <div class="dropzone-text">Drop technical test (.pdf, .docx, .txt, .md) or click to browse</div>
+              <div class="dropzone-sub">Coding submission, system design review, or take-home score</div>
+            </div>
+            <div class="dropzone-file-selected" id="fileSelected-assessment">
+              <div class="file-info">
+                <span>📎</span>
+                <span id="fileName-assessment">assessment.txt</span>
+                <span class="file-size-badge" id="fileSize-assessment">0 KB</span>
+              </div>
+              <button type="button" class="btn-remove-file" onclick="removeFile('assessment')" title="Remove file">×</button>
+            </div>
+            <div class="textarea-container" id="textareaContainer-assessment">
+              <textarea id="inputAssessment" class="form-textarea" placeholder="Code test results, benchmarks, problem solution..." rows="3"></textarea>
+            </div>
+          </div>
+
+          <!-- Slot 4: Project / RFC (Optional) -->
+          <div class="dropzone-container" style="margin-bottom: 0.8rem;">
+            <div class="dropzone-header">
+              <label class="form-label">Project RFC / GitHub Docs (Optional)</label>
+              <button type="button" class="toggle-input-mode" id="toggleBtn-project" onclick="toggleInputMode('project')">✍ Paste text instead</button>
+            </div>
+            <div class="file-dropzone" id="dropzone-project" onclick="triggerFileInput('project')">
+              <input type="file" id="fileProject" accept=".pdf,.docx,.txt,.md" style="display:none" onchange="handleFileSelected('project', this.files[0])">
+              <span class="dropzone-icon">📐</span>
+              <div class="dropzone-text">Drop RFC or project spec (.pdf, .docx, .txt, .md) or click to browse</div>
+              <div class="dropzone-sub">Design doc, architecture proposals, or pull request summary</div>
+            </div>
+            <div class="dropzone-file-selected" id="fileSelected-project">
+              <div class="file-info">
+                <span>📎</span>
+                <span id="fileName-project">rfc.pdf</span>
+                <span class="file-size-badge" id="fileSize-project">0 KB</span>
+              </div>
+              <button type="button" class="btn-remove-file" onclick="removeFile('project')" title="Remove file">×</button>
+            </div>
+            <div class="textarea-container" id="textareaContainer-project">
+              <textarea id="inputRfc" class="form-textarea" placeholder="Team roster, architecture design docs, PR links..." rows="3"></textarea>
+            </div>
+          </div>
+
+          <!-- Live Pipeline Stepper -->
+          <div id="evalStatusBox" class="pipeline-stepper-box" style="display: none;">
+            <div class="stepper-header">
+              <span class="stepper-title" id="stepperTitle">Evaluating Applicant...</span>
+              <span class="stepper-pct" id="stepperPct">10%</span>
+            </div>
+            <div class="stepper-progress-bar">
+              <div class="stepper-progress-fill" id="stepperFill" style="width: 10%;"></div>
+            </div>
+            <div class="stepper-steps">
+              <div class="stepper-step active" id="stepNode-1">
+                <span class="step-icon" id="stepIcon-1">✓</span>
+                <span>1. Ingest</span>
+              </div>
+              <div class="stepper-step" id="stepNode-2">
+                <span class="step-icon" id="stepIcon-2">⏳</span>
+                <span>2. Rubric</span>
+              </div>
+              <div class="stepper-step" id="stepNode-3">
+                <span class="step-icon" id="stepIcon-3">○</span>
+                <span>3. Index</span>
+              </div>
+              <div class="stepper-step" id="stepNode-4">
+                <span class="step-icon" id="stepIcon-4">○</span>
+                <span>4. Verify</span>
+              </div>
+              <div class="stepper-step" id="stepNode-5">
+                <span class="step-icon" id="stepIcon-5">○</span>
+                <span>5. Report</span>
+              </div>
+            </div>
+            <div class="stepper-msg" id="stepperMsg">Queued in worker pool...</div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" id="btnCancelApplicant" onclick="closeNewApplicantModal()">Cancel</button>
+            <button type="submit" id="btnSubmitApplicant" class="btn-submit-applicant">Run Evidence-First Assessment</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Bulk Ingestion Panel -->
+      <div id="bulkIntakePanel" style="display: none;">
+        <div style="margin-bottom: 0.8rem;">
           <div class="form-group">
-            <label class="form-label">Target Role</label>
-            <input type="text" id="inputRole" class="form-input" placeholder="e.g. Senior Python & Distributed Systems Engineer" value="Senior Python & Distributed Systems Engineer">
+            <label class="form-label">Target Role for Batch</label>
+            <input type="text" id="inputBulkRole" class="form-input" placeholder="e.g. Senior Python & Distributed Systems Engineer" value="Senior Python & Distributed Systems Engineer">
           </div>
         </div>
 
-        <div class="form-group" style="margin-bottom: 0.8rem;">
-          <label class="form-label">Curriculum Vitae / Resume *</label>
-          <textarea id="inputCv" class="form-textarea" placeholder="Paste full candidate CV text here (experience, skills, open source, projects)..." rows="5" required></textarea>
-        </div>
-
-        <div class="form-group" style="margin-bottom: 0.8rem;">
-          <label class="form-label">Interview Transcript (Optional)</label>
-          <textarea id="inputInterview" class="form-textarea" placeholder="Paste interview notes or verbatim Q&A transcript..." rows="3"></textarea>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
-          <div class="form-group">
-            <label class="form-label">Technical Assessment (Optional)</label>
-            <textarea id="inputAssessment" class="form-textarea" placeholder="Coding challenge results, test logs, grader notes..." rows="3"></textarea>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.9rem;">
+          <!-- Folder Dropzone -->
+          <div class="file-dropzone" id="dropzoneBulkFolder" onclick="document.getElementById('inputBulkFolder').click()" style="padding: 1.2rem 0.8rem;">
+            <input type="file" id="inputBulkFolder" webkitdirectory directory multiple style="display:none" onchange="handleBulkFolderSelected(this.files)">
+            <span class="dropzone-icon" style="font-size: 1.8rem;">📂</span>
+            <div class="dropzone-text" style="font-size: 0.78rem; font-weight: 700;">Drop Applicant Folder</div>
+            <div class="dropzone-sub" style="font-size: 0.68rem;">One subfolder per candidate or flat batch of resumes</div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Project RFC / Internal Doc (Optional)</label>
-            <textarea id="inputRfc" class="form-textarea" placeholder="Team roster, architecture design docs, PR links..." rows="3"></textarea>
+
+          <!-- ZIP Dropzone -->
+          <div class="file-dropzone" id="dropzoneBulkZip" onclick="document.getElementById('inputBulkZip').click()" style="padding: 1.2rem 0.8rem;">
+            <input type="file" id="inputBulkZip" accept=".zip" style="display:none" onchange="handleBulkZipSelected(this.files[0])">
+            <span class="dropzone-icon" style="font-size: 1.8rem;">🗜</span>
+            <div class="dropzone-text" style="font-size: 0.78rem; font-weight: 700;">Drop .ZIP Archive</div>
+            <div class="dropzone-sub" style="font-size: 0.68rem;">Auto-unpacks on server with deduplication</div>
           </div>
         </div>
 
-        <div id="evalStatusBox" style="display: none; padding: 0.7rem; background: var(--pink-100); border-radius: 8px; font-size: 0.76rem; color: var(--pink-900); font-weight: 600; margin-bottom: 0.8rem;">
-          ⏳ Running local Ollama multi-agent pipeline (Evidence Chunking → Verification → Requirement Mapping → 2D Quadrant)...
+        <!-- Live Batch Metrics & Counters -->
+        <div id="bulkMetricsBox" style="display: none; background: var(--pink-25); border: 1px solid var(--pink-200); border-radius: 10px; padding: 0.9rem 1rem; margin-bottom: 0.8rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-head);" id="bulkBatchTitle">Batch Processing Active</span>
+            <span style="font-size: 0.74rem; font-weight: 700; color: var(--pink-700);" id="bulkProgressPct">0%</span>
+          </div>
+
+          <div class="stepper-progress-bar">
+            <div class="stepper-progress-fill" id="bulkProgressFill" style="width: 0%;"></div>
+          </div>
+
+          <!-- 4 Metrics Cards -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; text-align: center; margin-bottom: 0.7rem;">
+            <div style="background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.45rem 0.3rem;">
+              <div style="font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase;">Uploaded</div>
+              <div style="font-size: 1rem; font-weight: 700; color: var(--text-head);" id="metricUploaded">0</div>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.45rem 0.3rem;">
+              <div style="font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase;">Parsed</div>
+              <div style="font-size: 1rem; font-weight: 700; color: var(--pink-700);" id="metricParsed">0</div>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.45rem 0.3rem;">
+              <div style="font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase;">Dedup Skipped</div>
+              <div style="font-size: 1rem; font-weight: 700; color: #D97706;" id="metricDuplicates">0</div>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.45rem 0.3rem;">
+              <div style="font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase;">Evaluated</div>
+              <div style="font-size: 1rem; font-weight: 700; color: #059669;" id="metricEvaluated">0</div>
+            </div>
+          </div>
+
+          <div class="stepper-msg" id="bulkMsg">Reading batch files...</div>
         </div>
 
         <div class="modal-actions">
-          <button type="button" class="btn-cancel" onclick="closeNewApplicantModal()">Cancel</button>
-          <button type="submit" id="btnSubmitApplicant" class="btn-submit-applicant">Run Evidence-First Assessment</button>
+          <button type="button" class="btn-cancel" onclick="closeNewApplicantModal()">Close</button>
         </div>
-      </form>
+      </div>
+
     </div>
   </div>
+
 
   <!-- Toast -->
   <div id="toast">Copied to clipboard!</div>
@@ -1235,7 +1670,13 @@ Loading benchmark evaluation...
       if (quadrant === "STRONG MATCH") return "badge-strong";
       if (quadrant === "REVIEW REQUIRED") return "badge-review";
       if (quadrant === "INSUFFICIENT EVIDENCE") return "badge-insufficient";
+      if (quadrant === "EVALUATING" || quadrant === "QUEUED") return "badge-evaluating";
+      if (quadrant === "LOW_FIT_FAST_REJECT") return "badge-fast-reject";
       return "badge-weak";
+    }
+
+    function handleSearchFilterInput() {
+      applyCurrentFilter();
     }
 
     let currentFilter = "all";
@@ -1252,12 +1693,27 @@ Loading benchmark evaluation...
     function applyCurrentFilter() {
       let filtered = cases;
       if (currentFilter === "adversarial") {
-        filtered = cases.filter(c => c.category === "adversarial" || c.category === "centerpiece_deceptive" || c.quadrant === "REVIEW REQUIRED");
+        filtered = filtered.filter(c => c.has_discrepancies || (c.category && c.category.includes("adversarial")));
       } else if (currentFilter === "strong") {
-        filtered = cases.filter(c => c.category === "normal_strong" || c.quadrant === "STRONG MATCH");
+        filtered = filtered.filter(c => c.quadrant === "STRONG MATCH");
       } else if (currentFilter === "weak") {
-        filtered = cases.filter(c => c.category === "normal_weak" || c.quadrant === "WEAK MATCH");
+        filtered = filtered.filter(c => c.quadrant === "WEAK MATCH" || c.quadrant === "LOW_FIT_FAST_REJECT");
       }
+
+      const searchVal = (document.getElementById("candSearchInput")?.value || "").toLowerCase().trim();
+      const quadVal = document.getElementById("candQuadrantSelect")?.value || "all";
+
+      if (searchVal) {
+        filtered = filtered.filter(c =>
+          (c.name || "").toLowerCase().includes(searchVal) ||
+          (c.target_role || "").toLowerCase().includes(searchVal)
+        );
+      }
+
+      if (quadVal !== "all") {
+        filtered = filtered.filter(c => c.quadrant === quadVal);
+      }
+
       renderSidebar(filtered);
     }
 
@@ -1458,12 +1914,375 @@ Loading benchmark evaluation...
       document.getElementById("dossierContent").textContent = text;
     }
 
-    /* Modal Management */
+    /* Dual-Mode Uploader & Modal Management */
+    const uploadedFiles = {
+      cv: null,
+      interview: null,
+      assessment: null,
+      project: null
+    };
+
+    const inputModes = {
+      cv: 'file',
+      interview: 'file',
+      assessment: 'file',
+      project: 'file'
+    };
+
+    function toggleInputMode(slot) {
+      const mode = inputModes[slot] === 'file' ? 'text' : 'file';
+      inputModes[slot] = mode;
+
+      const dropzone = document.getElementById(`dropzone-${slot}`);
+      const fileSelected = document.getElementById(`fileSelected-${slot}`);
+      const textContainer = document.getElementById(`textareaContainer-${slot}`);
+      const toggleBtn = document.getElementById(`toggleBtn-${slot}`);
+
+      if (mode === 'text') {
+        dropzone.style.display = 'none';
+        fileSelected.classList.remove('active');
+        textContainer.classList.add('active');
+        toggleBtn.textContent = '📁 Upload file instead';
+      } else {
+        dropzone.style.display = 'block';
+        if (uploadedFiles[slot]) {
+          fileSelected.classList.add('active');
+        }
+        textContainer.classList.remove('active');
+        toggleBtn.textContent = '✍ Paste text instead';
+      }
+    }
+
+    function triggerFileInput(slot) {
+      const input = document.getElementById(`file${slot.charAt(0).toUpperCase() + slot.slice(1)}`);
+      if (input) input.click();
+    }
+
+    function handleFileSelected(slot, file) {
+      if (!file) return;
+      uploadedFiles[slot] = file;
+      const pill = document.getElementById(`fileSelected-${slot}`);
+      const nameSpan = document.getElementById(`fileName-${slot}`);
+      const sizeSpan = document.getElementById(`fileSize-${slot}`);
+
+      nameSpan.textContent = file.name;
+      const sizeKb = (file.size / 1024).toFixed(1);
+      sizeSpan.textContent = sizeKb > 1024 ? `${(sizeKb / 1024).toFixed(2)} MB` : `${sizeKb} KB`;
+      pill.classList.add('active');
+    }
+
+    function removeFile(slot) {
+      uploadedFiles[slot] = null;
+      const input = document.getElementById(`file${slot.charAt(0).toUpperCase() + slot.slice(1)}`);
+      if (input) input.value = '';
+      const pill = document.getElementById(`fileSelected-${slot}`);
+      pill.classList.remove('active');
+    }
+
+    function setupDropzoneEvents(slot) {
+      const dropzone = document.getElementById(`dropzone-${slot}`);
+      if (!dropzone || dropzone.dataset.bound) return;
+      dropzone.dataset.bound = "true";
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add('dragover');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove('dragover');
+        });
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files && files.length > 0) {
+          handleFileSelected(slot, files[0]);
+        }
+      });
+    }
+
+    let activePollInterval = null;
+
+    function updateStepperUI(pct, stepMsg) {
+      const stepperBox = document.getElementById("evalStatusBox");
+      const stepperPct = document.getElementById("stepperPct");
+      const stepperFill = document.getElementById("stepperFill");
+      const stepperMsg = document.getElementById("stepperMsg");
+
+      if (stepperBox) stepperBox.style.display = "block";
+      if (stepperPct) stepperPct.textContent = `${pct}%`;
+      if (stepperFill) stepperFill.style.width = `${pct}%`;
+      if (stepperMsg && stepMsg) stepperMsg.textContent = stepMsg;
+
+      const steps = [
+        { id: 1, minPct: 10 },
+        { id: 2, minPct: 25 },
+        { id: 3, minPct: 45 },
+        { id: 4, minPct: 65 },
+        { id: 5, minPct: 90 }
+      ];
+
+      steps.forEach((s) => {
+        const node = document.getElementById(`stepNode-${s.id}`);
+        const icon = document.getElementById(`stepIcon-${s.id}`);
+        if (!node || !icon) return;
+
+        if (pct >= s.minPct + 20 || pct === 100) {
+          node.className = "stepper-step done";
+          icon.textContent = "✓";
+        } else if (pct >= s.minPct) {
+          node.className = "stepper-step active";
+          icon.textContent = "⏳";
+        } else {
+          node.className = "stepper-step";
+          icon.textContent = "○";
+        }
+      });
+    }
+
+    function pollCandidateJob(cid, name, target_role) {
+      const cancelBtn = document.getElementById("btnCancelApplicant");
+      if (cancelBtn) cancelBtn.textContent = "Dismiss to Background";
+
+      if (activePollInterval) clearInterval(activePollInterval);
+
+      activePollInterval = setInterval(async () => {
+        try {
+          const res = await fetch(`/api/candidate/${cid}/status`);
+          if (!res.ok) return;
+          const job = await res.json();
+
+          updateStepperUI(job.progress_pct || 15, job.current_step);
+
+          if (job.status === "done") {
+            clearInterval(activePollInterval);
+            activePollInterval = null;
+
+            // Update cases list
+            const existingIdx = cases.findIndex(c => c.candidate_id === cid);
+            const cardData = {
+              candidate_id: cid,
+              name: name,
+              category: "live_applicant",
+              target_role: target_role,
+              status: "done",
+              role_fit_score: job.report?.role_fit_score ?? 68.0,
+              evidence_consistency_score: job.report?.evidence_consistency_score ?? 78.0,
+              quadrant: job.report?.quadrant ?? "STRONG MATCH",
+              has_discrepancies: (job.report?.critical_discrepancies?.length || 0) > 0
+            };
+
+            if (existingIdx >= 0) {
+              cases[existingIdx] = cardData;
+            } else {
+              cases.unshift(cardData);
+            }
+
+            renderSidebar(cases);
+            loadCandidate(cid);
+            switchTab('overview', document.querySelector(".tab-btn"));
+            showToast(`Assessment complete for ${name}!`);
+            closeNewApplicantModal();
+          } else if (job.status === "failed") {
+            clearInterval(activePollInterval);
+            activePollInterval = null;
+            document.getElementById("stepperMsg").textContent = `Error: ${job.error || "Evaluation failed"}`;
+            document.getElementById("btnSubmitApplicant").disabled = false;
+          }
+        } catch (pollErr) {
+          console.warn("Polling error:", pollErr);
+        }
+      }, 1000);
+    }
+
+    function switchIntakeMode(mode) {
+      const singleBtn = document.getElementById("tabBtnSingle");
+      const bulkBtn = document.getElementById("tabBtnBulk");
+      const singlePanel = document.getElementById("singleIntakePanel");
+      const bulkPanel = document.getElementById("bulkIntakePanel");
+
+      if (!singleBtn || !bulkBtn || !singlePanel || !bulkPanel) return;
+
+      if (mode === "single") {
+        singleBtn.classList.add("active");
+        bulkBtn.classList.remove("active");
+        singlePanel.style.display = "block";
+        bulkPanel.style.display = "none";
+      } else {
+        singleBtn.classList.remove("active");
+        bulkBtn.classList.add("active");
+        singlePanel.style.display = "none";
+        bulkPanel.style.display = "block";
+      }
+    }
+
+    let activeBatchPollInterval = null;
+
+    async function handleBulkZipSelected(file) {
+      if (!file) return;
+      const target_role = document.getElementById("inputBulkRole")?.value.trim() || "Senior Python & Distributed Systems Engineer";
+
+      const formData = new FormData();
+      formData.append("archive_file", file);
+      formData.append("target_role", target_role);
+
+      initBulkMetricsUI(file.name);
+
+      try {
+        const res = await fetch("/api/candidates/bulk", {
+          method: "POST",
+          body: formData
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || `Bulk upload failed with HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        pollBatchStatus(data.batch_id);
+      } catch (err) {
+        const msgEl = document.getElementById("bulkMsg");
+        if (msgEl) msgEl.textContent = `Error: ${err.message}`;
+      }
+    }
+
+    async function handleBulkFolderSelected(files) {
+      if (!files || files.length === 0) return;
+      const target_role = document.getElementById("inputBulkRole")?.value.trim() || "Senior Python & Distributed Systems Engineer";
+
+      const formData = new FormData();
+      formData.append("target_role", target_role);
+
+      Array.from(files).forEach((f, idx) => {
+        formData.append(`file_${idx}`, f);
+        formData.append(`path_file_${idx}`, f.webkitRelativePath || f.name);
+      });
+
+      initBulkMetricsUI(`${files.length} folder files`);
+
+      try {
+        const res = await fetch("/api/candidates/bulk", {
+          method: "POST",
+          body: formData
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || `Folder upload failed with HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        pollBatchStatus(data.batch_id);
+      } catch (err) {
+        const msgEl = document.getElementById("bulkMsg");
+        if (msgEl) msgEl.textContent = `Error: ${err.message}`;
+      }
+    }
+
+    function initBulkMetricsUI(title) {
+      const box = document.getElementById("bulkMetricsBox");
+      if (box) box.style.display = "block";
+      const titleEl = document.getElementById("bulkBatchTitle");
+      if (titleEl) titleEl.textContent = `Processing: ${title}`;
+      document.getElementById("metricUploaded").textContent = "0";
+      document.getElementById("metricParsed").textContent = "0";
+      document.getElementById("metricDuplicates").textContent = "0";
+      document.getElementById("metricEvaluated").textContent = "0";
+      document.getElementById("bulkProgressPct").textContent = "0%";
+      document.getElementById("bulkProgressFill").style.width = "0%";
+      document.getElementById("bulkMsg").textContent = "Uploading & extracting archive...";
+    }
+
+    function pollBatchStatus(batchId) {
+      if (activeBatchPollInterval) clearInterval(activeBatchPollInterval);
+
+      activeBatchPollInterval = setInterval(async () => {
+        try {
+          const res = await fetch(`/api/batch/${batchId}/status`);
+          if (!res.ok) return;
+          const b = await res.json();
+
+          const upl = document.getElementById("metricUploaded");
+          const prs = document.getElementById("metricParsed");
+          const dup = document.getElementById("metricDuplicates");
+          const evl = document.getElementById("metricEvaluated");
+          if (upl) upl.textContent = b.uploaded || 0;
+          if (prs) prs.textContent = b.parsed || 0;
+          if (dup) dup.textContent = b.duplicates || 0;
+          if (evl) evl.textContent = b.evaluated || 0;
+
+          const pct = b.progress_pct || 0;
+          const pctEl = document.getElementById("bulkProgressPct");
+          const fillEl = document.getElementById("bulkProgressFill");
+          if (pctEl) pctEl.textContent = `${pct}%`;
+          if (fillEl) fillEl.style.width = `${pct}%`;
+
+          const msgEl = document.getElementById("bulkMsg");
+          if (msgEl) {
+            msgEl.textContent =
+              `Queued: ${b.queued} • Evaluating via local worker pool... (Deduplication saved ${b.duplicates} full runs)`;
+          }
+
+          // Stream completed candidates to sidebar
+          if (b.candidates && b.candidates.length > 0) {
+            let addedNew = false;
+            b.candidates.forEach(cand => {
+              if (cand.status === "done" && !cases.some(c => c.candidate_id === cand.candidate_id)) {
+                cases.unshift({
+                  candidate_id: cand.candidate_id,
+                  name: cand.name,
+                  category: "live_applicant",
+                  target_role: document.getElementById("inputBulkRole")?.value.trim() || "Senior Engineer",
+                  status: "done",
+                  role_fit_score: cand.role_fit_score ?? 70.0,
+                  evidence_consistency_score: cand.evidence_consistency_score ?? 80.0,
+                  quadrant: cand.quadrant ?? "STRONG MATCH",
+                  has_discrepancies: false
+                });
+                addedNew = true;
+              }
+            });
+            if (addedNew) {
+              renderSidebar(cases);
+            }
+          }
+
+          if (b.status === "completed" || (b.queued > 0 && (b.evaluated + b.failed) >= b.queued)) {
+            clearInterval(activeBatchPollInterval);
+            activeBatchPollInterval = null;
+            if (msgEl) {
+              msgEl.textContent = `Batch complete! All ${b.queued} unique applicants assessed and indexed.`;
+            }
+            showToast(`Batch processing complete (${b.evaluated} assessed, ${b.duplicates} skipped)`);
+          }
+        } catch (pollErr) {
+          console.warn("Batch poll error:", pollErr);
+        }
+      }, 1000);
+    }
+
     function openNewApplicantModal() {
       document.getElementById("applicantModal").classList.add("active");
       document.getElementById("evalStatusBox").style.display = "none";
       document.getElementById("btnSubmitApplicant").disabled = false;
+      const cancelBtn = document.getElementById("btnCancelApplicant");
+      if (cancelBtn) cancelBtn.textContent = "Cancel";
+
+      // Reset tabs & stepper
+      switchIntakeMode('single');
+      updateStepperUI(10, "Queued in worker pool...");
+
+      // Setup dropzone event listeners
+      ['cv', 'interview', 'assessment', 'project'].forEach(setupDropzoneEvents);
     }
+
 
     function closeNewApplicantModal() {
       document.getElementById("applicantModal").classList.remove("active");
@@ -1473,49 +2292,120 @@ Loading benchmark evaluation...
       e.preventDefault();
       const btn = document.getElementById("btnSubmitApplicant");
       const statusBox = document.getElementById("evalStatusBox");
-      
-      btn.disabled = true;
-      statusBox.style.display = "block";
 
       const name = document.getElementById("inputName").value.trim();
       const target_role = document.getElementById("inputRole").value.trim() || "Senior Python & Distributed Systems Engineer";
-      const cv_text = document.getElementById("inputCv").value.trim();
-      const interview_notes = document.getElementById("inputInterview").value.trim();
-      const technical_assessment = document.getElementById("inputAssessment").value.trim();
-      const project_rfc = document.getElementById("inputRfc").value.trim();
 
-      const payload = {
-        name,
-        target_role,
-        cv_text,
-        interview_notes,
-        technical_assessment,
-        project_rfc
-      };
+      const cv_text = document.getElementById("inputCv")?.value?.trim() || "";
+      const interview_notes = document.getElementById("inputInterview")?.value?.trim() || "";
+      const technical_assessment = document.getElementById("inputAssessment")?.value?.trim() || "";
+      const project_rfc = document.getElementById("inputRfc")?.value?.trim() || "";
+
+      // Validate CV is present
+      if (!uploadedFiles.cv && !cv_text) {
+        alert("Please provide a CV or Resume by dropping a file (.pdf, .docx, .txt, .md) or pasting text.");
+        return;
+      }
+
+      btn.disabled = true;
+      statusBox.style.display = "block";
+      updateStepperUI(15, "Uploading documents and verifying file formats...");
+
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("target_role", target_role);
+
+      // CV
+      if (inputModes.cv === 'file' && uploadedFiles.cv) {
+        formData.append("cv_file", uploadedFiles.cv);
+      } else if (cv_text) {
+        formData.append("cv_text", cv_text);
+      }
+
+      // Interview
+      if (inputModes.interview === 'file' && uploadedFiles.interview) {
+        formData.append("interview_file", uploadedFiles.interview);
+      } else if (interview_notes) {
+        formData.append("interview_notes", interview_notes);
+      }
+
+      // Assessment
+      if (inputModes.assessment === 'file' && uploadedFiles.assessment) {
+        formData.append("assessment_file", uploadedFiles.assessment);
+      } else if (technical_assessment) {
+        formData.append("technical_assessment", technical_assessment);
+      }
+
+      // Project RFC
+      if (inputModes.project === 'file' && uploadedFiles.project) {
+        formData.append("project_file", uploadedFiles.project);
+      } else if (project_rfc) {
+        formData.append("project_rfc", project_rfc);
+      }
 
       try {
         let data = null;
 
         try {
-          const res = await fetch("/api/candidate/new", {
+          const res = await fetch("/api/candidate/upload", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+            body: formData
           });
           if (res.ok) {
             data = await res.json();
+          } else {
+            const errJson = await res.json().catch(() => ({}));
+            throw new Error(errJson.message || `Upload failed with status ${res.status}`);
           }
         } catch (apiErr) {
-          console.warn("Backend API not reachable, falling back to client-side evaluation:", apiErr);
+          console.warn("Backend upload API unavailable or failed, falling back to client evaluation:", apiErr);
         }
 
-        // If backend is not available (e.g. static hosting on Hugging Face Spaces), evaluate in browser
+        // Handle async queued background job
+        if (data && (data.status === "queued" || data.status === "evaluating")) {
+          // Add candidate in evaluating state to sidebar immediately
+          if (!cases.some(c => c.candidate_id === data.candidate_id)) {
+            cases.unshift({
+              candidate_id: data.candidate_id,
+              name: data.name,
+              category: "live_applicant",
+              target_role: data.target_role,
+              status: "evaluating",
+              role_fit_score: 50.0,
+              evidence_consistency_score: 50.0,
+              quadrant: "EVALUATING",
+              has_discrepancies: false
+            });
+            renderSidebar(cases);
+          }
+
+          // Begin status polling
+          pollCandidateJob(data.candidate_id, data.name, data.target_role);
+          return;
+        }
+
+        // Client-side fallback if backend API is not reachable
         if (!data) {
-          data = evaluateApplicantClientSide(payload);
+          let fallbackCv = cv_text;
+          if (!fallbackCv && uploadedFiles.cv) {
+            try {
+              fallbackCv = await uploadedFiles.cv.text();
+            } catch (readErr) {
+              fallbackCv = `[Uploaded File: ${uploadedFiles.cv.name}]`;
+            }
+          }
+          data = evaluateApplicantClientSide({
+            name,
+            target_role,
+            cv_text: fallbackCv,
+            interview_notes,
+            technical_assessment,
+            project_rfc
+          });
         }
 
         closeNewApplicantModal();
-        
+
         // Add to active cases list
         if (!cases.some(c => c.candidate_id === data.candidate_id)) {
           cases.unshift({
@@ -1523,13 +2413,14 @@ Loading benchmark evaluation...
             name: data.name,
             category: "live_applicant",
             target_role: data.target_role,
+            status: "done",
             role_fit_score: data.report?.role_fit_score ?? 68.0,
             evidence_consistency_score: data.report?.evidence_consistency_score ?? 78.0,
             quadrant: data.report?.quadrant ?? "STRONG MATCH",
             has_discrepancies: (data.report?.critical_discrepancies?.length || 0) > 0
           });
         }
-        
+
         renderSidebar(cases);
         loadCandidate(data.candidate_id);
         switchTab('overview', document.querySelector(".tab-btn"));
@@ -1542,6 +2433,8 @@ Loading benchmark evaluation...
         statusBox.style.display = "none";
       }
     }
+
+
 
     function evaluateApplicantClientSide(payload) {
       const name = payload.name;
