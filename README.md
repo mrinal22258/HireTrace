@@ -11,14 +11,19 @@ pinned: false
 > **"Every recommendation traces back to evidence."**  
 > *micro1 Agentic Workflows Hackathon Submission*
 
+[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Live%20Demo-ffcc4d?style=for-the-badge&logo=huggingface&logoColor=black)](https://huggingface.co/spaces/mrinal22258/HireTrace)
+[![GitHub](https://img.shields.io/badge/GitHub-HireTrace-181717?style=for-the-badge&logo=github)](https://github.com/mrinal22258/HireTrace)
 
-> **Submission Deliverables Quick-Index:**
-> - **Judges & Fresh Setup Guide:** [`JUDGES_SETUP_GUIDE.md`](JUDGES_SETUP_GUIDE.md) *(<60s Instant Inspection vs. Full Live LLM Pipeline)*
-> - **Solution Video Walkthrough:** [Watch 4m 30s Demo on Google Drive](https://drive.google.com/file/d/1ajwkjejxtr26-_YHMBBoYHxyitFg6k7d/view?usp=drive_link) *(script in [`docs/solution_video_script.md`](docs/solution_video_script.md))*
-> - **Deliverable #1 (Improvement Changelog):** [`CHANGELOG.md`](CHANGELOG.md)
-> - **Deliverable #2 (Architecture & Problem Framing):** §1–§5 below
-> - **Deliverable #3 (Evaluation Harness & Empirical Report):** §6–§7 below & [`eval/eval_report.md`](eval/eval_report.md)
-> - **Deliverable #4 (Agent Execution Trajectories):** [`trajectories/`](trajectories/) & [`trajectories/agent_trajectories_breakdown.md`](trajectories/agent_trajectories_breakdown.md)
+> **Quick-Access Links & Deliverables:**
+> - 🚀 **Live Interactive Demo (Hugging Face Space):** [https://huggingface.co/spaces/mrinal22258/HireTrace](https://huggingface.co/spaces/mrinal22258/HireTrace)
+> - 💻 **GitHub Repository:** [https://github.com/mrinal22258/HireTrace](https://github.com/mrinal22258/HireTrace)
+> - 🎥 **Solution Video Walkthrough:** [Watch 4m 30s Demo on Google Drive](https://drive.google.com/file/d/1ajwkjejxtr26-_YHMBBoYHxyitFg6k7d/view?usp=drive_link) *(script in [`docs/solution_video_script.md`](docs/solution_video_script.md))*
+> - ⚡ **Fresh Setup & Inspection Guide:** [`JUDGES_SETUP_GUIDE.md`](JUDGES_SETUP_GUIDE.md) *(<60s Instant Inspection vs. Full Live LLM Pipeline)*
+> - 📋 **Deliverable #1 (Improvement Changelog):** [`CHANGELOG.md`](CHANGELOG.md)
+> - 🏛️ **Deliverable #2 (Architecture & Problem Framing):** §1–§5 below
+> - 📊 **Deliverable #3 (Evaluation Harness & Empirical Report):** §6–§7 below & [`eval/eval_report.md`](eval/eval_report.md)
+> - 🧭 **Deliverable #4 (Agent Execution Trajectories):** [`trajectories/`](trajectories/) & [`trajectories/agent_trajectories_breakdown.md`](trajectories/agent_trajectories_breakdown.md)
+
 
 ---
 
