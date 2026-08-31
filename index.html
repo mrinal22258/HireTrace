@@ -1238,19 +1238,32 @@ Loading benchmark evaluation...
       return "badge-weak";
     }
 
+    let currentFilter = "all";
+
     function filterCases(type, btn) {
-      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
+      currentFilter = type;
+      if (btn) {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      }
+      applyCurrentFilter();
+    }
+
+    function applyCurrentFilter() {
       let filtered = cases;
-      if (type === "adversarial") filtered = cases.filter(c => c.category === "adversarial" || c.category === "centerpiece_deceptive");
-      else if (type === "strong") filtered = cases.filter(c => c.category === "normal_strong");
-      else if (type === "weak") filtered = cases.filter(c => c.category === "normal_weak");
+      if (currentFilter === "adversarial") {
+        filtered = cases.filter(c => c.category === "adversarial" || c.category === "centerpiece_deceptive" || c.quadrant === "REVIEW REQUIRED");
+      } else if (currentFilter === "strong") {
+        filtered = cases.filter(c => c.category === "normal_strong" || c.quadrant === "STRONG MATCH");
+      } else if (currentFilter === "weak") {
+        filtered = cases.filter(c => c.category === "normal_weak" || c.quadrant === "WEAK MATCH");
+      }
       renderSidebar(filtered);
     }
 
     async function loadCandidate(cid) {
       activeCaseId = cid;
-      renderSidebar(cases);
+      applyCurrentFilter();
 
       // 1. Fetch full documents
       try {
