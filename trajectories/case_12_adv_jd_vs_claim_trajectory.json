@@ -1,0 +1,722 @@
+{
+  "candidate_id": "case_12_adv_jd_vs_claim",
+  "candidate_name": "Evan Brooks",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "steps": [
+    {
+      "step": "rubric_scoring",
+      "agent": "RubricScorer (Deterministic Baseline A)",
+      "output": {
+        "candidate_id": "case_12_adv_jd_vs_claim",
+        "raw_total": 55.0,
+        "normalized_score": 45.83,
+        "category_scores": {
+          "open_source": 0.0,
+          "self_projects": 20.0,
+          "production": 25.0,
+          "technical_skills": 10.0,
+          "bonus_points": 0.0
+        },
+        "summary_audit": [
+          "End-to-end architecture/system project (+10)",
+          "Production-grade setup (containers, CI/CD, messaging) (+10)",
+          "Senior production tenure: 6.0 years (+20)",
+          "High-throughput / mission-critical SLA experience (+5)",
+          "Primary core language and runtime alignment (+4)",
+          "Database & persistence systems alignment (+3)",
+          "Distributed systems & cloud infrastructure alignment (+3)"
+        ],
+        "details": {
+          "open_source": {
+            "score": 0.0,
+            "max": 35,
+            "notes": []
+          },
+          "self_projects": {
+            "score": 20.0,
+            "max": 30,
+            "notes": [
+              "End-to-end architecture/system project (+10)",
+              "Production-grade setup (containers, CI/CD, messaging) (+10)"
+            ]
+          },
+          "production": {
+            "score": 25.0,
+            "max": 25,
+            "notes": [
+              "Senior production tenure: 6.0 years (+20)",
+              "High-throughput / mission-critical SLA experience (+5)"
+            ]
+          },
+          "technical_skills": {
+            "score": 10.0,
+            "max": 10,
+            "notes": [
+              "Primary core language and runtime alignment (+4)",
+              "Database & persistence systems alignment (+3)",
+              "Distributed systems & cloud infrastructure alignment (+3)"
+            ]
+          },
+          "bonus_points": {
+            "score": 0.0,
+            "max": 20,
+            "notes": []
+          }
+        }
+      }
+    },
+    {
+      "step": "retrieval_index_built",
+      "total_spans_indexed": 9
+    },
+    {
+      "step": "requirement_mapping",
+      "agent": "RequirementMappingAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "name": "Core Python & AsyncIO",
+          "category": "technical_skills",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "assessment",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-02",
+          "name": "Distributed Systems & Message Queues",
+          "category": "architecture",
+          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-03",
+          "name": "Technical Leadership & Initiative",
+          "category": "leadership",
+          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "importance": "IMPORTANT",
+          "expected_sources": [
+            "cv",
+            "interview",
+            "project"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Production Tenure & Operational Reliability",
+          "category": "production_experience",
+          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "interview"
+          ]
+        }
+      ]
+    },
+    {
+      "step": "evidence_aggregation",
+      "agent": "EvidenceAggregationAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "requirement_name": "Core Python & AsyncIO",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Architected enterprise relational data storage and microservice APIs using Python and FastAPI.",
+              "metadata": {
+                "raw_line": "- Architected enterprise relational data storage and microservice APIs using Python and FastAPI."
+              },
+              "similarity_score": 0.382
+            },
+            {
+              "span_id": "CV-006",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "No experience with Kafka, RabbitMQ, or distributed event streaming architectures.",
+              "metadata": {
+                "raw_line": "- No experience with Kafka, RabbitMQ, or distributed event streaming architectures."
+              },
+              "similarity_score": 0.237
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Senior Architect | CloudSys Solutions (2020 - Present | 4 years)",
+              "metadata": {
+                "raw_line": "Senior Architect | CloudSys Solutions (2020 - Present | 4 years)"
+              },
+              "similarity_score": 0.228
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Maintained 99.9% uptime across production web services with synchronous PostgreSQL backends.",
+              "metadata": {
+                "raw_line": "- Maintained 99.9% uptime across production web services with synchronous PostgreSQL backends."
+              },
+              "similarity_score": 0.221
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Evan Brooks\nInterviewer: \"The JD specifies hands-on experience scaling Apache Kafka event streaming clusters. Have you deployed Kafka in production?\"\nEvan: \"No, in my past roles at CloudSys we strictly utilized relational databases and synchronous REST endpoints. I have never configured or operated a Kafka broker or managed partition topologies.\"",
+              "metadata": {},
+              "similarity_score": 0.394
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Evan Brooks\nScore: 75 / 100 | Grade: Pass (Synchronous Track)\nSuccessfully implemented async HTTP request routing. Candidate skipped the optional Kafka streaming module as he has no streaming background.",
+              "metadata": {},
+              "similarity_score": 0.289
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-02: Microservice API Gateway Architecture\nCompany: CloudSys Solutions | Author: Evan Brooks",
+              "metadata": {},
+              "similarity_score": 0.25
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "technical_skills",
+            "score": 10.0,
+            "normalized_total": 45.83333333333333
+          }
+        },
+        {
+          "req_id": "REQ-02",
+          "requirement_name": "Distributed Systems & Message Queues",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-006",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "No experience with Kafka, RabbitMQ, or distributed event streaming architectures.",
+              "metadata": {
+                "raw_line": "- No experience with Kafka, RabbitMQ, or distributed event streaming architectures."
+              },
+              "similarity_score": 0.266
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Architected enterprise relational data storage and microservice APIs using Python and FastAPI.",
+              "metadata": {
+                "raw_line": "- Architected enterprise relational data storage and microservice APIs using Python and FastAPI."
+              },
+              "similarity_score": 0.241
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Senior Architect | CloudSys Solutions (2020 - Present | 4 years)",
+              "metadata": {
+                "raw_line": "Senior Architect | CloudSys Solutions (2020 - Present | 4 years)"
+              },
+              "similarity_score": 0.204
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Experience",
+              "metadata": {
+                "raw_line": "## Experience"
+              },
+              "similarity_score": 0.16
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Evan Brooks\nInterviewer: \"The JD specifies hands-on experience scaling Apache Kafka event streaming clusters. Have you deployed Kafka in production?\"\nEvan: \"No, in my past roles at CloudSys we strictly utilized relational databases and synchronous REST endpoints. I have never configured or operated a Kafka broker or managed partition topologies.\"",
+              "metadata": {},
+              "similarity_score": 0.422
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Evan Brooks\nScore: 75 / 100 | Grade: Pass (Synchronous Track)\nSuccessfully implemented async HTTP request routing. Candidate skipped the optional Kafka streaming module as he has no streaming background.",
+              "metadata": {},
+              "similarity_score": 0.359
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-02: Microservice API Gateway Architecture\nCompany: CloudSys Solutions | Author: Evan Brooks",
+              "metadata": {},
+              "similarity_score": 0.17
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 45.83333333333333
+          }
+        },
+        {
+          "req_id": "REQ-03",
+          "requirement_name": "Technical Leadership & Initiative",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Architected enterprise relational data storage and microservice APIs using Python and FastAPI.",
+              "metadata": {
+                "raw_line": "- Architected enterprise relational data storage and microservice APIs using Python and FastAPI."
+              },
+              "similarity_score": 0.244
+            },
+            {
+              "span_id": "CV-006",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "No experience with Kafka, RabbitMQ, or distributed event streaming architectures.",
+              "metadata": {
+                "raw_line": "- No experience with Kafka, RabbitMQ, or distributed event streaming architectures."
+              },
+              "similarity_score": 0.237
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Evan Brooks, Senior Architect\nEmail: evan.brooks@cloudsys.net | Location: Chicago, IL",
+              "metadata": {},
+              "similarity_score": 0.187
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Maintained 99.9% uptime across production web services with synchronous PostgreSQL backends.",
+              "metadata": {
+                "raw_line": "- Maintained 99.9% uptime across production web services with synchronous PostgreSQL backends."
+              },
+              "similarity_score": 0.172
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Evan Brooks\nInterviewer: \"The JD specifies hands-on experience scaling Apache Kafka event streaming clusters. Have you deployed Kafka in production?\"\nEvan: \"No, in my past roles at CloudSys we strictly utilized relational databases and synchronous REST endpoints. I have never configured or operated a Kafka broker or managed partition topologies.\"",
+              "metadata": {},
+              "similarity_score": 0.269
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Evan Brooks\nScore: 75 / 100 | Grade: Pass (Synchronous Track)\nSuccessfully implemented async HTTP request routing. Candidate skipped the optional Kafka streaming module as he has no streaming background.",
+              "metadata": {},
+              "similarity_score": 0.3
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-02: Microservice API Gateway Architecture\nCompany: CloudSys Solutions | Author: Evan Brooks",
+              "metadata": {},
+              "similarity_score": 0.25
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 0.0,
+            "normalized_total": 45.83333333333333
+          }
+        },
+        {
+          "req_id": "REQ-04",
+          "requirement_name": "Production Tenure & Operational Reliability",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-006",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "No experience with Kafka, RabbitMQ, or distributed event streaming architectures.",
+              "metadata": {
+                "raw_line": "- No experience with Kafka, RabbitMQ, or distributed event streaming architectures."
+              },
+              "similarity_score": 0.331
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Maintained 99.9% uptime across production web services with synchronous PostgreSQL backends.",
+              "metadata": {
+                "raw_line": "- Maintained 99.9% uptime across production web services with synchronous PostgreSQL backends."
+              },
+              "similarity_score": 0.304
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Senior Architect | CloudSys Solutions (2020 - Present | 4 years)",
+              "metadata": {
+                "raw_line": "Senior Architect | CloudSys Solutions (2020 - Present | 4 years)"
+              },
+              "similarity_score": 0.223
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Experience",
+              "metadata": {
+                "raw_line": "## Experience"
+              },
+              "similarity_score": 0.185
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Evan Brooks\nInterviewer: \"The JD specifies hands-on experience scaling Apache Kafka event streaming clusters. Have you deployed Kafka in production?\"\nEvan: \"No, in my past roles at CloudSys we strictly utilized relational databases and synchronous REST endpoints. I have never configured or operated a Kafka broker or managed partition topologies.\"",
+              "metadata": {},
+              "similarity_score": 0.374
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Evan Brooks\nScore: 75 / 100 | Grade: Pass (Synchronous Track)\nSuccessfully implemented async HTTP request routing. Candidate skipped the optional Kafka streaming module as he has no streaming background.",
+              "metadata": {},
+              "similarity_score": 0.267
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-02: Microservice API Gateway Architecture\nCompany: CloudSys Solutions | Author: Evan Brooks",
+              "metadata": {},
+              "similarity_score": 0.222
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "production",
+            "score": 25.0,
+            "normalized_total": 45.83333333333333
+          }
+        }
+      ]
+    },
+    {
+      "step": "cross_source_verification",
+      "agent": "CrossSourceVerificationAgent",
+      "output": {
+        "candidate_id": "case_12_adv_jd_vs_claim",
+        "total_requirements": 4,
+        "supported_count": 3,
+        "contradicted_count": 0,
+        "insufficient_count": 1,
+        "consistency_score": 55.0,
+        "verifications": [
+          {
+            "req_id": "REQ-01",
+            "requirement_name": "Core Python & AsyncIO",
+            "status": "SUPPORTED",
+            "confidence": 0.8,
+            "synthesis": "The candidate's CV and interview responses contradict each other regarding their experience with Kafka and distributed event streaming architectures, which is a requirement for the technical skills mentioned in the job description.",
+            "supporting_citations": [
+              "CV-004"
+            ],
+            "citations": [
+              "CV-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Architected enterprise relational data storage and microservice APIs using Python and FastAPI.",
+                "document_type": "cv"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-02",
+            "requirement_name": "Distributed Systems & Message Queues",
+            "status": "INSUFFICIENT_EVIDENCE",
+            "confidence": 0.8,
+            "synthesis": "Candidate explicitly reports zero experience with Kafka, RabbitMQ, and Distributed Systems & Message Queues (Requirement not satisfied).",
+            "supporting_citations": [
+              "CV-006",
+              "INT-001"
+            ],
+            "citations": [
+              "CV-006",
+              "INT-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-006",
+                "quote": "No experience with Kafka, RabbitMQ, or distributed event streaming architectures.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Evan Brooks\nInterviewer: \"The JD specifies hands-on experience scaling Apache Kafka event streaming clusters. Have you deployed",
+                "document_type": "interview"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-03",
+            "requirement_name": "Technical Leadership & Initiative",
+            "status": "SUPPORTED",
+            "confidence": 0.8,
+            "synthesis": "The CV and Interview notes contradict each other regarding Evan Brooks' experience with Kafka and distributed event streaming architectures, which is a key requirement for the Technical Leadership & Initiative role.",
+            "supporting_citations": [
+              "CV-004"
+            ],
+            "citations": [
+              "CV-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Architected enterprise relational data storage and microservice APIs using Python and FastAPI.",
+                "document_type": "cv"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-04",
+            "requirement_name": "Production Tenure & Operational Reliability",
+            "status": "SUPPORTED",
+            "confidence": 0.8,
+            "synthesis": "The CV and Interview evidence contradict each other regarding Evan's production experience with Kafka and RabbitMQ, while the Technical Assessment and Project Document evidence do not provide relevant information.",
+            "supporting_citations": [
+              "CV-005"
+            ],
+            "citations": [
+              "CV-005"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-005",
+                "quote": "Maintained 99.9% uptime across production web services with synchronous PostgreSQL backends.",
+                "document_type": "cv"
+              }
+            ],
+            "discrepancies": []
+          }
+        ],
+        "all_discrepancies": []
+      }
+    },
+    {
+      "step": "recommendation_writing",
+      "agent": "RecommendationWriterAgent",
+      "output": {
+        "candidate_id": "case_12_adv_jd_vs_claim",
+        "candidate_name": "Evan Brooks",
+        "target_role": "Senior Python & Distributed Systems Engineer",
+        "role_fit_score": 66.3,
+        "evidence_consistency_score": 55.0,
+        "quadrant": "INSUFFICIENT EVIDENCE",
+        "recommendation": "Proceed to human review.",
+        "priority_questions": [
+          "Probe concrete production evidence for requirement: Distributed Systems & Message Queues"
+        ],
+        "key_discrepancies": [],
+        "requirement_table": [
+          {
+            "req_id": "REQ-01",
+            "name": "Core Python & AsyncIO",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.8,
+            "citations": [
+              "CV-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Architected enterprise relational data storage and microservice APIs using Python and FastAPI.",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "The candidate's CV and interview responses contradict each other regarding their experience with Kafka and distributed event streaming architectures, which is a requirement for the technical skills mentioned in the job description."
+          },
+          {
+            "req_id": "REQ-02",
+            "name": "Distributed Systems & Message Queues",
+            "status": "INSUFFICIENT_EVIDENCE",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.8,
+            "citations": [
+              "CV-006",
+              "INT-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-006",
+                "quote": "No experience with Kafka, RabbitMQ, or distributed event streaming architectures.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Evan Brooks\nInterviewer: \"The JD specifies hands-on experience scaling Apache Kafka event streaming clusters. Have you deployed",
+                "document_type": "interview"
+              }
+            ],
+            "synthesis": "Candidate explicitly reports zero experience with Kafka, RabbitMQ, and Distributed Systems & Message Queues (Requirement not satisfied)."
+          },
+          {
+            "req_id": "REQ-03",
+            "name": "Technical Leadership & Initiative",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.8,
+            "citations": [
+              "CV-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Architected enterprise relational data storage and microservice APIs using Python and FastAPI.",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "The CV and Interview notes contradict each other regarding Evan Brooks' experience with Kafka and distributed event streaming architectures, which is a key requirement for the Technical Leadership & Initiative role."
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Production Tenure & Operational Reliability",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.8,
+            "citations": [
+              "CV-005"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-005",
+                "quote": "Maintained 99.9% uptime across production web services with synchronous PostgreSQL backends.",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "The CV and Interview evidence contradict each other regarding Evan's production experience with Kafka and RabbitMQ, while the Technical Assessment and Project Document evidence do not provide relevant information."
+          }
+        ],
+        "unsupported_claim_count": 1,
+        "contradicted_claim_count": 0,
+        "rubric_baseline_score": 45.8,
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Evan Brooks | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           66.3 / 100\nEVIDENCE CONSISTENCY               55.0 / 100\nQUADRANT PLACEMENT                [INSUFFICIENT EVIDENCE]\n[*] 1 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [WARN] INSUFFICIENT\n      Interpretation: Candidate explicitly reports zero experience with Kafka, RabbitMQ, and Distributed Systems & Message Queues (Requirement not satisfied).\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Probe concrete production evidence for requirement: Distributed Systems & Message Queues\n===================================================================="
+      }
+    }
+  ],
+  "pipeline_latency_sec": 34.46
+}

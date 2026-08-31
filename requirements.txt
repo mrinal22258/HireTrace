@@ -1,0 +1,5 @@
+faiss-cpu>=1.9.0
+numpy>=1.25.0
+scipy>=1.13.0
+pytest>=8.0.0
+requests>=2.31.0

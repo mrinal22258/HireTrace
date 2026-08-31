@@ -1,0 +1,768 @@
+{
+  "candidate_id": "case_05_med_03",
+  "candidate_name": "Priya Patel",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "steps": [
+    {
+      "step": "rubric_scoring",
+      "agent": "RubricScorer (Deterministic Baseline A)",
+      "output": {
+        "candidate_id": "case_05_med_03",
+        "raw_total": 43.0,
+        "normalized_score": 35.83,
+        "category_scores": {
+          "open_source": 0.0,
+          "self_projects": 20.0,
+          "production": 16.0,
+          "technical_skills": 7.0,
+          "bonus_points": 0.0
+        },
+        "summary_audit": [
+          "End-to-end architecture/system project (+10)",
+          "Production-grade setup (containers, CI/CD, messaging) (+10)",
+          "Mid-to-senior production tenure: 3.0 years (+16)",
+          "Primary core language and runtime alignment (+4)",
+          "Database & persistence systems alignment (+3)"
+        ],
+        "details": {
+          "open_source": {
+            "score": 0.0,
+            "max": 35,
+            "notes": []
+          },
+          "self_projects": {
+            "score": 20.0,
+            "max": 30,
+            "notes": [
+              "End-to-end architecture/system project (+10)",
+              "Production-grade setup (containers, CI/CD, messaging) (+10)"
+            ]
+          },
+          "production": {
+            "score": 16.0,
+            "max": 25,
+            "notes": [
+              "Mid-to-senior production tenure: 3.0 years (+16)"
+            ]
+          },
+          "technical_skills": {
+            "score": 7.0,
+            "max": 10,
+            "notes": [
+              "Primary core language and runtime alignment (+4)",
+              "Database & persistence systems alignment (+3)"
+            ]
+          },
+          "bonus_points": {
+            "score": 0.0,
+            "max": 20,
+            "notes": []
+          }
+        }
+      }
+    },
+    {
+      "step": "retrieval_index_built",
+      "total_spans_indexed": 9
+    },
+    {
+      "step": "requirement_mapping",
+      "agent": "RequirementMappingAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "name": "Core Python & AsyncIO",
+          "category": "technical_skills",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "assessment",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-02",
+          "name": "Distributed Systems & Message Queues",
+          "category": "architecture",
+          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-03",
+          "name": "Technical Leadership & Initiative",
+          "category": "leadership",
+          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "importance": "IMPORTANT",
+          "expected_sources": [
+            "cv",
+            "interview",
+            "project"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Production Tenure & Operational Reliability",
+          "category": "production_experience",
+          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "interview"
+          ]
+        }
+      ]
+    },
+    {
+      "step": "evidence_aggregation",
+      "agent": "EvidenceAggregationAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "requirement_name": "Core Python & AsyncIO",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Built data processing microservices with Python, FastAPI, and PostgreSQL.",
+              "metadata": {
+                "raw_line": "- Built data processing microservices with Python, FastAPI, and PostgreSQL."
+              },
+              "similarity_score": 0.305
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Implemented event streaming using RabbitMQ and Redis pub/sub.",
+              "metadata": {
+                "raw_line": "- Implemented event streaming using RabbitMQ and Redis pub/sub."
+              },
+              "similarity_score": 0.261
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Priya Patel, Python Backend Developer\nEmail: priya.patel@datahub.co | Location: Chicago, IL",
+              "metadata": {},
+              "similarity_score": 0.237
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Backend Engineer | DataHub Analytics (2022 - Present | 3 years)",
+              "metadata": {
+                "raw_line": "Backend Engineer | DataHub Analytics (2022 - Present | 3 years)"
+              },
+              "similarity_score": 0.225
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Priya Patel\nSolid knowledge of Python asynchronous programming. Good understanding of database indexes and messaging queues.",
+              "metadata": {},
+              "similarity_score": 0.35
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Priya Patel\nScore: 78 / 100 | Grade: Competent (Tier: Silver)\nFunctional code delivered on time. Handled test scenarios cleanly.",
+              "metadata": {},
+              "similarity_score": 0.239
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
+              "metadata": {},
+              "similarity_score": 0.394
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "technical_skills",
+            "score": 7.0,
+            "normalized_total": 35.833333333333336
+          }
+        },
+        {
+          "req_id": "REQ-02",
+          "requirement_name": "Distributed Systems & Message Queues",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Built data processing microservices with Python, FastAPI, and PostgreSQL.",
+              "metadata": {
+                "raw_line": "- Built data processing microservices with Python, FastAPI, and PostgreSQL."
+              },
+              "similarity_score": 0.3
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Implemented event streaming using RabbitMQ and Redis pub/sub.",
+              "metadata": {
+                "raw_line": "- Implemented event streaming using RabbitMQ and Redis pub/sub."
+              },
+              "similarity_score": 0.3
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Experience",
+              "metadata": {
+                "raw_line": "## Experience"
+              },
+              "similarity_score": 0.16
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Priya Patel, Python Backend Developer\nEmail: priya.patel@datahub.co | Location: Chicago, IL",
+              "metadata": {},
+              "similarity_score": 0.159
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Priya Patel\nSolid knowledge of Python asynchronous programming. Good understanding of database indexes and messaging queues.",
+              "metadata": {},
+              "similarity_score": 0.334
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Priya Patel\nScore: 78 / 100 | Grade: Competent (Tier: Silver)\nFunctional code delivered on time. Handled test scenarios cleanly.",
+              "metadata": {},
+              "similarity_score": 0.324
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
+              "metadata": {},
+              "similarity_score": 0.192
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 35.833333333333336
+          }
+        },
+        {
+          "req_id": "REQ-03",
+          "requirement_name": "Technical Leadership & Initiative",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Priya Patel, Python Backend Developer\nEmail: priya.patel@datahub.co | Location: Chicago, IL",
+              "metadata": {},
+              "similarity_score": 0.27
+            },
+            {
+              "span_id": "CV-006",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "3 years production experience with on-call duties.",
+              "metadata": {
+                "raw_line": "- 3 years production experience with on-call duties."
+              },
+              "similarity_score": 0.195
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Implemented event streaming using RabbitMQ and Redis pub/sub.",
+              "metadata": {
+                "raw_line": "- Implemented event streaming using RabbitMQ and Redis pub/sub."
+              },
+              "similarity_score": 0.168
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Built data processing microservices with Python, FastAPI, and PostgreSQL.",
+              "metadata": {
+                "raw_line": "- Built data processing microservices with Python, FastAPI, and PostgreSQL."
+              },
+              "similarity_score": 0.167
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Priya Patel\nSolid knowledge of Python asynchronous programming. Good understanding of database indexes and messaging queues.",
+              "metadata": {},
+              "similarity_score": 0.259
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Priya Patel\nScore: 78 / 100 | Grade: Competent (Tier: Silver)\nFunctional code delivered on time. Handled test scenarios cleanly.",
+              "metadata": {},
+              "similarity_score": 0.274
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
+              "metadata": {},
+              "similarity_score": 0.218
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 0.0,
+            "normalized_total": 35.833333333333336
+          }
+        },
+        {
+          "req_id": "REQ-04",
+          "requirement_name": "Production Tenure & Operational Reliability",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-006",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "3 years production experience with on-call duties.",
+              "metadata": {
+                "raw_line": "- 3 years production experience with on-call duties."
+              },
+              "similarity_score": 0.415
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Implemented event streaming using RabbitMQ and Redis pub/sub.",
+              "metadata": {
+                "raw_line": "- Implemented event streaming using RabbitMQ and Redis pub/sub."
+              },
+              "similarity_score": 0.291
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Built data processing microservices with Python, FastAPI, and PostgreSQL.",
+              "metadata": {
+                "raw_line": "- Built data processing microservices with Python, FastAPI, and PostgreSQL."
+              },
+              "similarity_score": 0.245
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Backend Engineer | DataHub Analytics (2022 - Present | 3 years)",
+              "metadata": {
+                "raw_line": "Backend Engineer | DataHub Analytics (2022 - Present | 3 years)"
+              },
+              "similarity_score": 0.245
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Priya Patel\nSolid knowledge of Python asynchronous programming. Good understanding of database indexes and messaging queues.",
+              "metadata": {},
+              "similarity_score": 0.313
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Priya Patel\nScore: 78 / 100 | Grade: Competent (Tier: Silver)\nFunctional code delivered on time. Handled test scenarios cleanly.",
+              "metadata": {},
+              "similarity_score": 0.265
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
+              "metadata": {},
+              "similarity_score": 0.234
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "production",
+            "score": 16.0,
+            "normalized_total": 35.833333333333336
+          }
+        }
+      ]
+    },
+    {
+      "step": "cross_source_verification",
+      "agent": "CrossSourceVerificationAgent",
+      "output": {
+        "candidate_id": "case_05_med_03",
+        "total_requirements": 4,
+        "supported_count": 4,
+        "contradicted_count": 0,
+        "insufficient_count": 0,
+        "consistency_score": 100.0,
+        "verifications": [
+          {
+            "req_id": "REQ-01",
+            "requirement_name": "Core Python & AsyncIO",
+            "status": "SUPPORTED",
+            "confidence": 0.9,
+            "synthesis": "The candidate's CV, interview, and technical assessment all support proficiency in Python and asynchronous programming, aligning with the requirement for Core Python & AsyncIO.",
+            "supporting_citations": [
+              "CV-004",
+              "CV-005",
+              "INT-001",
+              "ASS-001",
+              "PRO-001"
+            ],
+            "citations": [
+              "CV-004",
+              "CV-005",
+              "INT-001",
+              "ASS-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Built data processing microservices with Python, FastAPI, and PostgreSQL.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-005",
+                "quote": "Implemented event streaming using RabbitMQ and Redis pub/sub.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Priya Patel\nSolid knowledge of Python asynchronous programming. Good understanding of database indexes and messaging queues.",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Priya Patel\nScore: 78 / 100 | Grade: Competent (Tier: Silver)\nFunctional code delivered on time. Handled test scenar",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-02",
+            "requirement_name": "Distributed Systems & Message Queues",
+            "status": "SUPPORTED",
+            "confidence": 0.8,
+            "synthesis": "The candidate's experience and skills as described in the CV and Project Document do not fully support the requirement of hands-on experience with distributed systems and message queues (Kafka/RabbitMQ). The interview notes suggest a focus on Python asynchronous programming and database indexes, which are not directly related to the required experience.",
+            "supporting_citations": [
+              "PRO-001"
+            ],
+            "citations": [
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-03",
+            "requirement_name": "Technical Leadership & Initiative",
+            "status": "SUPPORTED",
+            "confidence": 0.8,
+            "synthesis": "The provided evidence does not support the claim of leading migrations or architectural decisions, which are key aspects of the Technical Leadership & Initiative requirement.",
+            "supporting_citations": [
+              "PRO-001"
+            ],
+            "citations": [
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-04",
+            "requirement_name": "Production Tenure & Operational Reliability",
+            "status": "SUPPORTED",
+            "confidence": 0.8,
+            "synthesis": "The CV and Project Document provide evidence of 3+ years of production experience, but the Technical Assessment and Interview notes do not explicitly confirm this.",
+            "supporting_citations": [
+              "CV-006",
+              "PRO-001"
+            ],
+            "citations": [
+              "CV-006",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-006",
+                "quote": "3 years production experience with on-call duties.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": []
+          }
+        ],
+        "all_discrepancies": []
+      }
+    },
+    {
+      "step": "recommendation_writing",
+      "agent": "RecommendationWriterAgent",
+      "output": {
+        "candidate_id": "case_05_med_03",
+        "candidate_name": "Priya Patel",
+        "target_role": "Senior Python & Distributed Systems Engineer",
+        "role_fit_score": 74.3,
+        "evidence_consistency_score": 100.0,
+        "quadrant": "STRONG MATCH",
+        "recommendation": "Proceed to human review.",
+        "priority_questions": [
+          "Verify high-scale production trade-offs in candidate's primary architecture project",
+          "Review code quality standards and testing practices across past contributions",
+          "Assess team leadership and cross-functional communication style"
+        ],
+        "key_discrepancies": [],
+        "requirement_table": [
+          {
+            "req_id": "REQ-01",
+            "name": "Core Python & AsyncIO",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.9,
+            "citations": [
+              "CV-004",
+              "CV-005",
+              "INT-001",
+              "ASS-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Built data processing microservices with Python, FastAPI, and PostgreSQL.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-005",
+                "quote": "Implemented event streaming using RabbitMQ and Redis pub/sub.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Priya Patel\nSolid knowledge of Python asynchronous programming. Good understanding of database indexes and messaging queues.",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Priya Patel\nScore: 78 / 100 | Grade: Competent (Tier: Silver)\nFunctional code delivered on time. Handled test scenar",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The candidate's CV, interview, and technical assessment all support proficiency in Python and asynchronous programming, aligning with the requirement for Core Python & AsyncIO."
+          },
+          {
+            "req_id": "REQ-02",
+            "name": "Distributed Systems & Message Queues",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.8,
+            "citations": [
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The candidate's experience and skills as described in the CV and Project Document do not fully support the requirement of hands-on experience with distributed systems and message queues (Kafka/RabbitMQ). The interview notes suggest a focus on Python asynchronous programming and database indexes, which are not directly related to the required experience."
+          },
+          {
+            "req_id": "REQ-03",
+            "name": "Technical Leadership & Initiative",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.8,
+            "citations": [
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The provided evidence does not support the claim of leading migrations or architectural decisions, which are key aspects of the Technical Leadership & Initiative requirement."
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Production Tenure & Operational Reliability",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.8,
+            "citations": [
+              "CV-006",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-006",
+                "quote": "3 years production experience with on-call duties.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The CV and Project Document provide evidence of 3+ years of production experience, but the Technical Assessment and Interview notes do not explicitly confirm this."
+          }
+        ],
+        "unsupported_claim_count": 0,
+        "contradicted_claim_count": 0,
+        "rubric_baseline_score": 35.8,
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Priya Patel | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           74.3 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+      }
+    }
+  ],
+  "pipeline_latency_sec": 24.78
+}

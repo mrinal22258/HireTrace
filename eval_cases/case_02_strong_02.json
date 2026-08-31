@@ -1,0 +1,22 @@
+{
+  "candidate_id": "case_02_strong_02",
+  "name": "Marcus Vance",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "category": "normal_strong",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 96.0,
+    "expert_scores": {
+      "reviewer_1": 91,
+      "reviewer_2": 89,
+      "reviewer_3": 92
+    },
+    "expert_composite_score": 90.67
+  },
+  "cv_text": "# Marcus Vance, Distributed Systems Engineer\nEmail: m.vance@coredev.io | GitHub: github.com/marcus-vance (5 repos, 110 stars)\nLinkedIn: linkedin.com/in/marcus-vance-systems | Location: Austin, TX\n\n## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, high-performance messaging (Kafka/RabbitMQ), and database scalability.\n\n## Technical Skills\n- Python 3.10/3.11, Cython, AsyncIO, Aiohttp, FastAPI, Celery\n- Apache Kafka, RabbitMQ, Redis Cluster, Distributed Locking (Redlock)\n- PostgreSQL (B-Tree, BRIN indexing, partitioning), Redis, Docker, Kubernetes\n\n## Experience\nSenior Backend Engineer | CloudFlux Solutions (Jan 2022 - Present | 3.5 years)\n- Built distributed asynchronous order-processing orchestrator in Python/AsyncIO processing 12,000 transactions/sec.\n- Deployed multi-broker Kafka messaging architecture with zero message-loss guarantees (acks=all, min.insync.replicas=2).\n- Led operational migration of 14 monolithic endpoints into event-driven microservices.\n\nSoftware Engineer | Apex FinTech Systems (Jul 2020 - Dec 2021 | 1.5 years)\n- Implemented RabbitMQ messaging queues and background tasks for high-frequency financial statement reconciliation.\n- Maintained production on-call rotation with 99.98% service uptime compliance.\n",
+  "interview_notes": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes\n\nRachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pipelines, we use cooperative sticky rebalancing with manual offset commit loops. We ensure that in-flight asynchronous tasks flush their local buffers and commit offsets before relinquishing partition ownership during consumer group rebalance events.\"\nRachel: \"Tell me about your on-call experience.\"\nMarcus: \"I have been in the on-call pager rotation at CloudFlux for over 3 years. We take secondary on-call shifts every 4 weeks. I've resolved cluster split-brains and PostgreSQL connection pool exhaustions.\"\n",
+  "technical_assessment": "# Technical Assessment: Marcus Vance\nScore: 92 / 100 | Grade: Superior (Tier: Legend)\n- Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)\n- Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)\n- Code Architecture: Solid AsyncIO design with typing and clean modularity.\n",
+  "project_rfc": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus: Implemented (August 2022)\nTeam: Marcus Vance (Lead), Kevin Cho (DevOps), Maya Patel (QA)\n"
+}

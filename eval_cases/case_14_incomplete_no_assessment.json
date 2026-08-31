@@ -1,0 +1,24 @@
+{
+  "candidate_id": "case_14_incomplete_no_assessment",
+  "name": "Maya Lin",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "category": "incomplete",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "has_insufficient_evidence": true,
+    "missing_document": "technical_assessment",
+    "expected_consistency": 85.0,
+    "expert_scores": {
+      "reviewer_1": 74,
+      "reviewer_2": 73,
+      "reviewer_3": 75
+    },
+    "expert_composite_score": 74.0
+  },
+  "cv_text": "# Maya Lin, Senior Backend Engineer\nLocation: San Francisco, CA | 4 years experience at DataStream\nEngineered Kafka event streaming services in Python and Go processing 20M events/day.\n",
+  "interview_notes": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimization. 4 years of continuous production on-call experience verified.\n",
+  "technical_assessment": "",
+  "project_rfc": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream\n"
+}

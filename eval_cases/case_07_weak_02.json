@@ -1,0 +1,22 @@
+{
+  "candidate_id": "case_07_weak_02",
+  "name": "Jessica Lee",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "category": "normal_weak",
+  "ground_truth": {
+    "expected_quadrant": "WEAK MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 89.0,
+    "expert_scores": {
+      "reviewer_1": 52,
+      "reviewer_2": 50,
+      "reviewer_3": 54
+    },
+    "expert_composite_score": 52.0
+  },
+  "cv_text": "# Jessica Lee, Web Developer\nLocation: Portland, OR | Experience: 1.5 years\n- Frontend React developer transitioning into backend Python Flask development.\n- Basic scripting knowledge, no production distributed systems tenure.\n",
+  "interview_notes": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO concurrency.\n",
+  "technical_assessment": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchronization tests.\n",
+  "project_rfc": "# RFC-01: User Profile Service Migration\nAuthor: Jessica Lee\n"
+}

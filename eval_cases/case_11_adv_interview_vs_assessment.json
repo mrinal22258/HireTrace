@@ -1,0 +1,22 @@
+{
+  "candidate_id": "case_11_adv_interview_vs_assessment",
+  "name": "Chloe Bennett",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "category": "adversarial",
+  "ground_truth": {
+    "expected_quadrant": "REVIEW REQUIRED",
+    "has_contradiction": true,
+    "contradiction_type": "interview_claim_vs_assessment_deadlock",
+    "expected_consistency": 22.0,
+    "expert_scores": {
+      "reviewer_1": 48,
+      "reviewer_2": 46,
+      "reviewer_3": 50
+    },
+    "expert_composite_score": 48.0
+  },
+  "cv_text": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.\n",
+  "interview_notes": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have perfected race condition prevention. In my production services, I guarantee 100% deadlock-free execution through strict lock hierarchy ordering and non-blocking synchronization primitives.\"\n",
+  "technical_assessment": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversible deadlock within 4 seconds of execution due to circular lock acquisition between two coroutines.\n",
+  "project_rfc": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett\n"
+}

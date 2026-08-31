@@ -1,0 +1,1185 @@
+{
+  "candidate_id": "case_10_adv_cv_vs_assessment",
+  "candidate_name": "Ryan Mercer",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "steps": [
+    {
+      "step": "rubric_scoring",
+      "agent": "RubricScorer (Deterministic Baseline A)",
+      "output": {
+        "candidate_id": "case_10_adv_cv_vs_assessment",
+        "raw_total": 19.0,
+        "normalized_score": 15.83,
+        "category_scores": {
+          "open_source": 0.0,
+          "self_projects": 10.0,
+          "production": 5.0,
+          "technical_skills": 4.0,
+          "bonus_points": 0.0
+        },
+        "summary_audit": [
+          "End-to-end architecture/system project (+10)",
+          "No commercial production experience documented (+0)",
+          "High-throughput / mission-critical SLA experience (+5)",
+          "Primary core language and runtime alignment (+4)"
+        ],
+        "details": {
+          "open_source": {
+            "score": 0.0,
+            "max": 35,
+            "notes": []
+          },
+          "self_projects": {
+            "score": 10.0,
+            "max": 30,
+            "notes": [
+              "End-to-end architecture/system project (+10)"
+            ]
+          },
+          "production": {
+            "score": 5.0,
+            "max": 25,
+            "notes": [
+              "No commercial production experience documented (+0)",
+              "High-throughput / mission-critical SLA experience (+5)"
+            ]
+          },
+          "technical_skills": {
+            "score": 4.0,
+            "max": 10,
+            "notes": [
+              "Primary core language and runtime alignment (+4)"
+            ]
+          },
+          "bonus_points": {
+            "score": 0.0,
+            "max": 20,
+            "notes": []
+          }
+        }
+      }
+    },
+    {
+      "step": "retrieval_index_built",
+      "total_spans_indexed": 12
+    },
+    {
+      "step": "requirement_mapping",
+      "agent": "RequirementMappingAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "name": "Core Python & AsyncIO",
+          "category": "technical_skills",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "assessment",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-02",
+          "name": "Distributed Systems & Message Queues",
+          "category": "architecture",
+          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-03",
+          "name": "Technical Leadership & Initiative",
+          "category": "leadership",
+          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "importance": "IMPORTANT",
+          "expected_sources": [
+            "cv",
+            "interview",
+            "project"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Production Tenure & Operational Reliability",
+          "category": "production_experience",
+          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "interview"
+          ]
+        }
+      ]
+    },
+    {
+      "step": "evidence_aggregation",
+      "agent": "EvidenceAggregationAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "requirement_name": "Core Python & AsyncIO",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 10,
+          "cv_spans": [
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+              "metadata": {
+                "raw_line": "- Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming."
+              },
+              "similarity_score": 0.356
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Ryan Mercer, Principal AsyncIO & Python Architect\nEmail: ryan.mercer@deepkernel.org | Location: Chicago, IL",
+              "metadata": {},
+              "similarity_score": 0.31
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Author of high-throughput async microservices processing millions of concurrent connections.",
+              "metadata": {
+                "raw_line": "- Author of high-throughput async microservices processing millions of concurrent connections."
+              },
+              "similarity_score": 0.192
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Technical Summary",
+              "metadata": {
+                "raw_line": "## Technical Summary"
+              },
+              "similarity_score": 0.135
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Ryan Mercer\nDiscussed high-level async theory fluently and claimed deep expertise in debugging deadlocks and event loop starvation.",
+              "metadata": {},
+              "similarity_score": 0.184
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-006",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, freezing the entire event loop.\"",
+              "metadata": {
+                "raw_line": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, freezing the entire event loop.\""
+              },
+              "similarity_score": 0.254
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Ryan Mercer\nChallenge: \"Asynchronous Deadlock Resolution & Concurrency Pipeline\"\nScore: 22 / 100 | Grade: Critical Failure (Tier: Bronze)",
+              "metadata": {},
+              "similarity_score": 0.244
+            },
+            {
+              "span_id": "ASS-004",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Unhandled Exception Trap: FAILED (Fatal unhandled exceptions crashed Python runtime)",
+              "metadata": {
+                "raw_line": "- Unhandled Exception Trap: FAILED (Fatal unhandled exceptions crashed Python runtime)"
+              },
+              "similarity_score": 0.207
+            },
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Memory Profiling: FAILED (Rapid memory leak exceeding 2GB within 90 seconds)",
+              "metadata": {
+                "raw_line": "- Memory Profiling: FAILED (Rapid memory leak exceeding 2GB within 90 seconds)"
+              },
+              "similarity_score": 0.175
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-88: High Performance Microservices\nAuthor: Ryan Mercer",
+              "metadata": {},
+              "similarity_score": 0.181
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "technical_skills",
+            "score": 4.0,
+            "normalized_total": 15.833333333333332
+          }
+        },
+        {
+          "req_id": "REQ-02",
+          "requirement_name": "Distributed Systems & Message Queues",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 10,
+          "cv_spans": [
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+              "metadata": {
+                "raw_line": "- Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming."
+              },
+              "similarity_score": 0.229
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Author of high-throughput async microservices processing millions of concurrent connections.",
+              "metadata": {
+                "raw_line": "- Author of high-throughput async microservices processing millions of concurrent connections."
+              },
+              "similarity_score": 0.154
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Ryan Mercer, Principal AsyncIO & Python Architect\nEmail: ryan.mercer@deepkernel.org | Location: Chicago, IL",
+              "metadata": {},
+              "similarity_score": 0.136
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Technical Summary",
+              "metadata": {
+                "raw_line": "## Technical Summary"
+              },
+              "similarity_score": 0.105
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Ryan Mercer\nDiscussed high-level async theory fluently and claimed deep expertise in debugging deadlocks and event loop starvation.",
+              "metadata": {},
+              "similarity_score": 0.346
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-006",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, freezing the entire event loop.\"",
+              "metadata": {
+                "raw_line": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, freezing the entire event loop.\""
+              },
+              "similarity_score": 0.339
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Ryan Mercer\nChallenge: \"Asynchronous Deadlock Resolution & Concurrency Pipeline\"\nScore: 22 / 100 | Grade: Critical Failure (Tier: Bronze)",
+              "metadata": {},
+              "similarity_score": 0.28
+            },
+            {
+              "span_id": "ASS-003",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Concurrency Suite: FAILED (Produced immediate event loop deadlocks under 50 concurrent requests)",
+              "metadata": {
+                "raw_line": "- Concurrency Suite: FAILED (Produced immediate event loop deadlocks under 50 concurrent requests)"
+              },
+              "similarity_score": 0.272
+            },
+            {
+              "span_id": "ASS-004",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Unhandled Exception Trap: FAILED (Fatal unhandled exceptions crashed Python runtime)",
+              "metadata": {
+                "raw_line": "- Unhandled Exception Trap: FAILED (Fatal unhandled exceptions crashed Python runtime)"
+              },
+              "similarity_score": 0.246
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-88: High Performance Microservices\nAuthor: Ryan Mercer",
+              "metadata": {},
+              "similarity_score": 0.157
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 10.0,
+            "normalized_total": 15.833333333333332
+          }
+        },
+        {
+          "req_id": "REQ-03",
+          "requirement_name": "Technical Leadership & Initiative",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 10,
+          "cv_spans": [
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Author of high-throughput async microservices processing millions of concurrent connections.",
+              "metadata": {
+                "raw_line": "- Author of high-throughput async microservices processing millions of concurrent connections."
+              },
+              "similarity_score": 0.233
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+              "metadata": {
+                "raw_line": "- Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming."
+              },
+              "similarity_score": 0.209
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Technical Summary",
+              "metadata": {
+                "raw_line": "## Technical Summary"
+              },
+              "similarity_score": 0.196
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Ryan Mercer, Principal AsyncIO & Python Architect\nEmail: ryan.mercer@deepkernel.org | Location: Chicago, IL",
+              "metadata": {},
+              "similarity_score": 0.154
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Ryan Mercer\nDiscussed high-level async theory fluently and claimed deep expertise in debugging deadlocks and event loop starvation.",
+              "metadata": {},
+              "similarity_score": 0.237
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-006",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, freezing the entire event loop.\"",
+              "metadata": {
+                "raw_line": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, freezing the entire event loop.\""
+              },
+              "similarity_score": 0.349
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Ryan Mercer\nChallenge: \"Asynchronous Deadlock Resolution & Concurrency Pipeline\"\nScore: 22 / 100 | Grade: Critical Failure (Tier: Bronze)",
+              "metadata": {},
+              "similarity_score": 0.285
+            },
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Memory Profiling: FAILED (Rapid memory leak exceeding 2GB within 90 seconds)",
+              "metadata": {
+                "raw_line": "- Memory Profiling: FAILED (Rapid memory leak exceeding 2GB within 90 seconds)"
+              },
+              "similarity_score": 0.252
+            },
+            {
+              "span_id": "ASS-004",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Unhandled Exception Trap: FAILED (Fatal unhandled exceptions crashed Python runtime)",
+              "metadata": {
+                "raw_line": "- Unhandled Exception Trap: FAILED (Fatal unhandled exceptions crashed Python runtime)"
+              },
+              "similarity_score": 0.25
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-88: High Performance Microservices\nAuthor: Ryan Mercer",
+              "metadata": {},
+              "similarity_score": 0.169
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 0.0,
+            "normalized_total": 15.833333333333332
+          }
+        },
+        {
+          "req_id": "REQ-04",
+          "requirement_name": "Production Tenure & Operational Reliability",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 10,
+          "cv_spans": [
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+              "metadata": {
+                "raw_line": "- Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming."
+              },
+              "similarity_score": 0.257
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Author of high-throughput async microservices processing millions of concurrent connections.",
+              "metadata": {
+                "raw_line": "- Author of high-throughput async microservices processing millions of concurrent connections."
+              },
+              "similarity_score": 0.252
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Ryan Mercer, Principal AsyncIO & Python Architect\nEmail: ryan.mercer@deepkernel.org | Location: Chicago, IL",
+              "metadata": {},
+              "similarity_score": 0.234
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Technical Summary",
+              "metadata": {
+                "raw_line": "## Technical Summary"
+              },
+              "similarity_score": 0.163
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Ryan Mercer\nDiscussed high-level async theory fluently and claimed deep expertise in debugging deadlocks and event loop starvation.",
+              "metadata": {},
+              "similarity_score": 0.293
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-006",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, freezing the entire event loop.\"",
+              "metadata": {
+                "raw_line": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, freezing the entire event loop.\""
+              },
+              "similarity_score": 0.309
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Ryan Mercer\nChallenge: \"Asynchronous Deadlock Resolution & Concurrency Pipeline\"\nScore: 22 / 100 | Grade: Critical Failure (Tier: Bronze)",
+              "metadata": {},
+              "similarity_score": 0.279
+            },
+            {
+              "span_id": "ASS-003",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Concurrency Suite: FAILED (Produced immediate event loop deadlocks under 50 concurrent requests)",
+              "metadata": {
+                "raw_line": "- Concurrency Suite: FAILED (Produced immediate event loop deadlocks under 50 concurrent requests)"
+              },
+              "similarity_score": 0.248
+            },
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Memory Profiling: FAILED (Rapid memory leak exceeding 2GB within 90 seconds)",
+              "metadata": {
+                "raw_line": "- Memory Profiling: FAILED (Rapid memory leak exceeding 2GB within 90 seconds)"
+              },
+              "similarity_score": 0.212
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-88: High Performance Microservices\nAuthor: Ryan Mercer",
+              "metadata": {},
+              "similarity_score": 0.239
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "production",
+            "score": 5.0,
+            "normalized_total": 15.833333333333332
+          }
+        }
+      ]
+    },
+    {
+      "step": "cross_source_verification",
+      "agent": "CrossSourceVerificationAgent",
+      "output": {
+        "candidate_id": "case_10_adv_cv_vs_assessment",
+        "total_requirements": 4,
+        "supported_count": 0,
+        "contradicted_count": 4,
+        "insufficient_count": 0,
+        "consistency_score": 0.0,
+        "verifications": [
+          {
+            "req_id": "REQ-01",
+            "requirement_name": "Core Python & AsyncIO",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "The technical assessment and project document evidence contradict the claim of proficiency in Python 3.10+, asynchronous programming, and clean architecture based on the evaluator's note and the technical assessment score.",
+            "supporting_citations": [
+              "ASS-006",
+              "ASS-001",
+              "PRO-001"
+            ],
+            "citations": [
+              "ASS-006",
+              "ASS-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "ASS-006",
+                "quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Ryan Mercer\nChallenge: \"Asynchronous Deadlock Resolution & Concurrency Pipeline\"\nScore: 22 / 100 | Grade: Critical F",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-88: High Performance Microservices\nAuthor: Ryan Mercer",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-01-SKILL-ASSESS",
+                "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+                "source_a_span_id": "CV-003",
+                "source_a_doc": "cv",
+                "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+                "source_b_span_id": "ASS-006",
+                "source_b_doc": "assessment",
+                "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+                "contradiction_type": "cv_vs_assessment",
+                "severity": "HIGH",
+                "source_a": "cv (CV-003)",
+                "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+                "source_b": "assessment (ASS-006)",
+                "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
+              }
+            ]
+          },
+          {
+            "req_id": "REQ-02",
+            "requirement_name": "Distributed Systems & Message Queues",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "The candidate's experience and skills as described in the CV and interview notes do not fully support the requirement of hands-on experience with distributed systems and message queues, as evidenced by the low scores and failures in the technical assessment.",
+            "supporting_citations": [
+              "INT-001",
+              "ASS-006",
+              "ASS-003",
+              "ASS-004"
+            ],
+            "citations": [
+              "INT-001",
+              "ASS-006",
+              "ASS-003",
+              "ASS-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Ryan Mercer\nDiscussed high-level async theory fluently and claimed deep expertise in debugging deadlocks and event loop starvat",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-006",
+                "quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "ASS-003",
+                "quote": "Concurrency Suite: FAILED (Produced immediate event loop deadlocks under 50 concurrent requests)",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "ASS-004",
+                "quote": "Unhandled Exception Trap: FAILED (Fatal unhandled exceptions crashed Python runtime)",
+                "document_type": "assessment"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-02-SKILL-ASSESS",
+                "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+                "source_a_span_id": "CV-003",
+                "source_a_doc": "cv",
+                "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+                "source_b_span_id": "ASS-006",
+                "source_b_doc": "assessment",
+                "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+                "contradiction_type": "cv_vs_assessment",
+                "severity": "HIGH",
+                "source_a": "cv (CV-003)",
+                "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+                "source_b": "assessment (ASS-006)",
+                "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
+              }
+            ]
+          },
+          {
+            "req_id": "REQ-03",
+            "requirement_name": "Technical Leadership & Initiative",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "The CV and Interview evidence support a strong track record of technical leadership and initiative, while the Technical Assessment and Project Document evidence contradict this, indicating a lack of proficiency in asynchronous programming and debugging.",
+            "supporting_citations": [
+              "CV-004",
+              "CV-003",
+              "INT-001",
+              "PRO-001"
+            ],
+            "citations": [
+              "CV-004",
+              "CV-003",
+              "INT-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Author of high-throughput async microservices processing millions of concurrent connections.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-003",
+                "quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Ryan Mercer\nDiscussed high-level async theory fluently and claimed deep expertise in debugging deadlocks and event loop starvat",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-88: High Performance Microservices\nAuthor: Ryan Mercer",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-03-SKILL-ASSESS",
+                "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+                "source_a_span_id": "CV-003",
+                "source_a_doc": "cv",
+                "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+                "source_b_span_id": "ASS-006",
+                "source_b_doc": "assessment",
+                "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+                "contradiction_type": "cv_vs_assessment",
+                "severity": "HIGH",
+                "source_a": "cv (CV-003)",
+                "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+                "source_b": "assessment (ASS-006)",
+                "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
+              }
+            ]
+          },
+          {
+            "req_id": "REQ-04",
+            "requirement_name": "Production Tenure & Operational Reliability",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "The candidate's CV highlights extensive experience with async programming, but the technical assessment and project documents show significant issues with async task scheduling and concurrency, contradicting the claim of at least 3+ years of commercial production experience managing live services and on-call.",
+            "supporting_citations": [
+              "ASS-006",
+              "ASS-001",
+              "ASS-003",
+              "ASS-005",
+              "PRO-001"
+            ],
+            "citations": [
+              "ASS-006",
+              "ASS-001",
+              "ASS-003",
+              "ASS-005",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "ASS-006",
+                "quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Ryan Mercer\nChallenge: \"Asynchronous Deadlock Resolution & Concurrency Pipeline\"\nScore: 22 / 100 | Grade: Critical F",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "ASS-003",
+                "quote": "Concurrency Suite: FAILED (Produced immediate event loop deadlocks under 50 concurrent requests)",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "ASS-005",
+                "quote": "Memory Profiling: FAILED (Rapid memory leak exceeding 2GB within 90 seconds)",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-88: High Performance Microservices\nAuthor: Ryan Mercer",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-04-SKILL-ASSESS",
+                "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+                "source_a_span_id": "CV-003",
+                "source_a_doc": "cv",
+                "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+                "source_b_span_id": "ASS-006",
+                "source_b_doc": "assessment",
+                "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+                "contradiction_type": "cv_vs_assessment",
+                "severity": "HIGH",
+                "source_a": "cv (CV-003)",
+                "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+                "source_b": "assessment (ASS-006)",
+                "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
+              }
+            ]
+          }
+        ],
+        "all_discrepancies": [
+          {
+            "discrepancy_id": "DISC-REQ-01-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b_span_id": "ASS-006",
+            "source_b_doc": "assessment",
+            "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b": "assessment (ASS-006)",
+            "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
+          },
+          {
+            "discrepancy_id": "DISC-REQ-02-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b_span_id": "ASS-006",
+            "source_b_doc": "assessment",
+            "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b": "assessment (ASS-006)",
+            "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
+          },
+          {
+            "discrepancy_id": "DISC-REQ-03-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b_span_id": "ASS-006",
+            "source_b_doc": "assessment",
+            "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b": "assessment (ASS-006)",
+            "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
+          },
+          {
+            "discrepancy_id": "DISC-REQ-04-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b_span_id": "ASS-006",
+            "source_b_doc": "assessment",
+            "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b": "assessment (ASS-006)",
+            "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
+          }
+        ]
+      }
+    },
+    {
+      "step": "recommendation_writing",
+      "agent": "RecommendationWriterAgent",
+      "output": {
+        "candidate_id": "case_10_adv_cv_vs_assessment",
+        "candidate_name": "Ryan Mercer",
+        "target_role": "Senior Python & Distributed Systems Engineer",
+        "role_fit_score": 57.3,
+        "evidence_consistency_score": 0.0,
+        "quadrant": "REVIEW REQUIRED",
+        "recommendation": "Proceed to human review.",
+        "priority_questions": [
+          "Could you provide an example of a real-world project where you implemented Python AsyncIO and uvloop to handle high-concurrency tasks? How did you ensure thread safety and avoid deadlocks in such scenarios?",
+          "Can you walk us through your approach to designing the architecture for a system that required migrating from a traditional database to Apache Kafka? What specific challenges did you face and how did you address them?",
+          "Could you demonstrate your understanding of async task scheduling by writing a simple asyncio program that includes both async coroutines and the use of time.sleep()? What are the potential issues with this approach and how would you mitigate them?"
+        ],
+        "key_discrepancies": [
+          {
+            "discrepancy_id": "DISC-REQ-01-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b_span_id": "ASS-006",
+            "source_b_doc": "assessment",
+            "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b": "assessment (ASS-006)",
+            "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
+          },
+          {
+            "discrepancy_id": "DISC-REQ-02-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b_span_id": "ASS-006",
+            "source_b_doc": "assessment",
+            "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b": "assessment (ASS-006)",
+            "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
+          },
+          {
+            "discrepancy_id": "DISC-REQ-03-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b_span_id": "ASS-006",
+            "source_b_doc": "assessment",
+            "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b": "assessment (ASS-006)",
+            "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
+          },
+          {
+            "discrepancy_id": "DISC-REQ-04-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b_span_id": "ASS-006",
+            "source_b_doc": "assessment",
+            "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+            "source_b": "assessment (ASS-006)",
+            "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
+          }
+        ],
+        "requirement_table": [
+          {
+            "req_id": "REQ-01",
+            "name": "Core Python & AsyncIO",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "ASS-006",
+              "ASS-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "ASS-006",
+                "quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Ryan Mercer\nChallenge: \"Asynchronous Deadlock Resolution & Concurrency Pipeline\"\nScore: 22 / 100 | Grade: Critical F",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-88: High Performance Microservices\nAuthor: Ryan Mercer",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The technical assessment and project document evidence contradict the claim of proficiency in Python 3.10+, asynchronous programming, and clean architecture based on the evaluator's note and the technical assessment score."
+          },
+          {
+            "req_id": "REQ-02",
+            "name": "Distributed Systems & Message Queues",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "INT-001",
+              "ASS-006",
+              "ASS-003",
+              "ASS-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Ryan Mercer\nDiscussed high-level async theory fluently and claimed deep expertise in debugging deadlocks and event loop starvat",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-006",
+                "quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "ASS-003",
+                "quote": "Concurrency Suite: FAILED (Produced immediate event loop deadlocks under 50 concurrent requests)",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "ASS-004",
+                "quote": "Unhandled Exception Trap: FAILED (Fatal unhandled exceptions crashed Python runtime)",
+                "document_type": "assessment"
+              }
+            ],
+            "synthesis": "The candidate's experience and skills as described in the CV and interview notes do not fully support the requirement of hands-on experience with distributed systems and message queues, as evidenced by the low scores and failures in the technical assessment."
+          },
+          {
+            "req_id": "REQ-03",
+            "name": "Technical Leadership & Initiative",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "CV-004",
+              "CV-003",
+              "INT-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Author of high-throughput async microservices processing millions of concurrent connections.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-003",
+                "quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Ryan Mercer\nDiscussed high-level async theory fluently and claimed deep expertise in debugging deadlocks and event loop starvat",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-88: High Performance Microservices\nAuthor: Ryan Mercer",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The CV and Interview evidence support a strong track record of technical leadership and initiative, while the Technical Assessment and Project Document evidence contradict this, indicating a lack of proficiency in asynchronous programming and debugging."
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Production Tenure & Operational Reliability",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "ASS-006",
+              "ASS-001",
+              "ASS-003",
+              "ASS-005",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "ASS-006",
+                "quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Ryan Mercer\nChallenge: \"Asynchronous Deadlock Resolution & Concurrency Pipeline\"\nScore: 22 / 100 | Grade: Critical F",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "ASS-003",
+                "quote": "Concurrency Suite: FAILED (Produced immediate event loop deadlocks under 50 concurrent requests)",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "ASS-005",
+                "quote": "Memory Profiling: FAILED (Rapid memory leak exceeding 2GB within 90 seconds)",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-88: High Performance Microservices\nAuthor: Ryan Mercer",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The candidate's CV highlights extensive experience with async programming, but the technical assessment and project documents show significant issues with async task scheduling and concurrency, contradicting the claim of at least 3+ years of commercial production experience managing live services and on-call."
+          }
+        ],
+        "unsupported_claim_count": 0,
+        "contradicted_claim_count": 4,
+        "rubric_baseline_score": 15.8,
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Ryan Mercer | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           57.3 / 100\nEVIDENCE CONSISTENCY                0.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 4 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO        [WARN] CONFLICTING\n  Distributed Systems & Mess   [WARN] CONFLICTING\n  Technical Leadership & Ini   [WARN] CONFLICTING\n  Production Tenure & Operat   [WARN] CONFLICTING\n\nKEY DISCREPANCIES\n  01  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - cv (CV-003): \"Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.\"\n      - assessment (ASS-006): \"Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, \"\n  02  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - cv (CV-003): \"Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.\"\n      - assessment (ASS-006): \"Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, \"\n  03  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - cv (CV-003): \"Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.\"\n      - assessment (ASS-006): \"Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, \"\n  04  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - cv (CV-003): \"Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.\"\n      - assessment (ASS-006): \"Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, \"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Could you provide an example of a real-world project where you implemented Python AsyncIO and uvloop to handle high-concurrency tasks? How did you ensure thread safety and avoid deadlocks in such scenarios?\n  -> Can you walk us through your approach to designing the architecture for a system that required migrating from a traditional database to Apache Kafka? What specific challenges did you face and how did you address them?\n  -> Could you demonstrate your understanding of async task scheduling by writing a simple asyncio program that includes both async coroutines and the use of time.sleep()? What are the potential issues with this approach and how would you mitigate them?\n===================================================================="
+      }
+    }
+  ],
+  "pipeline_latency_sec": 45.0
+}

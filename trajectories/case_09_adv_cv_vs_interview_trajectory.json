@@ -1,0 +1,1027 @@
+{
+  "candidate_id": "case_09_adv_cv_vs_interview",
+  "candidate_name": "Jordan Hayes",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "steps": [
+    {
+      "step": "rubric_scoring",
+      "agent": "RubricScorer (Deterministic Baseline A)",
+      "output": {
+        "candidate_id": "case_09_adv_cv_vs_interview",
+        "raw_total": 48.0,
+        "normalized_score": 40.0,
+        "category_scores": {
+          "open_source": 0.0,
+          "self_projects": 20.0,
+          "production": 20.0,
+          "technical_skills": 3.0,
+          "bonus_points": 5.0
+        },
+        "summary_audit": [
+          "End-to-end architecture/system project (+10)",
+          "Production-grade setup (containers, CI/CD, messaging) (+10)",
+          "Senior production tenure: 5.0 years (+20)",
+          "Distributed systems & cloud infrastructure alignment (+3)",
+          "Formal engineering mentorship or team leadership (+5)"
+        ],
+        "details": {
+          "open_source": {
+            "score": 0.0,
+            "max": 35,
+            "notes": []
+          },
+          "self_projects": {
+            "score": 20.0,
+            "max": 30,
+            "notes": [
+              "End-to-end architecture/system project (+10)",
+              "Production-grade setup (containers, CI/CD, messaging) (+10)"
+            ]
+          },
+          "production": {
+            "score": 20.0,
+            "max": 25,
+            "notes": [
+              "Senior production tenure: 5.0 years (+20)"
+            ]
+          },
+          "technical_skills": {
+            "score": 3.0,
+            "max": 10,
+            "notes": [
+              "Distributed systems & cloud infrastructure alignment (+3)"
+            ]
+          },
+          "bonus_points": {
+            "score": 5.0,
+            "max": 20,
+            "notes": [
+              "Formal engineering mentorship or team leadership (+5)"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "step": "retrieval_index_built",
+      "total_spans_indexed": 9
+    },
+    {
+      "step": "requirement_mapping",
+      "agent": "RequirementMappingAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "name": "Core Python & AsyncIO",
+          "category": "technical_skills",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "assessment",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-02",
+          "name": "Distributed Systems & Message Queues",
+          "category": "architecture",
+          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-03",
+          "name": "Technical Leadership & Initiative",
+          "category": "leadership",
+          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "importance": "IMPORTANT",
+          "expected_sources": [
+            "cv",
+            "interview",
+            "project"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Production Tenure & Operational Reliability",
+          "category": "production_experience",
+          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "interview"
+          ]
+        }
+      ]
+    },
+    {
+      "step": "evidence_aggregation",
+      "agent": "EvidenceAggregationAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "requirement_name": "Core Python & AsyncIO",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 8,
+          "cv_spans": [
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Jordan Hayes, Lead Distributed Systems Architect\nEmail: j.hayes@cloudinfra.net | Location: New York, NY",
+              "metadata": {},
+              "similarity_score": 0.29
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+              "metadata": {
+                "raw_line": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)"
+              },
+              "similarity_score": 0.262
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "4 years of senior leadership and 24/7 on-call tier ownership.",
+              "metadata": {
+                "raw_line": "- 4 years of senior leadership and 24/7 on-call tier ownership."
+              },
+              "similarity_score": 0.241
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Headed core infrastructure team for 4 continuous years designing Kafka streaming engines.",
+              "metadata": {
+                "raw_line": "- Headed core infrastructure team for 4 continuous years designing Kafka streaming engines."
+              },
+              "similarity_score": 0.197
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJordan: \"Oh, to clarify, I was actually an independent contractor working on other client contracts until mid-2023. I joined FinTech Cloud full-time about 14 months ago in late 2023 as a mid-level contractor before converting.\"",
+              "metadata": {},
+              "similarity_score": 0.312
+            },
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Interview: Jordan Hayes\nInterviewer: Alex Mercer (Principal Architect)",
+              "metadata": {},
+              "similarity_score": 0.138
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Jordan Hayes\nScore: 82 / 100 | Grade: Pass\nImplemented asynchronous queue endpoints with satisfactory throughput.",
+              "metadata": {},
+              "similarity_score": 0.237
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-12: Event Ingestion Bridge\nCompany: FinTech Cloud | Author: Jordan Hayes",
+              "metadata": {},
+              "similarity_score": 0.251
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "technical_skills",
+            "score": 3.0,
+            "normalized_total": 40.0
+          }
+        },
+        {
+          "req_id": "REQ-02",
+          "requirement_name": "Distributed Systems & Message Queues",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 8,
+          "cv_spans": [
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Headed core infrastructure team for 4 continuous years designing Kafka streaming engines.",
+              "metadata": {
+                "raw_line": "- Headed core infrastructure team for 4 continuous years designing Kafka streaming engines."
+              },
+              "similarity_score": 0.319
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Jordan Hayes, Lead Distributed Systems Architect\nEmail: j.hayes@cloudinfra.net | Location: New York, NY",
+              "metadata": {},
+              "similarity_score": 0.289
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+              "metadata": {
+                "raw_line": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)"
+              },
+              "similarity_score": 0.259
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "4 years of senior leadership and 24/7 on-call tier ownership.",
+              "metadata": {
+                "raw_line": "- 4 years of senior leadership and 24/7 on-call tier ownership."
+              },
+              "similarity_score": 0.22
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJordan: \"Oh, to clarify, I was actually an independent contractor working on other client contracts until mid-2023. I joined FinTech Cloud full-time about 14 months ago in late 2023 as a mid-level contractor before converting.\"",
+              "metadata": {},
+              "similarity_score": 0.376
+            },
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Interview: Jordan Hayes\nInterviewer: Alex Mercer (Principal Architect)",
+              "metadata": {},
+              "similarity_score": 0.185
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Jordan Hayes\nScore: 82 / 100 | Grade: Pass\nImplemented asynchronous queue endpoints with satisfactory throughput.",
+              "metadata": {},
+              "similarity_score": 0.237
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-12: Event Ingestion Bridge\nCompany: FinTech Cloud | Author: Jordan Hayes",
+              "metadata": {},
+              "similarity_score": 0.172
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 40.0
+          }
+        },
+        {
+          "req_id": "REQ-03",
+          "requirement_name": "Technical Leadership & Initiative",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 8,
+          "cv_spans": [
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Headed core infrastructure team for 4 continuous years designing Kafka streaming engines.",
+              "metadata": {
+                "raw_line": "- Headed core infrastructure team for 4 continuous years designing Kafka streaming engines."
+              },
+              "similarity_score": 0.317
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "4 years of senior leadership and 24/7 on-call tier ownership.",
+              "metadata": {
+                "raw_line": "- 4 years of senior leadership and 24/7 on-call tier ownership."
+              },
+              "similarity_score": 0.316
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Jordan Hayes, Lead Distributed Systems Architect\nEmail: j.hayes@cloudinfra.net | Location: New York, NY",
+              "metadata": {},
+              "similarity_score": 0.315
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+              "metadata": {
+                "raw_line": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)"
+              },
+              "similarity_score": 0.189
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJordan: \"Oh, to clarify, I was actually an independent contractor working on other client contracts until mid-2023. I joined FinTech Cloud full-time about 14 months ago in late 2023 as a mid-level contractor before converting.\"",
+              "metadata": {},
+              "similarity_score": 0.326
+            },
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Interview: Jordan Hayes\nInterviewer: Alex Mercer (Principal Architect)",
+              "metadata": {},
+              "similarity_score": 0.203
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Jordan Hayes\nScore: 82 / 100 | Grade: Pass\nImplemented asynchronous queue endpoints with satisfactory throughput.",
+              "metadata": {},
+              "similarity_score": 0.357
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-12: Event Ingestion Bridge\nCompany: FinTech Cloud | Author: Jordan Hayes",
+              "metadata": {},
+              "similarity_score": 0.202
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 5.0,
+            "normalized_total": 40.0
+          }
+        },
+        {
+          "req_id": "REQ-04",
+          "requirement_name": "Production Tenure & Operational Reliability",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 8,
+          "cv_spans": [
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "4 years of senior leadership and 24/7 on-call tier ownership.",
+              "metadata": {
+                "raw_line": "- 4 years of senior leadership and 24/7 on-call tier ownership."
+              },
+              "similarity_score": 0.317
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Headed core infrastructure team for 4 continuous years designing Kafka streaming engines.",
+              "metadata": {
+                "raw_line": "- Headed core infrastructure team for 4 continuous years designing Kafka streaming engines."
+              },
+              "similarity_score": 0.259
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Jordan Hayes, Lead Distributed Systems Architect\nEmail: j.hayes@cloudinfra.net | Location: New York, NY",
+              "metadata": {},
+              "similarity_score": 0.217
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+              "metadata": {
+                "raw_line": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)"
+              },
+              "similarity_score": 0.213
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJordan: \"Oh, to clarify, I was actually an independent contractor working on other client contracts until mid-2023. I joined FinTech Cloud full-time about 14 months ago in late 2023 as a mid-level contractor before converting.\"",
+              "metadata": {},
+              "similarity_score": 0.351
+            },
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Interview: Jordan Hayes\nInterviewer: Alex Mercer (Principal Architect)",
+              "metadata": {},
+              "similarity_score": 0.279
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Jordan Hayes\nScore: 82 / 100 | Grade: Pass\nImplemented asynchronous queue endpoints with satisfactory throughput.",
+              "metadata": {},
+              "similarity_score": 0.214
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-12: Event Ingestion Bridge\nCompany: FinTech Cloud | Author: Jordan Hayes",
+              "metadata": {},
+              "similarity_score": 0.248
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "production",
+            "score": 20.0,
+            "normalized_total": 40.0
+          }
+        }
+      ]
+    },
+    {
+      "step": "cross_source_verification",
+      "agent": "CrossSourceVerificationAgent",
+      "output": {
+        "candidate_id": "case_09_adv_cv_vs_interview",
+        "total_requirements": 4,
+        "supported_count": 0,
+        "contradicted_count": 4,
+        "insufficient_count": 0,
+        "consistency_score": 0.0,
+        "verifications": [
+          {
+            "req_id": "REQ-01",
+            "requirement_name": "Core Python & AsyncIO",
+            "status": "CONTRADICTED",
+            "confidence": 1.0,
+            "synthesis": "The evidence supports the claim that Jordan Hayes has proficiency in Python 3.10+, asynchronous programming, and clean architecture, as evidenced by his technical assessment and project documentation.",
+            "supporting_citations": [
+              "INT-001",
+              "ASS-001",
+              "PRO-001"
+            ],
+            "citations": [
+              "INT-001",
+              "ASS-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Technical Interview: Jordan Hayes\nInterviewer: Alex Mercer (Principal Architect)",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Jordan Hayes\nScore: 82 / 100 | Grade: Pass\nImplemented asynchronous queue endpoints with satisfactory throughput.",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-12: Event Ingestion Bridge\nCompany: FinTech Cloud | Author: Jordan Hayes",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-01-TENURE",
+                "topic": "Employment Tenure Discrepancy (Fintech)",
+                "source_a_span_id": "CV-003",
+                "source_a_doc": "cv",
+                "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+                "source_b_span_id": "INT-002",
+                "source_b_doc": "interview",
+                "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+                "contradiction_type": "cv_vs_interview",
+                "severity": "HIGH",
+                "source_a": "cv (CV-003)",
+                "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+                "source_b": "interview (INT-002)",
+                "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
+              }
+            ]
+          },
+          {
+            "req_id": "REQ-02",
+            "requirement_name": "Distributed Systems & Message Queues",
+            "status": "CONTRADICTED",
+            "confidence": 1.0,
+            "synthesis": "The evidence supports the claim that Jordan Hayes has hands-on experience with distributed systems and message queues, including Kafka and RabbitMQ, as evidenced by his CV and project documentation.",
+            "supporting_citations": [
+              "CV-004",
+              "INT-002",
+              "PRO-001"
+            ],
+            "citations": [
+              "CV-004",
+              "INT-002",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Headed core infrastructure team for 4 continuous years designing Kafka streaming engines.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-002",
+                "quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-12: Event Ingestion Bridge\nCompany: FinTech Cloud | Author: Jordan Hayes",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-02-TENURE",
+                "topic": "Employment Tenure Discrepancy (Fintech)",
+                "source_a_span_id": "CV-003",
+                "source_a_doc": "cv",
+                "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+                "source_b_span_id": "INT-002",
+                "source_b_doc": "interview",
+                "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+                "contradiction_type": "cv_vs_interview",
+                "severity": "HIGH",
+                "source_a": "cv (CV-003)",
+                "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+                "source_b": "interview (INT-002)",
+                "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
+              }
+            ]
+          },
+          {
+            "req_id": "REQ-03",
+            "requirement_name": "Technical Leadership & Initiative",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "The interview evidence contradicts the CV evidence regarding Jordan Hayes's tenure at FinTech Cloud, suggesting he was an independent contractor for a significant portion of his claimed time.",
+            "supporting_citations": [
+              "INT-002",
+              "CV-004",
+              "CV-005"
+            ],
+            "citations": [
+              "INT-002",
+              "CV-004",
+              "CV-005"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Headed core infrastructure team for 4 continuous years designing Kafka streaming engines.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-005",
+                "quote": "4 years of senior leadership and 24/7 on-call tier ownership.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-002",
+                "quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+                "document_type": "interview"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-03-TENURE",
+                "topic": "Employment Tenure Discrepancy (Fintech)",
+                "source_a_span_id": "CV-003",
+                "source_a_doc": "cv",
+                "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+                "source_b_span_id": "INT-002",
+                "source_b_doc": "interview",
+                "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+                "contradiction_type": "cv_vs_interview",
+                "severity": "HIGH",
+                "source_a": "cv (CV-003)",
+                "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+                "source_b": "interview (INT-002)",
+                "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
+              }
+            ]
+          },
+          {
+            "req_id": "REQ-04",
+            "requirement_name": "Production Tenure & Operational Reliability",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "The interview evidence contradicts the CV evidence regarding Jordan Hayes' FinTech Cloud experience, suggesting he was an independent contractor for a significant portion of his claimed tenure.",
+            "supporting_citations": [
+              "INT-002",
+              "INT-001"
+            ],
+            "citations": [
+              "INT-002",
+              "INT-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-002",
+                "quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Technical Interview: Jordan Hayes\nInterviewer: Alex Mercer (Principal Architect)",
+                "document_type": "interview"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-04-TENURE",
+                "topic": "Employment Tenure Discrepancy (Fintech)",
+                "source_a_span_id": "CV-003",
+                "source_a_doc": "cv",
+                "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+                "source_b_span_id": "INT-002",
+                "source_b_doc": "interview",
+                "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+                "contradiction_type": "cv_vs_interview",
+                "severity": "HIGH",
+                "source_a": "cv (CV-003)",
+                "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+                "source_b": "interview (INT-002)",
+                "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
+              }
+            ]
+          }
+        ],
+        "all_discrepancies": [
+          {
+            "discrepancy_id": "DISC-REQ-01-TENURE",
+            "topic": "Employment Tenure Discrepancy (Fintech)",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b_span_id": "INT-002",
+            "source_b_doc": "interview",
+            "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+            "contradiction_type": "cv_vs_interview",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b": "interview (INT-002)",
+            "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-02-TENURE",
+            "topic": "Employment Tenure Discrepancy (Fintech)",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b_span_id": "INT-002",
+            "source_b_doc": "interview",
+            "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+            "contradiction_type": "cv_vs_interview",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b": "interview (INT-002)",
+            "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-03-TENURE",
+            "topic": "Employment Tenure Discrepancy (Fintech)",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b_span_id": "INT-002",
+            "source_b_doc": "interview",
+            "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+            "contradiction_type": "cv_vs_interview",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b": "interview (INT-002)",
+            "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-04-TENURE",
+            "topic": "Employment Tenure Discrepancy (Fintech)",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b_span_id": "INT-002",
+            "source_b_doc": "interview",
+            "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+            "contradiction_type": "cv_vs_interview",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b": "interview (INT-002)",
+            "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "recommendation_writing",
+      "agent": "RecommendationWriterAgent",
+      "output": {
+        "candidate_id": "case_09_adv_cv_vs_interview",
+        "candidate_name": "Jordan Hayes",
+        "target_role": "Senior Python & Distributed Systems Engineer",
+        "role_fit_score": 67.0,
+        "evidence_consistency_score": 0.0,
+        "quadrant": "REVIEW REQUIRED",
+        "recommendation": "Proceed to human review.",
+        "priority_questions": [
+          "Could you provide more details on your role as Lead Systems Architect at FinTech Cloud and the specific projects you were responsible for during your tenure?",
+          "Can you elaborate on the technical challenges you faced during your time as Lead Systems Architect at FinTech Cloud and how you overcame them?",
+          "Could you discuss your contributions to the architecture design and migration of the Kafka system at FinTech Cloud? Please provide specific examples."
+        ],
+        "key_discrepancies": [
+          {
+            "discrepancy_id": "DISC-REQ-01-TENURE",
+            "topic": "Employment Tenure Discrepancy (Fintech)",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b_span_id": "INT-002",
+            "source_b_doc": "interview",
+            "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+            "contradiction_type": "cv_vs_interview",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b": "interview (INT-002)",
+            "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-02-TENURE",
+            "topic": "Employment Tenure Discrepancy (Fintech)",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b_span_id": "INT-002",
+            "source_b_doc": "interview",
+            "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+            "contradiction_type": "cv_vs_interview",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b": "interview (INT-002)",
+            "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-03-TENURE",
+            "topic": "Employment Tenure Discrepancy (Fintech)",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b_span_id": "INT-002",
+            "source_b_doc": "interview",
+            "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+            "contradiction_type": "cv_vs_interview",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b": "interview (INT-002)",
+            "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-04-TENURE",
+            "topic": "Employment Tenure Discrepancy (Fintech)",
+            "source_a_span_id": "CV-003",
+            "source_a_doc": "cv",
+            "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b_span_id": "INT-002",
+            "source_b_doc": "interview",
+            "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+            "contradiction_type": "cv_vs_interview",
+            "severity": "HIGH",
+            "source_a": "cv (CV-003)",
+            "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
+            "source_b": "interview (INT-002)",
+            "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
+          }
+        ],
+        "requirement_table": [
+          {
+            "req_id": "REQ-01",
+            "name": "Core Python & AsyncIO",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 1.0,
+            "citations": [
+              "INT-001",
+              "ASS-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Technical Interview: Jordan Hayes\nInterviewer: Alex Mercer (Principal Architect)",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Jordan Hayes\nScore: 82 / 100 | Grade: Pass\nImplemented asynchronous queue endpoints with satisfactory throughput.",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-12: Event Ingestion Bridge\nCompany: FinTech Cloud | Author: Jordan Hayes",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The evidence supports the claim that Jordan Hayes has proficiency in Python 3.10+, asynchronous programming, and clean architecture, as evidenced by his technical assessment and project documentation."
+          },
+          {
+            "req_id": "REQ-02",
+            "name": "Distributed Systems & Message Queues",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 1.0,
+            "citations": [
+              "CV-004",
+              "INT-002",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Headed core infrastructure team for 4 continuous years designing Kafka streaming engines.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-002",
+                "quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-12: Event Ingestion Bridge\nCompany: FinTech Cloud | Author: Jordan Hayes",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The evidence supports the claim that Jordan Hayes has hands-on experience with distributed systems and message queues, including Kafka and RabbitMQ, as evidenced by his CV and project documentation."
+          },
+          {
+            "req_id": "REQ-03",
+            "name": "Technical Leadership & Initiative",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "INT-002",
+              "CV-004",
+              "CV-005"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Headed core infrastructure team for 4 continuous years designing Kafka streaming engines.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-005",
+                "quote": "4 years of senior leadership and 24/7 on-call tier ownership.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-002",
+                "quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+                "document_type": "interview"
+              }
+            ],
+            "synthesis": "The interview evidence contradicts the CV evidence regarding Jordan Hayes's tenure at FinTech Cloud, suggesting he was an independent contractor for a significant portion of his claimed time."
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Production Tenure & Operational Reliability",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "INT-002",
+              "INT-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-002",
+                "quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Technical Interview: Jordan Hayes\nInterviewer: Alex Mercer (Principal Architect)",
+                "document_type": "interview"
+              }
+            ],
+            "synthesis": "The interview evidence contradicts the CV evidence regarding Jordan Hayes' FinTech Cloud experience, suggesting he was an independent contractor for a significant portion of his claimed tenure."
+          }
+        ],
+        "unsupported_claim_count": 0,
+        "contradicted_claim_count": 4,
+        "rubric_baseline_score": 40.0,
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Jordan Hayes | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           67.0 / 100\nEVIDENCE CONSISTENCY                0.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 4 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO        [WARN] CONFLICTING\n  Distributed Systems & Mess   [WARN] CONFLICTING\n  Technical Leadership & Ini   [WARN] CONFLICTING\n  Production Tenure & Operat   [WARN] CONFLICTING\n\nKEY DISCREPANCIES\n  01  Employment Tenure Discrepancy (Fintech)\n      - cv (CV-003): \"Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)\"\n      - interview (INT-002): \"Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ\"\n  02  Employment Tenure Discrepancy (Fintech)\n      - cv (CV-003): \"Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)\"\n      - interview (INT-002): \"Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ\"\n  03  Employment Tenure Discrepancy (Fintech)\n      - cv (CV-003): \"Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)\"\n      - interview (INT-002): \"Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ\"\n  04  Employment Tenure Discrepancy (Fintech)\n      - cv (CV-003): \"Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)\"\n      - interview (INT-002): \"Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ\"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Could you provide more details on your role as Lead Systems Architect at FinTech Cloud and the specific projects you were responsible for during your tenure?\n  -> Can you elaborate on the technical challenges you faced during your time as Lead Systems Architect at FinTech Cloud and how you overcame them?\n  -> Could you discuss your contributions to the architecture design and migration of the Kafka system at FinTech Cloud? Please provide specific examples.\n===================================================================="
+      }
+    }
+  ],
+  "pipeline_latency_sec": 29.79
+}

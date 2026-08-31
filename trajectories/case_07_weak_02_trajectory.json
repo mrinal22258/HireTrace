@@ -1,0 +1,757 @@
+{
+  "candidate_id": "case_07_weak_02",
+  "candidate_name": "Jessica Lee",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "steps": [
+    {
+      "step": "rubric_scoring",
+      "agent": "RubricScorer (Deterministic Baseline A)",
+      "output": {
+        "candidate_id": "case_07_weak_02",
+        "raw_total": 14.0,
+        "normalized_score": 11.67,
+        "category_scores": {
+          "open_source": 0.0,
+          "self_projects": 10.0,
+          "production": 0.0,
+          "technical_skills": 4.0,
+          "bonus_points": 0.0
+        },
+        "summary_audit": [
+          "End-to-end architecture/system project (+10)",
+          "No commercial production experience documented (+0)",
+          "Primary core language and runtime alignment (+4)"
+        ],
+        "details": {
+          "open_source": {
+            "score": 0.0,
+            "max": 35,
+            "notes": []
+          },
+          "self_projects": {
+            "score": 10.0,
+            "max": 30,
+            "notes": [
+              "End-to-end architecture/system project (+10)"
+            ]
+          },
+          "production": {
+            "score": 0.0,
+            "max": 25,
+            "notes": [
+              "No commercial production experience documented (+0)"
+            ]
+          },
+          "technical_skills": {
+            "score": 4.0,
+            "max": 10,
+            "notes": [
+              "Primary core language and runtime alignment (+4)"
+            ]
+          },
+          "bonus_points": {
+            "score": 0.0,
+            "max": 20,
+            "notes": []
+          }
+        }
+      }
+    },
+    {
+      "step": "retrieval_index_built",
+      "total_spans_indexed": 7
+    },
+    {
+      "step": "requirement_mapping",
+      "agent": "RequirementMappingAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "name": "Core Python & AsyncIO",
+          "category": "technical_skills",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "assessment",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-02",
+          "name": "Distributed Systems & Message Queues",
+          "category": "architecture",
+          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-03",
+          "name": "Technical Leadership & Initiative",
+          "category": "leadership",
+          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "importance": "IMPORTANT",
+          "expected_sources": [
+            "cv",
+            "interview",
+            "project"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Production Tenure & Operational Reliability",
+          "category": "production_experience",
+          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "interview"
+          ]
+        }
+      ]
+    },
+    {
+      "step": "evidence_aggregation",
+      "agent": "EvidenceAggregationAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "requirement_name": "Core Python & AsyncIO",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Frontend React developer transitioning into backend Python Flask development.",
+              "metadata": {
+                "raw_line": "- Frontend React developer transitioning into backend Python Flask development."
+              },
+              "similarity_score": 0.232
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Location: Portland, OR | Experience: 1.5 years",
+              "metadata": {
+                "raw_line": "Location: Portland, OR | Experience: 1.5 years"
+              },
+              "similarity_score": 0.171
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Basic scripting knowledge, no production distributed systems tenure.",
+              "metadata": {
+                "raw_line": "- Basic scripting knowledge, no production distributed systems tenure."
+              },
+              "similarity_score": 0.166
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Jessica Lee, Web Developer",
+              "metadata": {
+                "raw_line": "# Jessica Lee, Web Developer"
+              },
+              "similarity_score": 0.116
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO concurrency.",
+              "metadata": {},
+              "similarity_score": 0.26
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchronization tests.",
+              "metadata": {},
+              "similarity_score": 0.267
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-01: User Profile Service Migration\nAuthor: Jessica Lee",
+              "metadata": {},
+              "similarity_score": 0.231
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "technical_skills",
+            "score": 4.0,
+            "normalized_total": 11.666666666666666
+          }
+        },
+        {
+          "req_id": "REQ-02",
+          "requirement_name": "Distributed Systems & Message Queues",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Basic scripting knowledge, no production distributed systems tenure.",
+              "metadata": {
+                "raw_line": "- Basic scripting knowledge, no production distributed systems tenure."
+              },
+              "similarity_score": 0.389
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Frontend React developer transitioning into backend Python Flask development.",
+              "metadata": {
+                "raw_line": "- Frontend React developer transitioning into backend Python Flask development."
+              },
+              "similarity_score": 0.206
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Location: Portland, OR | Experience: 1.5 years",
+              "metadata": {
+                "raw_line": "Location: Portland, OR | Experience: 1.5 years"
+              },
+              "similarity_score": 0.151
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Jessica Lee, Web Developer",
+              "metadata": {
+                "raw_line": "# Jessica Lee, Web Developer"
+              },
+              "similarity_score": 0.129
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO concurrency.",
+              "metadata": {},
+              "similarity_score": 0.294
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchronization tests.",
+              "metadata": {},
+              "similarity_score": 0.318
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-01: User Profile Service Migration\nAuthor: Jessica Lee",
+              "metadata": {},
+              "similarity_score": 0.133
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 10.0,
+            "normalized_total": 11.666666666666666
+          }
+        },
+        {
+          "req_id": "REQ-03",
+          "requirement_name": "Technical Leadership & Initiative",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Frontend React developer transitioning into backend Python Flask development.",
+              "metadata": {
+                "raw_line": "- Frontend React developer transitioning into backend Python Flask development."
+              },
+              "similarity_score": 0.322
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Basic scripting knowledge, no production distributed systems tenure.",
+              "metadata": {
+                "raw_line": "- Basic scripting knowledge, no production distributed systems tenure."
+              },
+              "similarity_score": 0.23
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Jessica Lee, Web Developer",
+              "metadata": {
+                "raw_line": "# Jessica Lee, Web Developer"
+              },
+              "similarity_score": 0.149
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Location: Portland, OR | Experience: 1.5 years",
+              "metadata": {
+                "raw_line": "Location: Portland, OR | Experience: 1.5 years"
+              },
+              "similarity_score": 0.143
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO concurrency.",
+              "metadata": {},
+              "similarity_score": 0.256
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchronization tests.",
+              "metadata": {},
+              "similarity_score": 0.27
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-01: User Profile Service Migration\nAuthor: Jessica Lee",
+              "metadata": {},
+              "similarity_score": 0.202
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 0.0,
+            "normalized_total": 11.666666666666666
+          }
+        },
+        {
+          "req_id": "REQ-04",
+          "requirement_name": "Production Tenure & Operational Reliability",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Location: Portland, OR | Experience: 1.5 years",
+              "metadata": {
+                "raw_line": "Location: Portland, OR | Experience: 1.5 years"
+              },
+              "similarity_score": 0.255
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Basic scripting knowledge, no production distributed systems tenure.",
+              "metadata": {
+                "raw_line": "- Basic scripting knowledge, no production distributed systems tenure."
+              },
+              "similarity_score": 0.227
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Frontend React developer transitioning into backend Python Flask development.",
+              "metadata": {
+                "raw_line": "- Frontend React developer transitioning into backend Python Flask development."
+              },
+              "similarity_score": 0.226
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Jessica Lee, Web Developer",
+              "metadata": {
+                "raw_line": "# Jessica Lee, Web Developer"
+              },
+              "similarity_score": 0.109
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO concurrency.",
+              "metadata": {},
+              "similarity_score": 0.298
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchronization tests.",
+              "metadata": {},
+              "similarity_score": 0.255
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-01: User Profile Service Migration\nAuthor: Jessica Lee",
+              "metadata": {},
+              "similarity_score": 0.23
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "production",
+            "score": 0.0,
+            "normalized_total": 11.666666666666666
+          }
+        }
+      ]
+    },
+    {
+      "step": "cross_source_verification",
+      "agent": "CrossSourceVerificationAgent",
+      "output": {
+        "candidate_id": "case_07_weak_02",
+        "total_requirements": 4,
+        "supported_count": 4,
+        "contradicted_count": 0,
+        "insufficient_count": 0,
+        "consistency_score": 100.0,
+        "verifications": [
+          {
+            "req_id": "REQ-01",
+            "requirement_name": "Core Python & AsyncIO",
+            "status": "SUPPORTED",
+            "confidence": 0.8,
+            "synthesis": "The interview and technical assessment evidence contradict the claim of proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+            "supporting_citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchron",
+                "document_type": "assessment"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-02",
+            "requirement_name": "Distributed Systems & Message Queues",
+            "status": "SUPPORTED",
+            "confidence": 0.8,
+            "synthesis": "The candidate's experience and skills do not fully support the requirement of hands-on experience with Kafka and RabbitMQ, as evidenced by the technical assessment and interview notes.",
+            "supporting_citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchron",
+                "document_type": "assessment"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-03",
+            "requirement_name": "Technical Leadership & Initiative",
+            "status": "SUPPORTED",
+            "confidence": 0.8,
+            "synthesis": "The candidate's experience and skills do not align with the requirement of having a demonstrated track record of leading migrations and architectural decisions, as evidenced by the technical assessment and interview notes.",
+            "supporting_citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchron",
+                "document_type": "assessment"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-04",
+            "requirement_name": "Production Tenure & Operational Reliability",
+            "status": "SUPPORTED",
+            "confidence": 0.8,
+            "synthesis": "The candidate's experience does not meet the requirement of at least 3+ years of commercial production experience managing live services and on-call, as evidenced by the technical assessment and interview notes.",
+            "supporting_citations": [
+              "ASS-001",
+              "INT-001"
+            ],
+            "citations": [
+              "ASS-001",
+              "INT-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchron",
+                "document_type": "assessment"
+              }
+            ],
+            "discrepancies": []
+          }
+        ],
+        "all_discrepancies": []
+      }
+    },
+    {
+      "step": "recommendation_writing",
+      "agent": "RecommendationWriterAgent",
+      "output": {
+        "candidate_id": "case_07_weak_02",
+        "candidate_name": "Jessica Lee",
+        "target_role": "Senior Python & Distributed Systems Engineer",
+        "role_fit_score": 64.7,
+        "evidence_consistency_score": 100.0,
+        "quadrant": "WEAK MATCH",
+        "recommendation": "Proceed to human review.",
+        "priority_questions": [
+          "Verify high-scale production trade-offs in candidate's primary architecture project",
+          "Review code quality standards and testing practices across past contributions",
+          "Assess team leadership and cross-functional communication style"
+        ],
+        "key_discrepancies": [],
+        "requirement_table": [
+          {
+            "req_id": "REQ-01",
+            "name": "Core Python & AsyncIO",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.8,
+            "citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchron",
+                "document_type": "assessment"
+              }
+            ],
+            "synthesis": "The interview and technical assessment evidence contradict the claim of proficiency in Python 3.10+, asynchronous programming, and clean architecture."
+          },
+          {
+            "req_id": "REQ-02",
+            "name": "Distributed Systems & Message Queues",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.8,
+            "citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchron",
+                "document_type": "assessment"
+              }
+            ],
+            "synthesis": "The candidate's experience and skills do not fully support the requirement of hands-on experience with Kafka and RabbitMQ, as evidenced by the technical assessment and interview notes."
+          },
+          {
+            "req_id": "REQ-03",
+            "name": "Technical Leadership & Initiative",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.8,
+            "citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchron",
+                "document_type": "assessment"
+              }
+            ],
+            "synthesis": "The candidate's experience and skills do not align with the requirement of having a demonstrated track record of leading migrations and architectural decisions, as evidenced by the technical assessment and interview notes."
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Production Tenure & Operational Reliability",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.8,
+            "citations": [
+              "ASS-001",
+              "INT-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchron",
+                "document_type": "assessment"
+              }
+            ],
+            "synthesis": "The candidate's experience does not meet the requirement of at least 3+ years of commercial production experience managing live services and on-call, as evidenced by the technical assessment and interview notes."
+          }
+        ],
+        "unsupported_claim_count": 0,
+        "contradicted_claim_count": 0,
+        "rubric_baseline_score": 11.7,
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Jessica Lee | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           64.7 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [WEAK MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+      }
+    }
+  ],
+  "pipeline_latency_sec": 28.04
+}

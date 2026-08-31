@@ -1,0 +1,22 @@
+{
+  "candidate_id": "case_09_adv_cv_vs_interview",
+  "name": "Jordan Hayes",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "category": "adversarial",
+  "ground_truth": {
+    "expected_quadrant": "REVIEW REQUIRED",
+    "has_contradiction": true,
+    "contradiction_type": "tenure_mismatch_cv_vs_interview",
+    "expected_consistency": 25.0,
+    "expert_scores": {
+      "reviewer_1": 60,
+      "reviewer_2": 58,
+      "reviewer_3": 62
+    },
+    "expert_composite_score": 60.0
+  },
+  "cv_text": "# Jordan Hayes, Lead Distributed Systems Architect\nEmail: j.hayes@cloudinfra.net | Location: New York, NY\n\n## Experience\nLead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)\n- Headed core infrastructure team for 4 continuous years designing Kafka streaming engines.\n- 4 years of senior leadership and 24/7 on-call tier ownership.\n",
+  "interview_notes": "# Technical Interview: Jordan Hayes\nInterviewer: Alex Mercer (Principal Architect)\n\nAlex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJordan: \"Oh, to clarify, I was actually an independent contractor working on other client contracts until mid-2023. I joined FinTech Cloud full-time about 14 months ago in late 2023 as a mid-level contractor before converting.\"\n",
+  "technical_assessment": "# Technical Assessment: Jordan Hayes\nScore: 82 / 100 | Grade: Pass\nImplemented asynchronous queue endpoints with satisfactory throughput.\n",
+  "project_rfc": "# RFC-12: Event Ingestion Bridge\nCompany: FinTech Cloud | Author: Jordan Hayes\n"
+}

@@ -1,0 +1,24 @@
+{
+  "candidate_id": "case_13_incomplete_no_interview",
+  "name": "Nathaniel Reed",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "category": "incomplete",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "has_insufficient_evidence": true,
+    "missing_document": "interview_notes",
+    "expected_consistency": 85.0,
+    "expert_scores": {
+      "reviewer_1": 75,
+      "reviewer_2": 72,
+      "reviewer_3": 76
+    },
+    "expert_composite_score": 74.33
+  },
+  "cv_text": "# Nathaniel Reed, Distributed Systems Engineer\nGitHub: github.com/n-reed (3 repos, 60 stars) | Location: Atlanta, GA\n3.5 years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale.\n",
+  "interview_notes": "",
+  "technical_assessment": "# Technical Assessment: Nathaniel Reed\nScore: 88 / 100 | Grade: Superior\nPassed all async concurrency and message ingestion benchmarks cleanly.\n",
+  "project_rfc": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale\n"
+}

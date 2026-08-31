@@ -1,0 +1,721 @@
+{
+  "candidate_id": "case_13_incomplete_no_interview",
+  "candidate_name": "Nathaniel Reed",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "steps": [
+    {
+      "step": "rubric_scoring",
+      "agent": "RubricScorer (Deterministic Baseline A)",
+      "output": {
+        "candidate_id": "case_13_incomplete_no_interview",
+        "raw_total": 71.0,
+        "normalized_score": 59.17,
+        "category_scores": {
+          "open_source": 25.0,
+          "self_projects": 20.0,
+          "production": 16.0,
+          "technical_skills": 10.0,
+          "bonus_points": 0.0
+        },
+        "summary_audit": [
+          "Public repository/profile present (+5)",
+          "Maintained open-source repos: 3 (+10.0)",
+          "Authored work has significant community traction (stars >= 50: 60) (+10)",
+          "End-to-end architecture/system project (+10)",
+          "Production-grade setup (containers, CI/CD, messaging) (+10)",
+          "Mid-to-senior production tenure: 3.5 years (+16)",
+          "Primary core language and runtime alignment (+4)",
+          "Database & persistence systems alignment (+3)",
+          "Distributed systems & cloud infrastructure alignment (+3)"
+        ],
+        "details": {
+          "open_source": {
+            "score": 25.0,
+            "max": 35,
+            "notes": [
+              "Public repository/profile present (+5)",
+              "Maintained open-source repos: 3 (+10.0)",
+              "Authored work has significant community traction (stars >= 50: 60) (+10)"
+            ]
+          },
+          "self_projects": {
+            "score": 20.0,
+            "max": 30,
+            "notes": [
+              "End-to-end architecture/system project (+10)",
+              "Production-grade setup (containers, CI/CD, messaging) (+10)"
+            ]
+          },
+          "production": {
+            "score": 16.0,
+            "max": 25,
+            "notes": [
+              "Mid-to-senior production tenure: 3.5 years (+16)"
+            ]
+          },
+          "technical_skills": {
+            "score": 10.0,
+            "max": 10,
+            "notes": [
+              "Primary core language and runtime alignment (+4)",
+              "Database & persistence systems alignment (+3)",
+              "Distributed systems & cloud infrastructure alignment (+3)"
+            ]
+          },
+          "bonus_points": {
+            "score": 0.0,
+            "max": 20,
+            "notes": []
+          }
+        }
+      }
+    },
+    {
+      "step": "retrieval_index_built",
+      "total_spans_indexed": 5
+    },
+    {
+      "step": "requirement_mapping",
+      "agent": "RequirementMappingAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "name": "Core Python & AsyncIO",
+          "category": "technical_skills",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "assessment",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-02",
+          "name": "Distributed Systems & Message Queues",
+          "category": "architecture",
+          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-03",
+          "name": "Technical Leadership & Initiative",
+          "category": "leadership",
+          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "importance": "IMPORTANT",
+          "expected_sources": [
+            "cv",
+            "interview",
+            "project"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Production Tenure & Operational Reliability",
+          "category": "production_experience",
+          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "interview"
+          ]
+        }
+      ]
+    },
+    {
+      "step": "evidence_aggregation",
+      "agent": "EvidenceAggregationAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "requirement_name": "Core Python & AsyncIO",
+          "sources_present": [
+            "cv",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 5,
+          "cv_spans": [
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale.",
+              "metadata": {
+                "raw_line": "3.5 years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale."
+              },
+              "similarity_score": 0.388
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "GitHub: github.com/n-reed (3 repos, 60 stars) | Location: Atlanta, GA",
+              "metadata": {
+                "raw_line": "GitHub: github.com/n-reed (3 repos, 60 stars) | Location: Atlanta, GA"
+              },
+              "similarity_score": 0.189
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Nathaniel Reed, Distributed Systems Engineer",
+              "metadata": {
+                "raw_line": "# Nathaniel Reed, Distributed Systems Engineer"
+              },
+              "similarity_score": 0.168
+            }
+          ],
+          "interview_spans": [],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Nathaniel Reed\nScore: 88 / 100 | Grade: Superior\nPassed all async concurrency and message ingestion benchmarks cleanly.",
+              "metadata": {},
+              "similarity_score": 0.225
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
+              "metadata": {},
+              "similarity_score": 0.248
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "technical_skills",
+            "score": 10.0,
+            "normalized_total": 59.166666666666664
+          }
+        },
+        {
+          "req_id": "REQ-02",
+          "requirement_name": "Distributed Systems & Message Queues",
+          "sources_present": [
+            "cv",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 5,
+          "cv_spans": [
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Nathaniel Reed, Distributed Systems Engineer",
+              "metadata": {
+                "raw_line": "# Nathaniel Reed, Distributed Systems Engineer"
+              },
+              "similarity_score": 0.316
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale.",
+              "metadata": {
+                "raw_line": "3.5 years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale."
+              },
+              "similarity_score": 0.219
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "GitHub: github.com/n-reed (3 repos, 60 stars) | Location: Atlanta, GA",
+              "metadata": {
+                "raw_line": "GitHub: github.com/n-reed (3 repos, 60 stars) | Location: Atlanta, GA"
+              },
+              "similarity_score": 0.118
+            }
+          ],
+          "interview_spans": [],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Nathaniel Reed\nScore: 88 / 100 | Grade: Superior\nPassed all async concurrency and message ingestion benchmarks cleanly.",
+              "metadata": {},
+              "similarity_score": 0.266
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
+              "metadata": {},
+              "similarity_score": 0.148
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 59.166666666666664
+          }
+        },
+        {
+          "req_id": "REQ-03",
+          "requirement_name": "Technical Leadership & Initiative",
+          "sources_present": [
+            "cv",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 5,
+          "cv_spans": [
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale.",
+              "metadata": {
+                "raw_line": "3.5 years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale."
+              },
+              "similarity_score": 0.266
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "GitHub: github.com/n-reed (3 repos, 60 stars) | Location: Atlanta, GA",
+              "metadata": {
+                "raw_line": "GitHub: github.com/n-reed (3 repos, 60 stars) | Location: Atlanta, GA"
+              },
+              "similarity_score": 0.212
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Nathaniel Reed, Distributed Systems Engineer",
+              "metadata": {
+                "raw_line": "# Nathaniel Reed, Distributed Systems Engineer"
+              },
+              "similarity_score": 0.154
+            }
+          ],
+          "interview_spans": [],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Nathaniel Reed\nScore: 88 / 100 | Grade: Superior\nPassed all async concurrency and message ingestion benchmarks cleanly.",
+              "metadata": {},
+              "similarity_score": 0.223
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
+              "metadata": {},
+              "similarity_score": 0.251
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 0.0,
+            "normalized_total": 59.166666666666664
+          }
+        },
+        {
+          "req_id": "REQ-04",
+          "requirement_name": "Production Tenure & Operational Reliability",
+          "sources_present": [
+            "cv",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 5,
+          "cv_spans": [
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale.",
+              "metadata": {
+                "raw_line": "3.5 years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale."
+              },
+              "similarity_score": 0.327
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "GitHub: github.com/n-reed (3 repos, 60 stars) | Location: Atlanta, GA",
+              "metadata": {
+                "raw_line": "GitHub: github.com/n-reed (3 repos, 60 stars) | Location: Atlanta, GA"
+              },
+              "similarity_score": 0.156
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Nathaniel Reed, Distributed Systems Engineer",
+              "metadata": {
+                "raw_line": "# Nathaniel Reed, Distributed Systems Engineer"
+              },
+              "similarity_score": 0.138
+            }
+          ],
+          "interview_spans": [],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Nathaniel Reed\nScore: 88 / 100 | Grade: Superior\nPassed all async concurrency and message ingestion benchmarks cleanly.",
+              "metadata": {},
+              "similarity_score": 0.237
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
+              "metadata": {},
+              "similarity_score": 0.183
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "production",
+            "score": 16.0,
+            "normalized_total": 59.166666666666664
+          }
+        }
+      ]
+    },
+    {
+      "step": "cross_source_verification",
+      "agent": "CrossSourceVerificationAgent",
+      "output": {
+        "candidate_id": "case_13_incomplete_no_interview",
+        "total_requirements": 4,
+        "supported_count": 4,
+        "contradicted_count": 0,
+        "insufficient_count": 0,
+        "consistency_score": 85.0,
+        "verifications": [
+          {
+            "req_id": "REQ-01",
+            "requirement_name": "Core Python & AsyncIO",
+            "status": "SUPPORTED",
+            "confidence": 1.0,
+            "synthesis": "The provided evidence supports the claim that Nathaniel Reed has proficiency in Python 3.10+, asynchronous programming, and clean architecture, as evidenced by his experience with asynchronous backend services, GitHub contributions, and technical assessment score.",
+            "supporting_citations": [
+              "CV-001",
+              "CV-003",
+              "PRO-001",
+              "ASS-001"
+            ],
+            "citations": [
+              "CV-001",
+              "CV-003",
+              "PRO-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-003",
+                "quote": "years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-001",
+                "quote": "# Nathaniel Reed, Distributed Systems Engineer",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Nathaniel Reed\nScore: 88 / 100 | Grade: Superior\nPassed all async concurrency and message ingestion benchmarks clean",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-02",
+            "requirement_name": "Distributed Systems & Message Queues",
+            "status": "SUPPORTED",
+            "confidence": 1.0,
+            "synthesis": "The evidence supports the claim that Nathaniel Reed has hands-on experience with distributed systems and message queues, specifically Kafka and RabbitMQ, as evidenced by his CV, technical assessment, and project documentation.",
+            "supporting_citations": [
+              "CV-001",
+              "CV-003",
+              "PRO-001"
+            ],
+            "citations": [
+              "CV-001",
+              "CV-003",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-001",
+                "quote": "# Nathaniel Reed, Distributed Systems Engineer",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-003",
+                "quote": "years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-03",
+            "requirement_name": "Technical Leadership & Initiative",
+            "status": "SUPPORTED",
+            "confidence": 1.0,
+            "synthesis": "The provided evidence supports the claim of technical leadership and initiative, including experience with asynchronous backend services, architectural decisions, and mentoring engineers.",
+            "supporting_citations": [
+              "CV-001",
+              "PRO-001",
+              "ASS-001"
+            ],
+            "citations": [
+              "CV-001",
+              "PRO-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-001",
+                "quote": "# Nathaniel Reed, Distributed Systems Engineer",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Nathaniel Reed\nScore: 88 / 100 | Grade: Superior\nPassed all async concurrency and message ingestion benchmarks clean",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-04",
+            "requirement_name": "Production Tenure & Operational Reliability",
+            "status": "SUPPORTED",
+            "confidence": 0.8,
+            "synthesis": "The CV and Project Document evidence do not support the claim of at least 3+ years of commercial production experience managing live services and on-call, as they focus on development experience and project documentation rather than direct production experience.",
+            "supporting_citations": [
+              "PRO-001"
+            ],
+            "citations": [
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": []
+          }
+        ],
+        "all_discrepancies": []
+      }
+    },
+    {
+      "step": "recommendation_writing",
+      "agent": "RecommendationWriterAgent",
+      "output": {
+        "candidate_id": "case_13_incomplete_no_interview",
+        "candidate_name": "Nathaniel Reed",
+        "target_role": "Senior Python & Distributed Systems Engineer",
+        "role_fit_score": 83.7,
+        "evidence_consistency_score": 85.0,
+        "quadrant": "STRONG MATCH",
+        "recommendation": "Proceed to human review.",
+        "priority_questions": [
+          "Verify high-scale production trade-offs in candidate's primary architecture project",
+          "Review code quality standards and testing practices across past contributions",
+          "Assess team leadership and cross-functional communication style"
+        ],
+        "key_discrepancies": [],
+        "requirement_table": [
+          {
+            "req_id": "REQ-01",
+            "name": "Core Python & AsyncIO",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 1.0,
+            "citations": [
+              "CV-001",
+              "CV-003",
+              "PRO-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-003",
+                "quote": "years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-001",
+                "quote": "# Nathaniel Reed, Distributed Systems Engineer",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Nathaniel Reed\nScore: 88 / 100 | Grade: Superior\nPassed all async concurrency and message ingestion benchmarks clean",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The provided evidence supports the claim that Nathaniel Reed has proficiency in Python 3.10+, asynchronous programming, and clean architecture, as evidenced by his experience with asynchronous backend services, GitHub contributions, and technical assessment score."
+          },
+          {
+            "req_id": "REQ-02",
+            "name": "Distributed Systems & Message Queues",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 1.0,
+            "citations": [
+              "CV-001",
+              "CV-003",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-001",
+                "quote": "# Nathaniel Reed, Distributed Systems Engineer",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-003",
+                "quote": "years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The evidence supports the claim that Nathaniel Reed has hands-on experience with distributed systems and message queues, specifically Kafka and RabbitMQ, as evidenced by his CV, technical assessment, and project documentation."
+          },
+          {
+            "req_id": "REQ-03",
+            "name": "Technical Leadership & Initiative",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 1.0,
+            "citations": [
+              "CV-001",
+              "PRO-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-001",
+                "quote": "# Nathaniel Reed, Distributed Systems Engineer",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Nathaniel Reed\nScore: 88 / 100 | Grade: Superior\nPassed all async concurrency and message ingestion benchmarks clean",
+                "document_type": "assessment"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The provided evidence supports the claim of technical leadership and initiative, including experience with asynchronous backend services, architectural decisions, and mentoring engineers."
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Production Tenure & Operational Reliability",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.8,
+            "citations": [
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The CV and Project Document evidence do not support the claim of at least 3+ years of commercial production experience managing live services and on-call, as they focus on development experience and project documentation rather than direct production experience."
+          }
+        ],
+        "unsupported_claim_count": 0,
+        "contradicted_claim_count": 0,
+        "rubric_baseline_score": 59.2,
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Nathaniel Reed | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           83.7 / 100\nEVIDENCE CONSISTENCY               85.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+      }
+    }
+  ],
+  "pipeline_latency_sec": 20.24
+}

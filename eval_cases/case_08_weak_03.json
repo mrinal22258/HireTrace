@@ -1,0 +1,22 @@
+{
+  "candidate_id": "case_08_weak_03",
+  "name": "Lucas Meyer",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "category": "normal_weak",
+  "ground_truth": {
+    "expected_quadrant": "WEAK MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 91.0,
+    "expert_scores": {
+      "reviewer_1": 46,
+      "reviewer_2": 44,
+      "reviewer_3": 48
+    },
+    "expert_composite_score": 46.0
+  },
+  "cv_text": "# Lucas Meyer, Data Analyst / Junior Scripting Developer\nLocation: Austin, TX | Experience: 1 year\n- Wrote automated ETL scripts in Python using Pandas and cron jobs.\n- No commercial experience with microservices, Kafka, or production on-call.\n",
+  "interview_notes": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never built or deployed an asynchronous distributed service.\n",
+  "technical_assessment": "# Technical Assessment: Lucas Meyer\nScore: 45 / 100 | Grade: Fail (Tier: Bronze)\nCould not complete the AsyncIO event loop challenge.\n",
+  "project_rfc": "# RFC-Draft: Script Scheduler Automation\nAuthor: Lucas Meyer\n"
+}

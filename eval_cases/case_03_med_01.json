@@ -1,0 +1,22 @@
+{
+  "candidate_id": "case_03_med_01",
+  "name": "Elena Rostova",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "category": "normal_medium",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 94.0,
+    "expert_scores": {
+      "reviewer_1": 84,
+      "reviewer_2": 82,
+      "reviewer_3": 85
+    },
+    "expert_composite_score": 83.67
+  },
+  "cv_text": "# Elena Rostova, Backend Software Engineer\nEmail: elena.rostova@techmail.io | GitHub: github.com/elena-rostova (3 repos, 45 stars)\nLocation: Boston, MA\n\n## Experience\nBackend Engineer | Omnilink Media (Feb 2022 - Present | 3.5 years)\n- Developed asynchronous Python backend services using FastAPI and PostgreSQL.\n- Implemented RabbitMQ messaging workers handling video rendering job dispatches.\n- Configured Redis caching layers reducing database load by 35%.\n\nJunior Backend Engineer | CoreStack Labs (Sep 2020 - Jan 2022 | 1.4 years)\n- Maintained Python REST APIs and participated in weekly code reviews and database tuning.\n",
+  "interview_notes": "# Technical Interview: Elena Rostova\nInterviewer: Alex Mercer (Principal Architect)\nDate: 2025-02-20\n\nElena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure has been primarily consumption rather than architecting multi-broker clusters from scratch. She has 3.5 years of continuous production experience with regular on-call participation.\n",
+  "technical_assessment": "# Technical Assessment: Elena Rostova\nScore: 84 / 100 | Grade: Good (Tier: Gold)\n- Asynchronous API endpoints implemented cleanly.\n- Redis caching logic properly implemented with TTL.\n- Minor latency jitter under peak 40k req/s load test.\n",
+  "project_rfc": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active\n"
+}

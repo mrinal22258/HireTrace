@@ -1,0 +1,1009 @@
+{
+  "candidate_id": "case_11_adv_interview_vs_assessment",
+  "candidate_name": "Chloe Bennett",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "steps": [
+    {
+      "step": "rubric_scoring",
+      "agent": "RubricScorer (Deterministic Baseline A)",
+      "output": {
+        "candidate_id": "case_11_adv_interview_vs_assessment",
+        "raw_total": 17.0,
+        "normalized_score": 14.17,
+        "category_scores": {
+          "open_source": 0.0,
+          "self_projects": 10.0,
+          "production": 0.0,
+          "technical_skills": 7.0,
+          "bonus_points": 0.0
+        },
+        "summary_audit": [
+          "End-to-end architecture/system project (+10)",
+          "No commercial production experience documented (+0)",
+          "Primary core language and runtime alignment (+4)",
+          "Distributed systems & cloud infrastructure alignment (+3)"
+        ],
+        "details": {
+          "open_source": {
+            "score": 0.0,
+            "max": 35,
+            "notes": []
+          },
+          "self_projects": {
+            "score": 10.0,
+            "max": 30,
+            "notes": [
+              "End-to-end architecture/system project (+10)"
+            ]
+          },
+          "production": {
+            "score": 0.0,
+            "max": 25,
+            "notes": [
+              "No commercial production experience documented (+0)"
+            ]
+          },
+          "technical_skills": {
+            "score": 7.0,
+            "max": 10,
+            "notes": [
+              "Primary core language and runtime alignment (+4)",
+              "Distributed systems & cloud infrastructure alignment (+3)"
+            ]
+          },
+          "bonus_points": {
+            "score": 0.0,
+            "max": 20,
+            "notes": []
+          }
+        }
+      }
+    },
+    {
+      "step": "retrieval_index_built",
+      "total_spans_indexed": 4
+    },
+    {
+      "step": "requirement_mapping",
+      "agent": "RequirementMappingAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "name": "Core Python & AsyncIO",
+          "category": "technical_skills",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "assessment",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-02",
+          "name": "Distributed Systems & Message Queues",
+          "category": "architecture",
+          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-03",
+          "name": "Technical Leadership & Initiative",
+          "category": "leadership",
+          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "importance": "IMPORTANT",
+          "expected_sources": [
+            "cv",
+            "interview",
+            "project"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Production Tenure & Operational Reliability",
+          "category": "production_experience",
+          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "interview"
+          ]
+        }
+      ]
+    },
+    {
+      "step": "evidence_aggregation",
+      "agent": "EvidenceAggregationAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "requirement_name": "Core Python & AsyncIO",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 4,
+          "cv_spans": [
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+              "metadata": {},
+              "similarity_score": 0.241
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have perfected race condition prevention. In my production services, I guarantee 100% deadlock-free execution through strict lock hierarchy ordering and non-blocking synchronization primitives.\"",
+              "metadata": {},
+              "similarity_score": 0.289
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversible deadlock within 4 seconds of execution due to circular lock acquisition between two coroutines.",
+              "metadata": {},
+              "similarity_score": 0.223
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+              "metadata": {},
+              "similarity_score": 0.217
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "technical_skills",
+            "score": 7.0,
+            "normalized_total": 14.166666666666666
+          }
+        },
+        {
+          "req_id": "REQ-02",
+          "requirement_name": "Distributed Systems & Message Queues",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 4,
+          "cv_spans": [
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+              "metadata": {},
+              "similarity_score": 0.313
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have perfected race condition prevention. In my production services, I guarantee 100% deadlock-free execution through strict lock hierarchy ordering and non-blocking synchronization primitives.\"",
+              "metadata": {},
+              "similarity_score": 0.363
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversible deadlock within 4 seconds of execution due to circular lock acquisition between two coroutines.",
+              "metadata": {},
+              "similarity_score": 0.304
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+              "metadata": {},
+              "similarity_score": 0.116
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 10.0,
+            "normalized_total": 14.166666666666666
+          }
+        },
+        {
+          "req_id": "REQ-03",
+          "requirement_name": "Technical Leadership & Initiative",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 4,
+          "cv_spans": [
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+              "metadata": {},
+              "similarity_score": 0.229
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have perfected race condition prevention. In my production services, I guarantee 100% deadlock-free execution through strict lock hierarchy ordering and non-blocking synchronization primitives.\"",
+              "metadata": {},
+              "similarity_score": 0.337
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversible deadlock within 4 seconds of execution due to circular lock acquisition between two coroutines.",
+              "metadata": {},
+              "similarity_score": 0.352
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+              "metadata": {},
+              "similarity_score": 0.239
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 0.0,
+            "normalized_total": 14.166666666666666
+          }
+        },
+        {
+          "req_id": "REQ-04",
+          "requirement_name": "Production Tenure & Operational Reliability",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 4,
+          "cv_spans": [
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+              "metadata": {},
+              "similarity_score": 0.374
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have perfected race condition prevention. In my production services, I guarantee 100% deadlock-free execution through strict lock hierarchy ordering and non-blocking synchronization primitives.\"",
+              "metadata": {},
+              "similarity_score": 0.384
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversible deadlock within 4 seconds of execution due to circular lock acquisition between two coroutines.",
+              "metadata": {},
+              "similarity_score": 0.346
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+              "metadata": {},
+              "similarity_score": 0.25
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "production",
+            "score": 0.0,
+            "normalized_total": 14.166666666666666
+          }
+        }
+      ]
+    },
+    {
+      "step": "cross_source_verification",
+      "agent": "CrossSourceVerificationAgent",
+      "output": {
+        "candidate_id": "case_11_adv_interview_vs_assessment",
+        "total_requirements": 4,
+        "supported_count": 0,
+        "contradicted_count": 4,
+        "insufficient_count": 0,
+        "consistency_score": 0.0,
+        "verifications": [
+          {
+            "req_id": "REQ-01",
+            "requirement_name": "Core Python & AsyncIO",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "The technical assessment and interview evidence contradict each other regarding Chloe Bennett's proficiency in preventing race conditions in async pipelines.",
+            "supporting_citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+                "document_type": "assessment"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-01-1",
+                "topic": "Race Condition Prevention in Async Pipelines",
+                "source_a_span_id": "CV-001",
+                "source_a_doc": "cv",
+                "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+                "source_b_span_id": "PRO-001",
+                "source_b_doc": "project",
+                "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+                "contradiction_type": "technical assessment_vs_interview",
+                "severity": "HIGH",
+                "source_a": "cv (CV-001)",
+                "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+                "source_b": "project (PRO-001)",
+                "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
+              },
+              {
+                "discrepancy_id": "DISC-REQ-01-SKILL-ASSESS",
+                "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+                "source_a_span_id": "INT-001",
+                "source_a_doc": "interview",
+                "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "source_b_span_id": "ASS-001",
+                "source_b_doc": "assessment",
+                "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+                "contradiction_type": "interview_vs_assessment",
+                "severity": "HIGH",
+                "source_a": "interview (INT-001)",
+                "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "source_b": "assessment (ASS-001)",
+                "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
+              }
+            ]
+          },
+          {
+            "req_id": "REQ-02",
+            "requirement_name": "Distributed Systems & Message Queues",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "The CV and Interview evidence do not support the Technical Assessment and Project Document evidence, indicating a significant discrepancy in Chloe Bennett's claimed experience and actual performance.",
+            "supporting_citations": [
+              "INT-001",
+              "PRO-001"
+            ],
+            "citations": [
+              "INT-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-02-1",
+                "topic": "Concurrency and Race Conditions",
+                "source_a_span_id": "CV-001",
+                "source_a_doc": "cv",
+                "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+                "source_b_span_id": "PRO-001",
+                "source_b_doc": "project",
+                "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+                "contradiction_type": "cv_vs_assessment",
+                "severity": "HIGH",
+                "source_a": "cv (CV-001)",
+                "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+                "source_b": "project (PRO-001)",
+                "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
+              },
+              {
+                "discrepancy_id": "DISC-REQ-02-SKILL-ASSESS",
+                "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+                "source_a_span_id": "INT-001",
+                "source_a_doc": "interview",
+                "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "source_b_span_id": "ASS-001",
+                "source_b_doc": "assessment",
+                "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+                "contradiction_type": "interview_vs_assessment",
+                "severity": "HIGH",
+                "source_a": "interview (INT-001)",
+                "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "source_b": "assessment (ASS-001)",
+                "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
+              }
+            ]
+          },
+          {
+            "req_id": "REQ-03",
+            "requirement_name": "Technical Leadership & Initiative",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "The CV and Interview evidence suggest technical leadership and initiative, while the Assessment evidence contradicts this with a critical failure score and deadlock issues.",
+            "supporting_citations": [
+              "INT-001",
+              "PRO-001"
+            ],
+            "citations": [
+              "INT-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-03-1",
+                "topic": "Technical Leadership & Initiative",
+                "source_a_span_id": "CV-001",
+                "source_a_doc": "cv",
+                "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+                "source_b_span_id": "PRO-001",
+                "source_b_doc": "project",
+                "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+                "contradiction_type": "cv_vs_assessment",
+                "severity": "HIGH",
+                "source_a": "cv (CV-001)",
+                "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+                "source_b": "project (PRO-001)",
+                "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
+              },
+              {
+                "discrepancy_id": "DISC-REQ-03-SKILL-ASSESS",
+                "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+                "source_a_span_id": "INT-001",
+                "source_a_doc": "interview",
+                "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "source_b_span_id": "ASS-001",
+                "source_b_doc": "assessment",
+                "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+                "contradiction_type": "interview_vs_assessment",
+                "severity": "HIGH",
+                "source_a": "interview (INT-001)",
+                "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "source_b": "assessment (ASS-001)",
+                "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
+              }
+            ]
+          },
+          {
+            "req_id": "REQ-04",
+            "requirement_name": "Production Tenure & Operational Reliability",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "The CV and Interview evidence suggest Chloe Bennett has extensive production experience, while the Technical Assessment and Project Document evidence indicate significant issues with her concurrency management.",
+            "supporting_citations": [
+              "INT-001",
+              "CV-001"
+            ],
+            "citations": [
+              "INT-001",
+              "CV-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-001",
+                "quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "document_type": "interview"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-04-1",
+                "topic": "Concurrency Race Conditions",
+                "source_a_span_id": "CV-001",
+                "source_a_doc": "cv",
+                "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+                "source_b_span_id": "PRO-001",
+                "source_b_doc": "project",
+                "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+                "contradiction_type": "cv_vs_assessment",
+                "severity": "HIGH",
+                "source_a": "cv (CV-001)",
+                "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+                "source_b": "project (PRO-001)",
+                "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
+              },
+              {
+                "discrepancy_id": "DISC-REQ-04-SKILL-ASSESS",
+                "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+                "source_a_span_id": "INT-001",
+                "source_a_doc": "interview",
+                "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "source_b_span_id": "ASS-001",
+                "source_b_doc": "assessment",
+                "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+                "contradiction_type": "interview_vs_assessment",
+                "severity": "HIGH",
+                "source_a": "interview (INT-001)",
+                "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "source_b": "assessment (ASS-001)",
+                "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
+              }
+            ]
+          }
+        ],
+        "all_discrepancies": [
+          {
+            "discrepancy_id": "DISC-REQ-01-1",
+            "topic": "Race Condition Prevention in Async Pipelines",
+            "source_a_span_id": "CV-001",
+            "source_a_doc": "cv",
+            "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b_span_id": "PRO-001",
+            "source_b_doc": "project",
+            "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+            "contradiction_type": "technical assessment_vs_interview",
+            "severity": "HIGH",
+            "source_a": "cv (CV-001)",
+            "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b": "project (PRO-001)",
+            "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-01-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "INT-001",
+            "source_a_doc": "interview",
+            "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b_span_id": "ASS-001",
+            "source_b_doc": "assessment",
+            "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+            "contradiction_type": "interview_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "interview (INT-001)",
+            "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b": "assessment (ASS-001)",
+            "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-02-1",
+            "topic": "Concurrency and Race Conditions",
+            "source_a_span_id": "CV-001",
+            "source_a_doc": "cv",
+            "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b_span_id": "PRO-001",
+            "source_b_doc": "project",
+            "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-001)",
+            "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b": "project (PRO-001)",
+            "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-02-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "INT-001",
+            "source_a_doc": "interview",
+            "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b_span_id": "ASS-001",
+            "source_b_doc": "assessment",
+            "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+            "contradiction_type": "interview_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "interview (INT-001)",
+            "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b": "assessment (ASS-001)",
+            "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-03-1",
+            "topic": "Technical Leadership & Initiative",
+            "source_a_span_id": "CV-001",
+            "source_a_doc": "cv",
+            "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b_span_id": "PRO-001",
+            "source_b_doc": "project",
+            "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-001)",
+            "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b": "project (PRO-001)",
+            "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-03-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "INT-001",
+            "source_a_doc": "interview",
+            "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b_span_id": "ASS-001",
+            "source_b_doc": "assessment",
+            "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+            "contradiction_type": "interview_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "interview (INT-001)",
+            "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b": "assessment (ASS-001)",
+            "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-04-1",
+            "topic": "Concurrency Race Conditions",
+            "source_a_span_id": "CV-001",
+            "source_a_doc": "cv",
+            "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b_span_id": "PRO-001",
+            "source_b_doc": "project",
+            "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-001)",
+            "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b": "project (PRO-001)",
+            "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-04-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "INT-001",
+            "source_a_doc": "interview",
+            "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b_span_id": "ASS-001",
+            "source_b_doc": "assessment",
+            "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+            "contradiction_type": "interview_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "interview (INT-001)",
+            "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b": "assessment (ASS-001)",
+            "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
+          }
+        ]
+      }
+    },
+    {
+      "step": "recommendation_writing",
+      "agent": "RecommendationWriterAgent",
+      "output": {
+        "candidate_id": "case_11_adv_interview_vs_assessment",
+        "candidate_name": "Chloe Bennett",
+        "target_role": "Senior Python & Distributed Systems Engineer",
+        "role_fit_score": 56.7,
+        "evidence_consistency_score": 0.0,
+        "quadrant": "REVIEW REQUIRED",
+        "recommendation": "Proceed to human review.",
+        "priority_questions": [
+          "Could you provide specific examples of how you have addressed concurrency race conditions in your previous projects, and how you ensured the reliability of your async pipelines?",
+          "Could you elaborate on your role in the development of the Kafka migration project, including your responsibilities and the architecture you designed?",
+          "Could you walk us through a recent project where you had to implement a concurrency engine, and what steps you took to prevent race conditions and ensure the stability of your system?"
+        ],
+        "key_discrepancies": [
+          {
+            "discrepancy_id": "DISC-REQ-01-1",
+            "topic": "Race Condition Prevention in Async Pipelines",
+            "source_a_span_id": "CV-001",
+            "source_a_doc": "cv",
+            "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b_span_id": "PRO-001",
+            "source_b_doc": "project",
+            "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+            "contradiction_type": "technical assessment_vs_interview",
+            "severity": "HIGH",
+            "source_a": "cv (CV-001)",
+            "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b": "project (PRO-001)",
+            "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-01-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "INT-001",
+            "source_a_doc": "interview",
+            "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b_span_id": "ASS-001",
+            "source_b_doc": "assessment",
+            "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+            "contradiction_type": "interview_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "interview (INT-001)",
+            "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b": "assessment (ASS-001)",
+            "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-02-1",
+            "topic": "Concurrency and Race Conditions",
+            "source_a_span_id": "CV-001",
+            "source_a_doc": "cv",
+            "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b_span_id": "PRO-001",
+            "source_b_doc": "project",
+            "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-001)",
+            "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b": "project (PRO-001)",
+            "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-02-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "INT-001",
+            "source_a_doc": "interview",
+            "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b_span_id": "ASS-001",
+            "source_b_doc": "assessment",
+            "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+            "contradiction_type": "interview_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "interview (INT-001)",
+            "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b": "assessment (ASS-001)",
+            "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-03-1",
+            "topic": "Technical Leadership & Initiative",
+            "source_a_span_id": "CV-001",
+            "source_a_doc": "cv",
+            "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b_span_id": "PRO-001",
+            "source_b_doc": "project",
+            "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-001)",
+            "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b": "project (PRO-001)",
+            "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-03-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "INT-001",
+            "source_a_doc": "interview",
+            "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b_span_id": "ASS-001",
+            "source_b_doc": "assessment",
+            "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+            "contradiction_type": "interview_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "interview (INT-001)",
+            "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b": "assessment (ASS-001)",
+            "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-04-1",
+            "topic": "Concurrency Race Conditions",
+            "source_a_span_id": "CV-001",
+            "source_a_doc": "cv",
+            "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b_span_id": "PRO-001",
+            "source_b_doc": "project",
+            "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+            "contradiction_type": "cv_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "cv (CV-001)",
+            "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+            "source_b": "project (PRO-001)",
+            "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-04-SKILL-ASSESS",
+            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
+            "source_a_span_id": "INT-001",
+            "source_a_doc": "interview",
+            "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b_span_id": "ASS-001",
+            "source_b_doc": "assessment",
+            "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+            "contradiction_type": "interview_vs_assessment",
+            "severity": "HIGH",
+            "source_a": "interview (INT-001)",
+            "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+            "source_b": "assessment (ASS-001)",
+            "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
+          }
+        ],
+        "requirement_table": [
+          {
+            "req_id": "REQ-01",
+            "name": "Core Python & AsyncIO",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
+                "document_type": "assessment"
+              }
+            ],
+            "synthesis": "The technical assessment and interview evidence contradict each other regarding Chloe Bennett's proficiency in preventing race conditions in async pipelines."
+          },
+          {
+            "req_id": "REQ-02",
+            "name": "Distributed Systems & Message Queues",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "INT-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The CV and Interview evidence do not support the Technical Assessment and Project Document evidence, indicating a significant discrepancy in Chloe Bennett's claimed experience and actual performance."
+          },
+          {
+            "req_id": "REQ-03",
+            "name": "Technical Leadership & Initiative",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "INT-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The CV and Interview evidence suggest technical leadership and initiative, while the Assessment evidence contradicts this with a critical failure score and deadlock issues."
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Production Tenure & Operational Reliability",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "INT-001",
+              "CV-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-001",
+                "quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
+                "document_type": "interview"
+              }
+            ],
+            "synthesis": "The CV and Interview evidence suggest Chloe Bennett has extensive production experience, while the Technical Assessment and Project Document evidence indicate significant issues with her concurrency management."
+          }
+        ],
+        "unsupported_claim_count": 0,
+        "contradicted_claim_count": 4,
+        "rubric_baseline_score": 14.2,
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Chloe Bennett | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           56.7 / 100\nEVIDENCE CONSISTENCY                0.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 8 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO        [WARN] CONFLICTING\n  Distributed Systems & Mess   [WARN] CONFLICTING\n  Technical Leadership & Ini   [WARN] CONFLICTING\n  Production Tenure & Operat   [WARN] CONFLICTING\n\nKEY DISCREPANCIES\n  01  Race Condition Prevention in Async Pipelines\n      - cv (CV-001): \"# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.\"\n      - project (PRO-001): \"# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett\"\n  02  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - interview (INT-001): \"# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have \"\n      - assessment (ASS-001): \"# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib\"\n  03  Concurrency and Race Conditions\n      - cv (CV-001): \"# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.\"\n      - project (PRO-001): \"# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett\"\n  04  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - interview (INT-001): \"# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have \"\n      - assessment (ASS-001): \"# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib\"\n  05  Technical Leadership & Initiative\n      - cv (CV-001): \"# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.\"\n      - project (PRO-001): \"# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett\"\n  06  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - interview (INT-001): \"# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have \"\n      - assessment (ASS-001): \"# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib\"\n  07  Concurrency Race Conditions\n      - cv (CV-001): \"# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.\"\n      - project (PRO-001): \"# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett\"\n  08  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - interview (INT-001): \"# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have \"\n      - assessment (ASS-001): \"# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib\"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Could you provide specific examples of how you have addressed concurrency race conditions in your previous projects, and how you ensured the reliability of your async pipelines?\n  -> Could you elaborate on your role in the development of the Kafka migration project, including your responsibilities and the architecture you designed?\n  -> Could you walk us through a recent project where you had to implement a concurrency engine, and what steps you took to prevent race conditions and ensure the stability of your system?\n===================================================================="
+      }
+    }
+  ],
+  "pipeline_latency_sec": 38.42
+}

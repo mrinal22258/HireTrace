@@ -1,0 +1,1360 @@
+{
+  "candidate_id": "case_15_deceptive_centerpiece",
+  "candidate_name": "Alexander Sterling",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "steps": [
+    {
+      "step": "rubric_scoring",
+      "agent": "RubricScorer (Deterministic Baseline A)",
+      "output": {
+        "candidate_id": "case_15_deceptive_centerpiece",
+        "raw_total": 95.0,
+        "normalized_score": 79.17,
+        "category_scores": {
+          "open_source": 25.0,
+          "self_projects": 20.0,
+          "production": 25.0,
+          "technical_skills": 10.0,
+          "bonus_points": 15.0
+        },
+        "summary_audit": [
+          "Public repository/profile present (+5)",
+          "Maintained open-source repos: 6 (+10.0)",
+          "Authored work has significant community traction (stars >= 50: 250) (+10)",
+          "End-to-end architecture/system project (+10)",
+          "Production-grade setup (containers, CI/CD, messaging) (+10)",
+          "Senior production tenure: 8.0 years (+20)",
+          "High-throughput / mission-critical SLA experience (+5)",
+          "Primary core language and runtime alignment (+4)",
+          "Database & persistence systems alignment (+3)",
+          "Distributed systems & cloud infrastructure alignment (+3)",
+          "Technical writing, publications, or conference presentations (+5)",
+          "Formal engineering mentorship or team leadership (+5)",
+          "Academic achievements or competitive programming record (+5)"
+        ],
+        "details": {
+          "open_source": {
+            "score": 25.0,
+            "max": 35,
+            "notes": [
+              "Public repository/profile present (+5)",
+              "Maintained open-source repos: 6 (+10.0)",
+              "Authored work has significant community traction (stars >= 50: 250) (+10)"
+            ]
+          },
+          "self_projects": {
+            "score": 20.0,
+            "max": 30,
+            "notes": [
+              "End-to-end architecture/system project (+10)",
+              "Production-grade setup (containers, CI/CD, messaging) (+10)"
+            ]
+          },
+          "production": {
+            "score": 25.0,
+            "max": 25,
+            "notes": [
+              "Senior production tenure: 8.0 years (+20)",
+              "High-throughput / mission-critical SLA experience (+5)"
+            ]
+          },
+          "technical_skills": {
+            "score": 10.0,
+            "max": 10,
+            "notes": [
+              "Primary core language and runtime alignment (+4)",
+              "Database & persistence systems alignment (+3)",
+              "Distributed systems & cloud infrastructure alignment (+3)"
+            ]
+          },
+          "bonus_points": {
+            "score": 15.0,
+            "max": 20,
+            "notes": [
+              "Technical writing, publications, or conference presentations (+5)",
+              "Formal engineering mentorship or team leadership (+5)",
+              "Academic achievements or competitive programming record (+5)"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "step": "retrieval_index_built",
+      "total_spans_indexed": 40
+    },
+    {
+      "step": "requirement_mapping",
+      "agent": "RequirementMappingAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "name": "Core Python & AsyncIO",
+          "category": "technical_skills",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "assessment",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-02",
+          "name": "Distributed Systems & Message Queues",
+          "category": "architecture",
+          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-03",
+          "name": "Technical Leadership & Initiative",
+          "category": "leadership",
+          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "importance": "IMPORTANT",
+          "expected_sources": [
+            "cv",
+            "interview",
+            "project"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Production Tenure & Operational Reliability",
+          "category": "production_experience",
+          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "interview"
+          ]
+        }
+      ]
+    },
+    {
+      "step": "evidence_aggregation",
+      "agent": "EvidenceAggregationAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "requirement_name": "Core Python & AsyncIO",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 16,
+          "cv_spans": [
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Core Languages: Python 3.10/3.11/3.12 (Expert, AsyncIO, uvloop, C-Extensions), Go, Rust, C++",
+              "metadata": {
+                "raw_line": "- Core Languages: Python 3.10/3.11/3.12 (Expert, AsyncIO, uvloop, C-Extensions), Go, Rust, C++"
+              },
+              "similarity_score": 0.436
+            },
+            {
+              "span_id": "CV-014",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Architected asynchronous event ingestion pipelines using Python, AsyncIO, and Redis Streams.",
+              "metadata": {
+                "raw_line": "- Architected asynchronous event ingestion pipelines using Python, AsyncIO, and Redis Streams."
+              },
+              "similarity_score": 0.427
+            },
+            {
+              "span_id": "CV-010",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissioning legacy systems with 100% data integrity.",
+              "metadata": {
+                "raw_line": "- Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissioning legacy systems with 100% data integrity."
+              },
+              "similarity_score": 0.393
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Executive Summary\nVisionary Distributed Systems Leader with over 8 years of engineering mastery across high-throughput financial architectures, asynchronous Python systems, and real-time Kafka event streams. Renowned for orchestrating zero-downtime enterprise transformations and mentoring high-performing engineering organizations.",
+              "metadata": {},
+              "similarity_score": 0.339
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-003",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "[00:25] Alex: \"Let's dive into the core migration project mentioned on your CV: 'Led migration of legacy monolithic core to Apache Kafka for a 7-person team.' What was your specific architectural authority and leadership scope?\"\n[00:28] Alexander: \"I was deeply involved with the Kafka rollout. I actually learned Kafka on the job after joining FinFlow, diving into consumer group rebalancing and Avro schemas to support the core transition.\"\n[00:30] Sarah: \"You learned Kafka on the job after joining 18 months ago? But your CV describes you as having 8+ years of distributed systems and Kafka mastery leading the migration.\"\n[00:32] Alexander: \"I meant that while I understood the theoretical messaging paradigms previously, FinFlow was where I first executed commercial Kafka streaming at scale.\"",
+              "metadata": {},
+              "similarity_score": 0.378
+            },
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you start by clarifying your timeline at FinFlow Technologies?\"\n[00:08] Alexander: \"Certainly. At FinFlow I took charge of our core modernization. I joined initially on a specialized contractor basis around 18 months ago, before transitioning to help drive the Kafka initiative.\"\n[00:10] Sarah: \"Wait, your CV lists your title as 'Lead Distributed Systems Architect' from January 2022 to the present, which would be over 3.5 years. But you just mentioned you joined ~18 months ago on a contract basis?\"\n[00:12] Alexander: \"Well, yes, my formal involvement with the FinFlow project started ~18 months ago initially on a contract basis through my consulting entity. The earlier dates represent preliminary external advisory discussions regarding their architecture.\"",
+              "metadata": {},
+              "similarity_score": 0.366
+            },
+            {
+              "span_id": "INT-004",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "[00:45] Alex: \"In production, how did you configure Kafka consumer group offset commits to prevent duplicate processing?\"\n[00:48] Alexander: \"We relied on the default automated commits in the library configuration with a 5-second interval.\"\n[00:50] Alex: \"Default auto-commit with a 5-second interval will cause data duplication during sudden consumer worker crashes or rebalances. Did you implement idempotent consumer keys or manual offset management?\"\n[00:52] Alexander: \"The core framework layer was configured by our principal architect, Dr. Vance; my focus was primarily writing the message serialization wrappers.\"",
+              "metadata": {},
+              "similarity_score": 0.365
+            },
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of Infrastructure) & Alex Mercer (Principal Architect)\nDate: 2025-02-22 | Duration: 65 minutes | Format: Video & Live Architecture Review",
+              "metadata": {},
+              "similarity_score": 0.295
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-007",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "## Evaluator Comments\n\"The candidate clearly knows how to write clean, idiomatic Python code and uses modern AsyncIO syntax effectively. However, the implementation revealed surprising gaps in distributed systems edge cases: partition rebalance signals were ignored, and offset committing was left to default timers, leading to duplicate event processing under failure simulation.\"",
+              "metadata": {},
+              "similarity_score": 0.357
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment Report: Alexander Sterling\nAssessment Challenge: \"Async Distributed Task Broker with Partition Rebalance Handling\"\nSubmitted: 2025-02-23 | Evaluator: Staff Infrastructure Engineer\nScore: 78 / 100 | Grade: Competent (Tier: Silver)",
+              "metadata": {},
+              "similarity_score": 0.291
+            },
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Partition Rebalance Stress Test: FAILED (Produced 14 duplicate message processing events due to unhandled offset commits during simulated worker crashes)",
+              "metadata": {
+                "raw_line": "- Partition Rebalance Stress Test: FAILED (Produced 14 duplicate message processing events due to unhandled offset commits during simulated worker crashes)"
+              },
+              "similarity_score": 0.219
+            },
+            {
+              "span_id": "ASS-003",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Asynchronous API Structure: PASSED (Clean FastAPI async endpoints with Pydantic validation)",
+              "metadata": {
+                "raw_line": "- Asynchronous API Structure: PASSED (Clean FastAPI async endpoints with Pydantic validation)"
+              },
+              "similarity_score": 0.2
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-011",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexander was tasked with developing Python serialization adapters for legacy message formats under the technical direction of Dr. Vance.",
+              "metadata": {},
+              "similarity_score": 0.37
+            },
+            {
+              "span_id": "PRO-010",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "## Executive Project Charter\nUnder the leadership of Principal Architect Dr. Robert Vance, the 7-person Core Services team was chartered in August 2023 to decouple the legacy monolithic ledger into an event-driven architecture using Apache Kafka.",
+              "metadata": {},
+              "similarity_score": 0.35
+            },
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# Project RFC-042: FinFlow Core Monolith to Kafka Streaming Migration\nProject: Core Banking & Transaction Telemetry Migration\nDocument ID: FIN-RFC-2023-042 | Version: 2.4 | Classification: Internal Confidential\nCompany: FinFlow Technologies Inc.",
+              "metadata": {},
+              "similarity_score": 0.345
+            },
+            {
+              "span_id": "PRO-003",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Principal System Architect & Project Lead: Dr. Robert Vance, PhD (Architecture Lead, Kafka Core Topology)",
+              "metadata": {
+                "raw_line": "- Principal System Architect & Project Lead: Dr. Robert Vance, PhD (Architecture Lead, Kafka Core Topology)"
+              },
+              "similarity_score": 0.271
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "technical_skills",
+            "score": 10.0,
+            "normalized_total": 79.16666666666666
+          }
+        },
+        {
+          "req_id": "REQ-02",
+          "requirement_name": "Distributed Systems & Message Queues",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 16,
+          "cv_spans": [
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Executive Summary\nVisionary Distributed Systems Leader with over 8 years of engineering mastery across high-throughput financial architectures, asynchronous Python systems, and real-time Kafka event streams. Renowned for orchestrating zero-downtime enterprise transformations and mentoring high-performing engineering organizations.",
+              "metadata": {},
+              "similarity_score": 0.45
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core (6 repos, 250+ stars)\nLinkedIn: linkedin.com/in/alexander-sterling-dist | Location: San Francisco, CA",
+              "metadata": {},
+              "similarity_score": 0.325
+            },
+            {
+              "span_id": "CV-014",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Architected asynchronous event ingestion pipelines using Python, AsyncIO, and Redis Streams.",
+              "metadata": {
+                "raw_line": "- Architected asynchronous event ingestion pipelines using Python, AsyncIO, and Redis Streams."
+              },
+              "similarity_score": 0.323
+            },
+            {
+              "span_id": "CV-009",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Lead Distributed Systems Architect | FinFlow Technologies (Jan 2022 - Present | 3.5 years continuous tenure)",
+              "metadata": {
+                "raw_line": "Lead Distributed Systems Architect | FinFlow Technologies (Jan 2022 - Present | 3.5 years continuous tenure)"
+              },
+              "similarity_score": 0.308
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you start by clarifying your timeline at FinFlow Technologies?\"\n[00:08] Alexander: \"Certainly. At FinFlow I took charge of our core modernization. I joined initially on a specialized contractor basis around 18 months ago, before transitioning to help drive the Kafka initiative.\"\n[00:10] Sarah: \"Wait, your CV lists your title as 'Lead Distributed Systems Architect' from January 2022 to the present, which would be over 3.5 years. But you just mentioned you joined ~18 months ago on a contract basis?\"\n[00:12] Alexander: \"Well, yes, my formal involvement with the FinFlow project started ~18 months ago initially on a contract basis through my consulting entity. The earlier dates represent preliminary external advisory discussions regarding their architecture.\"",
+              "metadata": {},
+              "similarity_score": 0.405
+            },
+            {
+              "span_id": "INT-003",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "[00:25] Alex: \"Let's dive into the core migration project mentioned on your CV: 'Led migration of legacy monolithic core to Apache Kafka for a 7-person team.' What was your specific architectural authority and leadership scope?\"\n[00:28] Alexander: \"I was deeply involved with the Kafka rollout. I actually learned Kafka on the job after joining FinFlow, diving into consumer group rebalancing and Avro schemas to support the core transition.\"\n[00:30] Sarah: \"You learned Kafka on the job after joining 18 months ago? But your CV describes you as having 8+ years of distributed systems and Kafka mastery leading the migration.\"\n[00:32] Alexander: \"I meant that while I understood the theoretical messaging paradigms previously, FinFlow was where I first executed commercial Kafka streaming at scale.\"",
+              "metadata": {},
+              "similarity_score": 0.372
+            },
+            {
+              "span_id": "INT-004",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "[00:45] Alex: \"In production, how did you configure Kafka consumer group offset commits to prevent duplicate processing?\"\n[00:48] Alexander: \"We relied on the default automated commits in the library configuration with a 5-second interval.\"\n[00:50] Alex: \"Default auto-commit with a 5-second interval will cause data duplication during sudden consumer worker crashes or rebalances. Did you implement idempotent consumer keys or manual offset management?\"\n[00:52] Alexander: \"The core framework layer was configured by our principal architect, Dr. Vance; my focus was primarily writing the message serialization wrappers.\"",
+              "metadata": {},
+              "similarity_score": 0.326
+            },
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of Infrastructure) & Alex Mercer (Principal Architect)\nDate: 2025-02-22 | Duration: 65 minutes | Format: Video & Live Architecture Review",
+              "metadata": {},
+              "similarity_score": 0.316
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-007",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "## Evaluator Comments\n\"The candidate clearly knows how to write clean, idiomatic Python code and uses modern AsyncIO syntax effectively. However, the implementation revealed surprising gaps in distributed systems edge cases: partition rebalance signals were ignored, and offset committing was left to default timers, leading to duplicate event processing under failure simulation.\"",
+              "metadata": {},
+              "similarity_score": 0.346
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment Report: Alexander Sterling\nAssessment Challenge: \"Async Distributed Task Broker with Partition Rebalance Handling\"\nSubmitted: 2025-02-23 | Evaluator: Staff Infrastructure Engineer\nScore: 78 / 100 | Grade: Competent (Tier: Silver)",
+              "metadata": {},
+              "similarity_score": 0.334
+            },
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Partition Rebalance Stress Test: FAILED (Produced 14 duplicate message processing events due to unhandled offset commits during simulated worker crashes)",
+              "metadata": {
+                "raw_line": "- Partition Rebalance Stress Test: FAILED (Produced 14 duplicate message processing events due to unhandled offset commits during simulated worker crashes)"
+              },
+              "similarity_score": 0.286
+            },
+            {
+              "span_id": "ASS-004",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Basic Message Ingestion: PASSED (Successfully pushed events into Redis queue)",
+              "metadata": {
+                "raw_line": "- Basic Message Ingestion: PASSED (Successfully pushed events into Redis queue)"
+              },
+              "similarity_score": 0.255
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# Project RFC-042: FinFlow Core Monolith to Kafka Streaming Migration\nProject: Core Banking & Transaction Telemetry Migration\nDocument ID: FIN-RFC-2023-042 | Version: 2.4 | Classification: Internal Confidential\nCompany: FinFlow Technologies Inc.",
+              "metadata": {},
+              "similarity_score": 0.29
+            },
+            {
+              "span_id": "PRO-006",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoint mapping)",
+              "metadata": {
+                "raw_line": "- Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoint mapping)"
+              },
+              "similarity_score": 0.289
+            },
+            {
+              "span_id": "PRO-011",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexander was tasked with developing Python serialization adapters for legacy message formats under the technical direction of Dr. Vance.",
+              "metadata": {},
+              "similarity_score": 0.284
+            },
+            {
+              "span_id": "PRO-003",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Principal System Architect & Project Lead: Dr. Robert Vance, PhD (Architecture Lead, Kafka Core Topology)",
+              "metadata": {
+                "raw_line": "- Principal System Architect & Project Lead: Dr. Robert Vance, PhD (Architecture Lead, Kafka Core Topology)"
+              },
+              "similarity_score": 0.244
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 79.16666666666666
+          }
+        },
+        {
+          "req_id": "REQ-03",
+          "requirement_name": "Technical Leadership & Initiative",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 16,
+          "cv_spans": [
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Executive Summary\nVisionary Distributed Systems Leader with over 8 years of engineering mastery across high-throughput financial architectures, asynchronous Python systems, and real-time Kafka event streams. Renowned for orchestrating zero-downtime enterprise transformations and mentoring high-performing engineering organizations.",
+              "metadata": {},
+              "similarity_score": 0.393
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core (6 repos, 250+ stars)\nLinkedIn: linkedin.com/in/alexander-sterling-dist | Location: San Francisco, CA",
+              "metadata": {},
+              "similarity_score": 0.356
+            },
+            {
+              "span_id": "CV-007",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Systems Leadership: Author of Enterprise RFCs, Head of System Architecture, 24/7 On-Call Escalation Commander",
+              "metadata": {
+                "raw_line": "- Systems Leadership: Author of Enterprise RFCs, Head of System Architecture, 24/7 On-Call Escalation Commander"
+              },
+              "similarity_score": 0.326
+            },
+            {
+              "span_id": "CV-010",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissioning legacy systems with 100% data integrity.",
+              "metadata": {
+                "raw_line": "- Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissioning legacy systems with 100% data integrity."
+              },
+              "similarity_score": 0.325
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-003",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "[00:25] Alex: \"Let's dive into the core migration project mentioned on your CV: 'Led migration of legacy monolithic core to Apache Kafka for a 7-person team.' What was your specific architectural authority and leadership scope?\"\n[00:28] Alexander: \"I was deeply involved with the Kafka rollout. I actually learned Kafka on the job after joining FinFlow, diving into consumer group rebalancing and Avro schemas to support the core transition.\"\n[00:30] Sarah: \"You learned Kafka on the job after joining 18 months ago? But your CV describes you as having 8+ years of distributed systems and Kafka mastery leading the migration.\"\n[00:32] Alexander: \"I meant that while I understood the theoretical messaging paradigms previously, FinFlow was where I first executed commercial Kafka streaming at scale.\"",
+              "metadata": {},
+              "similarity_score": 0.464
+            },
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you start by clarifying your timeline at FinFlow Technologies?\"\n[00:08] Alexander: \"Certainly. At FinFlow I took charge of our core modernization. I joined initially on a specialized contractor basis around 18 months ago, before transitioning to help drive the Kafka initiative.\"\n[00:10] Sarah: \"Wait, your CV lists your title as 'Lead Distributed Systems Architect' from January 2022 to the present, which would be over 3.5 years. But you just mentioned you joined ~18 months ago on a contract basis?\"\n[00:12] Alexander: \"Well, yes, my formal involvement with the FinFlow project started ~18 months ago initially on a contract basis through my consulting entity. The earlier dates represent preliminary external advisory discussions regarding their architecture.\"",
+              "metadata": {},
+              "similarity_score": 0.432
+            },
+            {
+              "span_id": "INT-004",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "[00:45] Alex: \"In production, how did you configure Kafka consumer group offset commits to prevent duplicate processing?\"\n[00:48] Alexander: \"We relied on the default automated commits in the library configuration with a 5-second interval.\"\n[00:50] Alex: \"Default auto-commit with a 5-second interval will cause data duplication during sudden consumer worker crashes or rebalances. Did you implement idempotent consumer keys or manual offset management?\"\n[00:52] Alexander: \"The core framework layer was configured by our principal architect, Dr. Vance; my focus was primarily writing the message serialization wrappers.\"",
+              "metadata": {},
+              "similarity_score": 0.394
+            },
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of Infrastructure) & Alex Mercer (Principal Architect)\nDate: 2025-02-22 | Duration: 65 minutes | Format: Video & Live Architecture Review",
+              "metadata": {},
+              "similarity_score": 0.339
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-007",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "## Evaluator Comments\n\"The candidate clearly knows how to write clean, idiomatic Python code and uses modern AsyncIO syntax effectively. However, the implementation revealed surprising gaps in distributed systems edge cases: partition rebalance signals were ignored, and offset committing was left to default timers, leading to duplicate event processing under failure simulation.\"",
+              "metadata": {},
+              "similarity_score": 0.373
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment Report: Alexander Sterling\nAssessment Challenge: \"Async Distributed Task Broker with Partition Rebalance Handling\"\nSubmitted: 2025-02-23 | Evaluator: Staff Infrastructure Engineer\nScore: 78 / 100 | Grade: Competent (Tier: Silver)",
+              "metadata": {},
+              "similarity_score": 0.331
+            },
+            {
+              "span_id": "ASS-003",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Asynchronous API Structure: PASSED (Clean FastAPI async endpoints with Pydantic validation)",
+              "metadata": {
+                "raw_line": "- Asynchronous API Structure: PASSED (Clean FastAPI async endpoints with Pydantic validation)"
+              },
+              "similarity_score": 0.284
+            },
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Partition Rebalance Stress Test: FAILED (Produced 14 duplicate message processing events due to unhandled offset commits during simulated worker crashes)",
+              "metadata": {
+                "raw_line": "- Partition Rebalance Stress Test: FAILED (Produced 14 duplicate message processing events due to unhandled offset commits during simulated worker crashes)"
+              },
+              "similarity_score": 0.225
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# Project RFC-042: FinFlow Core Monolith to Kafka Streaming Migration\nProject: Core Banking & Transaction Telemetry Migration\nDocument ID: FIN-RFC-2023-042 | Version: 2.4 | Classification: Internal Confidential\nCompany: FinFlow Technologies Inc.",
+              "metadata": {},
+              "similarity_score": 0.379
+            },
+            {
+              "span_id": "PRO-010",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "## Executive Project Charter\nUnder the leadership of Principal Architect Dr. Robert Vance, the 7-person Core Services team was chartered in August 2023 to decouple the legacy monolithic ledger into an event-driven architecture using Apache Kafka.",
+              "metadata": {},
+              "similarity_score": 0.352
+            },
+            {
+              "span_id": "PRO-011",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexander was tasked with developing Python serialization adapters for legacy message formats under the technical direction of Dr. Vance.",
+              "metadata": {},
+              "similarity_score": 0.342
+            },
+            {
+              "span_id": "PRO-006",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoint mapping)",
+              "metadata": {
+                "raw_line": "- Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoint mapping)"
+              },
+              "similarity_score": 0.337
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 15.0,
+            "normalized_total": 79.16666666666666
+          }
+        },
+        {
+          "req_id": "REQ-04",
+          "requirement_name": "Production Tenure & Operational Reliability",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 16,
+          "cv_spans": [
+            {
+              "span_id": "CV-012",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident commander for tier-1 production outages.",
+              "metadata": {
+                "raw_line": "- 3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident commander for tier-1 production outages."
+              },
+              "similarity_score": 0.461
+            },
+            {
+              "span_id": "CV-007",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Systems Leadership: Author of Enterprise RFCs, Head of System Architecture, 24/7 On-Call Escalation Commander",
+              "metadata": {
+                "raw_line": "- Systems Leadership: Author of Enterprise RFCs, Head of System Architecture, 24/7 On-Call Escalation Commander"
+              },
+              "similarity_score": 0.342
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core (6 repos, 250+ stars)\nLinkedIn: linkedin.com/in/alexander-sterling-dist | Location: San Francisco, CA",
+              "metadata": {},
+              "similarity_score": 0.313
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Executive Summary\nVisionary Distributed Systems Leader with over 8 years of engineering mastery across high-throughput financial architectures, asynchronous Python systems, and real-time Kafka event streams. Renowned for orchestrating zero-downtime enterprise transformations and mentoring high-performing engineering organizations.",
+              "metadata": {},
+              "similarity_score": 0.312
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-003",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "[00:25] Alex: \"Let's dive into the core migration project mentioned on your CV: 'Led migration of legacy monolithic core to Apache Kafka for a 7-person team.' What was your specific architectural authority and leadership scope?\"\n[00:28] Alexander: \"I was deeply involved with the Kafka rollout. I actually learned Kafka on the job after joining FinFlow, diving into consumer group rebalancing and Avro schemas to support the core transition.\"\n[00:30] Sarah: \"You learned Kafka on the job after joining 18 months ago? But your CV describes you as having 8+ years of distributed systems and Kafka mastery leading the migration.\"\n[00:32] Alexander: \"I meant that while I understood the theoretical messaging paradigms previously, FinFlow was where I first executed commercial Kafka streaming at scale.\"",
+              "metadata": {},
+              "similarity_score": 0.405
+            },
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you start by clarifying your timeline at FinFlow Technologies?\"\n[00:08] Alexander: \"Certainly. At FinFlow I took charge of our core modernization. I joined initially on a specialized contractor basis around 18 months ago, before transitioning to help drive the Kafka initiative.\"\n[00:10] Sarah: \"Wait, your CV lists your title as 'Lead Distributed Systems Architect' from January 2022 to the present, which would be over 3.5 years. But you just mentioned you joined ~18 months ago on a contract basis?\"\n[00:12] Alexander: \"Well, yes, my formal involvement with the FinFlow project started ~18 months ago initially on a contract basis through my consulting entity. The earlier dates represent preliminary external advisory discussions regarding their architecture.\"",
+              "metadata": {},
+              "similarity_score": 0.404
+            },
+            {
+              "span_id": "INT-004",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "[00:45] Alex: \"In production, how did you configure Kafka consumer group offset commits to prevent duplicate processing?\"\n[00:48] Alexander: \"We relied on the default automated commits in the library configuration with a 5-second interval.\"\n[00:50] Alex: \"Default auto-commit with a 5-second interval will cause data duplication during sudden consumer worker crashes or rebalances. Did you implement idempotent consumer keys or manual offset management?\"\n[00:52] Alexander: \"The core framework layer was configured by our principal architect, Dr. Vance; my focus was primarily writing the message serialization wrappers.\"",
+              "metadata": {},
+              "similarity_score": 0.391
+            },
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of Infrastructure) & Alex Mercer (Principal Architect)\nDate: 2025-02-22 | Duration: 65 minutes | Format: Video & Live Architecture Review",
+              "metadata": {},
+              "similarity_score": 0.351
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-007",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "## Evaluator Comments\n\"The candidate clearly knows how to write clean, idiomatic Python code and uses modern AsyncIO syntax effectively. However, the implementation revealed surprising gaps in distributed systems edge cases: partition rebalance signals were ignored, and offset committing was left to default timers, leading to duplicate event processing under failure simulation.\"",
+              "metadata": {},
+              "similarity_score": 0.33
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment Report: Alexander Sterling\nAssessment Challenge: \"Async Distributed Task Broker with Partition Rebalance Handling\"\nSubmitted: 2025-02-23 | Evaluator: Staff Infrastructure Engineer\nScore: 78 / 100 | Grade: Competent (Tier: Silver)",
+              "metadata": {},
+              "similarity_score": 0.303
+            },
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Partition Rebalance Stress Test: FAILED (Produced 14 duplicate message processing events due to unhandled offset commits during simulated worker crashes)",
+              "metadata": {
+                "raw_line": "- Partition Rebalance Stress Test: FAILED (Produced 14 duplicate message processing events due to unhandled offset commits during simulated worker crashes)"
+              },
+              "similarity_score": 0.276
+            },
+            {
+              "span_id": "ASS-004",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Basic Message Ingestion: PASSED (Successfully pushed events into Redis queue)",
+              "metadata": {
+                "raw_line": "- Basic Message Ingestion: PASSED (Successfully pushed events into Redis queue)"
+              },
+              "similarity_score": 0.195
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# Project RFC-042: FinFlow Core Monolith to Kafka Streaming Migration\nProject: Core Banking & Transaction Telemetry Migration\nDocument ID: FIN-RFC-2023-042 | Version: 2.4 | Classification: Internal Confidential\nCompany: FinFlow Technologies Inc.",
+              "metadata": {},
+              "similarity_score": 0.36
+            },
+            {
+              "span_id": "PRO-011",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexander was tasked with developing Python serialization adapters for legacy message formats under the technical direction of Dr. Vance.",
+              "metadata": {},
+              "similarity_score": 0.353
+            },
+            {
+              "span_id": "PRO-006",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoint mapping)",
+              "metadata": {
+                "raw_line": "- Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoint mapping)"
+              },
+              "similarity_score": 0.31
+            },
+            {
+              "span_id": "PRO-010",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "## Executive Project Charter\nUnder the leadership of Principal Architect Dr. Robert Vance, the 7-person Core Services team was chartered in August 2023 to decouple the legacy monolithic ledger into an event-driven architecture using Apache Kafka.",
+              "metadata": {},
+              "similarity_score": 0.282
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "production",
+            "score": 25.0,
+            "normalized_total": 79.16666666666666
+          }
+        }
+      ]
+    },
+    {
+      "step": "cross_source_verification",
+      "agent": "CrossSourceVerificationAgent",
+      "output": {
+        "candidate_id": "case_15_deceptive_centerpiece",
+        "total_requirements": 4,
+        "supported_count": 0,
+        "contradicted_count": 4,
+        "insufficient_count": 0,
+        "consistency_score": 0.0,
+        "verifications": [
+          {
+            "req_id": "REQ-01",
+            "requirement_name": "Core Python & AsyncIO",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "Analyzed 4 source(s).",
+            "supporting_citations": [
+              "CV-004",
+              "CV-014"
+            ],
+            "citations": [
+              "CV-004",
+              "CV-014"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Core Languages: Python 3.10/3.11/3.12 (Expert, AsyncIO, uvloop, C-Extensions), Go, Rust, C++",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-014",
+                "quote": "Architected asynchronous event ingestion pipelines using Python, AsyncIO, and Redis Streams.",
+                "document_type": "cv"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-01-ROLE-OWNERSHIP",
+                "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
+                "source_a_span_id": "CV-010",
+                "source_a_doc": "cv",
+                "source_a_quote": "Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin",
+                "source_b_span_id": "PRO-011",
+                "source_b_doc": "project",
+                "source_b_quote": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande",
+                "contradiction_type": "cv_vs_project",
+                "severity": "HIGH",
+                "source_a": "cv (CV-010)",
+                "quote_a": "Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin",
+                "source_b": "project (PRO-011)",
+                "quote_b": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande"
+              }
+            ]
+          },
+          {
+            "req_id": "REQ-02",
+            "requirement_name": "Distributed Systems & Message Queues",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "Analyzed 4 source(s).",
+            "supporting_citations": [
+              "CV-002",
+              "CV-001"
+            ],
+            "citations": [
+              "CV-002",
+              "CV-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-002",
+                "quote": "## Executive Summary\nVisionary Distributed Systems Leader with over 8 years of engineering mastery across high-throughput financial architec",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+                "document_type": "cv"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-02-TENURE",
+                "topic": "Employment Tenure Discrepancy (Finflow)",
+                "source_a_span_id": "CV-009",
+                "source_a_doc": "cv",
+                "source_a_quote": "Lead Distributed Systems Architect | FinFlow Technologies (Jan 2022 - Present | 3.5 years continuous tenure)",
+                "source_b_span_id": "INT-002",
+                "source_b_doc": "interview",
+                "source_b_quote": "[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you sta",
+                "contradiction_type": "cv_vs_interview",
+                "severity": "HIGH",
+                "source_a": "cv (CV-009)",
+                "quote_a": "Lead Distributed Systems Architect | FinFlow Technologies (Jan 2022 - Present | 3.5 years continuous tenure)",
+                "source_b": "interview (INT-002)",
+                "quote_b": "[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you sta"
+              },
+              {
+                "discrepancy_id": "DISC-REQ-02-ROLE-OWNERSHIP",
+                "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
+                "source_a_span_id": "CV-001",
+                "source_a_doc": "cv",
+                "source_a_quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+                "source_b_span_id": "PRO-006",
+                "source_b_doc": "project",
+                "source_b_quote": "Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoi",
+                "contradiction_type": "cv_vs_project",
+                "severity": "HIGH",
+                "source_a": "cv (CV-001)",
+                "quote_a": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+                "source_b": "project (PRO-006)",
+                "quote_b": "Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoi"
+              }
+            ]
+          },
+          {
+            "req_id": "REQ-03",
+            "requirement_name": "Technical Leadership & Initiative",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "Analyzed 4 source(s).",
+            "supporting_citations": [
+              "CV-002",
+              "CV-001"
+            ],
+            "citations": [
+              "CV-002",
+              "CV-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-002",
+                "quote": "## Executive Summary\nVisionary Distributed Systems Leader with over 8 years of engineering mastery across high-throughput financial architec",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+                "document_type": "cv"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-03-ROLE-OWNERSHIP",
+                "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
+                "source_a_span_id": "CV-001",
+                "source_a_doc": "cv",
+                "source_a_quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+                "source_b_span_id": "PRO-010",
+                "source_b_doc": "project",
+                "source_b_quote": "## Executive Project Charter\nUnder the leadership of Principal Architect Dr. Robert Vance, the 7-person Core Services team was chartered in ",
+                "contradiction_type": "cv_vs_project",
+                "severity": "HIGH",
+                "source_a": "cv (CV-001)",
+                "quote_a": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+                "source_b": "project (PRO-010)",
+                "quote_b": "## Executive Project Charter\nUnder the leadership of Principal Architect Dr. Robert Vance, the 7-person Core Services team was chartered in "
+              }
+            ]
+          },
+          {
+            "req_id": "REQ-04",
+            "requirement_name": "Production Tenure & Operational Reliability",
+            "status": "CONTRADICTED",
+            "confidence": 0.9,
+            "synthesis": "Analyzed 4 source(s).",
+            "supporting_citations": [
+              "CV-012",
+              "CV-007"
+            ],
+            "citations": [
+              "CV-012",
+              "CV-007"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-012",
+                "quote": "3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident comman",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-007",
+                "quote": "Systems Leadership: Author of Enterprise RFCs, Head of System Architecture, 24/7 On-Call Escalation Commander",
+                "document_type": "cv"
+              }
+            ],
+            "discrepancies": [
+              {
+                "discrepancy_id": "DISC-REQ-04-ROLE-OWNERSHIP",
+                "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
+                "source_a_span_id": "CV-012",
+                "source_a_doc": "cv",
+                "source_a_quote": "3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident comman",
+                "source_b_span_id": "PRO-011",
+                "source_b_doc": "project",
+                "source_b_quote": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande",
+                "contradiction_type": "cv_vs_project",
+                "severity": "HIGH",
+                "source_a": "cv (CV-012)",
+                "quote_a": "3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident comman",
+                "source_b": "project (PRO-011)",
+                "quote_b": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande"
+              }
+            ]
+          }
+        ],
+        "all_discrepancies": [
+          {
+            "discrepancy_id": "DISC-REQ-01-ROLE-OWNERSHIP",
+            "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
+            "source_a_span_id": "CV-010",
+            "source_a_doc": "cv",
+            "source_a_quote": "Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin",
+            "source_b_span_id": "PRO-011",
+            "source_b_doc": "project",
+            "source_b_quote": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande",
+            "contradiction_type": "cv_vs_project",
+            "severity": "HIGH",
+            "source_a": "cv (CV-010)",
+            "quote_a": "Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin",
+            "source_b": "project (PRO-011)",
+            "quote_b": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-02-TENURE",
+            "topic": "Employment Tenure Discrepancy (Finflow)",
+            "source_a_span_id": "CV-009",
+            "source_a_doc": "cv",
+            "source_a_quote": "Lead Distributed Systems Architect | FinFlow Technologies (Jan 2022 - Present | 3.5 years continuous tenure)",
+            "source_b_span_id": "INT-002",
+            "source_b_doc": "interview",
+            "source_b_quote": "[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you sta",
+            "contradiction_type": "cv_vs_interview",
+            "severity": "HIGH",
+            "source_a": "cv (CV-009)",
+            "quote_a": "Lead Distributed Systems Architect | FinFlow Technologies (Jan 2022 - Present | 3.5 years continuous tenure)",
+            "source_b": "interview (INT-002)",
+            "quote_b": "[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you sta"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-02-ROLE-OWNERSHIP",
+            "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
+            "source_a_span_id": "CV-001",
+            "source_a_doc": "cv",
+            "source_a_quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+            "source_b_span_id": "PRO-006",
+            "source_b_doc": "project",
+            "source_b_quote": "Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoi",
+            "contradiction_type": "cv_vs_project",
+            "severity": "HIGH",
+            "source_a": "cv (CV-001)",
+            "quote_a": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+            "source_b": "project (PRO-006)",
+            "quote_b": "Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoi"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-03-ROLE-OWNERSHIP",
+            "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
+            "source_a_span_id": "CV-001",
+            "source_a_doc": "cv",
+            "source_a_quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+            "source_b_span_id": "PRO-010",
+            "source_b_doc": "project",
+            "source_b_quote": "## Executive Project Charter\nUnder the leadership of Principal Architect Dr. Robert Vance, the 7-person Core Services team was chartered in ",
+            "contradiction_type": "cv_vs_project",
+            "severity": "HIGH",
+            "source_a": "cv (CV-001)",
+            "quote_a": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+            "source_b": "project (PRO-010)",
+            "quote_b": "## Executive Project Charter\nUnder the leadership of Principal Architect Dr. Robert Vance, the 7-person Core Services team was chartered in "
+          },
+          {
+            "discrepancy_id": "DISC-REQ-04-ROLE-OWNERSHIP",
+            "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
+            "source_a_span_id": "CV-012",
+            "source_a_doc": "cv",
+            "source_a_quote": "3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident comman",
+            "source_b_span_id": "PRO-011",
+            "source_b_doc": "project",
+            "source_b_quote": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande",
+            "contradiction_type": "cv_vs_project",
+            "severity": "HIGH",
+            "source_a": "cv (CV-012)",
+            "quote_a": "3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident comman",
+            "source_b": "project (PRO-011)",
+            "quote_b": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande"
+          }
+        ]
+      }
+    },
+    {
+      "step": "recommendation_writing",
+      "agent": "RecommendationWriterAgent",
+      "output": {
+        "candidate_id": "case_15_deceptive_centerpiece",
+        "candidate_name": "Alexander Sterling",
+        "target_role": "Senior Python & Distributed Systems Engineer",
+        "role_fit_score": 82.7,
+        "evidence_consistency_score": 0.0,
+        "quadrant": "REVIEW REQUIRED",
+        "recommendation": "Proceed to human review.",
+        "priority_questions": [
+          "Establish actual scope of ownership versus team participation in the architecture migration",
+          "Clarify employment timeline and tenure between CV claims and interview statements"
+        ],
+        "key_discrepancies": [
+          {
+            "discrepancy_id": "DISC-REQ-01-ROLE-OWNERSHIP",
+            "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
+            "source_a_span_id": "CV-010",
+            "source_a_doc": "cv",
+            "source_a_quote": "Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin",
+            "source_b_span_id": "PRO-011",
+            "source_b_doc": "project",
+            "source_b_quote": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande",
+            "contradiction_type": "cv_vs_project",
+            "severity": "HIGH",
+            "source_a": "cv (CV-010)",
+            "quote_a": "Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin",
+            "source_b": "project (PRO-011)",
+            "quote_b": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-02-TENURE",
+            "topic": "Employment Tenure Discrepancy (Finflow)",
+            "source_a_span_id": "CV-009",
+            "source_a_doc": "cv",
+            "source_a_quote": "Lead Distributed Systems Architect | FinFlow Technologies (Jan 2022 - Present | 3.5 years continuous tenure)",
+            "source_b_span_id": "INT-002",
+            "source_b_doc": "interview",
+            "source_b_quote": "[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you sta",
+            "contradiction_type": "cv_vs_interview",
+            "severity": "HIGH",
+            "source_a": "cv (CV-009)",
+            "quote_a": "Lead Distributed Systems Architect | FinFlow Technologies (Jan 2022 - Present | 3.5 years continuous tenure)",
+            "source_b": "interview (INT-002)",
+            "quote_b": "[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you sta"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-02-ROLE-OWNERSHIP",
+            "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
+            "source_a_span_id": "CV-001",
+            "source_a_doc": "cv",
+            "source_a_quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+            "source_b_span_id": "PRO-006",
+            "source_b_doc": "project",
+            "source_b_quote": "Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoi",
+            "contradiction_type": "cv_vs_project",
+            "severity": "HIGH",
+            "source_a": "cv (CV-001)",
+            "quote_a": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+            "source_b": "project (PRO-006)",
+            "quote_b": "Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoi"
+          },
+          {
+            "discrepancy_id": "DISC-REQ-03-ROLE-OWNERSHIP",
+            "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
+            "source_a_span_id": "CV-001",
+            "source_a_doc": "cv",
+            "source_a_quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+            "source_b_span_id": "PRO-010",
+            "source_b_doc": "project",
+            "source_b_quote": "## Executive Project Charter\nUnder the leadership of Principal Architect Dr. Robert Vance, the 7-person Core Services team was chartered in ",
+            "contradiction_type": "cv_vs_project",
+            "severity": "HIGH",
+            "source_a": "cv (CV-001)",
+            "quote_a": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+            "source_b": "project (PRO-010)",
+            "quote_b": "## Executive Project Charter\nUnder the leadership of Principal Architect Dr. Robert Vance, the 7-person Core Services team was chartered in "
+          },
+          {
+            "discrepancy_id": "DISC-REQ-04-ROLE-OWNERSHIP",
+            "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
+            "source_a_span_id": "CV-012",
+            "source_a_doc": "cv",
+            "source_a_quote": "3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident comman",
+            "source_b_span_id": "PRO-011",
+            "source_b_doc": "project",
+            "source_b_quote": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande",
+            "contradiction_type": "cv_vs_project",
+            "severity": "HIGH",
+            "source_a": "cv (CV-012)",
+            "quote_a": "3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident comman",
+            "source_b": "project (PRO-011)",
+            "quote_b": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande"
+          }
+        ],
+        "requirement_table": [
+          {
+            "req_id": "REQ-01",
+            "name": "Core Python & AsyncIO",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "CV-004",
+              "CV-014"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Core Languages: Python 3.10/3.11/3.12 (Expert, AsyncIO, uvloop, C-Extensions), Go, Rust, C++",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-014",
+                "quote": "Architected asynchronous event ingestion pipelines using Python, AsyncIO, and Redis Streams.",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s)."
+          },
+          {
+            "req_id": "REQ-02",
+            "name": "Distributed Systems & Message Queues",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "CV-002",
+              "CV-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-002",
+                "quote": "## Executive Summary\nVisionary Distributed Systems Leader with over 8 years of engineering mastery across high-throughput financial architec",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s)."
+          },
+          {
+            "req_id": "REQ-03",
+            "name": "Technical Leadership & Initiative",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "CV-002",
+              "CV-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-002",
+                "quote": "## Executive Summary\nVisionary Distributed Systems Leader with over 8 years of engineering mastery across high-throughput financial architec",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s)."
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Production Tenure & Operational Reliability",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.9,
+            "citations": [
+              "CV-012",
+              "CV-007"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-012",
+                "quote": "3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident comman",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-007",
+                "quote": "Systems Leadership: Author of Enterprise RFCs, Head of System Architecture, 24/7 On-Call Escalation Commander",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s)."
+          }
+        ],
+        "unsupported_claim_count": 0,
+        "contradicted_claim_count": 4,
+        "rubric_baseline_score": 79.2,
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Alexander Sterling | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           82.7 / 100\nEVIDENCE CONSISTENCY                0.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 5 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO        [WARN] CONFLICTING\n  Distributed Systems & Mess   [WARN] CONFLICTING\n  Technical Leadership & Ini   [WARN] CONFLICTING\n  Production Tenure & Operat   [WARN] CONFLICTING\n\nKEY DISCREPANCIES\n  01  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-010): \"Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin\"\n      - project (PRO-011): \"Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande\"\n  02  Employment Tenure Discrepancy (Finflow)\n      - cv (CV-009): \"Lead Distributed Systems Architect | FinFlow Technologies (Jan 2022 - Present | 3.5 years continuous tenure)\"\n      - interview (INT-002): \"[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you sta\"\n  03  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-001): \"# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core\"\n      - project (PRO-006): \"Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoi\"\n  04  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-001): \"# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core\"\n      - project (PRO-010): \"## Executive Project Charter\nUnder the leadership of Principal Architect Dr. Robert Vance, the 7-person Core Services team was chartered in \"\n  05  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-012): \"3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident comman\"\n      - project (PRO-011): \"Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande\"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Establish actual scope of ownership versus team participation in the architecture migration\n  -> Clarify employment timeline and tenure between CV claims and interview statements\n===================================================================="
+      }
+    }
+  ],
+  "pipeline_latency_sec": 5.12
+}

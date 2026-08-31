@@ -1,0 +1,22 @@
+{
+  "candidate_id": "case_06_weak_01",
+  "name": "Tom Bradley",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "category": "normal_weak",
+  "ground_truth": {
+    "expected_quadrant": "WEAK MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 88.0,
+    "expert_scores": {
+      "reviewer_1": 58,
+      "reviewer_2": 60,
+      "reviewer_3": 56
+    },
+    "expert_composite_score": 58.0
+  },
+  "cv_text": "# Tom Bradley, Junior-Mid Backend Engineer\nLocation: Denver, CO | Experience: 1.8 years total\n- Built REST endpoints using Django and SQLite/PostgreSQL.\n- Basic familiarity with Python and Docker.\n- No commercial Kafka or large-scale distributed systems experience.\n",
+  "interview_notes": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django applications and has not operated production Kafka or participated in high-severity on-call rotations.\n",
+  "technical_assessment": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints blocked during concurrent database calls.\n",
+  "project_rfc": "# RFC-04: Internal Dashboard API\nAuthor: Tom Bradley | Status: Prototype\n"
+}

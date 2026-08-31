@@ -1,0 +1,26 @@
+{
+  "candidate_id": "case_12_adv_jd_vs_claim",
+  "name": "Evan Brooks",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "category": "incomplete",
+  "ground_truth": {
+    "expected_quadrant": "INSUFFICIENT EVIDENCE",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "has_insufficient_evidence": true,
+    "missing_requirements": [
+      "REQ-02"
+    ],
+    "expected_consistency": 55.0,
+    "expert_scores": {
+      "reviewer_1": 35,
+      "reviewer_2": 32,
+      "reviewer_3": 38
+    },
+    "expert_composite_score": 35.0
+  },
+  "cv_text": "# Evan Brooks, Senior Architect\nEmail: evan.brooks@cloudsys.net | Location: Chicago, IL\n\n## Experience\nSenior Architect | CloudSys Solutions (2020 - Present | 4 years)\n- Architected enterprise relational data storage and microservice APIs using Python and FastAPI.\n- Maintained 99.9% uptime across production web services with synchronous PostgreSQL backends.\n- No experience with Kafka, RabbitMQ, or distributed event streaming architectures.\n",
+  "interview_notes": "# Interview: Evan Brooks\nInterviewer: \"The JD specifies hands-on experience scaling Apache Kafka event streaming clusters. Have you deployed Kafka in production?\"\nEvan: \"No, in my past roles at CloudSys we strictly utilized relational databases and synchronous REST endpoints. I have never configured or operated a Kafka broker or managed partition topologies.\"\n",
+  "technical_assessment": "# Technical Assessment: Evan Brooks\nScore: 75 / 100 | Grade: Pass (Synchronous Track)\nSuccessfully implemented async HTTP request routing. Candidate skipped the optional Kafka streaming module as he has no streaming background.\n",
+  "project_rfc": "# RFC-02: Microservice API Gateway Architecture\nCompany: CloudSys Solutions | Author: Evan Brooks\n"
+}

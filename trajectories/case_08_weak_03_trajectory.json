@@ -1,0 +1,761 @@
+{
+  "candidate_id": "case_08_weak_03",
+  "candidate_name": "Lucas Meyer",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "steps": [
+    {
+      "step": "rubric_scoring",
+      "agent": "RubricScorer (Deterministic Baseline A)",
+      "output": {
+        "candidate_id": "case_08_weak_03",
+        "raw_total": 27.0,
+        "normalized_score": 22.5,
+        "category_scores": {
+          "open_source": 0.0,
+          "self_projects": 20.0,
+          "production": 0.0,
+          "technical_skills": 7.0,
+          "bonus_points": 0.0
+        },
+        "summary_audit": [
+          "End-to-end architecture/system project (+10)",
+          "Production-grade setup (containers, CI/CD, messaging) (+10)",
+          "No commercial production experience documented (+0)",
+          "Primary core language and runtime alignment (+4)",
+          "Distributed systems & cloud infrastructure alignment (+3)"
+        ],
+        "details": {
+          "open_source": {
+            "score": 0.0,
+            "max": 35,
+            "notes": []
+          },
+          "self_projects": {
+            "score": 20.0,
+            "max": 30,
+            "notes": [
+              "End-to-end architecture/system project (+10)",
+              "Production-grade setup (containers, CI/CD, messaging) (+10)"
+            ]
+          },
+          "production": {
+            "score": 0.0,
+            "max": 25,
+            "notes": [
+              "No commercial production experience documented (+0)"
+            ]
+          },
+          "technical_skills": {
+            "score": 7.0,
+            "max": 10,
+            "notes": [
+              "Primary core language and runtime alignment (+4)",
+              "Distributed systems & cloud infrastructure alignment (+3)"
+            ]
+          },
+          "bonus_points": {
+            "score": 0.0,
+            "max": 20,
+            "notes": []
+          }
+        }
+      }
+    },
+    {
+      "step": "retrieval_index_built",
+      "total_spans_indexed": 7
+    },
+    {
+      "step": "requirement_mapping",
+      "agent": "RequirementMappingAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "name": "Core Python & AsyncIO",
+          "category": "technical_skills",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "assessment",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-02",
+          "name": "Distributed Systems & Message Queues",
+          "category": "architecture",
+          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-03",
+          "name": "Technical Leadership & Initiative",
+          "category": "leadership",
+          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "importance": "IMPORTANT",
+          "expected_sources": [
+            "cv",
+            "interview",
+            "project"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Production Tenure & Operational Reliability",
+          "category": "production_experience",
+          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "interview"
+          ]
+        }
+      ]
+    },
+    {
+      "step": "evidence_aggregation",
+      "agent": "EvidenceAggregationAgent",
+      "output": [
+        {
+          "req_id": "REQ-01",
+          "requirement_name": "Core Python & AsyncIO",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Wrote automated ETL scripts in Python using Pandas and cron jobs.",
+              "metadata": {
+                "raw_line": "- Wrote automated ETL scripts in Python using Pandas and cron jobs."
+              },
+              "similarity_score": 0.317
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "No commercial experience with microservices, Kafka, or production on-call.",
+              "metadata": {
+                "raw_line": "- No commercial experience with microservices, Kafka, or production on-call."
+              },
+              "similarity_score": 0.224
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Lucas Meyer, Data Analyst / Junior Scripting Developer",
+              "metadata": {
+                "raw_line": "# Lucas Meyer, Data Analyst / Junior Scripting Developer"
+              },
+              "similarity_score": 0.195
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Location: Austin, TX | Experience: 1 year",
+              "metadata": {
+                "raw_line": "Location: Austin, TX | Experience: 1 year"
+              },
+              "similarity_score": 0.176
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never built or deployed an asynchronous distributed service.",
+              "metadata": {},
+              "similarity_score": 0.26
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Lucas Meyer\nScore: 45 / 100 | Grade: Fail (Tier: Bronze)\nCould not complete the AsyncIO event loop challenge.",
+              "metadata": {},
+              "similarity_score": 0.231
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-Draft: Script Scheduler Automation\nAuthor: Lucas Meyer",
+              "metadata": {},
+              "similarity_score": 0.239
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "technical_skills",
+            "score": 7.0,
+            "normalized_total": 22.5
+          }
+        },
+        {
+          "req_id": "REQ-02",
+          "requirement_name": "Distributed Systems & Message Queues",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Wrote automated ETL scripts in Python using Pandas and cron jobs.",
+              "metadata": {
+                "raw_line": "- Wrote automated ETL scripts in Python using Pandas and cron jobs."
+              },
+              "similarity_score": 0.183
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Lucas Meyer, Data Analyst / Junior Scripting Developer",
+              "metadata": {
+                "raw_line": "# Lucas Meyer, Data Analyst / Junior Scripting Developer"
+              },
+              "similarity_score": 0.177
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "No commercial experience with microservices, Kafka, or production on-call.",
+              "metadata": {
+                "raw_line": "- No commercial experience with microservices, Kafka, or production on-call."
+              },
+              "similarity_score": 0.162
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Location: Austin, TX | Experience: 1 year",
+              "metadata": {
+                "raw_line": "Location: Austin, TX | Experience: 1 year"
+              },
+              "similarity_score": 0.14
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never built or deployed an asynchronous distributed service.",
+              "metadata": {},
+              "similarity_score": 0.319
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Lucas Meyer\nScore: 45 / 100 | Grade: Fail (Tier: Bronze)\nCould not complete the AsyncIO event loop challenge.",
+              "metadata": {},
+              "similarity_score": 0.217
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-Draft: Script Scheduler Automation\nAuthor: Lucas Meyer",
+              "metadata": {},
+              "similarity_score": 0.114
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 22.5
+          }
+        },
+        {
+          "req_id": "REQ-03",
+          "requirement_name": "Technical Leadership & Initiative",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Wrote automated ETL scripts in Python using Pandas and cron jobs.",
+              "metadata": {
+                "raw_line": "- Wrote automated ETL scripts in Python using Pandas and cron jobs."
+              },
+              "similarity_score": 0.225
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "No commercial experience with microservices, Kafka, or production on-call.",
+              "metadata": {
+                "raw_line": "- No commercial experience with microservices, Kafka, or production on-call."
+              },
+              "similarity_score": 0.193
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Location: Austin, TX | Experience: 1 year",
+              "metadata": {
+                "raw_line": "Location: Austin, TX | Experience: 1 year"
+              },
+              "similarity_score": 0.156
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Lucas Meyer, Data Analyst / Junior Scripting Developer",
+              "metadata": {
+                "raw_line": "# Lucas Meyer, Data Analyst / Junior Scripting Developer"
+              },
+              "similarity_score": 0.131
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never built or deployed an asynchronous distributed service.",
+              "metadata": {},
+              "similarity_score": 0.292
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Lucas Meyer\nScore: 45 / 100 | Grade: Fail (Tier: Bronze)\nCould not complete the AsyncIO event loop challenge.",
+              "metadata": {},
+              "similarity_score": 0.193
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-Draft: Script Scheduler Automation\nAuthor: Lucas Meyer",
+              "metadata": {},
+              "similarity_score": 0.188
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 0.0,
+            "normalized_total": 22.5
+          }
+        },
+        {
+          "req_id": "REQ-04",
+          "requirement_name": "Production Tenure & Operational Reliability",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "No commercial experience with microservices, Kafka, or production on-call.",
+              "metadata": {
+                "raw_line": "- No commercial experience with microservices, Kafka, or production on-call."
+              },
+              "similarity_score": 0.372
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Wrote automated ETL scripts in Python using Pandas and cron jobs.",
+              "metadata": {
+                "raw_line": "- Wrote automated ETL scripts in Python using Pandas and cron jobs."
+              },
+              "similarity_score": 0.19
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Location: Austin, TX | Experience: 1 year",
+              "metadata": {
+                "raw_line": "Location: Austin, TX | Experience: 1 year"
+              },
+              "similarity_score": 0.182
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Lucas Meyer, Data Analyst / Junior Scripting Developer",
+              "metadata": {
+                "raw_line": "# Lucas Meyer, Data Analyst / Junior Scripting Developer"
+              },
+              "similarity_score": 0.168
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never built or deployed an asynchronous distributed service.",
+              "metadata": {},
+              "similarity_score": 0.287
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Lucas Meyer\nScore: 45 / 100 | Grade: Fail (Tier: Bronze)\nCould not complete the AsyncIO event loop challenge.",
+              "metadata": {},
+              "similarity_score": 0.185
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-Draft: Script Scheduler Automation\nAuthor: Lucas Meyer",
+              "metadata": {},
+              "similarity_score": 0.17
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "production",
+            "score": 0.0,
+            "normalized_total": 22.5
+          }
+        }
+      ]
+    },
+    {
+      "step": "cross_source_verification",
+      "agent": "CrossSourceVerificationAgent",
+      "output": {
+        "candidate_id": "case_08_weak_03",
+        "total_requirements": 4,
+        "supported_count": 4,
+        "contradicted_count": 0,
+        "insufficient_count": 0,
+        "consistency_score": 100.0,
+        "verifications": [
+          {
+            "req_id": "REQ-01",
+            "requirement_name": "Core Python & AsyncIO",
+            "status": "SUPPORTED",
+            "confidence": 0.9,
+            "synthesis": "The candidate's CV and interview evidence both contradict the requirement of proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+            "supporting_citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Lucas Meyer\nScore: 45 / 100 | Grade: Fail (Tier: Bronze)\nCould not complete the AsyncIO event loop challenge.",
+                "document_type": "assessment"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-02",
+            "requirement_name": "Distributed Systems & Message Queues",
+            "status": "SUPPORTED",
+            "confidence": 0.9,
+            "synthesis": "The candidate's CV and interview notes both contradict the technical assessment and project document, indicating a lack of relevant experience with distributed systems and message queues.",
+            "supporting_citations": [
+              "INT-001",
+              "CV-004"
+            ],
+            "citations": [
+              "INT-001",
+              "CV-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "No commercial experience with microservices, Kafka, or production on-call.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never",
+                "document_type": "interview"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-03",
+            "requirement_name": "Technical Leadership & Initiative",
+            "status": "SUPPORTED",
+            "confidence": 0.9,
+            "synthesis": "The candidate's CV and interview evidence contradict the requirement of leading migrations and architectural decisions, as well as mentoring engineers, which are implied by the technical leadership and initiative requirement.",
+            "supporting_citations": [
+              "INT-001",
+              "PRO-001"
+            ],
+            "citations": [
+              "INT-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-Draft: Script Scheduler Automation\nAuthor: Lucas Meyer",
+                "document_type": "project"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-04",
+            "requirement_name": "Production Tenure & Operational Reliability",
+            "status": "SUPPORTED",
+            "confidence": 0.9,
+            "synthesis": "The candidate's CV and interview evidence strongly contradict the requirement of at least 3+ years of commercial production experience managing live services and on-call, as evidenced by the lack of relevant experience in Python for offline data scripting and lack of experience with microservices, Kafka, or production on-call.",
+            "supporting_citations": [
+              "INT-001",
+              "CV-001"
+            ],
+            "citations": [
+              "INT-001",
+              "CV-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-001",
+                "quote": "# Lucas Meyer, Data Analyst / Junior Scripting Developer",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never",
+                "document_type": "interview"
+              }
+            ],
+            "discrepancies": []
+          }
+        ],
+        "all_discrepancies": []
+      }
+    },
+    {
+      "step": "recommendation_writing",
+      "agent": "RecommendationWriterAgent",
+      "output": {
+        "candidate_id": "case_08_weak_03",
+        "candidate_name": "Lucas Meyer",
+        "target_role": "Senior Python & Distributed Systems Engineer",
+        "role_fit_score": 69.0,
+        "evidence_consistency_score": 100.0,
+        "quadrant": "WEAK MATCH",
+        "recommendation": "Proceed to human review.",
+        "priority_questions": [
+          "Verify high-scale production trade-offs in candidate's primary architecture project",
+          "Review code quality standards and testing practices across past contributions",
+          "Assess team leadership and cross-functional communication style"
+        ],
+        "key_discrepancies": [],
+        "requirement_table": [
+          {
+            "req_id": "REQ-01",
+            "name": "Core Python & AsyncIO",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.9,
+            "citations": [
+              "INT-001",
+              "ASS-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "ASS-001",
+                "quote": "# Technical Assessment: Lucas Meyer\nScore: 45 / 100 | Grade: Fail (Tier: Bronze)\nCould not complete the AsyncIO event loop challenge.",
+                "document_type": "assessment"
+              }
+            ],
+            "synthesis": "The candidate's CV and interview evidence both contradict the requirement of proficiency in Python 3.10+, asynchronous programming, and clean architecture."
+          },
+          {
+            "req_id": "REQ-02",
+            "name": "Distributed Systems & Message Queues",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.9,
+            "citations": [
+              "INT-001",
+              "CV-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "No commercial experience with microservices, Kafka, or production on-call.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never",
+                "document_type": "interview"
+              }
+            ],
+            "synthesis": "The candidate's CV and interview notes both contradict the technical assessment and project document, indicating a lack of relevant experience with distributed systems and message queues."
+          },
+          {
+            "req_id": "REQ-03",
+            "name": "Technical Leadership & Initiative",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.9,
+            "citations": [
+              "INT-001",
+              "PRO-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "PRO-001",
+                "quote": "# RFC-Draft: Script Scheduler Automation\nAuthor: Lucas Meyer",
+                "document_type": "project"
+              }
+            ],
+            "synthesis": "The candidate's CV and interview evidence contradict the requirement of leading migrations and architectural decisions, as well as mentoring engineers, which are implied by the technical leadership and initiative requirement."
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Production Tenure & Operational Reliability",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.9,
+            "citations": [
+              "INT-001",
+              "CV-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-001",
+                "quote": "# Lucas Meyer, Data Analyst / Junior Scripting Developer",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "INT-001",
+                "quote": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never",
+                "document_type": "interview"
+              }
+            ],
+            "synthesis": "The candidate's CV and interview evidence strongly contradict the requirement of at least 3+ years of commercial production experience managing live services and on-call, as evidenced by the lack of relevant experience in Python for offline data scripting and lack of experience with microservices, Kafka, or production on-call."
+          }
+        ],
+        "unsupported_claim_count": 0,
+        "contradicted_claim_count": 0,
+        "rubric_baseline_score": 22.5,
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Lucas Meyer | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           69.0 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [WEAK MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+      }
+    }
+  ],
+  "pipeline_latency_sec": 34.52
+}

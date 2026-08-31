@@ -1,0 +1,22 @@
+{
+  "candidate_id": "case_05_med_03",
+  "name": "Priya Patel",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "category": "normal_medium",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 90.0,
+    "expert_scores": {
+      "reviewer_1": 77,
+      "reviewer_2": 78,
+      "reviewer_3": 76
+    },
+    "expert_composite_score": 77.0
+  },
+  "cv_text": "# Priya Patel, Python Backend Developer\nEmail: priya.patel@datahub.co | Location: Chicago, IL\n\n## Experience\nBackend Engineer | DataHub Analytics (2022 - Present | 3 years)\n- Built data processing microservices with Python, FastAPI, and PostgreSQL.\n- Implemented event streaming using RabbitMQ and Redis pub/sub.\n- 3 years production experience with on-call duties.\n",
+  "interview_notes": "# Interview: Priya Patel\nSolid knowledge of Python asynchronous programming. Good understanding of database indexes and messaging queues.\n",
+  "technical_assessment": "# Technical Assessment: Priya Patel\nScore: 78 / 100 | Grade: Competent (Tier: Silver)\nFunctional code delivered on time. Handled test scenarios cleanly.\n",
+  "project_rfc": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel\n"
+}

@@ -1,0 +1,22 @@
+{
+  "candidate_id": "case_04_med_02",
+  "name": "David Kim",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "category": "normal_medium",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 92.0,
+    "expert_scores": {
+      "reviewer_1": 80,
+      "reviewer_2": 81,
+      "reviewer_3": 79
+    },
+    "expert_composite_score": 80.0
+  },
+  "cv_text": "# David Kim, Systems Engineer\nEmail: david.kim@cloudsys.net | Location: San Jose, CA\n\n## Experience\nSystems Engineer | Veloce Networks (2021 - Present | 4 years)\n- Built Python and AsyncIO services for network telemetry monitoring.\n- Managed Kafka event consumer instances and ClickHouse analytical storage.\n- 4 years production deployment and on-call rotation experience.\n",
+  "interview_notes": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of continuous production experience and on-call support.\n",
+  "technical_assessment": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Python code.\n",
+  "project_rfc": "# RFC-19: Telemetry Monitoring Collector\nCompany: Veloce Networks | Author: David Kim\n"
+}
