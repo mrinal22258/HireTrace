@@ -90,6 +90,18 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                 self.wfile.write(f.read())
             return
 
+        # Static precomputed data bundle
+        elif path in ("/static_data.js", "/ui/static_data.js"):
+            js_path = os.path.join(os.path.dirname(__file__), "static_data.js")
+            if os.path.exists(js_path):
+                self.send_response(200)
+                self.send_header("Content-Type", "application/javascript; charset=utf-8")
+                self.end_headers()
+                with open(js_path, "rb") as f:
+                    self.wfile.write(f.read())
+                return
+
+
         # 2. Public Candidate List (Zero Ground-Truth Answer Leakage)
         elif path == "/api/cases":
             summary_list = []

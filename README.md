@@ -1,6 +1,16 @@
+---
+title: HireTrace
+emoji: 🔍
+colorFrom: pink
+colorTo: purple
+sdk: static
+pinned: false
+---
+
 # HireTrace — Evidence-First Candidate Assessment Agent
 > **"Every recommendation traces back to evidence."**  
 > *micro1 Agentic Workflows Hackathon Submission*
+
 
 > **Submission Deliverables Quick-Index:**
 > - **Judges & Fresh Setup Guide:** [`JUDGES_SETUP_GUIDE.md`](JUDGES_SETUP_GUIDE.md) *(<60s Instant Inspection vs. Full Live LLM Pipeline)*
