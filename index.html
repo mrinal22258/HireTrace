@@ -2560,31 +2560,62 @@ Loading benchmark evaluation...
       const assessment = (payload.technical_assessment || "").toLowerCase();
       const role = payload.target_role || "Senior Python & Distributed Systems Engineer";
 
+      const isRobotics = /robot|drone|slam|lidar|perception|sensor|autonomous/i.test(role) || /ros|slam|lidar|drone/i.test(cv);
+      const isAI = /ai|machine learning|deep learning|nlp|llm|data science/i.test(role) || /pytorch|tensorflow|transformer|embedding/i.test(cv);
+      const isFrontend = /frontend|front-end|fullstack|full stack|web|ui/i.test(role) || /react|next\.js|typescript|tailwind/i.test(cv);
+
       let open_source = 10;
       if (cv.includes("github") || cv.includes("open source") || cv.includes("repo") || cv.includes("pull request")) open_source += 15;
       if (cv.includes("star") || cv.includes("maintainer") || cv.includes("contributor")) open_source += 10;
       open_source = Math.min(35, open_source);
 
       let self_projects = 10;
-      if (cv.includes("project") || cv.includes("architecture") || cv.includes("system") || cv.includes("built")) self_projects += 10;
-      if (cv.includes("docker") || cv.includes("deploy") || cv.includes("ci/cd") || cv.includes("redis")) self_projects += 10;
+      if (isRobotics) {
+        if (cv.includes("slam") || cv.includes("drone") || cv.includes("navigation") || cv.includes("calibration")) self_projects += 15;
+        if (cv.includes("ros") || cv.includes("ros2") || cv.includes("gazebo") || cv.includes("simulation")) self_projects += 10;
+      } else if (isAI) {
+        if (cv.includes("model") || cv.includes("rag") || cv.includes("vector") || cv.includes("faiss")) self_projects += 15;
+        if (cv.includes("dataset") || cv.includes("eval") || cv.includes("benchmark")) self_projects += 10;
+      } else {
+        if (cv.includes("project") || cv.includes("architecture") || cv.includes("system") || cv.includes("built")) self_projects += 10;
+        if (cv.includes("docker") || cv.includes("deploy") || cv.includes("ci/cd") || cv.includes("redis")) self_projects += 10;
+      }
       self_projects = Math.min(30, self_projects);
 
       let production = 10;
-      const yrsMatch = cv.match(/(\d+)\+?\s*years?/);
-      const yrs = yrsMatch ? parseInt(yrsMatch[1], 10) : 4;
-      if (yrs >= 5) production += 10;
-      if (cv.includes("scale") || cv.includes("sla") || cv.includes("throughput") || cv.includes("latency")) production += 5;
+      if (isRobotics && (cv.includes("flight") || cv.includes("real-world") || cv.includes("nus") || cv.includes("experiment") || cv.includes("laboratory"))) {
+        production += 15;
+      } else {
+        const yrsMatch = cv.match(/(\d+)\+?\s*years?/);
+        const yrs = yrsMatch ? parseInt(yrsMatch[1], 10) : 3;
+        if (yrs >= 4) production += 10;
+        if (cv.includes("scale") || cv.includes("sla") || cv.includes("throughput") || cv.includes("latency")) production += 5;
+      }
       production = Math.min(25, production);
 
       let technical_skills = 4;
-      if (cv.includes("python") || cv.includes("asyncio") || cv.includes("fastapi")) technical_skills += 3;
-      if (cv.includes("distributed") || cv.includes("kafka") || cv.includes("grpc") || cv.includes("postgres")) technical_skills += 3;
+      if (isRobotics) {
+        if (cv.includes("c++") || cv.includes("python") || cv.includes("matlab")) technical_skills += 3;
+        if (cv.includes("ros") || cv.includes("ros2") || cv.includes("opencv") || cv.includes("pytorch")) technical_skills += 3;
+      } else if (isAI) {
+        if (cv.includes("pytorch") || cv.includes("tensorflow") || cv.includes("python")) technical_skills += 3;
+        if (cv.includes("transformer") || cv.includes("cuda") || cv.includes("faiss")) technical_skills += 3;
+      } else if (isFrontend) {
+        if (cv.includes("typescript") || cv.includes("javascript") || cv.includes("react")) technical_skills += 3;
+        if (cv.includes("next.js") || cv.includes("tailwind") || cv.includes("vite")) technical_skills += 3;
+      } else {
+        if (cv.includes("python") || cv.includes("asyncio") || cv.includes("fastapi")) technical_skills += 3;
+        if (cv.includes("distributed") || cv.includes("kafka") || cv.includes("grpc") || cv.includes("postgres")) technical_skills += 3;
+      }
       technical_skills = Math.min(10, technical_skills);
 
       let bonus_points = 5;
-      if (cv.includes("lead") || cv.includes("mentor") || cv.includes("senior")) bonus_points += 5;
-      if (cv.includes("publication") || cv.includes("conference") || cv.includes("patent")) bonus_points += 5;
+      if (cv.includes("iros") || cv.includes("ra-l") || cv.includes("icra") || cv.includes("eccv") || cv.includes("publication") || cv.includes("conference") || cv.includes("patent")) {
+        bonus_points += 15;
+      } else {
+        if (cv.includes("lead") || cv.includes("mentor") || cv.includes("senior")) bonus_points += 5;
+        if (cv.includes("award") || cv.includes("scholarship") || cv.includes("fellowship")) bonus_points += 5;
+      }
       bonus_points = Math.min(20, bonus_points);
 
       const rawTotal = open_source + self_projects + production + technical_skills + bonus_points;
@@ -2619,6 +2650,32 @@ Loading benchmark evaluation...
       const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '_').substring(0, 20);
       const cid = "custom_" + slug + "_" + Math.random().toString(36).substring(2, 8);
 
+      let questionsList = [];
+      if (isRobotics) {
+        questionsList = [
+          "• Deep-dive on sensor calibration failure modes (e.g. LiDAR-camera spatial distortion under dynamic lighting)",
+          "• Evaluate real-world runtime FPS constraints and compute trade-offs on embedded robotics platforms",
+          "• Probe multi-robot coordination and collision avoidance edge cases in physical flight/drive tests"
+        ];
+      } else if (isAI) {
+        questionsList = [
+          "• Evaluate neural architecture training convergence, loss function tuning, and hyperparameter trade-offs",
+          "• Probe vector index latency vs recall trade-offs and embedding retrieval failure cases",
+          "• Discuss model serving latency optimizations (quantization, batching) in production"
+        ];
+      } else if (isFrontend) {
+        questionsList = [
+          "• Discuss component rendering performance, state caching, and client-side optimization techniques",
+          "• Review automated test strategy for complex asynchronous UI workflows and state management",
+          "• Explore cross-browser compatibility and responsive layout failure handling"
+        ];
+      } else {
+        questionsList = [
+          "• Can you detail the operational tradeoffs and error budgets of your primary production systems?",
+          "• Walk through how you debugged a concurrency or data-consistency incident in production."
+        ];
+      }
+
       const formattedCard = `
 ╔══════════════════════════════════════════════════════════════════════════════════╗
 ║                   HIRETRACE ASSESSMENT DOSSIER: ${name.toUpperCase().padEnd(30)} ║
@@ -2627,6 +2684,7 @@ Loading benchmark evaluation...
 
 QUADRANT PLACEMENT: [${quadrant}]
 Target Role: ${role}
+Evaluation Engine: Browser Client-Side Heuristic (Demo Mode)
 
 1. MULTI-SOURCE EVIDENCE CONSISTENCY AUDIT:
    - Primary Status: ${discrepancies.length > 0 ? "⚠️ DISCREPANCIES DETECTED" : "✅ CLAIMS SUPPORTED ACROSS SOURCES"}
@@ -2635,12 +2693,12 @@ Target Role: ${role}
 2. RESUME DETERMINISTIC RUBRIC (BASELINE A):
    - Raw Total: ${rawTotal}/120 (Normalized: ${normScore}/100)
    - Open Source: ${open_source}/35 | Self Projects: ${self_projects}/30 | Production: ${production}/25
+   - Tech Skills: ${technical_skills}/10 | Bonus: ${bonus_points}/20
 
 3. HUMAN REVIEW ROUTING:
    - Recommendation: Proceed to focused human technical review.
    - Priority Interview Inquiries:
-     • Can you detail the operational tradeoffs and error budgets of your primary production systems?
-     • Walk through how you debugged a concurrency or data-consistency incident in production.
+     ${questionsList.join("\n     ")}
       `.trim();
 
       const candidateData = {
