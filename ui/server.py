@@ -45,6 +45,75 @@ os.makedirs(CACHE_DIR, exist_ok=True)
 os.makedirs(CASES_DIR, exist_ok=True)
 os.makedirs(UPLOADS_DIR, exist_ok=True)
 
+def generate_role_tailored_jd(target_role: str) -> str:
+    """Generates an authoritative domain-tailored Job Description based on target role."""
+    role_lower = (target_role or "").lower()
+
+    if any(k in role_lower for k in ["robot", "autonomous", "drone", "slam", "perception", "lidar"]):
+        return f"""# {target_role}
+Company: NextGen Autonomous Systems
+Role: {target_role}
+Department: Robotics Research & Core Perception
+
+### About the Role
+We are seeking a talented {target_role} to build, test, and validate next-generation perception, state estimation, and sensor fusion algorithms for physical robotic platforms and autonomous drones.
+
+### Core Requirements
+- REQ-01: Perception & Sensor Fusion: Expertise in multi-modal sensor fusion (LiDAR, Camera, ToF) and spatial calibration pipelines.
+- REQ-02: SLAM & State Estimation: Developing visual odometry, graph-based SLAM, and map-free localization algorithms.
+- REQ-03: Robotics Software & Middleware (ROS/ROS2): Proficiency integrating algorithms into ROS/ROS2, OpenCV, PyTorch, and C++/Python runtimes.
+- REQ-04: Research Rigor & Academic Publications: Demonstrated record of research publications in top robotics venues (IROS, ICRA, RA-L, ECCV).
+- REQ-05: Physical Drone/Robot Deployment & Testing: Hands-on verification of algorithms on physical autonomous drones/robots and Sim-to-Real validation.
+"""
+
+    elif any(k in role_lower for k in ["ai", "machine learning", "deep learning", "nlp", "llm", "rag", "data science"]):
+        return f"""# {target_role}
+Company: Frontier AI Labs
+Role: {target_role}
+Department: Applied AI & Model Architecture
+
+### About the Role
+We are looking for an exceptional {target_role} to design, train, evaluate, and deploy high-performance machine learning models, retrieval systems, and agentic workflows.
+
+### Core Requirements
+- REQ-01: Deep Learning & Neural Architectures: Designing and training neural network models (Transformers, CNNs, BiLSTMs) using PyTorch or TensorFlow.
+- REQ-02: Retrieval & Vector Data Infrastructure: Architecting vector retrieval systems, dense embeddings, FAISS, and semantic search pipelines.
+- REQ-03: Empirical Benchmarking & Evaluation: Conducting rigorous benchmark evaluations, ablation studies, and error analysis across shared tasks.
+- REQ-04: Model Serving & Production Deployment: Deploying machine learning models via containerized APIs (FastAPI, Docker, ONNX) with low latency.
+- REQ-05: Technical Initiative & Applied Research: Translating cutting-edge research literature into maintainable open-source code or production systems.
+"""
+
+    elif any(k in role_lower for k in ["frontend", "front-end", "fullstack", "full stack", "react", "web", "ui"]):
+        return f"""# {target_role}
+Company: Cloud Platform Technologies
+Role: {target_role}
+Department: Product Engineering
+
+### Core Requirements
+- REQ-01: Modern TypeScript & Component Architecture: Deep mastery of TypeScript, component lifecycles, and modular web architecture (React/Next.js).
+- REQ-02: UI Performance & Responsive Design: Delivering sub-second interaction speeds, Core Web Vitals optimization, accessibility, and fluid layouts.
+- REQ-03: API Integration & Asynchronous State: Clean integration with REST/GraphQL APIs, optimistic UI updates, and client-side caching.
+- REQ-04: Automated Testing & Build Tooling: Robust test coverage (Jest, Vitest, Playwright, Cypress) and modern build pipelines (Vite, Webpack).
+- REQ-05: End-to-End Product Ownership: Track record of collaborating with design and product teams to deliver polished user experiences.
+"""
+
+    elif any(k in role_lower for k in ["distributed", "infra", "kafka", "sre", "devops", "cloud", "backend"]):
+        return SHARED_JD
+
+    else:
+        return f"""# {target_role}
+Company: Enterprise Technology Solutions
+Role: {target_role}
+Department: Core Software Engineering
+
+### Core Requirements
+- REQ-01: Core Programming & Clean Architecture: Strong proficiency in modern programming languages, data structures, algorithms, and clean design.
+- REQ-02: System Implementation & API Design: Designing, implementing, and deploying robust software services and clean API interfaces.
+- REQ-03: Persistence & Data Layer Competence: Experience with relational or NoSQL database querying, schema modeling, and data pipelines.
+- REQ-04: Code Quality, Testing & CI/CD: Writing testable code with automated unit and integration tests and continuous integration workflows.
+- REQ-05: Technical Problem Solving & Delivery: Track record of solving complex technical problems and delivering working software end-to-end.
+"""
+
 # Shared singleton pipeline
 PIPELINE = HireTracePipeline(trajectory_dir=CACHE_DIR)
 
@@ -101,8 +170,9 @@ def parse_multipart_payload(content_type: str, body: bytes) -> Tuple[Dict[str, s
     return form_fields, files
 
 
-class ReusableHTTPServer(socketserver.TCPServer):
+class ReusableHTTPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     allow_reuse_address = True
+    daemon_threads = True
 
 
 class HireTraceHandler(SimpleHTTPRequestHandler):
@@ -170,22 +240,27 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
             for c in ALL_CASES:
                 cid = c["candidate_id"]
                 traj_file = os.path.join(CACHE_DIR, f"{cid}_trajectory.json")
-                fit_score = c.get("role_fit_score", 50.0)
+                fit_score = c.get("role_fit_score")
                 consistency_score = c.get("evidence_consistency_score", 50.0)
                 quadrant = c.get("quadrant", "EVALUATING")
                 has_disc = False
+                is_degraded = bool(c.get("degraded", False))
 
                 if os.path.exists(traj_file):
                     try:
                         with open(traj_file, "r", encoding="utf-8") as f:
                             tdata = json.load(f)
+                        if tdata.get("degraded"):
+                            is_degraded = True
                         for step in reversed(tdata.get("steps", [])):
                             if step.get("step") == "recommendation_writing":
                                 out = step.get("output", {})
-                                fit_score = out.get("role_fit_score", 50.0)
+                                fit_score = out.get("role_fit_score")
                                 consistency_score = out.get("evidence_consistency_score", 50.0)
                                 quadrant = out.get("quadrant", "REVIEW REQUIRED")
                                 has_disc = len(out.get("key_discrepancies", [])) > 0
+                                if out.get("degraded"):
+                                    is_degraded = True
                                 break
                     except Exception:
                         pass
@@ -195,6 +270,8 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                 if not cand_status:
                     job = JOB_MANAGER.get_job(cid)
                     cand_status = job.status if job else "done"
+                    if job and getattr(job, "degraded", False):
+                        is_degraded = True
 
                 summary_list.append({
                     "candidate_id": cid,
@@ -205,7 +282,8 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                     "role_fit_score": fit_score,
                     "evidence_consistency_score": consistency_score,
                     "quadrant": quadrant,
-                    "has_discrepancies": has_disc
+                    "has_discrepancies": has_disc,
+                    "degraded": is_degraded
                 })
             self._send_json(summary_list)
             return
@@ -217,8 +295,17 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                 self.send_error(400, "Invalid Candidate ID format")
                 return
 
+            custom_file = os.path.join(CASES_DIR, f"{raw_cid}.json")
+            disk_case = None
+            if os.path.exists(custom_file):
+                try:
+                    with open(custom_file, "r", encoding="utf-8") as f:
+                        disk_case = json.load(f)
+                except Exception:
+                    pass
+
             db_cand = DB.get_candidate_full(raw_cid)
-            case = db_cand or next((c for c in ALL_CASES if c["candidate_id"] == raw_cid), None)
+            case = disk_case or db_cand or next((c for c in ALL_CASES if c["candidate_id"] == raw_cid), None)
             if not case:
                 self.send_error(404, "Candidate Case Not Found")
                 return
@@ -234,7 +321,7 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                     "interview": case.get("interview_notes", ""),
                     "assessment": case.get("technical_assessment", ""),
                     "project_rfc": case.get("project_rfc", ""),
-                    "jd": case.get("jd_text", SHARED_JD)
+                    "jd": case.get("jd_text") or generate_role_tailored_jd(case.get("target_role", ""))
                 },
                 "raw_documents": case.get("raw_documents", {}),
                 "structured_profile": dossier.structured_cv_profile,
@@ -273,17 +360,29 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                 return
 
             # If not in active memory, check if already completed on disk / in ALL_CASES
-            case = next((c for c in ALL_CASES if c.get("candidate_id") == raw_cid), None)
+            custom_file = os.path.join(CASES_DIR, f"{raw_cid}.json")
+            disk_case = None
+            if os.path.exists(custom_file):
+                try:
+                    with open(custom_file, "r", encoding="utf-8") as f:
+                        disk_case = json.load(f)
+                except Exception:
+                    pass
+
+            case = disk_case or next((c for c in ALL_CASES if c.get("candidate_id") == raw_cid), None)
             if case and "evaluation_report" in case:
+                rep = case.get("evaluation_report", {})
+                is_deg = rep.get("degraded", False) or case.get("degraded", False)
                 self._send_json({
                     "candidate_id": raw_cid,
                     "name": case.get("name", ""),
                     "target_role": case.get("target_role", "Senior Software Engineer"),
                     "status": "done",
                     "progress_pct": 100,
-                    "current_step": "Assessment complete. Report ready.",
-                    "report": case.get("evaluation_report"),
+                    "current_step": "Assessment complete. Report ready." if not is_deg else "Assessment complete (DEGRADED: Local LLM offline).",
+                    "report": rep,
                     "baseline_a": case.get("rubric_baseline"),
+                    "degraded": is_deg,
                     "error": None
                 })
                 return
@@ -434,8 +533,8 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                 self.send_error(400, "Missing required field: 'name'")
                 return
 
-            target_role = fields.get("target_role", "").strip() or "Senior Python & Distributed Systems Engineer"
-            jd_text = fields.get("jd_text", "").strip() or SHARED_JD
+            target_role = fields.get("target_role", "").strip() or "Senior Software Engineer"
+            jd_text = fields.get("jd_text", "").strip() or generate_role_tailored_jd(target_role)
 
             # Safe collision-free candidate ID
             slug = re.sub(r'[^a-zA-Z0-9_]', '_', name.lower())[:24]
@@ -451,6 +550,11 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                 # 1. Check if uploaded file exists and has content
                 if file_key in files and files[file_key][1]:
                     orig_fname, fbytes = files[file_key]
+                    ext = os.path.splitext(orig_fname)[1].lower()
+                    if ext == ".doc":
+                        raise ValueError("Legacy .doc format is not supported. Please convert to modern .docx or PDF.")
+                    if ext not in (".pdf", ".docx", ".txt", ".md", ".json"):
+                        raise ValueError(f"Unsupported file format '{ext}' for {doc_name_prefix}. Allowed: .pdf, .docx, .txt, .md, .json")
                     clean_fname = re.sub(r'[^a-zA-Z0-9_.-]', '_', os.path.basename(orig_fname))
                     save_path = os.path.join(cand_upload_dir, f"{doc_name_prefix}_{clean_fname}")
                     with open(save_path, "wb") as f:
@@ -481,6 +585,9 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                 interview_notes = _resolve_doc("interview_file", "interview_notes", "interview")
                 technical_assessment = _resolve_doc("assessment_file", "technical_assessment", "assessment")
                 project_rfc = _resolve_doc("project_file", "project_rfc", "project")
+                jd_uploaded = _resolve_doc("jd_file", "jd_text", "jd")
+                if jd_uploaded:
+                    jd_text = jd_uploaded
 
             except ValueError as val_err:
                 self.send_error(400, str(val_err))
@@ -524,6 +631,7 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                     new_case["role_fit_score"] = report.role_fit_score
                     new_case["evidence_consistency_score"] = report.evidence_consistency_score
                     new_case["quadrant"] = report.quadrant
+                    new_case["degraded"] = getattr(report, "degraded", False)
                     new_case["status"] = "done"
 
                     case_file = os.path.join(CASES_DIR, f"{cid}.json")
@@ -548,6 +656,8 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                         "name": name,
                         "target_role": target_role,
                         "status": "done",
+                        "degraded": getattr(report, "degraded", False),
+                        "degraded_reason": getattr(report, "degraded_reason", None),
                         "report": report.to_dict(),
                         "baseline_a": rubric.to_dict(),
                         "cached": False,
@@ -607,11 +717,11 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                 self.send_error(400, "Missing required field: 'cv_text'")
                 return
 
-            target_role = data.get("target_role", "").strip() or "Senior Python & Distributed Systems Engineer"
+            target_role = data.get("target_role", "").strip() or "Senior Software Engineer"
             interview_notes = data.get("interview_notes", "").strip()
             technical_assessment = data.get("technical_assessment", "").strip()
             project_rfc = data.get("project_rfc", "").strip()
-            jd_text = data.get("jd_text", "").strip() or SHARED_JD
+            jd_text = data.get("jd_text", "").strip() or generate_role_tailored_jd(target_role)
 
             # Safe, collision-free UUID candidate ID
             slug = re.sub(r'[^a-zA-Z0-9_]', '_', name.lower())[:24]
@@ -673,7 +783,8 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                 self.send_error(400, "Invalid Candidate ID format")
                 return
 
-            case = next((c for c in ALL_CASES if c["candidate_id"] == raw_cid), None)
+            db_cand = DB.get_candidate_full(raw_cid)
+            case = db_cand or next((c for c in ALL_CASES if c["candidate_id"] == raw_cid), None)
             if not case:
                 self.send_error(404, "Candidate Case Not Found")
                 return
@@ -681,25 +792,48 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
             traj_file = os.path.join(CACHE_DIR, f"{raw_cid}_trajectory.json")
 
             # Check cache if not forcing rerun
-            if not force_rerun and os.path.exists(traj_file):
-                try:
-                    with open(traj_file, "r", encoding="utf-8") as f:
-                        cached_data = json.load(f)
-                    final_report = cached_data.get("final_report")
-                    if not final_report and "steps" in cached_data and cached_data["steps"]:
-                        final_report = cached_data["steps"][-1].get("output", {})
-                    dossier = EvidenceLoader.load_case_from_dict(case)
-                    rubric = RubricScorer.evaluate_from_dict(dossier.structured_cv_profile)
-
+            if not force_rerun:
+                # 1. Check in-memory or loaded case dict
+                if case.get("evaluation_report"):
                     output = {
-                        "report": final_report,
-                        "baseline_a": rubric.to_dict(),
+                        "report": case["evaluation_report"],
+                        "baseline_a": case.get("rubric_baseline", {}),
                         "cached": True
                     }
                     self._send_json(output)
                     return
-                except Exception:
-                    pass
+
+                # 2. Check SQLite database
+                db_eval = DB.get_evaluation(raw_cid)
+                if db_eval and db_eval.get("report"):
+                    output = {
+                        "report": db_eval["report"],
+                        "baseline_a": db_eval.get("baseline_a", {}),
+                        "cached": True
+                    }
+                    self._send_json(output)
+                    return
+
+                # 3. Check trajectory file
+                if os.path.exists(traj_file):
+                    try:
+                        with open(traj_file, "r", encoding="utf-8") as f:
+                            cached_data = json.load(f)
+                        final_report = cached_data.get("final_report")
+                        if not final_report and "steps" in cached_data and cached_data["steps"]:
+                            final_report = cached_data["steps"][-1].get("output", {})
+                        dossier = EvidenceLoader.load_case_from_dict(case)
+                        rubric = RubricScorer.evaluate_from_dict(dossier.structured_cv_profile)
+
+                        output = {
+                            "report": final_report,
+                            "baseline_a": rubric.to_dict(),
+                            "cached": True
+                        }
+                        self._send_json(output)
+                        return
+                    except Exception:
+                        pass
 
             # Run full HireTrace pipeline
             try:

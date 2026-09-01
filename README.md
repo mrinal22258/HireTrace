@@ -24,8 +24,34 @@ pinned: false
 > - 📊 **Deliverable #3 (Evaluation Harness & Empirical Report):** §6–§7 below & [`eval/eval_report.md`](eval/eval_report.md)
 > - 🧭 **Deliverable #4 (Agent Execution Trajectories):** [`trajectories/`](trajectories/) & [`trajectories/agent_trajectories_breakdown.md`](trajectories/agent_trajectories_breakdown.md)
 
-
 ---
+
+## 🚀 Deployment Modes: Demo / Replay Mode vs. Live Product Mode
+
+HireTrace supports two distinct operational modes:
+
+### Mode A: Demo / Replay Mode (Static Web / Hugging Face Spaces)
+- **Environment**: Hugging Face Spaces (static hosting) or any static HTTP file server.
+- **Capabilities**: Replays pre-computed evaluation trajectories, interactive evidence citations, 2D quadrant scatter, and pre-screened synthetic candidate dossiers without requiring a GPU or server process.
+- **Limitation**: **Cannot run live, real-time candidate evaluation.** A static Hugging Face Space has no backend compute or local Ollama/vLLM weights. Uploading a new candidate in static replay mode displays mock ingestion or directs the user to the local self-hosted deployment.
+
+### Mode B: Live Product Mode (Self-Hosted Production Server)
+- **Environment**: Self-hosted Linux/macOS/Windows server with local open-weights inference (Ollama or vLLM container) and connection-pooled database (PostgreSQL or zero-config SQLite).
+- **Capabilities**: Full end-to-end multi-agent evaluation pipeline with asynchronous background worker queues, dynamic multi-file ingestion (PDF, DOCX, TXT), FAISS semantic vector retrieval, cross-source claim verification, and two-tier SHA-256 requirement caching.
+- **Quickstart (One Command via Docker Compose)**:
+  ```bash
+  # Stand up HireTrace app, PostgreSQL, and Ollama with one command:
+  docker compose up --build
+
+  # Pull the recommended open-weights model into Ollama container:
+  docker exec -it hiretrace_ollama ollama pull qwen2.5:3b
+  ```
+- **Local Dev Quickstart (Zero-Config Python)**:
+  ```bash
+  pip install -r requirements.txt
+  python ui/server.py --port 8000
+  ```
+
 
 ## 1. Problem Framing
 

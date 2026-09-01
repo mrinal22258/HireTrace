@@ -105,6 +105,8 @@ class EvidenceMatrix:
     insufficient_count: int
     all_discrepancies: List[Discrepancy]
     consistency_score: float  # 0 to 100
+    degraded: bool = False
+    degraded_reason: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -114,6 +116,8 @@ class EvidenceMatrix:
             "contradicted_count": self.contradicted_count,
             "insufficient_count": self.insufficient_count,
             "consistency_score": round(self.consistency_score, 1),
+            "degraded": self.degraded,
+            "degraded_reason": self.degraded_reason,
             "verifications": [v.to_dict() for v in self.verifications],
             "all_discrepancies": [d.to_dict() for d in self.all_discrepancies]
         }
@@ -530,9 +534,13 @@ Return ONLY valid JSON matching this schema:
             max_tokens=600
         )
 
+        is_degraded = bool(response.get("degraded"))
         status = response.get("status")
         if status not in ("SUPPORTED", "CONTRADICTED", "INSUFFICIENT_EVIDENCE"):
-            status = "SUPPORTED" if len(aggregated.sources_present) >= 2 else "INSUFFICIENT_EVIDENCE"
+            if is_degraded:
+                status = "DEGRADED"
+            else:
+                status = "SUPPORTED" if len(aggregated.sources_present) >= 2 else "INSUFFICIENT_EVIDENCE"
 
         # Specific core technical tools required by this job requirement
         tech_competency_words = [
@@ -708,12 +716,352 @@ Return ONLY valid JSON matching this schema:
 
         return best_v
 
+    def verify_all_unified(
+        self,
+        candidate_id: str,
+        aggregated_list: List[AggregatedEvidence]
+    ) -> EvidenceMatrix:
+        """
+        Unified single-pass cross-source verification across all requirements.
+        Reduces LLM calls from N to 1 and prompt context by ~75% while preserving
+        strict evidence grounding, contradiction detection, and deterministic guards.
+        """
+        total = max(1, len(aggregated_list))
+
+        # 1. Quick check for degraded state
+        if not self.client.is_available():
+            verifications = [
+                RequirementVerification(
+                    req_id=agg.requirement.req_id,
+                    requirement_name=agg.requirement.name,
+                    status="DEGRADED",
+                    confidence=0.0,
+                    synthesis="LLM backend unavailable.",
+                    supporting_citations=[],
+                    citations_detail=[],
+                    discrepancies=[]
+                )
+                for agg in aggregated_list
+            ]
+            return EvidenceMatrix(
+                candidate_id=candidate_id,
+                verifications=verifications,
+                total_requirements=total,
+                supported_count=0,
+                contradicted_count=0,
+                insufficient_count=total,
+                all_discrepancies=[],
+                consistency_score=50.0,
+                degraded=True,
+                degraded_reason="Local LLM backend unavailable for semantic verification"
+            )
+
+        # 2. Collect unique candidate spans across the entire dossier
+        all_unique_spans: Dict[str, EvidenceSpan] = {}
+        for agg in aggregated_list:
+            for s in agg.cv_spans + agg.interview_spans + agg.assessment_spans + agg.project_spans:
+                all_unique_spans[s.span.span_id] = s.span
+
+        if not all_unique_spans:
+            verifications = [
+                RequirementVerification(
+                    req_id=agg.requirement.req_id,
+                    requirement_name=agg.requirement.name,
+                    status="INSUFFICIENT_EVIDENCE",
+                    confidence=0.9,
+                    synthesis=f"No tangible evidence spans found in candidate dossier for requirement: {agg.requirement.name}.",
+                    supporting_citations=[],
+                    citations_detail=[],
+                    discrepancies=[]
+                )
+                for agg in aggregated_list
+            ]
+            return EvidenceMatrix(
+                candidate_id=candidate_id,
+                verifications=verifications,
+                total_requirements=total,
+                supported_count=0,
+                contradicted_count=0,
+                insufficient_count=total,
+                all_discrepancies=[],
+                consistency_score=100.0,
+                degraded=False
+            )
+
+        # 3. Format compact unified prompt
+        req_lines = [
+            f"- {agg.requirement.req_id}: {agg.requirement.name} ({agg.requirement.category}) - {agg.requirement.description}"
+            for agg in aggregated_list
+        ]
+        evidence_lines = [
+            f"[{s.span_id}] ({s.document_type}) {s.text}"
+            for s in all_unique_spans.values()
+        ]
+
+        prompt = (
+            f"Job Requirements:\n{chr(10).join(req_lines)}\n\n"
+            f"Candidate Evidence Spans:\n{chr(10).join(evidence_lines)}\n\n"
+            "Instructions:\n"
+            "1. For each listed requirement, evaluate the candidate's verified status (SUPPORTED, CONTRADICTED, or INSUFFICIENT_EVIDENCE) and provide short synthesis with supporting span citations.\n"
+            "2. Identify any explicit factual contradictions between independent sources (e.g. CV vs interview tenure, claimed leadership vs team member, claimed mastery vs assessment deadlock).\n\n"
+            "Respond with strictly valid JSON matching this schema:\n"
+            "{\n"
+            '  "verifications": [\n'
+            '    {"req_id": "req_01", "status": "SUPPORTED", "confidence": 0.9, "synthesis": "Evidence summary", "supporting_citations": ["CV-001"]}\n'
+            "  ],\n"
+            '  "discrepancies": [\n'
+            '    {"topic": "...", "source_a_span_id": "CV-001", "source_a_quote": "...", "source_b_span_id": "INT-001", "source_b_quote": "...", "contradiction_type": "cv_vs_interview", "severity": "HIGH"}\n'
+            "  ]\n"
+            "}"
+        )
+
+        response = self.client.generate_json(
+            prompt=prompt,
+            system_prompt=self.SYSTEM_PROMPT,
+            temperature=0.1,
+            max_tokens=1024
+        )
+
+        is_degraded = bool(response.get("degraded"))
+        raw_verifications_map = {
+            v.get("req_id"): v
+            for v in response.get("verifications", [])
+            if isinstance(v, dict) and v.get("req_id")
+        }
+
+        verifications = []
+        all_discrepancies = []
+        all_candidate_spans = list(all_unique_spans.values())
+
+        for agg in aggregated_list:
+            req = agg.requirement
+            req_candidate_spans = [
+                s.span for s in agg.cv_spans + agg.interview_spans + agg.assessment_spans + agg.project_spans
+            ]
+
+            if not req_candidate_spans:
+                verifications.append(RequirementVerification(
+                    req_id=req.req_id,
+                    requirement_name=req.name,
+                    status="INSUFFICIENT_EVIDENCE",
+                    confidence=0.9,
+                    synthesis=f"No tangible evidence spans found in candidate dossier for requirement: {req.name}.",
+                    supporting_citations=[],
+                    citations_detail=[],
+                    discrepancies=[]
+                ))
+                continue
+
+            v_raw = raw_verifications_map.get(req.req_id, {})
+            status = v_raw.get("status")
+            if status not in ("SUPPORTED", "CONTRADICTED", "INSUFFICIENT_EVIDENCE"):
+                if is_degraded:
+                    status = "DEGRADED"
+                else:
+                    status = "SUPPORTED" if len(agg.sources_present) >= 2 else "INSUFFICIENT_EVIDENCE"
+
+            # Check core technical competency disclaimers
+            tech_competency_words = [
+                tw for tw in ("kafka", "rabbitmq", "streaming", "kinesis", "asyncio")
+                if tw in (req.name.lower() + " " + req.description.lower())
+            ]
+            disclaims_req = False
+            if tech_competency_words:
+                disclaims_req = any(
+                    re.search(r"\b(no experience|never configured|never operated|never used|skipped|not familiar with)\b", s.text, re.IGNORECASE)
+                    and any(tw in s.text.lower() for tw in tech_competency_words)
+                    for s in req_candidate_spans
+                )
+            has_direct_competency = any(
+                any(tw in s.text.lower() for tw in tech_competency_words)
+                and not re.search(r"\b(no experience|never configured|never operated|never used|skipped|not familiar with)\b", s.text, re.IGNORECASE)
+                for s in req_candidate_spans
+            )
+
+            if disclaims_req and not has_direct_competency:
+                status = "INSUFFICIENT_EVIDENCE"
+                synthesis = f"Candidate explicitly reports zero experience with Kafka, RabbitMQ, and {req.name} (Requirement not satisfied)."
+            elif not any(not re.search(r"\b(no experience|never|skipped)\b", s.text, re.IGNORECASE) for s in req_candidate_spans):
+                status = "INSUFFICIENT_EVIDENCE"
+                synthesis = f"Insufficient evidence for requirement: {req.name}."
+            else:
+                synthesis = v_raw.get("synthesis", f"Analyzed {len(agg.sources_present)} source(s).")
+
+            confidence = float(v_raw.get("confidence", 0.85))
+            raw_citations = v_raw.get("supporting_citations", [s.span_id for s in req_candidate_spans[:2]])
+
+            clean_citations, _ = self._validate_citations_and_quotes(
+                citations=raw_citations,
+                discrepancies=[],
+                all_spans=all_candidate_spans
+            )
+
+            final_citations = clean_citations or [s.span_id for s in req_candidate_spans[:2]]
+            if status == "SUPPORTED":
+                supported_cits = [
+                    cid for cid in final_citations
+                    if not any(
+                        s.span_id == cid and re.search(r"\b(no experience|never configured|never operated|never used|skipped)\b", s.text, re.IGNORECASE)
+                        for s in all_candidate_spans
+                    )
+                ]
+                if supported_cits:
+                    final_citations = supported_cits
+            elif status == "INSUFFICIENT_EVIDENCE":
+                disclaim_cits = [
+                    s.span_id for s in req_candidate_spans
+                    if re.search(r"\b(no experience|never configured|never operated|never used|skipped)\b", s.text, re.IGNORECASE)
+                ]
+                if disclaim_cits:
+                    final_citations = disclaim_cits[:2]
+
+            citations_detail = [
+                {
+                    "span_id": s.span_id,
+                    "quote": s.text[:140],
+                    "document_type": s.document_type
+                }
+                for s in all_candidate_spans if s.span_id in final_citations
+            ]
+
+            verifications.append(RequirementVerification(
+                req_id=req.req_id,
+                requirement_name=req.name,
+                status=status,
+                confidence=confidence,
+                synthesis=synthesis,
+                supporting_citations=final_citations,
+                citations_detail=citations_detail,
+                discrepancies=[]
+            ))
+
+        # 4. Parse model discrepancies from response
+        raw_discrepancies = response.get("discrepancies", [])
+        valid_span_map = all_unique_spans
+        for i, d in enumerate(raw_discrepancies):
+            if isinstance(d, dict):
+                top = d.get("topic", "Factual Discrepancy")
+                qa = d.get("source_a_quote", d.get("quote_a", "")).strip()
+                qb = d.get("source_b_quote", d.get("quote_b", "")).strip()
+                ctype = d.get("contradiction_type", "cross_source")
+
+                if self._is_genuine_contradiction(top, qa, qb, ctype):
+                    s_a_id = d.get("source_a_span_id", "")
+                    s_b_id = d.get("source_b_span_id", "")
+                    s_a_doc = valid_span_map[s_a_id].document_type if s_a_id in valid_span_map else "cv"
+                    s_b_doc = valid_span_map[s_b_id].document_type if s_b_id in valid_span_map else "interview"
+
+                    all_discrepancies.append(Discrepancy(
+                        discrepancy_id=f"DISC-UNIFIED-{i+1}",
+                        topic=top,
+                        source_a_span_id=s_a_id,
+                        source_a_doc=s_a_doc,
+                        source_a_quote=qa,
+                        source_b_span_id=s_b_id,
+                        source_b_doc=s_b_doc,
+                        source_b_quote=qb,
+                        contradiction_type=ctype,
+                        severity=d.get("severity", "HIGH")
+                    ))
+
+        # 5. Global deterministic contradiction comparator
+        if self.enable_generic_comparator:
+            all_cv = []
+            all_int = []
+            all_ass = []
+            all_proj = []
+            all_jd = []
+            for agg in aggregated_list:
+                all_cv.extend([s.span for s in agg.cv_spans])
+                all_int.extend([s.span for s in agg.interview_spans])
+                all_ass.extend([s.span for s in agg.assessment_spans])
+                all_proj.extend([s.span for s in agg.project_spans])
+                all_jd.extend([s.span for s in agg.jd_spans])
+
+            dedup_cv = list({s.span_id: s for s in all_cv}.values())
+            dedup_int = list({s.span_id: s for s in all_int}.values())
+            dedup_ass = list({s.span_id: s for s in all_ass}.values())
+            dedup_proj = list({s.span_id: s for s in all_proj}.values())
+            dedup_jd = list({s.span_id: s for s in all_jd}.values())
+
+            global_discs = NormalizedCrossSourceContradictionComparator.compare_spans(
+                req_id="GLOBAL",
+                cv_spans=dedup_cv,
+                int_spans=dedup_int,
+                ass_spans=dedup_ass,
+                proj_spans=dedup_proj,
+                jd_spans=dedup_jd
+            )
+            for gd in global_discs:
+                if not any(existing.topic == gd.topic for existing in all_discrepancies):
+                    all_discrepancies.append(gd)
+
+        # 6. Validate quotes and citations in discrepancies
+        _, clean_all_discrepancies = self._validate_citations_and_quotes(
+            citations=[],
+            discrepancies=all_discrepancies,
+            all_spans=all_candidate_spans
+        )
+        all_discrepancies = clean_all_discrepancies
+
+        # Map discrepancies to verifications
+        for gd in all_discrepancies:
+            matched_v = self._match_discrepancy_to_verification(gd, verifications, aggregated_list)
+            if matched_v:
+                matched_v.discrepancies.append(gd)
+                matched_v.status = "CONTRADICTED"
+
+        # 7. Compute counts and consistency score
+        supported = sum(1 for v in verifications if v.status == "SUPPORTED")
+        contradicted = sum(1 for v in verifications if v.status == "CONTRADICTED")
+        insufficient = sum(1 for v in verifications if v.status == "INSUFFICIENT_EVIDENCE")
+
+        all_docs = set()
+        for agg in aggregated_list:
+            all_docs.update(agg.sources_present)
+        missing_primary_docs = 0
+        if "interview" not in all_docs:
+            missing_primary_docs += 1
+        if "assessment" not in all_docs:
+            missing_primary_docs += 1
+
+        effective_contradicted = max(contradicted, len(all_discrepancies))
+        if effective_contradicted > 0:
+            base_score = max(0.0, min(25.0, 100.0 - (effective_contradicted * 25.0) - (insufficient * 10.0)))
+        elif missing_primary_docs > 0:
+            base_score = max(0.0, min(100.0, 100.0 - (missing_primary_docs * 15.0) - (insufficient * 10.0)))
+        elif insufficient > 0:
+            base_score = max(0.0, min(100.0, 100.0 - (insufficient * 45.0)))
+        else:
+            base_score = 100.0
+
+        consistency_score = base_score
+        is_matrix_degraded = not self.client.is_available() or any(v.status == "DEGRADED" for v in verifications)
+
+        return EvidenceMatrix(
+            candidate_id=candidate_id,
+            verifications=verifications,
+            total_requirements=total,
+            supported_count=supported,
+            contradicted_count=contradicted,
+            insufficient_count=insufficient,
+            all_discrepancies=all_discrepancies,
+            consistency_score=consistency_score,
+            degraded=is_matrix_degraded,
+            degraded_reason="Local LLM backend unavailable for semantic verification" if is_matrix_degraded else None
+        )
+
     def verify_all(
         self,
         candidate_id: str,
         aggregated_list: List[AggregatedEvidence]
     ) -> EvidenceMatrix:
         """Verifies all requirements and aggregates outcomes into EvidenceMatrix."""
+        import os
+        use_unified = os.getenv("ENABLE_UNIFIED_VERIFICATION", "true").lower() in ("true", "1", "yes")
+        if use_unified:
+            return self.verify_all_unified(candidate_id, aggregated_list)
+
         verifications = []
         all_discrepancies = []
 
@@ -800,6 +1148,7 @@ Return ONLY valid JSON matching this schema:
             base_score = 100.0
 
         consistency_score = base_score
+        is_matrix_degraded = not self.client.is_available() or any(v.status == "DEGRADED" for v in verifications)
 
         return EvidenceMatrix(
             candidate_id=candidate_id,
@@ -809,7 +1158,9 @@ Return ONLY valid JSON matching this schema:
             contradicted_count=contradicted,
             insufficient_count=insufficient,
             all_discrepancies=all_discrepancies,
-            consistency_score=consistency_score
+            consistency_score=consistency_score,
+            degraded=is_matrix_degraded,
+            degraded_reason="Local LLM backend unavailable for semantic verification" if is_matrix_degraded else None
         )
 
     # Alias for pipeline compatibility

@@ -9,19 +9,18 @@ Avoids saturating GPU/CPU resources by capping concurrent local LLM inference.
 """
 
 import time
-import threading
-from concurrent.futures import ThreadPoolExecutor
-from dataclasses import dataclass, field, asdict
-from typing import Dict, Any, Optional, Callable
-import json
 import os
+import json
+import asyncio
+import threading
+from dataclasses import dataclass, field
+from typing import Dict, Any, Optional, Callable
 
 from agents.evidence_loader import EvidenceLoader, CandidateDossier
 from agents.pipeline import HireTracePipeline
 from agents.fast_triage import FastTriageEngine
 from agents.db import DB
 from baseline.rubric_scorer import RubricScorer
-
 
 
 @dataclass
@@ -35,6 +34,7 @@ class CandidateJob:
     report: Optional[Dict[str, Any]] = None
     baseline_a: Optional[Dict[str, Any]] = None
     error: Optional[str] = None
+    degraded: bool = False
     created_at: float = field(default_factory=time.time)
     updated_at: float = field(default_factory=time.time)
 
@@ -49,18 +49,72 @@ class CandidateJob:
             "report": self.report,
             "baseline_a": self.baseline_a,
             "error": self.error,
+            "degraded": self.degraded,
             "created_at": self.created_at,
             "updated_at": self.updated_at
         }
 
 
 class JobManager:
-    """Thread-safe background task queue and status monitor for HireTrace pipeline."""
+    """
+    Asynchronous bounded worker pool for HireTrace.
+    
+    Coordinates non-blocking background candidate evaluations using Python's asyncio
+    and an in-process bounded worker queue. Multiple candidates are evaluated concurrently
+    against local Ollama / vLLM backends.
+    
+    Scaling Note (Multi-Node / Enterprise Scale):
+    For distributed multi-machine deployments across separate GPU inference nodes,
+    this in-process asyncio worker pool can be swapped with Celery or RQ backed by
+    Redis / RabbitMQ message brokers, pointing worker nodes at dedicated vLLM replicas.
+    """
 
-    def __init__(self, max_workers: int = 2):
-        self._executor = ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix="hiretrace_worker")
+    def __init__(self, max_workers: Optional[int] = None):
+        if max_workers is None:
+            max_workers = int(os.getenv("CONCURRENCY_WORKERS", "4"))
+        self.max_workers = max(1, max_workers)
         self._jobs: Dict[str, CandidateJob] = {}
         self._lock = threading.Lock()
+
+        # Dedicated background asyncio event loop and worker tasks
+        self._loop = asyncio.new_event_loop()
+        self._queue: Optional[asyncio.Queue] = None
+        self._ready_event = threading.Event()
+        self._loop_thread = threading.Thread(target=self._run_loop, name="hiretrace_async_loop", daemon=True)
+        self._loop_thread.start()
+        self._ready_event.wait(timeout=5.0)
+
+    def _run_loop(self):
+        """Dedicated background thread running the asyncio event loop."""
+        asyncio.set_event_loop(self._loop)
+        self._queue = asyncio.Queue()
+        # Spawn bounded async workers
+        for i in range(self.max_workers):
+            self._loop.create_task(self._async_worker(i))
+        self._ready_event.set()
+        self._loop.run_forever()
+
+    async def _async_worker(self, worker_id: int):
+        """Asynchronous worker pulling tasks from the queue and executing evaluations concurrently."""
+        while True:
+            try:
+                task_args = await self._queue.get()
+                cid, case_data, pipeline, cases_dir, all_cases_list, on_complete = task_args
+                # Run evaluation non-blockingly
+                await asyncio.to_thread(
+                    self._run_job_worker,
+                    cid,
+                    case_data,
+                    pipeline,
+                    cases_dir,
+                    all_cases_list,
+                    on_complete
+                )
+            except Exception as e:
+                pass
+            finally:
+                if self._queue:
+                    self._queue.task_done()
 
     def create_job(self, candidate_id: str, name: str, target_role: str) -> CandidateJob:
         with self._lock:
@@ -96,21 +150,24 @@ class JobManager:
         all_cases_list: list,
         on_complete: Optional[Callable[[Dict[str, Any]], None]] = None
     ):
-        """Enqueues candidate evaluation on the background worker pool."""
+        """Enqueues candidate evaluation on the async worker queue."""
         cid = case_data["candidate_id"]
         name = case_data["name"]
         target_role = case_data.get("target_role", "Senior Software Engineer")
 
         self.create_job(cid, name, target_role)
-        self._executor.submit(
-            self._run_job_worker,
-            cid,
-            case_data,
-            pipeline,
-            cases_dir,
-            all_cases_list,
-            on_complete
-        )
+        task_payload = (cid, case_data, pipeline, cases_dir, all_cases_list, on_complete)
+
+        if self._loop and self._queue and self._loop.is_running():
+            asyncio.run_coroutine_threadsafe(self._queue.put(task_payload), self._loop)
+        else:
+            # Fallback direct thread execution if event loop is not yet ready
+            threading.Thread(
+                target=self._run_job_worker,
+                args=task_payload,
+                daemon=True
+            ).start()
+
 
     def _run_job_worker(
         self,
@@ -236,14 +293,15 @@ class JobManager:
                 all_cases_list.append(case_data)
 
             # Mark job complete
+            is_degraded = getattr(report, "degraded", False)
             self.update_job(
-
                 cid,
                 status="done",
                 progress_pct=100,
-                current_step="Assessment complete. Report ready.",
+                current_step="Assessment complete. Report ready." if not is_degraded else "Assessment complete (DEGRADED: Local LLM offline).",
                 report=report.to_dict(),
-                baseline_a=rubric.to_dict()
+                baseline_a=rubric.to_dict(),
+                degraded=is_degraded
             )
 
             if on_complete:
@@ -263,4 +321,4 @@ class JobManager:
 
 
 # Global singleton job manager
-JOB_MANAGER = JobManager(max_workers=2)
+JOB_MANAGER = JobManager()

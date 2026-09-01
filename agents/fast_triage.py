@@ -80,7 +80,19 @@ class FastTriageEngine:
                 "verified_claims_count": 0,
                 "contradicted_claims_count": 0,
                 "unverified_claims_count": 0,
-                "triage_tier": "tier_0_fast_reject"
+                "triage_tier": "tier_0_fast_reject",
+                "formatted_terminal_card": (
+                    "====================================================================\n"
+                    "                    CANDIDATE ASSESSMENT REPORT                    \n"
+                    f"Candidate: {dossier.name} | Role: {target_role}\n"
+                    "====================================================================\n"
+                    f"ROLE FIT                           {round(overall_rubric_score, 1):.1f} / 100\n"
+                    "EVIDENCE CONSISTENCY               100.0 / 100\n"
+                    "QUADRANT PLACEMENT                [LOW_FIT_FAST_REJECT]\n"
+                    "[*] Tier-0 Fast-Triage: Low Domain Fit (Bypassed LLM)\n\n"
+                    f"EXECUTIVE SUMMARY:\n  {reason}\n"
+                    "===================================================================="
+                )
             }
 
             return True, triage_report

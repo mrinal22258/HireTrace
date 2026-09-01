@@ -78,8 +78,8 @@ def test_async_upload_and_status_polling(server_url):
     assert resp_json.get("status") == "queued"
     assert resp_json.get("poll_url") == f"/api/candidate/{cid}/status"
 
-    # 2. Poll status endpoint until completion
-    max_wait_seconds = 60
+    # 2. Poll status endpoint until completion (allow 180s for live local LLM inference)
+    max_wait_seconds = 180
     poll_start = time.time()
     final_job = None
 

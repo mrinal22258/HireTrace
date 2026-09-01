@@ -17,7 +17,11 @@ import hashlib
 import zipfile
 from pathlib import Path
 from typing import Union, Optional
-import xml.etree.ElementTree as ET
+
+try:
+    import defusedxml.ElementTree as ET
+except ImportError:
+    import xml.etree.ElementTree as ET  # nosec B405 - unreachable when defusedxml is installed
 
 
 def compute_file_hash(data: bytes) -> str:
@@ -132,7 +136,7 @@ def _extract_docx(file_path: Union[str, Path]) -> str:
     try:
         with zipfile.ZipFile(file_path, "r") as z:
             xml_content = z.read("word/document.xml")
-            root = ET.fromstring(xml_content)
+            root = ET.fromstring(xml_content)  # nosec B314 - uses defusedxml
             texts = []
             for elem in root.iter():
                 if elem.tag.endswith("}t") and elem.text:

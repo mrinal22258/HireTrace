@@ -98,3 +98,29 @@ def test_database_pagination_and_search(temp_db):
     assert alpha_results["total"] == 5
     for it in alpha_results["items"]:
         assert "Alpha" in it["name"]
+
+
+def test_concurrent_database_reads_writes(temp_db):
+    import concurrent.futures
+
+    def worker_write(i):
+        cid = f"concurrent_cand_{i}"
+        temp_db.upsert_candidate(cid, f"Concurrent Candidate {i}", "Software Engineer", "applicant", "done")
+        temp_db.save_evaluation(cid, 80.0 + (i % 20), 90.0, "STRONG MATCH", {"test": True})
+        return temp_db.get_candidate_full(cid)
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+        futures = [executor.submit(worker_write, i) for i in range(25)]
+        results = [f.result() for f in concurrent.futures.as_completed(futures)]
+
+    assert len(results) == 25
+    assert all(r is not None for r in results)
+
+
+def test_postgres_url_switch(monkeypatch, tmp_path):
+    # Test that setting DATABASE_URL configures the engine URL properly
+    custom_url = f"sqlite:///{str(tmp_path / 'pg_mock.db').replace('\\', '/')}"
+    monkeypatch.setenv("DATABASE_URL", custom_url)
+    db = DatabaseManager()
+    assert db.database_url == custom_url
+

@@ -99,6 +99,9 @@ class HireTracePipeline:
 
         elapsed = round(time.time() - t0, 2)
         trajectory["pipeline_latency_sec"] = elapsed
+        trajectory["degraded"] = getattr(report, "degraded", False)
+        if getattr(report, "degraded", False):
+            trajectory["degraded_reason"] = getattr(report, "degraded_reason", None)
 
         if log_trajectory:
             traj_path = os.path.join(self.trajectory_dir, f"{dossier.candidate_id}_trajectory.json")

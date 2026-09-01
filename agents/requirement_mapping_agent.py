@@ -10,7 +10,9 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
 import json
 import re
+import hashlib
 from agents.ollama_client import OllamaClient
+from agents.db import DB
 
 
 @dataclass
@@ -33,9 +35,20 @@ class JobRequirement:
             "expected_sources": self.expected_sources
         }
 
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "JobRequirement":
+        return cls(
+            req_id=data.get("req_id", "REQ-01"),
+            name=data.get("name", "Requirement"),
+            category=data.get("category", "technical_skills"),
+            description=data.get("description", ""),
+            importance=data.get("importance", "MUST_HAVE"),
+            expected_sources=data.get("expected_sources", ["cv", "interview"])
+        )
+
 
 class RequirementMappingAgent:
-    """Agent responsible for decomposing JDs into verifiable requirement records."""
+    """Agent responsible for decomposing JDs into verifiable requirement records with SHA-256 caching."""
 
     SYSTEM_PROMPT = """You are a senior hiring architect. Analyze the provided Job Description (JD).
 Extract the key requirements as discrete, verifiable items.
@@ -55,12 +68,47 @@ Output strictly JSON matching this structure:
 
     def __init__(self, ollama_client: Optional[OllamaClient] = None):
         self.client = ollama_client or OllamaClient()
+        self._memory_cache: Dict[str, List[JobRequirement]] = {}
+        self.cache_hits = 0
+        self.cache_misses = 0
+
+    def compute_cache_key(self, jd_text: str, target_role: str) -> str:
+        """Generates deterministic SHA-256 key from normalized role + JD content."""
+        content = f"{target_role.strip().lower()}::{jd_text.strip()}"
+        return hashlib.sha256(content.encode("utf-8")).hexdigest()
+
+    def get_cache_stats(self) -> Dict[str, int]:
+        return {
+            "hits": self.cache_hits,
+            "misses": self.cache_misses,
+            "size": len(self._memory_cache)
+        }
 
     def map_requirements(self, jd_text: str, target_role: str = "Senior Software Engineer") -> List[JobRequirement]:
-        """Maps JD text into structured JobRequirement objects."""
+        """Maps JD text into structured JobRequirement objects with SHA-256 caching."""
         if not jd_text or not jd_text.strip():
             return self._default_requirements(target_role)
 
+        cache_key = self.compute_cache_key(jd_text, target_role)
+
+        # 1. Tier-1: In-memory cache hit
+        if cache_key in self._memory_cache:
+            self.cache_hits += 1
+            return self._memory_cache[cache_key]
+
+        # 2. Tier-2: Persistent DB cache hit
+        try:
+            db_cached = DB.get_cached_requirements(cache_key)
+            if db_cached:
+                reqs = [JobRequirement.from_dict(item) for item in db_cached]
+                self._memory_cache[cache_key] = reqs
+                self.cache_hits += 1
+                return reqs
+        except Exception:
+            pass
+
+        # 3. Cache miss: Compute via LLM or deterministic fallback
+        self.cache_misses += 1
         prompt = f"Role: {target_role}\n\nJob Description:\n{jd_text}\n\nDecompose into 4-6 key requirements:"
         response = self.client.generate_json(prompt=prompt, system_prompt=self.SYSTEM_PROMPT, max_tokens=768)
 
@@ -104,6 +152,13 @@ Output strictly JSON matching this structure:
             # Deterministic fallback parser from JD text
             requirements = self._fallback_parse_jd(jd_text, target_role)
 
+        # Store in both memory and persistent DB cache
+        self._memory_cache[cache_key] = requirements
+        try:
+            DB.set_cached_requirements(cache_key, target_role, [r.to_dict() for r in requirements])
+        except Exception:
+            pass
+
         return requirements
 
     def _fallback_parse_jd(self, jd_text: str, target_role: str) -> List[JobRequirement]:
@@ -141,37 +196,229 @@ Output strictly JSON matching this structure:
         return requirements
 
     def _default_requirements(self, target_role: str) -> List[JobRequirement]:
-        return [
-            JobRequirement(
-                req_id="REQ-01",
-                name="Core Python & AsyncIO",
-                category="technical_skills",
-                description="Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
-                importance="MUST_HAVE",
-                expected_sources=["cv", "assessment", "interview"]
-            ),
-            JobRequirement(
-                req_id="REQ-02",
-                name="Distributed Systems & Message Queues",
-                category="architecture",
-                description="Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
-                importance="MUST_HAVE",
-                expected_sources=["cv", "project", "interview"]
-            ),
-            JobRequirement(
-                req_id="REQ-03",
-                name="Technical Leadership & Initiative",
-                category="leadership",
-                description="Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
-                importance="IMPORTANT",
-                expected_sources=["cv", "interview", "project"]
-            ),
-            JobRequirement(
-                req_id="REQ-04",
-                name="Production Tenure & Operational Reliability",
-                category="production_experience",
-                description="At least 3+ years of commercial production experience managing live services and on-call.",
-                importance="MUST_HAVE",
-                expected_sources=["cv", "interview"]
-            )
-        ]
+        role_lower = (target_role or "").lower()
+
+        # 1. Robotics & Perception / Autonomous Systems
+        if any(k in role_lower for k in ["robot", "autonomous", "drone", "slam", "perception", "lidar"]):
+            return [
+                JobRequirement(
+                    req_id="REQ-01",
+                    name="Perception & Sensor Fusion",
+                    category="technical_skills",
+                    description="Expertise in multi-modal sensor fusion (LiDAR, Camera, ToF) and spatial calibration pipelines.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "project", "assessment"]
+                ),
+                JobRequirement(
+                    req_id="REQ-02",
+                    name="SLAM & State Estimation",
+                    category="architecture",
+                    description="Developing visual odometry, graph-based SLAM, and map-free localization algorithms.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "project", "interview"]
+                ),
+                JobRequirement(
+                    req_id="REQ-03",
+                    name="Robotics Software & Middleware (ROS/ROS2)",
+                    category="technical_skills",
+                    description="Proficiency integrating algorithms into ROS/ROS2, OpenCV, PyTorch, and C++/Python runtimes.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "assessment", "interview"]
+                ),
+                JobRequirement(
+                    req_id="REQ-04",
+                    name="Research Rigor & Academic Publications",
+                    category="leadership",
+                    description="Demonstrated record of research publications in top robotics venues (IROS, ICRA, RA-L, ECCV).",
+                    importance="IMPORTANT",
+                    expected_sources=["cv", "interview"]
+                ),
+                JobRequirement(
+                    req_id="REQ-05",
+                    name="Physical Drone/Robot Deployment & Testing",
+                    category="production_experience",
+                    description="Hands-on verification of algorithms on physical autonomous drones/robots and Sim-to-Real validation.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "project", "interview"]
+                )
+            ]
+
+        # 2. AI / Machine Learning / Deep Learning / LLM
+        elif any(k in role_lower for k in ["ai", "machine learning", "deep learning", "nlp", "llm", "rag", "data science"]):
+            return [
+                JobRequirement(
+                    req_id="REQ-01",
+                    name="Deep Learning & Neural Architectures",
+                    category="technical_skills",
+                    description="Designing and training neural network models (Transformers, CNNs, BiLSTMs) using PyTorch or TensorFlow.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "assessment", "project"]
+                ),
+                JobRequirement(
+                    req_id="REQ-02",
+                    name="Retrieval & Vector Data Infrastructure",
+                    category="architecture",
+                    description="Architecting vector retrieval systems, dense embeddings, FAISS, and semantic search pipelines.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "project", "interview"]
+                ),
+                JobRequirement(
+                    req_id="REQ-03",
+                    name="Empirical Benchmarking & Evaluation",
+                    category="technical_skills",
+                    description="Conducting rigorous benchmark evaluations, ablation studies, and error analysis across shared tasks.",
+                    importance="IMPORTANT",
+                    expected_sources=["cv", "interview", "assessment"]
+                ),
+                JobRequirement(
+                    req_id="REQ-04",
+                    name="Model Serving & Production Deployment",
+                    category="production_experience",
+                    description="Deploying machine learning models via containerized APIs (FastAPI, Docker, ONNX) with low latency.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "project", "interview"]
+                ),
+                JobRequirement(
+                    req_id="REQ-05",
+                    name="Technical Initiative & Applied Research",
+                    category="leadership",
+                    description="Translating cutting-edge research literature into maintainable open-source code or production systems.",
+                    importance="IMPORTANT",
+                    expected_sources=["cv", "interview"]
+                )
+            ]
+
+        # 3. Frontend & Full-Stack
+        elif any(k in role_lower for k in ["frontend", "front-end", "fullstack", "full stack", "react", "web"]):
+            return [
+                JobRequirement(
+                    req_id="REQ-01",
+                    name="Modern TypeScript & Component Architecture",
+                    category="technical_skills",
+                    description="Proficiency in modern TypeScript, component lifecycles, and modular web architecture (React/Next.js).",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "assessment", "project"]
+                ),
+                JobRequirement(
+                    req_id="REQ-02",
+                    name="UI Performance & Responsive Design",
+                    category="technical_skills",
+                    description="Optimizing Core Web Vitals, sub-second rendering, accessibility standards, and fluid responsive layouts.",
+                    importance="IMPORTANT",
+                    expected_sources=["cv", "assessment", "interview"]
+                ),
+                JobRequirement(
+                    req_id="REQ-03",
+                    name="API Integration & Asynchronous State",
+                    category="architecture",
+                    description="Clean integration with backend REST/GraphQL APIs, optimistic UI updates, and client-side caching.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "project", "interview"]
+                ),
+                JobRequirement(
+                    req_id="REQ-04",
+                    name="Automated Testing & Build Tooling",
+                    category="production_experience",
+                    description="Comprehensive testing (Jest, Playwright, Cypress) and modern build pipelines (Vite, Webpack).",
+                    importance="IMPORTANT",
+                    expected_sources=["cv", "assessment"]
+                ),
+                JobRequirement(
+                    req_id="REQ-05",
+                    name="End-to-End Product Ownership",
+                    category="leadership",
+                    description="Track record of collaborating with design and product teams to deliver polished user experiences.",
+                    importance="IMPORTANT",
+                    expected_sources=["cv", "interview"]
+                )
+            ]
+
+        # 4. Distributed Systems & Infrastructure
+        elif any(k in role_lower for k in ["distributed", "infra", "kafka", "sre", "devops", "cloud", "backend"]):
+            return [
+                JobRequirement(
+                    req_id="REQ-01",
+                    name="Core Python & AsyncIO Concurrency",
+                    category="technical_skills",
+                    description="Proficiency in Python 3.10+, asynchronous programming, uvloop, and internal concurrency models.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "assessment", "interview"]
+                ),
+                JobRequirement(
+                    req_id="REQ-02",
+                    name="Distributed Systems & Event Streaming",
+                    category="architecture",
+                    description="Hands-on experience deploying and operating event streams (Kafka/RabbitMQ) and partitioned event logs.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "project", "interview"]
+                ),
+                JobRequirement(
+                    req_id="REQ-03",
+                    name="Database Sharding & Data Consistency",
+                    category="architecture",
+                    description="Managing distributed state consistency across partitioned databases and distributed caches.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "project", "interview"]
+                ),
+                JobRequirement(
+                    req_id="REQ-04",
+                    name="Technical Architecture & RFC Writing",
+                    category="leadership",
+                    description="Authoring production RFCs, defining component boundaries, and leading cross-service migrations.",
+                    importance="IMPORTANT",
+                    expected_sources=["cv", "interview", "project"]
+                ),
+                JobRequirement(
+                    req_id="REQ-05",
+                    name="Production Operations & Reliability",
+                    category="production_experience",
+                    description="Managing live customer-facing systems, telemetry instrumentation, and production incident response.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "interview"]
+                )
+            ]
+
+        # 5. General Software Engineer (Universal Default)
+        else:
+            return [
+                JobRequirement(
+                    req_id="REQ-01",
+                    name="Core Programming & Clean Architecture",
+                    category="technical_skills",
+                    description="Strong proficiency in modern programming languages, data structures, algorithms, and clean design.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "assessment", "interview"]
+                ),
+                JobRequirement(
+                    req_id="REQ-02",
+                    name="System Implementation & API Design",
+                    category="architecture",
+                    description="Designing, implementing, and deploying robust software services and clean API interfaces.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "project", "interview"]
+                ),
+                JobRequirement(
+                    req_id="REQ-03",
+                    name="Persistence & Data Layer Competence",
+                    category="technical_skills",
+                    description="Experience with relational or NoSQL database querying, schema modeling, and data pipelines.",
+                    importance="IMPORTANT",
+                    expected_sources=["cv", "assessment", "project"]
+                ),
+                JobRequirement(
+                    req_id="REQ-04",
+                    name="Code Quality, Testing & CI/CD",
+                    category="production_experience",
+                    description="Writing testable code with automated unit and integration tests and continuous integration workflows.",
+                    importance="MUST_HAVE",
+                    expected_sources=["cv", "assessment", "interview"]
+                ),
+                JobRequirement(
+                    req_id="REQ-05",
+                    name="Technical Problem Solving & Delivery",
+                    category="leadership",
+                    description="Track record of solving complex technical problems and delivering working software end-to-end.",
+                    importance="IMPORTANT",
+                    expected_sources=["cv", "interview", "project"]
+                )
+            ]

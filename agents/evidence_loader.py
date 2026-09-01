@@ -143,44 +143,70 @@ class EvidenceLoader:
             return False
 
         # 3. Production experience
-        # Estimate years from CV
-        tenure_matches = re.findall(r"(\d+(?:\.\d+)?)\+?\s*(?:years?|yrs?)(?:\s+of)?\s+(?:experience|production|engineering)", lower)
+        # Priority 1: Explicit statements like "5+ years of experience" or "4 years of production engineering"
+        tenure_matches = re.findall(r"(\d+(?:\.\d+)?)\+?\s*(?:years?|yrs?)(?:\s+of)?\s+(?:experience|production|engineering|tenure)", lower)
         tenure_years = max([float(m) for m in tenure_matches], default=0.0)
         
-        # Fallback date calculation with interval merging to avoid double-counting concurrent jobs
-        year_ranges = re.findall(r"(201\d|202\d)\s*[-–—]\s*(201\d|202\d|present|current)", lower)
-        if not tenure_years and year_ranges:
-            intervals = []
-            for start, end in year_ranges:
-                start_yr = int(start)
-                end_yr = 2026 if end in ("present", "current") else int(end)
-                if end_yr >= start_yr:
-                    intervals.append((start_yr, end_yr))
-            
-            if intervals:
-                intervals.sort(key=lambda x: x[0])
-                merged = [intervals[0]]
-                for current in intervals[1:]:
-                    prev_start, prev_end = merged[-1]
-                    if current[0] <= prev_end:
-                        merged[-1] = (prev_start, max(prev_end, current[1]))
-                    else:
-                        merged.append(current)
-                total_span = sum(float(end - start) for start, end in merged)
-                tenure_years = min(total_span, 15.0)
+        # Priority 2: Date intervals within Experience / Work History sections ONLY
+        # (Explicitly exclude Education, Academics, Extracurricular, Societies, and Student Club dates)
+        if not tenure_years:
+            exp_match = re.search(
+                r"(?:^|\n)#*\s*(?:work\s+experience|professional\s+experience|employment\s+history|experience)\b(.*?)(?=\n#*\s*(?:education|academics|projects|certifications|awards|skills|positions|extracurricular|societies|clubs|$))",
+                cv_text,
+                re.DOTALL | re.IGNORECASE
+            )
+            if exp_match:
+                exp_scope = exp_match.group(1).lower()
+            else:
+                cleaned_cv = re.sub(
+                    r"(?:education|academics|positions|extracurricular|societies|clubs)\b.*?(?=\n\n|\n#|[A-Z][a-z]+:|$)",
+                    "",
+                    cv_text,
+                    flags=re.DOTALL | re.IGNORECASE
+                )
+                exp_scope = cleaned_cv.lower()
+
+            year_ranges = re.findall(r"(201\d|202\d)\s*[-–—]\s*(201\d|202\d|present|current)", exp_scope)
+            if year_ranges:
+                intervals = []
+                for start, end in year_ranges:
+                    start_yr = int(start)
+                    end_yr = 2026 if end in ("present", "current") else int(end)
+                    if end_yr >= start_yr:
+                        intervals.append((start_yr, end_yr))
+                
+                if intervals:
+                    intervals.sort(key=lambda x: x[0])
+                    merged = [intervals[0]]
+                    for current in intervals[1:]:
+                        prev_start, prev_end = merged[-1]
+                        if current[0] <= prev_end:
+                            merged[-1] = (prev_start, max(prev_end, current[1]))
+                        else:
+                            merged.append(current)
+                    total_span = sum(float(end - start) for start, end in merged)
+                    tenure_years = min(total_span, 15.0)
+            else:
+                # Check for month-level internship / research durations e.g. "Jan 2025 - Apr 2025"
+                month_pairs = re.findall(
+                    r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s*(201\d|202\d)\s*[-–—]\s*(?:(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s*)?(201\d|202\d|present|current)",
+                    exp_scope
+                )
+                if month_pairs:
+                    tenure_years = 0.3
 
         has_high_scale = _has_positive_mention(r"(high[- ]throughput|sla|millions? of requests|uptime|qps|tb of data)", lower)
 
         # 4. Technical skills (negation-aware)
         primary_lang = _has_positive_mention(r"(python|asyncio|fastapi|django|flask)", lower)
-        database_sys = _has_positive_mention(r"(postgresql|postgres|mysql|sqlite|redis|mongodb|cassandra)", lower)
-        distributed_sys = _has_positive_mention(r"(distributed|kafka|grpc|event[- ]driven|load balancer|concurrency)", lower)
+        database_sys = _has_positive_mention(r"(postgresql|postgres|mysql|sqlite|redis|mongodb|cassandra|\bsql\b|\bdbms\b|vector\s+database|neo4j|nosql|faiss|elasticsearch|dynamodb|clickhouse)", lower)
+        distributed_sys = _has_positive_mention(r"(distributed|kafka|grpc|event[- ]driven|load balancer|concurrency|spark|hadoop|docker|kubernetes|k8s|cloud|aws|gcp|azure|decentralized|rabbitmq|pubsub)", lower)
 
         # 5. Bonus points
         has_writing = _has_positive_mention(r"(blog|medium\.com|substack|whitepaper|talk|speaker|conference)", lower)
-        has_mentorship = _has_positive_mention(r"(mentored|mentor|led team|lead|tech lead|coached)", lower)
-        has_academic = _has_positive_mention(r"(master's|phd|thesis|publication|ieee|acm|patent|competition|hackathon winner)", lower)
-        has_security = _has_positive_mention(r"(security|owasp|soc2|encryption|oauth|auth0|penetration)", lower)
+        has_mentorship = _has_positive_mention(r"(mentored|mentor|led team|lead|tech lead|coached|core member|coordinator|organizer)", lower)
+        has_academic = _has_positive_mention(r"(master's|phd|thesis|publication|ieee|acm|patent|competition|hackathon winner|researcher|research|benchmark|shared task|award|prize|olympiad)", lower)
+        has_security = _has_positive_mention(r"(security|owasp|soc2|encryption|oauth|auth0|penetration|cipher|cryptanalysis|cryptography|certif(?:ied|icate|ication|ications))", lower)
 
         return {
             "candidate_id": candidate_id,

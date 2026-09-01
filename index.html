@@ -290,6 +290,39 @@
       color: #9F1239;
       border: 1px solid #FECDD3;
     }
+    .badge-degraded {
+      background: #FEE2E2;
+      color: #991B1B;
+      border: 1.5px solid #F87171;
+      font-weight: 700;
+      animation: pulseAlert 2.5s infinite;
+    }
+
+    .degraded-system-banner {
+      background: #FEF2F2;
+      border: 1.5px solid #F87171;
+      border-radius: 12px;
+      padding: 0.9rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #991B1B;
+      font-size: 0.84rem;
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.12);
+      animation: pulseAlert 2.5s infinite;
+    }
+    .degraded-system-banner .degraded-icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+    .degraded-system-banner .degraded-text strong {
+      font-weight: 700;
+      color: #7F1D1D;
+    }
+    @keyframes pulseAlert {
+      0%, 100% { box-shadow: 0 4px 14px rgba(239, 68, 68, 0.12); }
+      50% { box-shadow: 0 4px 20px rgba(239, 68, 68, 0.25); }
+    }
 
     .cand-role {
       font-size: 0.72rem;
@@ -1196,20 +1229,27 @@
 
     <!-- Main Content -->
     <main>
+      <!-- Degraded System Banner -->
+      <div id="degradedBanner" class="degraded-system-banner" style="display: none;">
+        <span class="degraded-icon">⚠️</span>
+        <div class="degraded-text">
+          <strong>SYSTEM DEGRADED (NO SILENT FABRICATION):</strong> The local LLM backend (Ollama/vLLM) is currently offline or unreachable.
+          Role fit scoring is disabled and flagged as N/A (HireTrace never fabricates fake scores). Deterministic rubric baselines and evidence spans remain fully accessible.
+        </div>
+      </div>
+
       <!-- Candidate Profile Header Card -->
       <section class="candidate-header-card">
         <div class="cand-header-info">
-          <h2 id="candName">Alexander Sterling</h2>
+          <h2 id="candName">Loading Candidate...</h2>
           <div class="cand-header-meta">
-            <span id="candRole">Senior Python & Distributed Systems Engineer</span>
+            <span id="candRole">Role</span>
             <span>•</span>
-            <span id="candCategory" style="color: var(--pink-600);">Centerpiece Deceptive</span>
+            <span id="candCategory" style="color: var(--pink-600);">Profile</span>
           </div>
           <div class="cand-tags" id="candTags">
-            <span class="cand-tag">8+ Years Claimed</span>
-            <span class="cand-tag">Apache Kafka</span>
-            <span class="cand-tag">AsyncIO & uvloop</span>
-            <span class="cand-tag">FinFlow Technologies</span>
+            <span class="cand-tag">Evidence-First</span>
+            <span class="cand-tag">Local LLM Verified</span>
           </div>
         </div>
         <div class="header-scores">
@@ -1670,6 +1710,7 @@ Loading benchmark evaluation...
       if (quadrant === "STRONG MATCH") return "badge-strong";
       if (quadrant === "REVIEW REQUIRED") return "badge-review";
       if (quadrant === "INSUFFICIENT EVIDENCE") return "badge-insufficient";
+      if (quadrant === "DEGRADED" || quadrant === "DEGRADED (LLM UNAVAILABLE)") return "badge-degraded";
       if (quadrant === "EVALUATING" || quadrant === "QUEUED") return "badge-evaluating";
       if (quadrant === "LOW_FIT_FAST_REJECT") return "badge-fast-reject";
       return "badge-weak";
@@ -1752,22 +1793,98 @@ Loading benchmark evaluation...
       const report = data.report || {};
       const card = report.candidate_card || report.quadrant_report || report || {};
       const name = card.candidate_name || activeFullDocs?.name || "Candidate";
-      const quadrant = card.quadrant_placement || report.quadrant_placement || "REVIEW REQUIRED";
+      const quadrant = card.quadrant_placement || report.quadrant_placement || report.quadrant || "REVIEW REQUIRED";
 
       // Header update
       document.getElementById("candName").textContent = name;
-      document.getElementById("candRole").textContent = card.role || activeFullDocs?.target_role || "Senior Python & Distributed Systems Engineer";
+      document.getElementById("candRole").textContent = card.target_role || card.role || activeFullDocs?.target_role || "Senior Python & Distributed Systems Engineer";
       document.getElementById("quadrantPill").textContent = `[${quadrant}]`;
       document.getElementById("quadrantPill").className = `score-box-quadrant ${getBadgeClass(quadrant)}`;
 
-      const roleFit = card.role_fit_score !== undefined ? card.role_fit_score : (report.role_fit_score !== undefined ? report.role_fit_score : 76.0);
-      const consistency = card.evidence_consistency_score !== undefined ? card.evidence_consistency_score : (report.evidence_consistency_score !== undefined ? report.evidence_consistency_score : 0.0);
-      
-      document.getElementById("scoreRoleFit").textContent = Number(roleFit).toFixed(1);
+      // Category update
+      const catEl = document.getElementById("candCategory");
+      if (catEl) {
+        let catText = activeFullDocs?.category || card.category || (report.triage_tier ? "Fast Triage" : "Applicant");
+        catText = String(catText).replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+        catEl.textContent = catText;
+      }
+
+      // Dynamic Tags update from candidate's actual profile
+      const tagsContainer = document.getElementById("candTags");
+      if (tagsContainer) {
+        let tagList = [];
+        const prof = activeFullDocs?.structured_profile;
+        if (prof) {
+          const yrs = prof.years_production_experience !== undefined ? Number(prof.years_production_experience) : (prof.years_experience !== undefined ? Number(prof.years_experience) : 0);
+          if (yrs >= 1.0) {
+            tagList.push(`${yrs.toFixed(0)}+ Yrs Exp`);
+          } else if (yrs > 0.0) {
+            tagList.push("<1 Yr Exp / Intern");
+          } else {
+            tagList.push("Student / Early Career");
+          }
+          if (prof.has_public_repo) tagList.push("Open Source / Repos");
+          if (prof.has_live_demo) tagList.push("Live Demos");
+          if (prof.has_competitive_or_academic) tagList.push("Research / Awards");
+          if (Array.isArray(prof.skills) && prof.skills.length > 0) {
+            tagList.push(...prof.skills.slice(0, 2));
+          }
+        }
+        if (tagList.length === 0) {
+          const role = card.target_role || card.role || activeFullDocs?.target_role;
+          if (role) tagList.push(role);
+          if (report.quadrant) tagList.push(report.quadrant);
+          tagList.push("Evidence Verified");
+        }
+        tagsContainer.innerHTML = tagList.map(t => `<span class="cand-tag">${escapeHtml(t)}</span>`).join("");
+      }
+
+      const isDegraded = Boolean(report.degraded || card.degraded || (report.role_fit_score === null && card.role_fit_score === null));
+      const bannerEl = document.getElementById("degradedBanner");
+      if (bannerEl) {
+        bannerEl.style.display = isDegraded ? "flex" : "none";
+      }
+
+      if (isDegraded) {
+        document.getElementById("scoreRoleFit").textContent = "N/A (DEGRADED)";
+        document.getElementById("scoreRoleFit").style.fontSize = "0.85rem";
+        document.getElementById("scoreRoleFit").style.color = "#991B1B";
+      } else {
+        const roleFit = card.role_fit_score !== undefined ? card.role_fit_score : (report.role_fit_score !== undefined ? report.role_fit_score : 76.0);
+        document.getElementById("scoreRoleFit").textContent = Number(roleFit).toFixed(1);
+        document.getElementById("scoreRoleFit").style.fontSize = "";
+        document.getElementById("scoreRoleFit").style.color = "";
+      }
+
+      const consistency = card.evidence_consistency_score !== undefined ? card.evidence_consistency_score : (report.evidence_consistency_score !== undefined ? report.evidence_consistency_score : 50.0);
       document.getElementById("scoreConsistency").textContent = Number(consistency).toFixed(1);
 
       // Terminal report
-      const termCard = report.formatted_terminal_card || report.terminal_report_card || "Assessment report pending.";
+      let termCard = report.formatted_terminal_card || report.terminal_report_card;
+      if (!termCard) {
+        const role = card.target_role || card.role || activeFullDocs?.target_role || "Software Engineer";
+        const fitDisplay = isDegraded ? "[DEGRADED - LOCAL LLM OFFLINE]" : (report.role_fit_score !== undefined && report.role_fit_score !== null ? Number(report.role_fit_score).toFixed(1) + " / 100" : "N/A");
+        const lines = [
+          "====================================================================",
+          "                    CANDIDATE ASSESSMENT REPORT                    ",
+          `Candidate: ${name} | Role: ${role}`,
+          "====================================================================",
+          `ROLE FIT                          ${fitDisplay}`,
+          `EVIDENCE CONSISTENCY               ${Number(consistency).toFixed(1)} / 100`,
+          `QUADRANT PLACEMENT                [${quadrant}]`
+        ];
+        if (report.executive_summary) {
+          lines.push("", "EXECUTIVE SUMMARY:", `  ${report.executive_summary}`);
+        } else if (report.recommendation) {
+          lines.push("", `RECOMMENDATION: ${report.recommendation}`);
+        }
+        if (report.gaps && report.gaps.length > 0) {
+          lines.push("", "IDENTIFIED GAPS:");
+          report.gaps.forEach(g => lines.push(`  - ${g}`));
+        }
+        lines.push("====================================================================");
+        termCard = lines.join("\n");
+      }
       document.getElementById("terminalReportBox").textContent = termCard;
 
       // Rubric summary (CareerCheck Baseline A)
