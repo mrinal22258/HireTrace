@@ -1229,12 +1229,14 @@
 
     <!-- Main Content -->
     <main>
-      <!-- Degraded System Banner -->
+      <!-- Degraded / Demo System Banner -->
       <div id="degradedBanner" class="degraded-system-banner" style="display: none;">
         <span class="degraded-icon">⚠️</span>
         <div class="degraded-text">
-          <strong>SYSTEM DEGRADED (NO SILENT FABRICATION):</strong> The local LLM backend (Ollama/vLLM) is currently offline or unreachable.
-          Role fit scoring is disabled and flagged as N/A (HireTrace never fabricates fake scores). Deterministic rubric baselines and evidence spans remain fully accessible.
+          <strong>STATIC DEMO MODE (ZERO FABRICATED SCORES):</strong> The local open-weights LLM backend (Ollama) is not running on this static HuggingFace Space.
+          In adherence to HireTrace's strict evidence-first policy, <strong>we never fake an AI score</strong>. The Deterministic Resume Rubric (Baseline A) is displayed below.
+          To experience the full live multi-agent LLM pipeline with Qwen-2.5 3B, run locally via:
+          <code style="background: rgba(0,0,0,0.08); padding: 2px 6px; border-radius: 4px; font-weight: 700;">python server.py</code> (with <code style="background: rgba(0,0,0,0.08); padding: 2px 6px; border-radius: 4px; font-weight: 700;">ollama serve</code>).
         </div>
       </div>
 
@@ -1710,7 +1712,7 @@ Loading benchmark evaluation...
       if (quadrant === "STRONG MATCH") return "badge-strong";
       if (quadrant === "REVIEW REQUIRED") return "badge-review";
       if (quadrant === "INSUFFICIENT EVIDENCE") return "badge-insufficient";
-      if (quadrant === "DEGRADED" || quadrant === "DEGRADED (LLM UNAVAILABLE)") return "badge-degraded";
+      if (quadrant === "DEGRADED" || quadrant === "DEGRADED (LLM UNAVAILABLE)" || quadrant.includes("DEMO") || quadrant.includes("OFFLINE")) return "badge-degraded";
       if (quadrant === "EVALUATING" || quadrant === "QUEUED") return "badge-evaluating";
       if (quadrant === "LOW_FIT_FAST_REJECT") return "badge-fast-reject";
       return "badge-weak";
@@ -2531,9 +2533,10 @@ Loading benchmark evaluation...
             category: "live_applicant",
             target_role: data.target_role,
             status: "done",
-            role_fit_score: data.report?.role_fit_score ?? 68.0,
-            evidence_consistency_score: data.report?.evidence_consistency_score ?? 78.0,
-            quadrant: data.report?.quadrant ?? "STRONG MATCH",
+            role_fit_score: data.report?.role_fit_score !== undefined ? data.report.role_fit_score : null,
+            evidence_consistency_score: data.report?.evidence_consistency_score !== undefined ? data.report.evidence_consistency_score : null,
+            quadrant: data.report?.quadrant || (data.degraded ? "DEMO MODE (OFFLINE)" : "STRONG MATCH"),
+            degraded: Boolean(data.degraded),
             has_discrepancies: (data.report?.critical_discrepancies?.length || 0) > 0
           });
         }
@@ -2677,28 +2680,32 @@ Loading benchmark evaluation...
       }
 
       const formattedCard = `
-╔══════════════════════════════════════════════════════════════════════════════════╗
-║                   HIRETRACE ASSESSMENT DOSSIER: ${name.toUpperCase().padEnd(30)} ║
-║             Role Fit: ${fitScore.toFixed(1)}/100 | Evidence Consistency: ${consistencyScore.toFixed(1)}/100        ║
-╚══════════════════════════════════════════════════════════════════════════════════╝
+====================================================================
+            HIRETRACE CANDIDATE ASSESSMENT (STATIC DEMO)
+====================================================================
+Candidate: ${name} | Target Role: ${role}
+Execution Mode: [STATIC DEMO MODE - LOCAL LLM OFFLINE]
+====================================================================
+ROLE FIT SCORE:              N/A (Local LLM Inference Offline)
+EVIDENCE CONSISTENCY:        N/A (Multi-Agent Verification Offline)
+QUADRANT PLACEMENT:          [DEMO MODE - LOCAL GPU REQUIRED]
 
-QUADRANT PLACEMENT: [${quadrant}]
-Target Role: ${role}
-Evaluation Engine: Browser Client-Side Heuristic (Demo Mode)
+DETERMINISTIC RESUME RUBRIC (BASELINE A - EXTRACTED EVIDENCE):
+  - Raw Rubric Total:        ${rawTotal} / 120 (Normalized: ${normScore} / 100)
+  - Open Source Footprint:   ${open_source} / 35
+  - Projects & Architecture: ${self_projects} / 30
+  - Verified Experience:     ${production} / 25
+  - Technical Skills Align:  ${technical_skills} / 10
+  - Bonus / Publications:    ${bonus_points} / 20
 
-1. MULTI-SOURCE EVIDENCE CONSISTENCY AUDIT:
-   - Primary Status: ${discrepancies.length > 0 ? "⚠️ DISCREPANCIES DETECTED" : "✅ CLAIMS SUPPORTED ACROSS SOURCES"}
-   - Critical Contradictions Found: ${discrepancies.length}
-
-2. RESUME DETERMINISTIC RUBRIC (BASELINE A):
-   - Raw Total: ${rawTotal}/120 (Normalized: ${normScore}/100)
-   - Open Source: ${open_source}/35 | Self Projects: ${self_projects}/30 | Production: ${production}/25
-   - Tech Skills: ${technical_skills}/10 | Bonus: ${bonus_points}/20
-
-3. HUMAN REVIEW ROUTING:
-   - Recommendation: Proceed to focused human technical review.
-   - Priority Interview Inquiries:
-     ${questionsList.join("\n     ")}
+RECOMMENDED NEXT STEP:
+  In adherence to HireTrace's strict policy, we do NOT fake an AI score.
+  To evaluate this applicant through the real multi-agent pipeline
+  with local open-weights inference (zero fake scores):
+    1. Clone repo: git clone https://github.com/mrinal22258/HireTrace.git
+    2. Start Ollama: ollama run qwen2.5:3b
+    3. Launch local app: python server.py
+====================================================================
       `.trim();
 
       const candidateData = {
@@ -2706,23 +2713,28 @@ Evaluation Engine: Browser Client-Side Heuristic (Demo Mode)
         name: name,
         target_role: role,
         category: "live_applicant",
+        degraded: true,
+        degraded_reason: "Static Demo Mode: Local Ollama backend offline. In adherence to HireTrace's zero-fabrication policy, no fake score is generated.",
+        role_fit_score: null,
+        evidence_consistency_score: null,
+        quadrant: "DEMO MODE (OFFLINE)",
         report: {
           candidate_card: {
             candidate_name: name,
             role: role,
-            role_fit_score: fitScore,
-            evidence_consistency_score: consistencyScore,
-            quadrant_placement: quadrant
+            role_fit_score: null,
+            evidence_consistency_score: null,
+            quadrant_placement: "DEMO MODE (OFFLINE)",
+            degraded: true
           },
-          role_fit_score: fitScore,
-          evidence_consistency_score: consistencyScore,
-          quadrant: quadrant,
+          degraded: true,
+          degraded_reason: "Static Demo Mode: Local Ollama backend offline. In adherence to HireTrace's zero-fabrication policy, no fake score is generated.",
+          role_fit_score: null,
+          evidence_consistency_score: null,
+          quadrant: "DEMO MODE (OFFLINE)",
           formatted_terminal_card: formattedCard,
-          critical_discrepancies: discrepancies,
-          priority_questions_for_reviewer: [
-            "Can you detail the operational tradeoffs and error budgets of your primary production systems?",
-            "Walk through how you debugged a concurrency or data-consistency incident in production."
-          ]
+          critical_discrepancies: [],
+          priority_questions_for_reviewer: questionsList.map(q => q.replace(/^•\s*/, ''))
         },
         baseline_a: {
           raw_total: rawTotal,
