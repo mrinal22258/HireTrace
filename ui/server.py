@@ -213,7 +213,11 @@ class HireTraceHandler(SimpleHTTPRequestHandler):
                 self.end_headers()
                 with open(js_path, "rb") as f:
                     self.wfile.write(f.read())
-                return
+        # Favicon handler
+        elif path == "/favicon.ico":
+            self.send_response(204)
+            self.end_headers()
+            return
 
 
         # 2. Public Candidate List (Zero Ground-Truth Answer Leakage, Paginated / Filterable)

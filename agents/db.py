@@ -332,6 +332,24 @@ class DatabaseManager:
                 cand.status = "done"
                 cand.updated_at = now
 
+    def get_evaluation(self, candidate_id: str) -> Optional[Dict[str, Any]]:
+        with self.session_scope() as session:
+            ev = session.query(Evaluation).filter_by(candidate_id=candidate_id).first()
+            if not ev:
+                return None
+            report = json.loads(ev.report_json) if ev.report_json else None
+            baseline = json.loads(ev.baseline_a_json) if ev.baseline_a_json else None
+            return {
+                "candidate_id": ev.candidate_id,
+                "role_fit_score": ev.role_fit_score,
+                "evidence_consistency_score": ev.evidence_consistency_score,
+                "quadrant": ev.quadrant,
+                "report": report,
+                "baseline_a": baseline,
+                "latency_ms": ev.latency_ms,
+                "created_at": ev.created_at
+            }
+
     def get_candidate_full(self, candidate_id: str) -> Optional[Dict[str, Any]]:
         with self.session_scope() as session:
             cand = session.query(Candidate).filter_by(candidate_id=candidate_id).first()
