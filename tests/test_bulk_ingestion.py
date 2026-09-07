@@ -25,7 +25,12 @@ def server_url():
     server = ReusableHTTPServer(("127.0.0.1", port), HireTraceHandler)
     t = threading.Thread(target=server.serve_forever, daemon=True)
     t.start()
-    time.sleep(0.5)
+    for _ in range(50):
+        try:
+            with socket.create_connection(("127.0.0.1", port), timeout=0.1):
+                break
+        except (OSError, ConnectionRefusedError):
+            time.sleep(0.1)
     return f"http://127.0.0.1:{port}"
 
 

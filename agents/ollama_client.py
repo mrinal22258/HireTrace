@@ -1,10 +1,14 @@
 """
-Local LLM Client for HireTrace.
+Local LLM Client for HireTrace with Multi-Endpoint Load Balancing & Circuit Breaking.
 
-ZERO PAID API DEPENDENCIES. All LLM calls must go through a local, self-hosted open-weights
-model (Ollama or vLLM). No commercial API keys (OpenAI, Anthropic, etc.) are permitted.
-Includes retry handling, JSON validation, and execution timing.
-Propagates an explicit DEGRADED state when the backend is unavailable (no silent fallback).
+ZERO PAID API DEPENDENCIES. All LLM calls go through local, self-hosted open-weights
+models (Ollama or vLLM). No commercial API keys (OpenAI, Anthropic, etc.) are permitted.
+
+Features:
+- Multi-endpoint routing: least-loaded and round-robin dispatch across multiple GPU/host replicas.
+- Dynamic concurrency: scales semaphore capacity with available inference endpoints.
+- Circuit breaker per endpoint: fails fast and cools down unhealthy replicas without blocking the pool.
+- Full DEGRADED state propagation: never fabricates a score when backends are offline.
 """
 
 import os
@@ -12,7 +16,7 @@ import time
 import json
 import logging
 import threading
-from typing import Dict, Any, Optional, Tuple
+from typing import Dict, Any, Optional, Tuple, List
 import requests
 
 logger = logging.getLogger("hiretrace.ollama")
@@ -23,10 +27,20 @@ DEFAULT_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5:3b")
 DEFAULT_TIMEOUT = float(os.getenv("LLM_TIMEOUT", "90.0"))
 LLM_BACKEND = os.getenv("LLM_BACKEND", "ollama").lower()  # "ollama" or "vllm"
 VLLM_BASE_URL = os.getenv("VLLM_BASE_URL", "http://127.0.0.1:8000/v1").rstrip("/")
-MAX_LLM_CONCURRENCY = int(os.getenv("MAX_LLM_CONCURRENCY", "1"))
+CONCURRENCY_PER_ENDPOINT = int(os.getenv("CONCURRENCY_PER_ENDPOINT", "1"))
 
-# Shared bounded semaphore to serialize local GPU inference
-_LLM_SEMAPHORE = threading.Semaphore(MAX_LLM_CONCURRENCY)
+# Parse initial base URLs
+def parse_base_urls(urls_str: Optional[str] = None) -> List[str]:
+    raw = urls_str or os.getenv("OLLAMA_BASE_URLS") or DEFAULT_OLLAMA_URL
+    endpoints = [u.strip().rstrip("/") for u in raw.split(",") if u.strip()]
+    return endpoints or [DEFAULT_OLLAMA_URL]
+
+
+INITIAL_ENDPOINTS = parse_base_urls()
+MAX_LLM_CONCURRENCY = int(os.getenv("MAX_LLM_CONCURRENCY", str(len(INITIAL_ENDPOINTS) * CONCURRENCY_PER_ENDPOINT)))
+
+# Global bounded semaphore to serialize local GPU inference
+_LLM_SEMAPHORE = threading.Semaphore(max(1, MAX_LLM_CONCURRENCY))
 
 
 def set_max_concurrency(n: int):
@@ -36,60 +50,194 @@ def set_max_concurrency(n: int):
     _LLM_SEMAPHORE = threading.Semaphore(MAX_LLM_CONCURRENCY)
 
 
-class OllamaClient:
-    """Client for querying local Ollama or local vLLM instances with enforced JSON structure."""
+class EndpointState:
+    """Tracks in-flight load, latency, and circuit breaker status for a single LLM endpoint."""
 
-    def __init__(self, base_url: str = DEFAULT_OLLAMA_URL, model: str = DEFAULT_MODEL, timeout: float = DEFAULT_TIMEOUT, mock: bool = False):
-        self.base_url = base_url.rstrip("/")
+    def __init__(self, url: str, failure_threshold: int = 3, cooldown_sec: float = 15.0):
+        self.url = url.rstrip("/")
+        self.in_flight = 0
+        self.consecutive_failures = 0
+        self.circuit_open = False
+        self.circuit_opened_at = 0.0
+        self.failure_threshold = failure_threshold
+        self.cooldown_sec = cooldown_sec
+        self.total_calls = 0
+        self.successful_calls = 0
+        self.failed_calls = 0
+        self.last_latency = 0.0
+        self.last_error = None
+        self._lock = threading.Lock()
+
+    def is_available(self) -> bool:
+        """Returns True if the circuit is closed or if cooldown expired (allowing a probe)."""
+        with self._lock:
+            if not self.circuit_open:
+                return True
+            if time.time() - self.circuit_opened_at >= self.cooldown_sec:
+                # Half-open: allow a trial request
+                return True
+            return False
+
+    def record_start(self):
+        with self._lock:
+            self.in_flight += 1
+            self.total_calls += 1
+
+    def record_success(self, latency: float):
+        with self._lock:
+            self.in_flight = max(0, self.in_flight - 1)
+            self.consecutive_failures = 0
+            self.circuit_open = False
+            self.successful_calls += 1
+            self.last_latency = latency
+            self.last_error = None
+
+    def record_failure(self, error_msg: str):
+        with self._lock:
+            self.in_flight = max(0, self.in_flight - 1)
+            self.failed_calls += 1
+            self.consecutive_failures += 1
+            self.last_error = error_msg
+            if self.consecutive_failures >= self.failure_threshold:
+                if not self.circuit_open:
+                    self.circuit_open = True
+                    self.circuit_opened_at = time.time()
+                    logger.warning(
+                        f"Circuit breaker tripped for {self.url} after {self.consecutive_failures} failures. "
+                        f"Cooldown: {self.cooldown_sec}s."
+                    )
+
+    def to_dict(self) -> Dict[str, Any]:
+        with self._lock:
+            return {
+                "url": self.url,
+                "in_flight": self.in_flight,
+                "consecutive_failures": self.consecutive_failures,
+                "circuit_open": self.circuit_open,
+                "total_calls": self.total_calls,
+                "successful_calls": self.successful_calls,
+                "failed_calls": self.failed_calls,
+                "last_latency": self.last_latency,
+                "last_error": self.last_error
+            }
+
+
+class OllamaClient:
+    """
+    High-throughput Client for querying local Ollama or local vLLM instances.
+    Supports multi-endpoint round-robin/least-loaded routing and per-endpoint circuit breaking.
+    """
+
+    def __init__(
+        self,
+        base_url: Optional[str] = None,
+        base_urls: Optional[List[str]] = None,
+        model: str = DEFAULT_MODEL,
+        timeout: float = DEFAULT_TIMEOUT,
+        mock: bool = False,
+        concurrency_per_endpoint: int = CONCURRENCY_PER_ENDPOINT
+    ):
+        if base_urls:
+            self.endpoints = [EndpointState(u) for u in base_urls if u.strip()]
+        elif base_url:
+            self.endpoints = [EndpointState(base_url)]
+        else:
+            self.endpoints = [EndpointState(u) for u in parse_base_urls()]
+
+        if not self.endpoints:
+            self.endpoints = [EndpointState(DEFAULT_OLLAMA_URL)]
+
+        self.base_url = self.endpoints[0].url
         self.model = model
         self.timeout = timeout
-        self.generate_endpoint = f"{self.base_url}/api/generate"
-        is_default_url = (self.base_url == DEFAULT_OLLAMA_URL or "mock" in self.base_url)
-        self.backend = "mock" if (mock or (is_default_url and os.getenv("HIRETRACE_OFFLINE_MOCK", "").lower() in ("1", "true", "yes"))) else LLM_BACKEND
+        self.concurrency_per_endpoint = max(1, concurrency_per_endpoint)
+
+        # Dynamic semaphore sized to total backend capacity
+        self.total_capacity = max(1, len(self.endpoints) * self.concurrency_per_endpoint)
+        self.semaphore = threading.Semaphore(self.total_capacity)
+
+        explicit_url_provided = (base_url is not None) or (base_urls is not None)
+        is_mock_env = os.getenv("HIRETRACE_OFFLINE_MOCK", "").lower() in ("1", "true", "yes")
+        has_mock_url = any("mock" in ep.url.lower() for ep in self.endpoints)
+
+        # Only use mock backend if:
+        # 1. mock=True explicitly requested
+        # 2. Endpoint URL explicitly specifies mock (e.g. mock://...)
+        # 3. Running in mock/CI environment AND caller did not pass an explicit custom non-mock endpoint URL
+        if mock or has_mock_url or (is_mock_env and not explicit_url_provided):
+            self.backend = "mock"
+        else:
+            self.backend = LLM_BACKEND
+
         self.total_calls = 0
         self.successful_calls = 0
         self.fallback_calls = 0
         self._mock_delegate = None
+        self._routing_lock = threading.Lock()
+        self._rr_index = 0
+
+    def _get_best_endpoint(self) -> Optional[EndpointState]:
+        """Selects the least-loaded healthy endpoint using least-connections and round-robin."""
+        with self._routing_lock:
+            healthy = [ep for ep in self.endpoints if ep.is_available()]
+            if not healthy:
+                # All circuits open or down
+                return None
+
+            # Sort by current in-flight connections (least loaded first)
+            healthy.sort(key=lambda ep: ep.in_flight)
+            min_in_flight = healthy[0].in_flight
+            candidates = [ep for ep in healthy if ep.in_flight == min_in_flight]
+
+            # Round robin among candidate endpoints with equal minimum load
+            chosen = candidates[self._rr_index % len(candidates)]
+            self._rr_index += 1
+            return chosen
 
     def check_health(self) -> Tuple[bool, str]:
         """
-        Detailed diagnostic check of backend reachability and model existence.
+        Diagnostic health check across all configured endpoints.
         Returns (is_ready, diagnosis_message).
         """
         if self.backend == "mock":
             return True, "Mock Ollama backend online (Offline / CI mode active)"
 
-        try:
-            if self.backend == "vllm":
-                res = requests.get(f"{VLLM_BASE_URL}/models", timeout=3.0)
-                if res.status_code == 200:
-                    return True, "vLLM reachable and ready"
-                return False, f"[HTTP_ERROR] vLLM health check returned status {res.status_code}"
-            else:
-                res = requests.get(f"{self.base_url}/api/tags", timeout=3.0)
-                if res.status_code != 200:
-                    return False, f"[HTTP_ERROR] Ollama returned HTTP {res.status_code}"
+        healthy_count = 0
+        diagnostics = []
 
-                data = res.json()
-                installed = [m.get("name") for m in data.get("models", [])]
-                # Check if model exists (exact or prefix match e.g. qwen2.5:3b in qwen2.5:3b-instruct)
-                model_base = self.model.split(":")[0]
-                matched = any(self.model in m or m.startswith(self.model) or model_base in m for m in installed)
-                if not matched and installed:
-                    return False, f"[MODEL_NOT_FOUND] Model '{self.model}' not installed in local Ollama (Available: {', '.join(installed)})"
-                elif not installed:
-                    return False, f"[MODEL_NOT_FOUND] No models installed in local Ollama. Please run: ollama pull {self.model}"
+        for ep in self.endpoints:
+            try:
+                if self.backend == "vllm":
+                    res = requests.get(f"{ep.url}/models", timeout=3.0)
+                    if res.status_code == 200:
+                        healthy_count += 1
+                        diagnostics.append(f"{ep.url}: OK")
+                    else:
+                        diagnostics.append(f"{ep.url}: HTTP {res.status_code}")
+                else:
+                    res = requests.get(f"{ep.url}/api/tags", timeout=3.0)
+                    if res.status_code == 200:
+                        data = res.json()
+                        installed = [m.get("name") for m in data.get("models", [])]
+                        model_base = self.model.split(":")[0]
+                        matched = any(self.model in m or m.startswith(self.model) or model_base in m for m in installed)
+                        if matched or not installed:
+                            healthy_count += 1
+                            diagnostics.append(f"{ep.url}: OK")
+                        else:
+                            diagnostics.append(f"{ep.url}: Model {self.model} not found")
+                    else:
+                        diagnostics.append(f"{ep.url}: HTTP {res.status_code}")
+            except Exception as e:
+                diagnostics.append(f"{ep.url}: {type(e).__name__}")
 
-                return True, f"Ollama reachable with model '{self.model}'"
-        except requests.exceptions.ConnectionError:
-            return False, f"[CONNECTION_ERROR] Ollama server unreachable at {self.base_url} (Connection refused)"
-        except requests.exceptions.Timeout:
-            return False, f"[TIMEOUT] Ollama health check timed out at {self.base_url}"
-        except Exception as e:
-            return False, f"[UNKNOWN_ERROR] Ollama diagnostic check failed: {type(e).__name__}: {e}"
+        total = len(self.endpoints)
+        if healthy_count > 0:
+            return True, f"{healthy_count}/{total} endpoints online ({'; '.join(diagnostics)})"
+        return False, f"0/{total} endpoints reachable ({'; '.join(diagnostics)})"
 
     def is_available(self) -> bool:
-        """Checks whether the configured local open-weights backend is reachable (cached 5s)."""
+        """Checks whether at least one backend endpoint is healthy (cached 5s)."""
         now = time.time()
         if hasattr(self, "_cached_available") and (now - getattr(self, "_cached_available_time", 0) < 5.0):
             return self._cached_available
@@ -101,16 +249,20 @@ class OllamaClient:
         return ready
 
     def get_telemetry(self) -> Dict[str, Any]:
+        """Returns comprehensive telemetry including per-endpoint routing stats."""
         return {
             "backend": self.backend,
             "total_calls": self.total_calls,
             "successful_calls": self.successful_calls,
-            "fallback_calls": self.fallback_calls
+            "fallback_calls": self.fallback_calls,
+            "configured_endpoints": len(self.endpoints),
+            "max_concurrency": self.total_capacity,
+            "endpoints": [ep.to_dict() for ep in self.endpoints]
         }
 
-    def _generate_vllm(self, prompt: str, system_prompt: Optional[str], temperature: float, max_tokens: int) -> Dict[str, Any]:
-        """Queries local self-hosted vLLM endpoint (OpenAI-compatible protocol, 100% self-hosted)."""
-        url = f"{VLLM_BASE_URL}/chat/completions"
+    def _generate_vllm_on_endpoint(self, endpoint_url: str, prompt: str, system_prompt: Optional[str], temperature: float, max_tokens: int) -> Dict[str, Any]:
+        """Queries self-hosted vLLM endpoint (OpenAI protocol)."""
+        url = f"{endpoint_url}/chat/completions"
         headers = {"Content-Type": "application/json"}
         messages = []
         if system_prompt:
@@ -139,9 +291,8 @@ class OllamaClient:
         max_retries: int = 2
     ) -> Dict[str, Any]:
         """
-        Sends prompt to local open-weights backend (Ollama or self-hosted vLLM) and returns validated dictionary output.
-        If the backend is unavailable, explicitly flags degraded state with granular diagnostic failure reason.
-        NEVER outputs a fabricated score.
+        Sends prompt to local open-weights backend with load balancing across available endpoints.
+        If all endpoints fail or are unavailable, cleanly flags DEGRADED state with diagnostic reasoning.
         """
         self.total_calls += 1
 
@@ -171,77 +322,67 @@ class OllamaClient:
                 "_model": self.model
             }
 
-        # Serialize GPU inference via bounded semaphore
-        with _LLM_SEMAPHORE:
-            # Local vLLM path
-            if self.backend == "vllm":
-                try:
-                    start_time = time.time()
-                    out = self._generate_vllm(prompt, system_prompt, temperature, max_tokens)
-                    elapsed = time.time() - start_time
-                    self.successful_calls += 1
-                    out["_latency_sec"] = round(elapsed, 2)
-                    out["_model"] = self.model
-                    return out
-                except requests.exceptions.ConnectionError as ce:
-                    err_msg = f"[CONNECTION_ERROR] vLLM connection error at {VLLM_BASE_URL}: {ce}"
-                    code = "CONNECTION_ERROR"
-                except requests.exceptions.Timeout as te:
-                    err_msg = f"[TIMEOUT] vLLM call timed out after {self.timeout}s: {te}"
-                    code = "TIMEOUT"
-                except Exception as e:
-                    err_msg = f"[HTTP_ERROR] vLLM call failed: {e}"
-                    code = "HTTP_ERROR"
-
-                self.fallback_calls += 1
-                return {
-                    "error": err_msg,
-                    "error_code": code,
-                    "degraded": True,
-                    "degraded_reason": err_msg,
-                    "role_fit_score": None,
-                    "_latency_sec": 0.0,
-                    "_model": self.model
-                }
-
-            # Local Ollama path
-            payload = {
-                "model": self.model,
-                "prompt": prompt,
-                "format": "json",
-                "stream": False,
-                "options": {
-                    "temperature": temperature,
-                    "num_predict": max_tokens
-                }
-            }
-            if system_prompt:
-                payload["system"] = system_prompt
-
+        # Bounded acquisition matching total configured multi-endpoint capacity
+        with self.semaphore:
             last_error = None
             last_code = "UNKNOWN_ERROR"
-            raw_text = ""
 
             for attempt in range(1 + max_retries):
+                ep = self._get_best_endpoint()
+                if not ep:
+                    last_error = "All inference endpoints are down or circuit-broken"
+                    last_code = "CIRCUITS_OPEN"
+                    break
+
+                ep.record_start()
                 start_time = time.time()
+
                 try:
-                    res = requests.post(self.generate_endpoint, json=payload, timeout=self.timeout)
+                    if self.backend == "vllm":
+                        out = self._generate_vllm_on_endpoint(ep.url, prompt, system_prompt, temperature, max_tokens)
+                        elapsed = time.time() - start_time
+                        ep.record_success(elapsed)
+                        self.successful_calls += 1
+                        out["_latency_sec"] = round(elapsed, 2)
+                        out["_model"] = self.model
+                        out["_endpoint"] = ep.url
+                        return out
+
+                    # Ollama generation path
+                    generate_url = f"{ep.url}/api/generate"
+                    payload = {
+                        "model": self.model,
+                        "prompt": prompt,
+                        "format": "json",
+                        "stream": False,
+                        "options": {
+                            "temperature": temperature,
+                            "num_predict": max_tokens
+                        }
+                    }
+                    if system_prompt:
+                        payload["system"] = system_prompt
+
+                    res = requests.post(generate_url, json=payload, timeout=self.timeout)
                     elapsed = time.time() - start_time
 
                     if res.status_code == 404:
-                        last_error = f"[MODEL_NOT_FOUND] Model '{self.model}' not found in Ollama (HTTP 404)"
+                        last_error = f"[MODEL_NOT_FOUND] Model '{self.model}' not found at {ep.url} (HTTP 404)"
                         last_code = "MODEL_NOT_FOUND"
-                        break  # Retrying won't help if model isn't downloaded
-                    elif res.status_code != 200:
-                        last_error = f"[HTTP_ERROR] Ollama returned HTTP {res.status_code}: {res.text[:120]}"
+                        ep.record_failure(last_error)
+                        break
+
+                    if res.status_code != 200:
+                        last_error = f"[HTTP_ERROR] {ep.url} returned HTTP {res.status_code}: {res.text[:120]}"
                         last_code = "HTTP_ERROR"
-                        time.sleep(0.5)
+                        ep.record_failure(last_error)
+                        time.sleep(0.3)
                         continue
 
                     response_data = res.json()
                     raw_text = response_data.get("response", "").strip()
 
-                    # Clean markdown blocks if present
+                    # Strip markdown blocks if returned
                     if raw_text.startswith("```"):
                         lines = raw_text.splitlines()
                         if lines[0].startswith("```"):
@@ -251,26 +392,29 @@ class OllamaClient:
                         raw_text = "\n".join(lines).strip()
 
                     parsed = json.loads(raw_text)
+                    ep.record_success(elapsed)
+                    self.successful_calls += 1
+
                     prompt_eval_count = response_data.get("prompt_eval_count", 0)
                     eval_count = response_data.get("eval_count", 0)
                     eval_duration_sec = round(response_data.get("eval_duration", 0) / 1e9, 3)
                     total_duration_sec = round(response_data.get("total_duration", 0) / 1e9, 3)
 
                     if isinstance(parsed, dict):
-                        self.successful_calls += 1
                         parsed["_latency_sec"] = round(elapsed, 2)
                         parsed["_model"] = self.model
+                        parsed["_endpoint"] = ep.url
                         parsed["_prompt_tokens"] = prompt_eval_count
                         parsed["_output_tokens"] = eval_count
                         parsed["_eval_duration_sec"] = eval_duration_sec
                         parsed["_total_duration_sec"] = total_duration_sec
                         return parsed
                     elif isinstance(parsed, list):
-                        self.successful_calls += 1
                         return {
                             "items": parsed,
                             "_latency_sec": round(elapsed, 2),
                             "_model": self.model,
+                            "_endpoint": ep.url,
                             "_prompt_tokens": prompt_eval_count,
                             "_output_tokens": eval_count,
                             "_eval_duration_sec": eval_duration_sec,
@@ -281,23 +425,25 @@ class OllamaClient:
                         last_code = "INVALID_RESPONSE"
 
                 except requests.exceptions.ConnectionError as ce:
-                    last_error = f"[CONNECTION_ERROR] Connection refused to Ollama at {self.base_url}"
+                    last_error = f"[CONNECTION_ERROR] Connection refused to {ep.url}: {ce}"
                     last_code = "CONNECTION_ERROR"
-                    time.sleep(0.5)
+                    ep.record_failure(last_error)
+                    time.sleep(0.3)
                 except requests.exceptions.Timeout:
-                    last_error = f"[TIMEOUT] Ollama inference timed out after {self.timeout}s"
+                    last_error = f"[TIMEOUT] Inference timed out at {ep.url} after {self.timeout}s"
                     last_code = "TIMEOUT"
+                    ep.record_failure(last_error)
                 except json.JSONDecodeError as jde:
-                    last_error = f"[JSON_PARSE_ERROR] Failed to parse model output as JSON: {jde}"
+                    last_error = f"[JSON_PARSE_ERROR] Failed to parse model output as JSON from {ep.url}: {jde}"
                     last_code = "JSON_PARSE_ERROR"
-                    payload["prompt"] += "\nEnsure your response is strictly valid JSON."
                 except Exception as exc:
-                    last_error = f"[UNKNOWN_ERROR] Unexpected error: {exc}"
+                    last_error = f"[UNKNOWN_ERROR] Unexpected error at {ep.url}: {exc}"
                     last_code = "UNKNOWN_ERROR"
-                    time.sleep(0.5)
+                    ep.record_failure(last_error)
+                    time.sleep(0.3)
 
             self.fallback_calls += 1
-            logger.error("Ollama inference failed (%s): %s", self.model, last_error)
+            logger.error("All inference attempts failed: %s (%s)", last_error, last_code)
             return {
                 "error": str(last_error),
                 "error_code": last_code,
@@ -307,4 +453,18 @@ class OllamaClient:
                 "_latency_sec": 0.0,
                 "_model": self.model
             }
+
+    def get_telemetry(self) -> Dict[str, Any]:
+        """Returns aggregated LLM invocation counters and endpoint states."""
+        return {
+            "total_calls": self.total_calls,
+            "successful_calls": self.successful_calls,
+            "fallback_calls": self.fallback_calls,
+            "configured_endpoints": len(self.endpoints),
+            "max_concurrency": self.total_capacity,
+            "endpoints": [ep.to_dict() for ep in self.endpoints],
+            "total_capacity": self.total_capacity,
+            "backend": self.backend,
+            "model": self.model
+        }
 

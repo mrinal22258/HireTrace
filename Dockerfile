@@ -26,5 +26,5 @@ ENV PYTHONUNBUFFERED=1
 ENV HOST=0.0.0.0
 ENV PORT=8000
 
-# Start HireTrace application server
-CMD ["python", "ui/server.py", "--port", "8000", "--host", "0.0.0.0"]
+# Start HireTrace ASGI server with multi-worker concurrency
+CMD ["uvicorn", "ui.server:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]

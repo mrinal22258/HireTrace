@@ -24,7 +24,7 @@ from contextlib import contextmanager
 
 from sqlalchemy import (
     create_engine, Column, String, Float, Integer, Text, ForeignKey,
-    select, func, or_, event
+    select, func, or_, event, text
 )
 from sqlalchemy.orm import declarative_base, sessionmaker, scoped_session, relationship
 from sqlalchemy.pool import QueuePool, NullPool
@@ -37,6 +37,7 @@ class Candidate(Base):
     __tablename__ = "candidates"
 
     candidate_id = Column(String(128), primary_key=True)
+    tenant_id = Column(String(128), default="default_tenant", nullable=False, index=True)
     name = Column(String(256), nullable=False, index=True)
     target_role = Column(String(256), nullable=False)
     category = Column(String(64), default="applicant")
@@ -83,6 +84,7 @@ class JobQueue(Base):
     __tablename__ = "job_queue"
 
     id = Column(String(256), primary_key=True)
+    tenant_id = Column(String(128), default="default_tenant", nullable=False, index=True)
     candidate_id = Column(String(128), unique=True, nullable=False)
     status = Column(String(64), nullable=False, index=True)
     progress_pct = Column(Integer, default=0)
@@ -199,8 +201,20 @@ class DatabaseManager:
         return _AutoCommitConn(raw)
 
     def _init_db(self):
-        """Initializes tables if they do not exist."""
+        """Initializes tables if they do not exist and ensures schema compatibility."""
         Base.metadata.create_all(self.engine)
+        if self.is_sqlite:
+            # Check and add tenant_id column if upgrading existing SQLite db
+            try:
+                with self.engine.connect() as conn:
+                    for table in ("candidates", "job_queue"):
+                        res = conn.execute(text(f"PRAGMA table_info({table})")).fetchall()
+                        col_names = [r[1] for r in res]
+                        if col_names and "tenant_id" not in col_names:
+                            conn.execute(text(f"ALTER TABLE {table} ADD COLUMN tenant_id VARCHAR(128) DEFAULT 'default_tenant'"))
+                            conn.commit()
+            except Exception:
+                pass
 
     @contextmanager
     def session_scope(self):
@@ -221,9 +235,11 @@ class DatabaseManager:
         name: str,
         target_role: str,
         category: str = "applicant",
-        status: str = "done"
+        status: str = "done",
+        tenant_id: str = "default_tenant"
     ):
         now = time.time()
+        tenant = tenant_id or "default_tenant"
         with self.session_scope() as session:
             cand = session.query(Candidate).filter_by(candidate_id=candidate_id).first()
             if cand:
@@ -231,10 +247,12 @@ class DatabaseManager:
                 cand.target_role = target_role
                 cand.category = category
                 cand.status = status
+                cand.tenant_id = tenant
                 cand.updated_at = now
             else:
                 cand = Candidate(
                     candidate_id=candidate_id,
+                    tenant_id=tenant,
                     name=name,
                     target_role=target_role,
                     category=category,
@@ -350,9 +368,12 @@ class DatabaseManager:
                 "created_at": ev.created_at
             }
 
-    def get_candidate_full(self, candidate_id: str) -> Optional[Dict[str, Any]]:
+    def get_candidate_full(self, candidate_id: str, tenant_id: Optional[str] = None) -> Optional[Dict[str, Any]]:
         with self.session_scope() as session:
-            cand = session.query(Candidate).filter_by(candidate_id=candidate_id).first()
+            query = session.query(Candidate).filter_by(candidate_id=candidate_id)
+            if tenant_id and tenant_id != "*":
+                query = query.filter(Candidate.tenant_id == tenant_id)
+            cand = query.first()
             if not cand:
                 return None
 
@@ -375,6 +396,7 @@ class DatabaseManager:
 
             return {
                 "candidate_id": cand.candidate_id,
+                "tenant_id": cand.tenant_id or "default_tenant",
                 "name": cand.name,
                 "target_role": cand.target_role,
                 "category": cand.category,
@@ -393,15 +415,22 @@ class DatabaseManager:
                 "updated_at": cand.updated_at
             }
 
+    def get_candidate_tenant(self, candidate_id: str) -> Optional[str]:
+        """Returns the tenant_id associated with a candidate, or None if not found."""
+        with self.session_scope() as session:
+            cand = session.query(Candidate.tenant_id).filter_by(candidate_id=candidate_id).first()
+            return cand[0] if cand else None
+
     def list_candidates(
         self,
         page: int = 1,
         limit: int = 50,
         status: Optional[str] = None,
         quadrant: Optional[str] = None,
-        search: Optional[str] = None
+        search: Optional[str] = None,
+        tenant_id: Optional[str] = None
     ) -> Dict[str, Any]:
-        """Paginated, filtered candidate summary query."""
+        """Paginated, filtered candidate summary query with tenant scoping."""
         page = max(1, page)
         limit = max(1, min(200, limit))
         offset = (page - 1) * limit
@@ -409,6 +438,7 @@ class DatabaseManager:
         with self.session_scope() as session:
             query = session.query(
                 Candidate.candidate_id,
+                Candidate.tenant_id,
                 Candidate.name,
                 Candidate.target_role,
                 Candidate.category,
@@ -418,6 +448,9 @@ class DatabaseManager:
                 Evaluation.quadrant,
                 Evaluation.report_json
             ).outerjoin(Evaluation, Candidate.candidate_id == Evaluation.candidate_id)
+
+            if tenant_id and tenant_id != "*":
+                query = query.filter(Candidate.tenant_id == tenant_id)
 
             if status:
                 query = query.filter(Candidate.status == status)
@@ -444,6 +477,7 @@ class DatabaseManager:
 
                 items.append({
                     "candidate_id": r.candidate_id,
+                    "tenant_id": r.tenant_id or "default_tenant",
                     "name": r.name,
                     "target_role": r.target_role,
                     "category": r.category,
@@ -476,10 +510,12 @@ class DatabaseManager:
         status: str,
         progress_pct: int = 0,
         current_step: str = "",
-        error_msg: Optional[str] = None
+        error_msg: Optional[str] = None,
+        tenant_id: str = "default_tenant"
     ):
         now = time.time()
         job_id = f"job_{candidate_id}"
+        tenant = tenant_id or "default_tenant"
         with self.session_scope() as session:
             job = session.query(JobQueue).filter_by(candidate_id=candidate_id).first()
             if job:
@@ -487,11 +523,13 @@ class DatabaseManager:
                 job.progress_pct = progress_pct
                 job.current_step = current_step
                 job.error_msg = error_msg
+                job.tenant_id = tenant
                 if status in ("done", "failed"):
                     job.finished_at = now
             else:
                 job = JobQueue(
                     id=job_id,
+                    tenant_id=tenant,
                     candidate_id=candidate_id,
                     status=status,
                     progress_pct=progress_pct,
@@ -501,6 +539,120 @@ class DatabaseManager:
                     finished_at=now if status in ("done", "failed") else None
                 )
                 session.add(job)
+
+    def get_job(self, candidate_id: str) -> Optional[Dict[str, Any]]:
+        with self.session_scope() as session:
+            job = session.query(JobQueue).filter_by(candidate_id=candidate_id).first()
+            if not job:
+                return None
+            return {
+                "candidate_id": job.candidate_id,
+                "tenant_id": job.tenant_id or "default_tenant",
+                "status": job.status,
+                "progress_pct": job.progress_pct,
+                "current_step": job.current_step,
+                "attempts": job.attempts,
+                "error_msg": job.error_msg,
+                "enqueued_at": job.enqueued_at,
+                "started_at": job.started_at,
+                "finished_at": job.finished_at
+            }
+
+    def claim_next_queued_job(self) -> Optional[Dict[str, Any]]:
+        """
+        Atomically claims the next queued job from the JobQueue table.
+        Prevents double-processing race conditions across concurrent worker replicas.
+
+        - On Postgres: Uses `SELECT ... FOR UPDATE SKIP LOCKED LIMIT 1` within a transaction.
+        - On SQLite: Uses an atomic conditional UPDATE with correlated subquery and RETURNING clause,
+          falling back to a thread-locked transaction for legacy SQLite versions.
+
+        Returns a dictionary with the claimed job data (including candidate_id) or None if no job was claimed.
+        """
+        now = time.time()
+        step = "Claimed by worker. Loading documents..."
+
+        with self.session_scope() as session:
+            if not self.is_sqlite:
+                # Production PostgreSQL: FOR UPDATE SKIP LOCKED guarantees concurrent workers
+                # each claim a distinct row without blocking or collision.
+                job = (
+                    session.query(JobQueue)
+                    .filter(JobQueue.status == "queued")
+                    .order_by(JobQueue.enqueued_at.asc())
+                    .with_for_update(skip_locked=True)
+                    .first()
+                )
+                if not job:
+                    return None
+
+                job.status = "evaluating"
+                job.started_at = now
+                job.current_step = step
+                job.attempts = (job.attempts or 0) + 1
+                session.flush()
+                return {
+                    "candidate_id": job.candidate_id,
+                    "tenant_id": job.tenant_id or "default_tenant",
+                    "status": job.status,
+                    "progress_pct": job.progress_pct,
+                    "current_step": job.current_step,
+                    "attempts": job.attempts,
+                    "enqueued_at": job.enqueued_at,
+                    "started_at": job.started_at
+                }
+            else:
+                # SQLite: Use atomic conditional UPDATE statement with correlated subquery.
+                # Modern SQLite (3.35+) supports RETURNING.
+                try:
+                    res = session.execute(
+                        text("""
+                            UPDATE job_queue
+                            SET status='evaluating', started_at=:now, current_step=:step, attempts=COALESCE(attempts, 0) + 1
+                            WHERE candidate_id = (
+                                SELECT candidate_id FROM job_queue WHERE status='queued' ORDER BY enqueued_at ASC LIMIT 1
+                            )
+                            AND status='queued'
+                            RETURNING candidate_id, tenant_id, attempts, enqueued_at
+                        """),
+                        {"now": now, "step": step}
+                    ).fetchone()
+                    if res:
+                        return {
+                            "candidate_id": res[0],
+                            "tenant_id": res[1] or "default_tenant",
+                            "status": "evaluating",
+                            "attempts": res[2],
+                            "enqueued_at": res[3],
+                            "started_at": now
+                        }
+                    return None
+                except Exception:
+                    # Fallback for older SQLite engines without RETURNING
+                    with self._lock:
+                        job = (
+                            session.query(JobQueue)
+                            .filter(JobQueue.status == "queued")
+                            .order_by(JobQueue.enqueued_at.asc())
+                            .first()
+                        )
+                        if not job:
+                            return None
+
+                        cid = job.candidate_id
+                        job.status = "evaluating"
+                        job.started_at = now
+                        job.current_step = step
+                        job.attempts = (job.attempts or 0) + 1
+                        session.flush()
+                        return {
+                            "candidate_id": cid,
+                            "tenant_id": job.tenant_id or "default_tenant",
+                            "status": "evaluating",
+                            "attempts": job.attempts,
+                            "enqueued_at": job.enqueued_at,
+                            "started_at": now
+                        }
 
     # Requirement mapping cache methods for Step 5
     def get_cached_requirements(self, cache_key: str) -> Optional[List[Dict[str, Any]]]:
@@ -541,7 +693,8 @@ class DatabaseManager:
                 name=c.get("name", "Unknown Candidate"),
                 target_role=c.get("target_role", "Senior Software Engineer"),
                 category=c.get("category", "applicant"),
-                status=c.get("status", "done")
+                status=c.get("status", "done"),
+                tenant_id=c.get("tenant_id", "default_tenant")
             )
 
             # Documents
@@ -556,6 +709,25 @@ class DatabaseManager:
             # Evaluations
             rep = c.get("evaluation_report")
             rubric = c.get("rubric_baseline")
+            if not rep:
+                root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                traj_file = os.path.join(root, "trajectories", f"{cid}_trajectory.json")
+                if os.path.exists(traj_file):
+                    try:
+                        with open(traj_file, "r", encoding="utf-8") as f:
+                            tdata = json.load(f)
+                        rep = tdata.get("final_report")
+                        for step in reversed(tdata.get("steps", [])):
+                            if step.get("step") == "recommendation_writing":
+                                out = step.get("output", {})
+                                if not rep:
+                                    rep = out
+                                break
+                            elif step.get("step") == "rubric_scoring" and not rubric:
+                                rubric = step.get("output")
+                    except Exception:
+                        pass
+
             if rep:
                 self.save_evaluation(
                     candidate_id=cid,

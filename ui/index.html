@@ -1650,6 +1650,24 @@ Loading benchmark evaluation...
     let activeCaseData = null;
     let activeFullDocs = null;
 
+    function deduplicateCandidates(list) {
+      if (!Array.isArray(list)) return [];
+      const seenIds = new Set();
+      const seenNames = new Set();
+      const out = [];
+      for (const c of list) {
+        if (!c || !c.candidate_id) continue;
+        const cid = c.candidate_id;
+        const nameKey = (c.name || "").trim().toLowerCase();
+        if (seenIds.has(cid)) continue;
+        if (nameKey && seenNames.has(nameKey)) continue;
+        seenIds.add(cid);
+        if (nameKey) seenNames.add(nameKey);
+        out.push(c);
+      }
+      return out;
+    }
+
     async function init() {
       try {
         const res = await fetch("/api/cases");
@@ -1661,6 +1679,8 @@ Loading benchmark evaluation...
           cases = window.HIRETRACE_STATIC.cases;
         }
       }
+
+      cases = deduplicateCandidates(cases);
 
       if (cases && cases.length > 0) {
         renderSidebar(cases);
@@ -1692,8 +1712,9 @@ Loading benchmark evaluation...
 
     function renderSidebar(data) {
       const list = document.getElementById("candidateList");
-      document.getElementById("candCount").textContent = data.length;
-      list.innerHTML = data.map(c => {
+      const deduped = deduplicateCandidates(data);
+      document.getElementById("candCount").textContent = deduped.length;
+      list.innerHTML = deduped.map(c => {
         const isActive = c.candidate_id === activeCaseId;
         const badgeClass = getBadgeClass(c.quadrant);
         return `
@@ -1899,7 +1920,10 @@ Loading benchmark evaluation...
       renderQuadrantDots(cases, activeCaseId);
 
       // Discrepancies
-      const disc = report.critical_discrepancies || report.cross_source_contradictions || [];
+      const disc = (report.key_discrepancies && report.key_discrepancies.length > 0) ? report.key_discrepancies
+                 : (report.critical_discrepancies && report.critical_discrepancies.length > 0) ? report.critical_discrepancies
+                 : (report.cross_source_contradictions && report.cross_source_contradictions.length > 0) ? report.cross_source_contradictions
+                 : (card.key_discrepancies || []);
       renderDiscrepancies(disc);
 
       // Priority Questions
@@ -1935,7 +1959,8 @@ Loading benchmark evaluation...
 
     function renderQuadrantDots(items, activeId) {
       const container = document.getElementById("quadrantDots");
-      container.innerHTML = items.map(c => {
+      const deduped = deduplicateCandidates(items);
+      container.innerHTML = deduped.map(c => {
         // Calculate coordinates directly from real evaluation scores
         let x = (c.role_fit_score !== undefined && c.role_fit_score !== null) ? Number(c.role_fit_score) : 50.0;
         let y = (c.evidence_consistency_score !== undefined && c.evidence_consistency_score !== null) ? Number(c.evidence_consistency_score) : 50.0;

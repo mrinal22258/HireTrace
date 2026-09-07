@@ -1,25 +1,63 @@
 version: '3.8'
 
 services:
-  hiretrace:
+  web:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: hiretrace_app
+    container_name: hiretrace_web
+    command: ["uvicorn", "ui.server:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
     ports:
       - "8000:8000"
     environment:
       - HOST=0.0.0.0
       - PORT=8000
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
-      - DATABASE_URL=postgresql://${POSTGRES_USER:-hiretrace}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-hiretrace}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-hiretrace}:${POSTGRES_PASSWORD:-hiretrace_secret}@postgres:5432/${POSTGRES_DB:-hiretrace}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      - CELERY_BROKER_URL=${REDIS_URL:-redis://redis:6379/0}
       - CONCURRENCY_WORKERS=${CONCURRENCY_WORKERS:-4}
       - MAX_LLM_CONCURRENCY=${MAX_LLM_CONCURRENCY:-1}
     volumes:
       - hiretrace_uploads:/app/uploads
+      - hiretrace_eval_cases:/app/eval_cases/custom_uploads
+      - hiretrace_trajectories:/app/trajectories
     depends_on:
       - postgres
+      - redis
       - ollama
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hiretrace_worker
+    command: ["python", "worker.py", "--mode", "celery", "--concurrency", "4"]
+    environment:
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-hiretrace}:${POSTGRES_PASSWORD:-hiretrace_secret}@postgres:5432/${POSTGRES_DB:-hiretrace}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      - CELERY_BROKER_URL=${REDIS_URL:-redis://redis:6379/0}
+      - CONCURRENCY_WORKERS=${CONCURRENCY_WORKERS:-4}
+      - MAX_LLM_CONCURRENCY=${MAX_LLM_CONCURRENCY:-1}
+    volumes:
+      - hiretrace_uploads:/app/uploads
+      - hiretrace_eval_cases:/app/eval_cases/custom_uploads
+      - hiretrace_trajectories:/app/trajectories
+    depends_on:
+      - postgres
+      - redis
+      - ollama
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: hiretrace_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
     restart: unless-stopped
 
   postgres:
@@ -27,7 +65,7 @@ services:
     container_name: hiretrace_postgres
     environment:
       - POSTGRES_USER=${POSTGRES_USER:-hiretrace}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-hiretrace_secret}
       - POSTGRES_DB=${POSTGRES_DB:-hiretrace}
     ports:
       - "5432:5432"
@@ -46,5 +84,8 @@ services:
 
 volumes:
   hiretrace_uploads:
+  hiretrace_eval_cases:
+  hiretrace_trajectories:
   postgres_data:
+  redis_data:
   ollama_models:

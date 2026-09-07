@@ -77,11 +77,13 @@
             ]
           }
         }
-      }
+      },
+      "duration_sec": 0.0
     },
     {
       "step": "retrieval_index_built",
-      "total_spans_indexed": 40
+      "total_spans_indexed": 40,
+      "duration_sec": 5.7895
     },
     {
       "step": "requirement_mapping",
@@ -146,7 +148,8 @@
             "interview"
           ]
         }
-      ]
+      ],
+      "duration_sec": 0.0
     },
     {
       "step": "evidence_aggregation",
@@ -1053,7 +1056,8 @@
             "normalized_total": 79.16666666666666
           }
         }
-      ]
+      ],
+      "duration_sec": 0.0
     },
     {
       "step": "cross_source_verification",
@@ -1244,7 +1248,8 @@
             "quote_b": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande"
           }
         ]
-      }
+      },
+      "duration_sec": 0.0055
     },
     {
       "step": "recommendation_writing",
@@ -1409,9 +1414,10 @@
         "contradicted_claim_count": 3,
         "rubric_baseline_score": 79.2,
         "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Alexander Sterling | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           86.3 / 100\nEVIDENCE CONSISTENCY               25.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 1 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] CONFLICTING\n  Distributed Systems & Even   [WARN] CONFLICTING\n  Database Sharding & Data C   [PASS] SUPPORTED\n  Technical Architecture & R   [PASS] SUPPORTED\n  Production Operations & Re   [WARN] CONFLICTING\n\nKEY DISCREPANCIES\n  01  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-010): \"Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin\"\n      - project (PRO-011): \"Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande\"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Establish actual scope of ownership versus team participation in the architecture migration\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
-      }
+      },
+      "duration_sec": 0.0
     }
   ],
-  "pipeline_latency_sec": 0.07,
+  "pipeline_latency_sec": 5.81,
   "degraded": false
 }

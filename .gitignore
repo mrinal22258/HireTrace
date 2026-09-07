@@ -21,5 +21,7 @@ hiretrace.db-wal
 hiretrace.db-shm
 uploads/
 benchmarks/results_*.json
+.coverage
+eval_cases/cache/
 
 

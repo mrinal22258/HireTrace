@@ -1,18 +1,29 @@
 """
-Deterministic Offline FAISS Retrieval Layer for HireTrace.
+High-Performance FAISS Retrieval Layer with Real Semantic Embeddings & Persistent Caching.
 
-Ensures 100% offline, local, zero-cost retrieval with stable, reproducible projections:
-1. Deterministic hashed lexical/n-gram retrieval projection (384-dimensional dense vectors).
-2. Source-isolated FAISS indices (cv, interview, assessment, project, jd) preventing evidence starvation.
-3. Cosine-similarity top-k matching with exact citation mapping and confidence scores.
+Features:
+1. Multi-backend embeddings:
+   - Sentence-Transformers (offline dense neural embeddings)
+   - Ollama embeddings (nomic-embed-text / all-minilm via local daemon)
+   - Hashed lexical n-gram projection (guaranteed 100% offline zero-download fallback)
+2. Integrated multi-tier embedding cache with persistent disk backing.
+3. Source-isolated FAISS indices (cv, interview, assessment, project, jd) preventing evidence starvation.
+4. Batch-embedding across candidates for efficient bulk ingestion.
 """
 
 from dataclasses import dataclass
 from typing import List, Dict, Any, Tuple, Optional
-import numpy as np
+import os
 import re
 import hashlib
+import logging
+import numpy as np
+import requests
+
 from agents.evidence_loader import EvidenceSpan
+from agents.embedding_cache import EMBEDDING_CACHE
+
+logger = logging.getLogger("hiretrace.retrieval")
 
 try:
     import faiss
@@ -53,19 +64,24 @@ def _create_flat_ip_index(d: int):
     return _NumpyFlatIPIndex(d)
 
 
-
 def _stable_hash(token: str, seed: int = 0) -> int:
-    """Stable, cross-process deterministic hash using SHA-256."""
+    """Stable cross-process deterministic hash using SHA-256."""
     raw = f"{seed}:{token}".encode("utf-8")
     digest = hashlib.sha256(raw).digest()
     return int.from_bytes(digest[:8], "little")
 
 
-class EmbeddingModel:
+class BaseEmbeddingModel:
+    """Abstract base class for embedding models with caching support."""
+
+    def embed_texts(self, texts: List[str]) -> np.ndarray:
+        raise NotImplementedError
+
+
+class HashedLexicalEmbeddingModel(BaseEmbeddingModel):
     """
-    Guaranteed offline, deterministic embedding projector.
-    Maps token frequencies and n-grams into normalized 384-dimensional dense vectors
-    using stable SHA-256 byte hashing, ensuring identical representations across runs.
+    Guaranteed offline, deterministic lexical & n-gram embedding projector.
+    Zero network calls, zero external model downloads.
     """
     def __init__(self, embedding_dim: int = 384):
         self._embedding_dim = embedding_dim
@@ -77,19 +93,16 @@ class EmbeddingModel:
             vec[0] = 1.0
             return vec
 
-        # 1. Unigram frequency with position discounting
         for i, w in enumerate(words):
             h1 = _stable_hash(w, seed=1) % self._embedding_dim
             weight = 1.0 / (1.0 + float(i * 0.04))
             vec[h1] += float(weight)
 
-        # 2. Bigrams for phrases (e.g. "apache kafka", "exactly once")
         for i in range(len(words) - 1):
             bg = f"{words[i]}_{words[i+1]}"
             h2 = _stable_hash(bg, seed=2) % self._embedding_dim
             vec[h2] += 1.5
 
-        # 3. Character trigrams for morphological robustness
         clean_text = re.sub(r"\s+", " ", text.lower())
         for i in range(len(clean_text) - 2):
             tg = clean_text[i:i+3]
@@ -102,11 +115,143 @@ class EmbeddingModel:
         return vec
 
     def embed_texts(self, texts: List[str]) -> np.ndarray:
-        vecs = [self._embed_single(t) for t in texts]
-        arr = np.stack(vecs).astype(np.float32)
+        cached_map, missing = EMBEDDING_CACHE.get_batch(texts)
+        results = [None] * len(texts)
+
+        for idx, vec in cached_map.items():
+            results[idx] = vec
+
+        new_entries = []
+        for idx, text in missing:
+            vec = self._embed_single(text)
+            results[idx] = vec
+            new_entries.append((text, vec))
+
+        if new_entries:
+            EMBEDDING_CACHE.set_batch(new_entries)
+
+        arr = np.stack(results).astype(np.float32)
         norms = np.linalg.norm(arr, axis=1, keepdims=True)
         norms[norms == 0.0] = 1.0
         return arr / norms
+
+
+class OllamaEmbeddingModel(BaseEmbeddingModel):
+    """Ollama local embedding endpoint (e.g. nomic-embed-text)."""
+
+    def __init__(self, base_url: Optional[str] = None, model: str = "nomic-embed-text"):
+        self.base_url = (base_url or os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434")).rstrip("/")
+        self.model = os.getenv("OLLAMA_EMBED_MODEL", model)
+        self.fallback = HashedLexicalEmbeddingModel()
+
+    def embed_texts(self, texts: List[str]) -> np.ndarray:
+        cached_map, missing = EMBEDDING_CACHE.get_batch(texts)
+        results = [None] * len(texts)
+
+        for idx, vec in cached_map.items():
+            results[idx] = vec
+
+        new_entries = []
+        for idx, text in missing:
+            try:
+                res = requests.post(
+                    f"{self.base_url}/api/embeddings",
+                    json={"model": self.model, "prompt": text},
+                    timeout=10.0
+                )
+                if res.status_code == 200:
+                    vec = np.array(res.json().get("embedding", []), dtype=np.float32)
+                    norm = np.linalg.norm(vec)
+                    if norm > 0:
+                        vec /= norm
+                else:
+                    vec = self.fallback._embed_single(text)
+            except Exception:
+                vec = self.fallback._embed_single(text)
+
+            results[idx] = vec
+            new_entries.append((text, vec))
+
+        if new_entries:
+            EMBEDDING_CACHE.set_batch(new_entries)
+
+        arr = np.stack(results).astype(np.float32)
+        norms = np.linalg.norm(arr, axis=1, keepdims=True)
+        norms[norms == 0.0] = 1.0
+        return arr / norms
+
+
+class SentenceTransformerEmbeddingModel(BaseEmbeddingModel):
+    """Sentence-Transformers neural embeddings runnable on CPU."""
+
+    def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
+        self.model_name = os.getenv("EMBEDDING_MODEL_NAME", model_name)
+        self.fallback = HashedLexicalEmbeddingModel()
+        self._model = None
+        self._init_failed = False
+
+    def _get_model(self):
+        if self._model is None and not self._init_failed:
+            try:
+                from sentence_transformers import SentenceTransformer
+                self._model = SentenceTransformer(self.model_name)
+            except Exception as e:
+                logger.warning(f"Failed to load sentence_transformers ({e}); using HashedLexical fallback.")
+                self._init_failed = True
+        return self._model
+
+    def embed_texts(self, texts: List[str]) -> np.ndarray:
+        model = self._get_model()
+        if model is None:
+            return self.fallback.embed_texts(texts)
+
+        cached_map, missing = EMBEDDING_CACHE.get_batch(texts)
+        results = [None] * len(texts)
+
+        for idx, vec in cached_map.items():
+            results[idx] = vec
+
+        if missing:
+            missing_texts = [m[1] for m in missing]
+            try:
+                computed = model.encode(missing_texts, normalize_embeddings=True, convert_to_numpy=True)
+                new_entries = []
+                for (orig_idx, orig_text), vec in zip(missing, computed):
+                    results[orig_idx] = vec
+                    new_entries.append((orig_text, vec))
+                EMBEDDING_CACHE.set_batch(new_entries)
+            except Exception as e:
+                logger.warning(f"sentence_transformers encode failed ({e}); using hashed fallback.")
+                fallback_vecs = self.fallback.embed_texts(missing_texts)
+                for (orig_idx, _), vec in zip(missing, fallback_vecs):
+                    results[orig_idx] = vec
+
+        arr = np.stack(results).astype(np.float32)
+        norms = np.linalg.norm(arr, axis=1, keepdims=True)
+        norms[norms == 0.0] = 1.0
+        return arr / norms
+
+
+# Backwards compatible alias
+EmbeddingModel = HashedLexicalEmbeddingModel
+
+
+def get_default_embedding_model() -> BaseEmbeddingModel:
+    """Factory selecting the appropriate embedding model based on configuration."""
+    backend = os.getenv("HIRETRACE_EMBEDDING_BACKEND", "auto").lower()
+    if backend == "ollama":
+        return OllamaEmbeddingModel()
+    elif backend == "sentence_transformers":
+        return SentenceTransformerEmbeddingModel()
+    elif backend == "hashed":
+        return HashedLexicalEmbeddingModel()
+
+    # In "auto" mode: attempt SentenceTransformer if installed, otherwise fallback to HashedLexical
+    try:
+        import sentence_transformers
+        return SentenceTransformerEmbeddingModel()
+    except Exception:
+        return HashedLexicalEmbeddingModel()
 
 
 @dataclass
@@ -125,20 +270,17 @@ class EvidenceRetriever:
     """
     Multi-source isolated FAISS index manager.
     Maintains separate indices for CV, Interview, Assessment, Project, and JD
-    to ensure balanced cross-source evidence retrieval without CV dominance.
+    with per-chunk embedding caching.
     """
 
     KNOWN_SOURCES = ("cv", "interview", "assessment", "project", "jd")
 
-    def __init__(self, spans: List[EvidenceSpan], embedding_model: Optional[EmbeddingModel] = None):
+    def __init__(self, spans: List[EvidenceSpan], embedding_model: Optional[BaseEmbeddingModel] = None):
         self.spans = spans
-        self.embedder = embedding_model or EmbeddingModel()
+        self.embedder = embedding_model or get_default_embedding_model()
         
-        # Source-isolated span containers and indices
         self.spans_by_source: Dict[str, List[EvidenceSpan]] = {s: [] for s in self.KNOWN_SOURCES}
         self.indices_by_source: Dict[str, Any] = {s: None for s in self.KNOWN_SOURCES}
-        
-        # Global fallback index across all spans
         self.global_index: Any = None
         self._build_indices()
 
@@ -146,7 +288,6 @@ class EvidenceRetriever:
         if not self.spans:
             return
 
-        # 1. Populate source buckets
         for span in self.spans:
             doc_type = span.document_type.lower()
             if doc_type in self.spans_by_source:
@@ -154,7 +295,6 @@ class EvidenceRetriever:
             else:
                 self.spans_by_source.setdefault(doc_type, []).append(span)
 
-        # 2. Build isolated FAISS index for each document source
         for doc_type, source_spans in self.spans_by_source.items():
             if source_spans:
                 texts = [f"[{s.document_type.upper()}: {s.section}] {s.text}" for s in source_spans]
@@ -164,20 +304,20 @@ class EvidenceRetriever:
                 idx.add(embeddings)
                 self.indices_by_source[doc_type] = idx
 
-        # 3. Build global index
         all_texts = [f"[{s.document_type.upper()}: {s.section}] {s.text}" for s in self.spans]
         all_embeddings = self.embedder.embed_texts(all_texts)
         self.global_index = _create_flat_ip_index(all_embeddings.shape[1])
         self.global_index.add(all_embeddings)
 
+        # Trigger on-disk cache persistence
+        EMBEDDING_CACHE.save_to_disk()
+
     def retrieve(self, query: str, top_k: int = 4, filter_doc_type: Optional[str] = None) -> List[RetrievedSpan]:
-        """Retrieves top-k spans, searching the source-isolated index directly if filter_doc_type is specified."""
         if not self.spans:
             return []
 
         query_vec = self.embedder.embed_texts([query])
 
-        # If a specific doc_type is requested, search its isolated index directly
         if filter_doc_type and filter_doc_type.lower() in self.indices_by_source:
             doc_type = filter_doc_type.lower()
             idx = self.indices_by_source.get(doc_type)
@@ -193,7 +333,6 @@ class EvidenceRetriever:
                     results.append(RetrievedSpan(span=doc_spans[i], similarity_score=float(score)))
             return results
 
-        # Otherwise search global index
         if self.global_index is None:
             return []
 
@@ -206,8 +345,33 @@ class EvidenceRetriever:
         return results
 
     def retrieve_per_source(self, query: str, top_k_per_source: int = 2) -> Dict[str, List[RetrievedSpan]]:
-        """Retrieves top-k evidence spans independently from each document source."""
         results: Dict[str, List[RetrievedSpan]] = {}
         for source in ("cv", "interview", "assessment", "project", "jd"):
             results[source] = self.retrieve(query, top_k=top_k_per_source, filter_doc_type=source)
         return results
+
+
+def batch_embed_across_candidates(candidates_spans: List[List[EvidenceSpan]], embedder: Optional[BaseEmbeddingModel] = None) -> List[EvidenceRetriever]:
+    """
+    Builds retrieval indices for multiple candidates in a single batched embedding pass.
+    Drastically accelerates bulk candidate ingestion.
+    """
+    embed = embedder or get_default_embedding_model()
+    
+    # Collect all unique span texts across all candidates
+    all_texts = []
+    for spans in candidates_spans:
+        for s in spans:
+            all_texts.append(f"[{s.document_type.upper()}: {s.section}] {s.text}")
+
+    # Single batched embedding pass
+    if all_texts:
+        embed.embed_texts(all_texts)
+        EMBEDDING_CACHE.save_to_disk()
+
+    # Build individual candidate retrievers using already-cached embeddings
+    retrievers = []
+    for spans in candidates_spans:
+        retrievers.append(EvidenceRetriever(spans, embedding_model=embed))
+
+    return retrievers

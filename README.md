@@ -35,22 +35,42 @@ HireTrace supports two distinct operational modes:
 - **Capabilities**: Replays pre-computed evaluation trajectories, interactive evidence citations, 2D quadrant scatter, and pre-screened synthetic candidate dossiers without requiring a GPU or server process.
 - **Limitation**: **Cannot run live, real-time candidate evaluation.** A static Hugging Face Space has no backend compute or local Ollama/vLLM weights. Uploading a new candidate in static replay mode displays mock ingestion or directs the user to the local self-hosted deployment.
 
-### Mode B: Live Product Mode (Self-Hosted Production Server)
-- **Environment**: Self-hosted Linux/macOS/Windows server with local open-weights inference (Ollama or vLLM container) and connection-pooled database (PostgreSQL or zero-config SQLite).
-- **Capabilities**: Full end-to-end multi-agent evaluation pipeline with asynchronous background worker queues, dynamic multi-file ingestion (PDF, DOCX, TXT), FAISS semantic vector retrieval, cross-source claim verification, and two-tier SHA-256 requirement caching.
-- **Quickstart (One Command via Docker Compose)**:
-  ```bash
-  # Stand up HireTrace app, PostgreSQL, and Ollama with one command:
-  docker compose up --build
+### Mode B: Production Scalable Architecture (Self-Hosted Web, Workers & Multi-GPU LLMs)
+- **Environment**: Distributed or single-host Linux/macOS/Windows cluster featuring stateless ASGI Web API containers, independent Celery workers, Redis job broker, PostgreSQL database, persistent storage volumes, and a multi-endpoint local LLM pool (`qwen2.5:3b`, `qwen2.5:7b`, or `llama3.1:8b`).
+- **Architecture Highlights**:
+  - **Stateless Web Tier (`web`)**: FastAPI ASGI server with JSON access logging, API key / tenant isolation, sliding-window rate limiting, `/healthz` (liveness), and `/readyz` (readiness).
+  - **Distributed Task Queue (`worker`)**: Celery workers backed by Redis with late acknowledgment (`acks_late=True`) and unacknowledged job re-delivery on failure.
+  - **Single Source of Truth (`postgres`)**: PostgreSQL database with Alembic schema migrations (`alembic upgrade head`) replacing in-process memory state.
+  - **Multi-Endpoint LLM Inference (`ollama` / `vllm`)**: Round-robin and least-connections routing across multiple GPU endpoints with dynamic concurrency semaphores and circuit breaking.
+  - **Persistent Storage Provider**: Named Docker volumes or S3-compatible object storage for candidate dossiers, vector indices, and execution trajectories.
+  - **Observability**: Prometheus `/metrics` endpoint exposing queue depth, latency histograms, and LLM telemetry.
 
-  # Pull the recommended open-weights model into Ollama container:
+- **Quickstart (Standard Production Docker Compose)**:
+  ```bash
+  # Spin up Web API, Celery Worker, PostgreSQL, Redis, and Ollama:
+  docker compose up -d --build
+
+  # Pull the default open-weights model into Ollama:
   docker exec -it hiretrace_ollama ollama pull qwen2.5:3b
   ```
-- **Local Dev Quickstart (Zero-Config Python)**:
+
+- **Horizontal Scaling Commands**:
+  ```bash
+  # Scale to 3 Web replicas and 4 Celery workers independently:
+  docker compose --scale web=3 --scale worker=4 up -d
+
+  # Scale LLM inference horizontally across 2 GPU nodes:
+  export OLLAMA_BASE_URLS="http://gpu-node-01:11434,http://gpu-node-02:11434"
+  docker compose restart worker
+  ```
+
+- **Local Zero-Config Dev Quickstart (SQLite + Thread Pool Fallback)**:
   ```bash
   pip install -r requirements.txt
   python ui/server.py --port 8000
   ```
+  *(In local development, HireTrace automatically detects missing Redis/Postgres and falls back gracefully to WAL-mode SQLite and an in-process thread pool, requiring zero external services to run.)*
+
 
 
 ## 1. Problem Framing

@@ -75,11 +75,13 @@
             ]
           }
         }
-      }
+      },
+      "duration_sec": 0.0083
     },
     {
       "step": "retrieval_index_built",
-      "total_spans_indexed": 37
+      "total_spans_indexed": 37,
+      "duration_sec": 0.3421
     },
     {
       "step": "requirement_mapping",
@@ -87,9 +89,9 @@
       "output": [
         {
           "req_id": "REQ-01",
-          "name": "Core Python & AsyncIO",
+          "name": "Core Python & AsyncIO Concurrency",
           "category": "technical_skills",
-          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, uvloop, and internal concurrency models.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
@@ -99,9 +101,9 @@
         },
         {
           "req_id": "REQ-02",
-          "name": "Distributed Systems & Message Queues",
+          "name": "Distributed Systems & Event Streaming",
           "category": "architecture",
-          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "description": "Hands-on experience deploying and operating event streams (Kafka/RabbitMQ) and partitioned event logs.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
@@ -111,9 +113,21 @@
         },
         {
           "req_id": "REQ-03",
-          "name": "Technical Leadership & Initiative",
+          "name": "Database Sharding & Data Consistency",
+          "category": "architecture",
+          "description": "Managing distributed state consistency across partitioned databases and distributed caches.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Technical Architecture & RFC Writing",
           "category": "leadership",
-          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "description": "Authoring production RFCs, defining component boundaries, and leading cross-service migrations.",
           "importance": "IMPORTANT",
           "expected_sources": [
             "cv",
@@ -122,17 +136,18 @@
           ]
         },
         {
-          "req_id": "REQ-04",
-          "name": "Production Tenure & Operational Reliability",
+          "req_id": "REQ-05",
+          "name": "Production Operations & Reliability",
           "category": "production_experience",
-          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "description": "Managing live customer-facing systems, telemetry instrumentation, and production incident response.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
             "interview"
           ]
         }
-      ]
+      ],
+      "duration_sec": 0.0
     },
     {
       "step": "evidence_aggregation",
@@ -140,7 +155,7 @@
       "output": [
         {
           "req_id": "REQ-01",
-          "requirement_name": "Core Python & AsyncIO",
+          "requirement_name": "Core Python & AsyncIO Concurrency",
           "sources_present": [
             "cv",
             "interview",
@@ -150,6 +165,15 @@
           "total_spans_count": 16,
           "cv_spans": [
             {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices in Python, AsyncIO, and Apache Kafka. Proven track record scaling real-time ingestion pipelines from 2M to 35M daily events while maintaining 99.99% availability. Active contributor to open-source asyncio ecosystems.",
+              "metadata": {},
+              "similarity_score": 0.403
+            },
+            {
               "span_id": "CV-015",
               "source_file": "cv.txt",
               "document_type": "cv",
@@ -158,16 +182,7 @@
               "metadata": {
                 "raw_line": "- Developed asynchronous microservices for real-time network anomaly detection using Python, Redis Streams, and PostgreSQL."
               },
-              "similarity_score": 0.408
-            },
-            {
-              "span_id": "CV-002",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices in Python, AsyncIO, and Apache Kafka. Proven track record scaling real-time ingestion pipelines from 2M to 35M daily events while maintaining 99.99% availability. Active contributor to open-source asyncio ecosystems.",
-              "metadata": {},
-              "similarity_score": 0.392
+              "similarity_score": 0.359
             },
             {
               "span_id": "CV-010",
@@ -178,7 +193,7 @@
               "metadata": {
                 "raw_line": "- Architected a distributed telemetry ingestion pipeline in Python 3.11 (AsyncIO, FastAPI, aiokafka) processing 35M events/day with p99 response times < 45ms."
               },
-              "similarity_score": 0.369
+              "similarity_score": 0.353
             },
             {
               "span_id": "CV-004",
@@ -189,7 +204,7 @@
               "metadata": {
                 "raw_line": "- Languages: Python 3.11/3.12 (Expert, AsyncIO, uvloop, Cython), Go, SQL, C++"
               },
-              "similarity_score": 0.325
+              "similarity_score": 0.349
             }
           ],
           "interview_spans": [
@@ -200,7 +215,7 @@
               "section": "interview",
               "text": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I joined in late 2021, the ingestion tier was built on synchronous Flask workers backed by RabbitMQ, which suffered CPU saturation during burst traffic. I designed our v2 pipeline using Python 3.11 with AsyncIO and uvloop. We ingest events over HTTP/gRPC via FastAPI, validate them against Avro schemas in-memory, and produce directly into a 12-partition Kafka cluster using aiokafka with snappy compression.\"",
               "metadata": {},
-              "similarity_score": 0.376
+              "similarity_score": 0.389
             },
             {
               "span_id": "INT-003",
@@ -209,7 +224,7 @@
               "section": "interview",
               "text": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was actually one of our key performance hurdles. We strictly run CPU-bound schema deserialization in a `ProcessPoolExecutor` with zero-copy shared memory buffers, while all network I/O remains non-blocking inside the event loop. We also set up custom Prometheus alerts monitoring event loop lag (`loop.slow_callback_duration`).\"",
               "metadata": {},
-              "similarity_score": 0.341
+              "similarity_score": 0.344
             },
             {
               "span_id": "INT-004",
@@ -218,7 +233,7 @@
               "section": "interview",
               "text": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream consumers broke due to unannounced payload schema changes. I drafted RFC-108 proposing a centralized schema registry with backward-transitive compatibility rules. I ran design reviews with 3 engineering teams, incorporated feedback, and oversaw implementation over two sprints.\"",
               "metadata": {},
-              "similarity_score": 0.31
+              "similarity_score": 0.326
             },
             {
               "span_id": "INT-005",
@@ -227,7 +242,7 @@
               "section": "interview",
               "text": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks) at ScaleMatrix since November 2021. I've led incident resolution for 14 major production outages, including network split-brain recoveries and Kafka broker failovers.\"",
               "metadata": {},
-              "similarity_score": 0.286
+              "similarity_score": 0.247
             }
           ],
           "assessment_spans": [
@@ -238,7 +253,29 @@
               "section": "assessment",
               "text": "## Evaluator Notes\n\"Immaculate codebase. Clean separation of concerns with asynchronous queue decoupling, typed Pydantic v2 schemas, proper signal trapping for graceful container termination, and comprehensive unit/integration test suite (94% coverage).\"",
               "metadata": {},
-              "similarity_score": 0.256
+              "similarity_score": 0.265
+            },
+            {
+              "span_id": "ASS-003",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Concurrency & Load Stress Test (50,000 req/sec over 120s): PASSED (0 dropped packets, p99 = 38ms)",
+              "metadata": {
+                "raw_line": "- Concurrency & Load Stress Test (50,000 req/sec over 120s): PASSED (0 dropped packets, p99 = 38ms)"
+              },
+              "similarity_score": 0.255
+            },
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)",
+              "metadata": {
+                "raw_line": "- Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)"
+              },
+              "similarity_score": 0.232
             },
             {
               "span_id": "ASS-004",
@@ -249,30 +286,30 @@
               "metadata": {
                 "raw_line": "- Deadlock & Race Condition Suite (100 parallel async workers): PASSED (100% thread/task safety)"
               },
-              "similarity_score": 0.234
-            },
-            {
-              "span_id": "ASS-006",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Memory Profiling (Tracer leak inspection): PASSED (Stable at 84MB heap over 1-hour soak test)",
-              "metadata": {
-                "raw_line": "- Memory Profiling (Tracer leak inspection): PASSED (Stable at 84MB heap over 1-hour soak test)"
-              },
-              "similarity_score": 0.228
-            },
-            {
-              "span_id": "ASS-001",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "# Technical Assessment Report: Sarah Chen\nAssessment Challenge: \"Distributed High-Throughput Event Ingestion Engine\"\nScore: 96 / 100 | Grade: Exceptional (Tier: Legend)",
-              "metadata": {},
-              "similarity_score": 0.219
+              "similarity_score": 0.212
             }
           ],
           "project_spans": [
+            {
+              "span_id": "PRO-006",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Elena Gomez: Downstream Analytics Consumer Migration",
+              "metadata": {
+                "raw_line": "- Elena Gomez: Downstream Analytics Consumer Migration"
+              },
+              "similarity_score": 0.318
+            },
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructure Engineer)\nReviewers: David Miller (VP Eng), Alex Rivera (Data Platform Lead)\nStatus: Approved & Deployed to Production (March 2023)",
+              "metadata": {},
+              "similarity_score": 0.275
+            },
             {
               "span_id": "PRO-004",
               "source_file": "project_doc.txt",
@@ -282,16 +319,7 @@
               "metadata": {
                 "raw_line": "- Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation"
               },
-              "similarity_score": 0.36
-            },
-            {
-              "span_id": "PRO-001",
-              "source_file": "project_doc.txt",
-              "document_type": "project",
-              "section": "project",
-              "text": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructure Engineer)\nReviewers: David Miller (VP Eng), Alex Rivera (Data Platform Lead)\nStatus: Approved & Deployed to Production (March 2023)",
-              "metadata": {},
-              "similarity_score": 0.335
+              "similarity_score": 0.274
             },
             {
               "span_id": "PRO-003",
@@ -302,16 +330,7 @@
               "metadata": {
                 "raw_line": "## Implementation Team"
               },
-              "similarity_score": 0.276
-            },
-            {
-              "span_id": "PRO-002",
-              "source_file": "project_doc.txt",
-              "document_type": "project",
-              "section": "project",
-              "text": "## Abstract\nThis document specifies the architecture for real-time schema enforcement across all Kafka producer microservices.",
-              "metadata": {},
-              "similarity_score": 0.264
+              "similarity_score": 0.223
             }
           ],
           "jd_spans": [],
@@ -323,7 +342,7 @@
         },
         {
           "req_id": "REQ-02",
-          "requirement_name": "Distributed Systems & Message Queues",
+          "requirement_name": "Distributed Systems & Event Streaming",
           "sources_present": [
             "cv",
             "interview",
@@ -339,18 +358,16 @@
               "section": "resume",
               "text": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices in Python, AsyncIO, and Apache Kafka. Proven track record scaling real-time ingestion pipelines from 2M to 35M daily events while maintaining 99.99% availability. Active contributor to open-source asyncio ecosystems.",
               "metadata": {},
-              "similarity_score": 0.407
+              "similarity_score": 0.4
             },
             {
-              "span_id": "CV-016",
+              "span_id": "CV-001",
               "source_file": "cv.txt",
               "document_type": "cv",
               "section": "resume",
-              "text": "Implemented Celery-based asynchronous background processing pipelines handling 500k daily analytical jobs.",
-              "metadata": {
-                "raw_line": "- Implemented Celery-based asynchronous background processing pipelines handling 500k daily analytical jobs."
-              },
-              "similarity_score": 0.376
+              "text": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 merged PRs)\nLinkedIn: linkedin.com/in/sarah-chen-dist-systems | Location: Seattle, WA",
+              "metadata": {},
+              "similarity_score": 0.374
             },
             {
               "span_id": "CV-005",
@@ -361,16 +378,18 @@
               "metadata": {
                 "raw_line": "- Distributed Systems: Apache Kafka (Kafka Streams, Schema Registry, Confluent Python), RabbitMQ, Redis Cluster"
               },
-              "similarity_score": 0.352
+              "similarity_score": 0.332
             },
             {
-              "span_id": "CV-001",
+              "span_id": "CV-010",
               "source_file": "cv.txt",
               "document_type": "cv",
               "section": "resume",
-              "text": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 merged PRs)\nLinkedIn: linkedin.com/in/sarah-chen-dist-systems | Location: Seattle, WA",
-              "metadata": {},
-              "similarity_score": 0.342
+              "text": "Architected a distributed telemetry ingestion pipeline in Python 3.11 (AsyncIO, FastAPI, aiokafka) processing 35M events/day with p99 response times < 45ms.",
+              "metadata": {
+                "raw_line": "- Architected a distributed telemetry ingestion pipeline in Python 3.11 (AsyncIO, FastAPI, aiokafka) processing 35M events/day with p99 response times < 45ms."
+              },
+              "similarity_score": 0.299
             }
           ],
           "interview_spans": [
@@ -381,25 +400,7 @@
               "section": "interview",
               "text": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks) at ScaleMatrix since November 2021. I've led incident resolution for 14 major production outages, including network split-brain recoveries and Kafka broker failovers.\"",
               "metadata": {},
-              "similarity_score": 0.394
-            },
-            {
-              "span_id": "INT-002",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I joined in late 2021, the ingestion tier was built on synchronous Flask workers backed by RabbitMQ, which suffered CPU saturation during burst traffic. I designed our v2 pipeline using Python 3.11 with AsyncIO and uvloop. We ingest events over HTTP/gRPC via FastAPI, validate them against Avro schemas in-memory, and produce directly into a 12-partition Kafka cluster using aiokafka with snappy compression.\"",
-              "metadata": {},
-              "similarity_score": 0.364
-            },
-            {
-              "span_id": "INT-004",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream consumers broke due to unannounced payload schema changes. I drafted RFC-108 proposing a centralized schema registry with backward-transitive compatibility rules. I ran design reviews with 3 engineering teams, incorporated feedback, and oversaw implementation over two sprints.\"",
-              "metadata": {},
-              "similarity_score": 0.332
+              "similarity_score": 0.345
             },
             {
               "span_id": "INT-003",
@@ -408,7 +409,25 @@
               "section": "interview",
               "text": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was actually one of our key performance hurdles. We strictly run CPU-bound schema deserialization in a `ProcessPoolExecutor` with zero-copy shared memory buffers, while all network I/O remains non-blocking inside the event loop. We also set up custom Prometheus alerts monitoring event loop lag (`loop.slow_callback_duration`).\"",
               "metadata": {},
+              "similarity_score": 0.344
+            },
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I joined in late 2021, the ingestion tier was built on synchronous Flask workers backed by RabbitMQ, which suffered CPU saturation during burst traffic. I designed our v2 pipeline using Python 3.11 with AsyncIO and uvloop. We ingest events over HTTP/gRPC via FastAPI, validate them against Avro schemas in-memory, and produce directly into a 12-partition Kafka cluster using aiokafka with snappy compression.\"",
+              "metadata": {},
               "similarity_score": 0.328
+            },
+            {
+              "span_id": "INT-004",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream consumers broke due to unannounced payload schema changes. I drafted RFC-108 proposing a centralized schema registry with backward-transitive compatibility rules. I ran design reviews with 3 engineering teams, incorporated feedback, and oversaw implementation over two sprints.\"",
+              "metadata": {},
+              "similarity_score": 0.325
             }
           ],
           "assessment_spans": [
@@ -419,7 +438,7 @@
               "section": "assessment",
               "text": "# Technical Assessment Report: Sarah Chen\nAssessment Challenge: \"Distributed High-Throughput Event Ingestion Engine\"\nScore: 96 / 100 | Grade: Exceptional (Tier: Legend)",
               "metadata": {},
-              "similarity_score": 0.304
+              "similarity_score": 0.339
             },
             {
               "span_id": "ASS-007",
@@ -428,18 +447,18 @@
               "section": "assessment",
               "text": "## Evaluator Notes\n\"Immaculate codebase. Clean separation of concerns with asynchronous queue decoupling, typed Pydantic v2 schemas, proper signal trapping for graceful container termination, and comprehensive unit/integration test suite (94% coverage).\"",
               "metadata": {},
-              "similarity_score": 0.273
+              "similarity_score": 0.298
             },
             {
-              "span_id": "ASS-005",
+              "span_id": "ASS-003",
               "source_file": "assessment_report.txt",
               "document_type": "assessment",
               "section": "assessment",
-              "text": "Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)",
+              "text": "Concurrency & Load Stress Test (50,000 req/sec over 120s): PASSED (0 dropped packets, p99 = 38ms)",
               "metadata": {
-                "raw_line": "- Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)"
+                "raw_line": "- Concurrency & Load Stress Test (50,000 req/sec over 120s): PASSED (0 dropped packets, p99 = 38ms)"
               },
-              "similarity_score": 0.269
+              "similarity_score": 0.238
             },
             {
               "span_id": "ASS-004",
@@ -450,7 +469,7 @@
               "metadata": {
                 "raw_line": "- Deadlock & Race Condition Suite (100 parallel async workers): PASSED (100% thread/task safety)"
               },
-              "similarity_score": 0.228
+              "similarity_score": 0.219
             }
           ],
           "project_spans": [
@@ -461,16 +480,7 @@
               "section": "project",
               "text": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructure Engineer)\nReviewers: David Miller (VP Eng), Alex Rivera (Data Platform Lead)\nStatus: Approved & Deployed to Production (March 2023)",
               "metadata": {},
-              "similarity_score": 0.289
-            },
-            {
-              "span_id": "PRO-002",
-              "source_file": "project_doc.txt",
-              "document_type": "project",
-              "section": "project",
-              "text": "## Abstract\nThis document specifies the architecture for real-time schema enforcement across all Kafka producer microservices.",
-              "metadata": {},
-              "similarity_score": 0.251
+              "similarity_score": 0.322
             },
             {
               "span_id": "PRO-004",
@@ -481,7 +491,16 @@
               "metadata": {
                 "raw_line": "- Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation"
               },
-              "similarity_score": 0.235
+              "similarity_score": 0.28
+            },
+            {
+              "span_id": "PRO-002",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "## Abstract\nThis document specifies the architecture for real-time schema enforcement across all Kafka producer microservices.",
+              "metadata": {},
+              "similarity_score": 0.256
             },
             {
               "span_id": "PRO-005",
@@ -492,7 +511,7 @@
               "metadata": {
                 "raw_line": "- Marcus Bell: Schema Registry Deployment & CI/CD Validation"
               },
-              "similarity_score": 0.179
+              "similarity_score": 0.191
             }
           ],
           "jd_spans": [],
@@ -504,7 +523,7 @@
         },
         {
           "req_id": "REQ-03",
-          "requirement_name": "Technical Leadership & Initiative",
+          "requirement_name": "Database Sharding & Data Consistency",
           "sources_present": [
             "cv",
             "interview",
@@ -514,124 +533,124 @@
           "total_spans_count": 16,
           "cv_spans": [
             {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 merged PRs)\nLinkedIn: linkedin.com/in/sarah-chen-dist-systems | Location: Seattle, WA",
+              "metadata": {},
+              "similarity_score": 0.352
+            },
+            {
+              "span_id": "CV-012",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 310ms.",
+              "metadata": {
+                "raw_line": "- Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 310ms."
+              },
+              "similarity_score": 0.313
+            },
+            {
               "span_id": "CV-002",
               "source_file": "cv.txt",
               "document_type": "cv",
               "section": "resume",
               "text": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices in Python, AsyncIO, and Apache Kafka. Proven track record scaling real-time ingestion pipelines from 2M to 35M daily events while maintaining 99.99% availability. Active contributor to open-source asyncio ecosystems.",
               "metadata": {},
-              "similarity_score": 0.34
+              "similarity_score": 0.303
             },
             {
-              "span_id": "CV-016",
+              "span_id": "CV-006",
               "source_file": "cv.txt",
               "document_type": "cv",
               "section": "resume",
-              "text": "Implemented Celery-based asynchronous background processing pipelines handling 500k daily analytical jobs.",
+              "text": "Databases & Storage: PostgreSQL (Declarative Partitioning, TimescaleDB), Redis, ClickHouse",
               "metadata": {
-                "raw_line": "- Implemented Celery-based asynchronous background processing pipelines handling 500k daily analytical jobs."
+                "raw_line": "- Databases & Storage: PostgreSQL (Declarative Partitioning, TimescaleDB), Redis, ClickHouse"
               },
-              "similarity_score": 0.32
+              "similarity_score": 0.297
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I joined in late 2021, the ingestion tier was built on synchronous Flask workers backed by RabbitMQ, which suffered CPU saturation during burst traffic. I designed our v2 pipeline using Python 3.11 with AsyncIO and uvloop. We ingest events over HTTP/gRPC via FastAPI, validate them against Avro schemas in-memory, and produce directly into a 12-partition Kafka cluster using aiokafka with snappy compression.\"",
+              "metadata": {},
+              "similarity_score": 0.365
             },
             {
-              "span_id": "CV-010",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Architected a distributed telemetry ingestion pipeline in Python 3.11 (AsyncIO, FastAPI, aiokafka) processing 35M events/day with p99 response times < 45ms.",
+              "span_id": "INT-005",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks) at ScaleMatrix since November 2021. I've led incident resolution for 14 major production outages, including network split-brain recoveries and Kafka broker failovers.\"",
+              "metadata": {},
+              "similarity_score": 0.326
+            },
+            {
+              "span_id": "INT-003",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was actually one of our key performance hurdles. We strictly run CPU-bound schema deserialization in a `ProcessPoolExecutor` with zero-copy shared memory buffers, while all network I/O remains non-blocking inside the event loop. We also set up custom Prometheus alerts monitoring event loop lag (`loop.slow_callback_duration`).\"",
+              "metadata": {},
+              "similarity_score": 0.311
+            },
+            {
+              "span_id": "INT-004",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream consumers broke due to unannounced payload schema changes. I drafted RFC-108 proposing a centralized schema registry with backward-transitive compatibility rules. I ran design reviews with 3 engineering teams, incorporated feedback, and oversaw implementation over two sprints.\"",
+              "metadata": {},
+              "similarity_score": 0.28
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-007",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "## Evaluator Notes\n\"Immaculate codebase. Clean separation of concerns with asynchronous queue decoupling, typed Pydantic v2 schemas, proper signal trapping for graceful container termination, and comprehensive unit/integration test suite (94% coverage).\"",
+              "metadata": {},
+              "similarity_score": 0.358
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment Report: Sarah Chen\nAssessment Challenge: \"Distributed High-Throughput Event Ingestion Engine\"\nScore: 96 / 100 | Grade: Exceptional (Tier: Legend)",
+              "metadata": {},
+              "similarity_score": 0.306
+            },
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)",
               "metadata": {
-                "raw_line": "- Architected a distributed telemetry ingestion pipeline in Python 3.11 (AsyncIO, FastAPI, aiokafka) processing 35M events/day with p99 response times < 45ms."
+                "raw_line": "- Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)"
               },
               "similarity_score": 0.272
             },
             {
-              "span_id": "CV-001",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 merged PRs)\nLinkedIn: linkedin.com/in/sarah-chen-dist-systems | Location: Seattle, WA",
-              "metadata": {},
-              "similarity_score": 0.271
-            }
-          ],
-          "interview_spans": [
-            {
-              "span_id": "INT-002",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I joined in late 2021, the ingestion tier was built on synchronous Flask workers backed by RabbitMQ, which suffered CPU saturation during burst traffic. I designed our v2 pipeline using Python 3.11 with AsyncIO and uvloop. We ingest events over HTTP/gRPC via FastAPI, validate them against Avro schemas in-memory, and produce directly into a 12-partition Kafka cluster using aiokafka with snappy compression.\"",
-              "metadata": {},
-              "similarity_score": 0.406
-            },
-            {
-              "span_id": "INT-004",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream consumers broke due to unannounced payload schema changes. I drafted RFC-108 proposing a centralized schema registry with backward-transitive compatibility rules. I ran design reviews with 3 engineering teams, incorporated feedback, and oversaw implementation over two sprints.\"",
-              "metadata": {},
-              "similarity_score": 0.361
-            },
-            {
-              "span_id": "INT-003",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was actually one of our key performance hurdles. We strictly run CPU-bound schema deserialization in a `ProcessPoolExecutor` with zero-copy shared memory buffers, while all network I/O remains non-blocking inside the event loop. We also set up custom Prometheus alerts monitoring event loop lag (`loop.slow_callback_duration`).\"",
-              "metadata": {},
-              "similarity_score": 0.342
-            },
-            {
-              "span_id": "INT-005",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks) at ScaleMatrix since November 2021. I've led incident resolution for 14 major production outages, including network split-brain recoveries and Kafka broker failovers.\"",
-              "metadata": {},
-              "similarity_score": 0.331
-            }
-          ],
-          "assessment_spans": [
-            {
-              "span_id": "ASS-007",
+              "span_id": "ASS-003",
               "source_file": "assessment_report.txt",
               "document_type": "assessment",
               "section": "assessment",
-              "text": "## Evaluator Notes\n\"Immaculate codebase. Clean separation of concerns with asynchronous queue decoupling, typed Pydantic v2 schemas, proper signal trapping for graceful container termination, and comprehensive unit/integration test suite (94% coverage).\"",
-              "metadata": {},
-              "similarity_score": 0.323
-            },
-            {
-              "span_id": "ASS-005",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)",
+              "text": "Concurrency & Load Stress Test (50,000 req/sec over 120s): PASSED (0 dropped packets, p99 = 38ms)",
               "metadata": {
-                "raw_line": "- Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)"
+                "raw_line": "- Concurrency & Load Stress Test (50,000 req/sec over 120s): PASSED (0 dropped packets, p99 = 38ms)"
               },
-              "similarity_score": 0.294
-            },
-            {
-              "span_id": "ASS-001",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "# Technical Assessment Report: Sarah Chen\nAssessment Challenge: \"Distributed High-Throughput Event Ingestion Engine\"\nScore: 96 / 100 | Grade: Exceptional (Tier: Legend)",
-              "metadata": {},
-              "similarity_score": 0.291
-            },
-            {
-              "span_id": "ASS-004",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Deadlock & Race Condition Suite (100 parallel async workers): PASSED (100% thread/task safety)",
-              "metadata": {
-                "raw_line": "- Deadlock & Race Condition Suite (100 parallel async workers): PASSED (100% thread/task safety)"
-              },
-              "similarity_score": 0.254
+              "similarity_score": 0.211
             }
           ],
           "project_spans": [
@@ -642,7 +661,7 @@
               "section": "project",
               "text": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructure Engineer)\nReviewers: David Miller (VP Eng), Alex Rivera (Data Platform Lead)\nStatus: Approved & Deployed to Production (March 2023)",
               "metadata": {},
-              "similarity_score": 0.359
+              "similarity_score": 0.337
             },
             {
               "span_id": "PRO-004",
@@ -653,7 +672,7 @@
               "metadata": {
                 "raw_line": "- Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation"
               },
-              "similarity_score": 0.342
+              "similarity_score": 0.256
             },
             {
               "span_id": "PRO-002",
@@ -662,188 +681,7 @@
               "section": "project",
               "text": "## Abstract\nThis document specifies the architecture for real-time schema enforcement across all Kafka producer microservices.",
               "metadata": {},
-              "similarity_score": 0.253
-            },
-            {
-              "span_id": "PRO-005",
-              "source_file": "project_doc.txt",
-              "document_type": "project",
-              "section": "project",
-              "text": "Marcus Bell: Schema Registry Deployment & CI/CD Validation",
-              "metadata": {
-                "raw_line": "- Marcus Bell: Schema Registry Deployment & CI/CD Validation"
-              },
-              "similarity_score": 0.221
-            }
-          ],
-          "jd_spans": [],
-          "rubric_signal": {
-            "category": "bonus_points",
-            "score": 5.0,
-            "normalized_total": 79.16666666666666
-          }
-        },
-        {
-          "req_id": "REQ-04",
-          "requirement_name": "Production Tenure & Operational Reliability",
-          "sources_present": [
-            "cv",
-            "interview",
-            "assessment",
-            "project"
-          ],
-          "total_spans_count": 16,
-          "cv_spans": [
-            {
-              "span_id": "CV-002",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices in Python, AsyncIO, and Apache Kafka. Proven track record scaling real-time ingestion pipelines from 2M to 35M daily events while maintaining 99.99% availability. Active contributor to open-source asyncio ecosystems.",
-              "metadata": {},
-              "similarity_score": 0.412
-            },
-            {
-              "span_id": "CV-009",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Senior Infrastructure Engineer | ScaleMatrix Telemetry (Oct 2021 - Present | 4+ years)",
-              "metadata": {
-                "raw_line": "Senior Infrastructure Engineer | ScaleMatrix Telemetry (Oct 2021 - Present | 4+ years)"
-              },
-              "similarity_score": 0.319
-            },
-            {
-              "span_id": "CV-019",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "`pg-partition-watch` (github.com/schen-dist/pg-partition-watch): Automated maintenance utility for PostgreSQL time-based partition creation and detaching.",
-              "metadata": {
-                "raw_line": "- `pg-partition-watch` (github.com/schen-dist/pg-partition-watch): Automated maintenance utility for PostgreSQL time-based partition creation and detaching."
-              },
-              "similarity_score": 0.3
-            },
-            {
-              "span_id": "CV-001",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 merged PRs)\nLinkedIn: linkedin.com/in/sarah-chen-dist-systems | Location: Seattle, WA",
-              "metadata": {},
-              "similarity_score": 0.284
-            }
-          ],
-          "interview_spans": [
-            {
-              "span_id": "INT-005",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks) at ScaleMatrix since November 2021. I've led incident resolution for 14 major production outages, including network split-brain recoveries and Kafka broker failovers.\"",
-              "metadata": {},
-              "similarity_score": 0.405
-            },
-            {
-              "span_id": "INT-002",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I joined in late 2021, the ingestion tier was built on synchronous Flask workers backed by RabbitMQ, which suffered CPU saturation during burst traffic. I designed our v2 pipeline using Python 3.11 with AsyncIO and uvloop. We ingest events over HTTP/gRPC via FastAPI, validate them against Avro schemas in-memory, and produce directly into a 12-partition Kafka cluster using aiokafka with snappy compression.\"",
-              "metadata": {},
-              "similarity_score": 0.384
-            },
-            {
-              "span_id": "INT-003",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was actually one of our key performance hurdles. We strictly run CPU-bound schema deserialization in a `ProcessPoolExecutor` with zero-copy shared memory buffers, while all network I/O remains non-blocking inside the event loop. We also set up custom Prometheus alerts monitoring event loop lag (`loop.slow_callback_duration`).\"",
-              "metadata": {},
-              "similarity_score": 0.368
-            },
-            {
-              "span_id": "INT-004",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream consumers broke due to unannounced payload schema changes. I drafted RFC-108 proposing a centralized schema registry with backward-transitive compatibility rules. I ran design reviews with 3 engineering teams, incorporated feedback, and oversaw implementation over two sprints.\"",
-              "metadata": {},
-              "similarity_score": 0.356
-            }
-          ],
-          "assessment_spans": [
-            {
-              "span_id": "ASS-007",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "## Evaluator Notes\n\"Immaculate codebase. Clean separation of concerns with asynchronous queue decoupling, typed Pydantic v2 schemas, proper signal trapping for graceful container termination, and comprehensive unit/integration test suite (94% coverage).\"",
-              "metadata": {},
-              "similarity_score": 0.331
-            },
-            {
-              "span_id": "ASS-006",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Memory Profiling (Tracer leak inspection): PASSED (Stable at 84MB heap over 1-hour soak test)",
-              "metadata": {
-                "raw_line": "- Memory Profiling (Tracer leak inspection): PASSED (Stable at 84MB heap over 1-hour soak test)"
-              },
-              "similarity_score": 0.293
-            },
-            {
-              "span_id": "ASS-001",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "# Technical Assessment Report: Sarah Chen\nAssessment Challenge: \"Distributed High-Throughput Event Ingestion Engine\"\nScore: 96 / 100 | Grade: Exceptional (Tier: Legend)",
-              "metadata": {},
-              "similarity_score": 0.266
-            },
-            {
-              "span_id": "ASS-005",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)",
-              "metadata": {
-                "raw_line": "- Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)"
-              },
-              "similarity_score": 0.26
-            }
-          ],
-          "project_spans": [
-            {
-              "span_id": "PRO-004",
-              "source_file": "project_doc.txt",
-              "document_type": "project",
-              "section": "project",
-              "text": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
-              "metadata": {
-                "raw_line": "- Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation"
-              },
-              "similarity_score": 0.346
-            },
-            {
-              "span_id": "PRO-001",
-              "source_file": "project_doc.txt",
-              "document_type": "project",
-              "section": "project",
-              "text": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructure Engineer)\nReviewers: David Miller (VP Eng), Alex Rivera (Data Platform Lead)\nStatus: Approved & Deployed to Production (March 2023)",
-              "metadata": {},
-              "similarity_score": 0.327
-            },
-            {
-              "span_id": "PRO-002",
-              "source_file": "project_doc.txt",
-              "document_type": "project",
-              "section": "project",
-              "text": "## Abstract\nThis document specifies the architecture for real-time schema enforcement across all Kafka producer microservices.",
-              "metadata": {},
-              "similarity_score": 0.315
+              "similarity_score": 0.24
             },
             {
               "span_id": "PRO-006",
@@ -854,7 +692,371 @@
               "metadata": {
                 "raw_line": "- Elena Gomez: Downstream Analytics Consumer Migration"
               },
-              "similarity_score": 0.245
+              "similarity_score": 0.228
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 79.16666666666666
+          }
+        },
+        {
+          "req_id": "REQ-04",
+          "requirement_name": "Technical Architecture & RFC Writing",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 16,
+          "cv_spans": [
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices in Python, AsyncIO, and Apache Kafka. Proven track record scaling real-time ingestion pipelines from 2M to 35M daily events while maintaining 99.99% availability. Active contributor to open-source asyncio ecosystems.",
+              "metadata": {},
+              "similarity_score": 0.368
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 merged PRs)\nLinkedIn: linkedin.com/in/sarah-chen-dist-systems | Location: Seattle, WA",
+              "metadata": {},
+              "similarity_score": 0.362
+            },
+            {
+              "span_id": "CV-015",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Developed asynchronous microservices for real-time network anomaly detection using Python, Redis Streams, and PostgreSQL.",
+              "metadata": {
+                "raw_line": "- Developed asynchronous microservices for real-time network anomaly detection using Python, Redis Streams, and PostgreSQL."
+              },
+              "similarity_score": 0.34
+            },
+            {
+              "span_id": "CV-013",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Authored RFC-108 (\"Dynamic Schema Validation for Kafka Topics\") and mentored 4 mid-level engineers through production release.",
+              "metadata": {
+                "raw_line": "- Authored RFC-108 (\"Dynamic Schema Validation for Kafka Topics\") and mentored 4 mid-level engineers through production release."
+              },
+              "similarity_score": 0.294
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I joined in late 2021, the ingestion tier was built on synchronous Flask workers backed by RabbitMQ, which suffered CPU saturation during burst traffic. I designed our v2 pipeline using Python 3.11 with AsyncIO and uvloop. We ingest events over HTTP/gRPC via FastAPI, validate them against Avro schemas in-memory, and produce directly into a 12-partition Kafka cluster using aiokafka with snappy compression.\"",
+              "metadata": {},
+              "similarity_score": 0.413
+            },
+            {
+              "span_id": "INT-004",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream consumers broke due to unannounced payload schema changes. I drafted RFC-108 proposing a centralized schema registry with backward-transitive compatibility rules. I ran design reviews with 3 engineering teams, incorporated feedback, and oversaw implementation over two sprints.\"",
+              "metadata": {},
+              "similarity_score": 0.396
+            },
+            {
+              "span_id": "INT-003",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was actually one of our key performance hurdles. We strictly run CPU-bound schema deserialization in a `ProcessPoolExecutor` with zero-copy shared memory buffers, while all network I/O remains non-blocking inside the event loop. We also set up custom Prometheus alerts monitoring event loop lag (`loop.slow_callback_duration`).\"",
+              "metadata": {},
+              "similarity_score": 0.381
+            },
+            {
+              "span_id": "INT-005",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks) at ScaleMatrix since November 2021. I've led incident resolution for 14 major production outages, including network split-brain recoveries and Kafka broker failovers.\"",
+              "metadata": {},
+              "similarity_score": 0.326
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-007",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "## Evaluator Notes\n\"Immaculate codebase. Clean separation of concerns with asynchronous queue decoupling, typed Pydantic v2 schemas, proper signal trapping for graceful container termination, and comprehensive unit/integration test suite (94% coverage).\"",
+              "metadata": {},
+              "similarity_score": 0.309
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment Report: Sarah Chen\nAssessment Challenge: \"Distributed High-Throughput Event Ingestion Engine\"\nScore: 96 / 100 | Grade: Exceptional (Tier: Legend)",
+              "metadata": {},
+              "similarity_score": 0.263
+            },
+            {
+              "span_id": "ASS-004",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Deadlock & Race Condition Suite (100 parallel async workers): PASSED (100% thread/task safety)",
+              "metadata": {
+                "raw_line": "- Deadlock & Race Condition Suite (100 parallel async workers): PASSED (100% thread/task safety)"
+              },
+              "similarity_score": 0.261
+            },
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)",
+              "metadata": {
+                "raw_line": "- Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)"
+              },
+              "similarity_score": 0.255
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-004",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
+              "metadata": {
+                "raw_line": "- Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation"
+              },
+              "similarity_score": 0.348
+            },
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructure Engineer)\nReviewers: David Miller (VP Eng), Alex Rivera (Data Platform Lead)\nStatus: Approved & Deployed to Production (March 2023)",
+              "metadata": {},
+              "similarity_score": 0.311
+            },
+            {
+              "span_id": "PRO-002",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "## Abstract\nThis document specifies the architecture for real-time schema enforcement across all Kafka producer microservices.",
+              "metadata": {},
+              "similarity_score": 0.286
+            },
+            {
+              "span_id": "PRO-006",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Elena Gomez: Downstream Analytics Consumer Migration",
+              "metadata": {
+                "raw_line": "- Elena Gomez: Downstream Analytics Consumer Migration"
+              },
+              "similarity_score": 0.274
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 5.0,
+            "normalized_total": 79.16666666666666
+          }
+        },
+        {
+          "req_id": "REQ-05",
+          "requirement_name": "Production Operations & Reliability",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 16,
+          "cv_spans": [
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices in Python, AsyncIO, and Apache Kafka. Proven track record scaling real-time ingestion pipelines from 2M to 35M daily events while maintaining 99.99% availability. Active contributor to open-source asyncio ecosystems.",
+              "metadata": {},
+              "similarity_score": 0.416
+            },
+            {
+              "span_id": "CV-012",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 310ms.",
+              "metadata": {
+                "raw_line": "- Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 310ms."
+              },
+              "similarity_score": 0.325
+            },
+            {
+              "span_id": "CV-013",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Authored RFC-108 (\"Dynamic Schema Validation for Kafka Topics\") and mentored 4 mid-level engineers through production release.",
+              "metadata": {
+                "raw_line": "- Authored RFC-108 (\"Dynamic Schema Validation for Kafka Topics\") and mentored 4 mid-level engineers through production release."
+              },
+              "similarity_score": 0.324
+            },
+            {
+              "span_id": "CV-019",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "`pg-partition-watch` (github.com/schen-dist/pg-partition-watch): Automated maintenance utility for PostgreSQL time-based partition creation and detaching.",
+              "metadata": {
+                "raw_line": "- `pg-partition-watch` (github.com/schen-dist/pg-partition-watch): Automated maintenance utility for PostgreSQL time-based partition creation and detaching."
+              },
+              "similarity_score": 0.323
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I joined in late 2021, the ingestion tier was built on synchronous Flask workers backed by RabbitMQ, which suffered CPU saturation during burst traffic. I designed our v2 pipeline using Python 3.11 with AsyncIO and uvloop. We ingest events over HTTP/gRPC via FastAPI, validate them against Avro schemas in-memory, and produce directly into a 12-partition Kafka cluster using aiokafka with snappy compression.\"",
+              "metadata": {},
+              "similarity_score": 0.434
+            },
+            {
+              "span_id": "INT-005",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks) at ScaleMatrix since November 2021. I've led incident resolution for 14 major production outages, including network split-brain recoveries and Kafka broker failovers.\"",
+              "metadata": {},
+              "similarity_score": 0.423
+            },
+            {
+              "span_id": "INT-004",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream consumers broke due to unannounced payload schema changes. I drafted RFC-108 proposing a centralized schema registry with backward-transitive compatibility rules. I ran design reviews with 3 engineering teams, incorporated feedback, and oversaw implementation over two sprints.\"",
+              "metadata": {},
+              "similarity_score": 0.399
+            },
+            {
+              "span_id": "INT-003",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was actually one of our key performance hurdles. We strictly run CPU-bound schema deserialization in a `ProcessPoolExecutor` with zero-copy shared memory buffers, while all network I/O remains non-blocking inside the event loop. We also set up custom Prometheus alerts monitoring event loop lag (`loop.slow_callback_duration`).\"",
+              "metadata": {},
+              "similarity_score": 0.371
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-007",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "## Evaluator Notes\n\"Immaculate codebase. Clean separation of concerns with asynchronous queue decoupling, typed Pydantic v2 schemas, proper signal trapping for graceful container termination, and comprehensive unit/integration test suite (94% coverage).\"",
+              "metadata": {},
+              "similarity_score": 0.351
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment Report: Sarah Chen\nAssessment Challenge: \"Distributed High-Throughput Event Ingestion Engine\"\nScore: 96 / 100 | Grade: Exceptional (Tier: Legend)",
+              "metadata": {},
+              "similarity_score": 0.286
+            },
+            {
+              "span_id": "ASS-004",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Deadlock & Race Condition Suite (100 parallel async workers): PASSED (100% thread/task safety)",
+              "metadata": {
+                "raw_line": "- Deadlock & Race Condition Suite (100 parallel async workers): PASSED (100% thread/task safety)"
+              },
+              "similarity_score": 0.274
+            },
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)",
+              "metadata": {
+                "raw_line": "- Distributed Idempotency Validation (Duplicate UUID injections): PASSED (Zero duplicate ledger writes)"
+              },
+              "similarity_score": 0.257
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructure Engineer)\nReviewers: David Miller (VP Eng), Alex Rivera (Data Platform Lead)\nStatus: Approved & Deployed to Production (March 2023)",
+              "metadata": {},
+              "similarity_score": 0.317
+            },
+            {
+              "span_id": "PRO-004",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
+              "metadata": {
+                "raw_line": "- Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation"
+              },
+              "similarity_score": 0.3
+            },
+            {
+              "span_id": "PRO-002",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "## Abstract\nThis document specifies the architecture for real-time schema enforcement across all Kafka producer microservices.",
+              "metadata": {},
+              "similarity_score": 0.265
+            },
+            {
+              "span_id": "PRO-005",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "Marcus Bell: Schema Registry Deployment & CI/CD Validation",
+              "metadata": {
+                "raw_line": "- Marcus Bell: Schema Registry Deployment & CI/CD Validation"
+              },
+              "similarity_score": 0.238
             }
           ],
           "jd_spans": [],
@@ -864,309 +1066,166 @@
             "normalized_total": 79.16666666666666
           }
         }
-      ]
+      ],
+      "duration_sec": 0.0083
     },
     {
       "step": "cross_source_verification",
       "agent": "CrossSourceVerificationAgent",
       "output": {
         "candidate_id": "case_01_strong_01",
-        "total_requirements": 4,
-        "supported_count": 4,
+        "total_requirements": 5,
+        "supported_count": 5,
         "contradicted_count": 0,
         "insufficient_count": 0,
         "consistency_score": 100.0,
+        "degraded": false,
+        "degraded_reason": null,
         "verifications": [
           {
             "req_id": "REQ-01",
-            "requirement_name": "Core Python & AsyncIO",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
             "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The provided evidence supports the claim that Sarah Chen has proficiency in Python 3.10+, asynchronous programming, and clean architecture, as evidenced by her work in various projects and assessments.",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
             "supporting_citations": [
-              "CV-015",
-              "INT-002",
-              "INT-003",
-              "INT-004",
-              "INT-005",
-              "ASS-007",
-              "ASS-004",
-              "ASS-006",
-              "PRO-004",
-              "PRO-001",
-              "PRO-003",
-              "PRO-002"
+              "CV-002",
+              "CV-015"
             ],
             "citations": [
-              "CV-015",
-              "INT-002",
-              "INT-003",
-              "INT-004",
-              "INT-005",
-              "ASS-007",
-              "ASS-004",
-              "ASS-006",
-              "PRO-004",
-              "PRO-001",
-              "PRO-003",
-              "PRO-002"
+              "CV-002",
+              "CV-015"
             ],
             "citations_detail": [
+              {
+                "span_id": "CV-002",
+                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
+                "document_type": "cv"
+              },
               {
                 "span_id": "CV-015",
                 "quote": "Developed asynchronous microservices for real-time network anomaly detection using Python, Redis Streams, and PostgreSQL.",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-003",
-                "quote": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was a",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-004",
-                "quote": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream c",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-005",
-                "quote": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-007",
-                "quote": "## Evaluator Notes\n\"Immaculate codebase. Clean separation of concerns with asynchronous queue decoupling, typed Pydantic v2 schemas, proper ",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-004",
-                "quote": "Deadlock & Race Condition Suite (100 parallel async workers): PASSED (100% thread/task safety)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-006",
-                "quote": "Memory Profiling (Tracer leak inspection): PASSED (Stable at 84MB heap over 1-hour soak test)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-004",
-                "quote": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructu",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-003",
-                "quote": "## Implementation Team",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-002",
-                "quote": "## Abstract\nThis document specifies the architecture for real-time schema enforcement across all Kafka producer microservices.",
-                "document_type": "project"
               }
             ],
             "discrepancies": []
           },
           {
             "req_id": "REQ-02",
-            "requirement_name": "Distributed Systems & Message Queues",
+            "requirement_name": "Distributed Systems & Event Streaming",
             "status": "SUPPORTED",
-            "confidence": 0.9,
-            "synthesis": "The candidate's experience aligns with the requirement of hands-on experience in designing and operating event streams (Kafka/RabbitMQ) and distributed state, as evidenced by her CV and project documentation.",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
             "supporting_citations": [
-              "CV-005",
-              "PRO-001",
-              "PRO-004"
-            ],
-            "citations": [
-              "CV-005",
-              "PRO-001",
-              "PRO-004"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-005",
-                "quote": "Distributed Systems: Apache Kafka (Kafka Streams, Schema Registry, Confluent Python), RabbitMQ, Redis Cluster",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructu",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-004",
-                "quote": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
-                "document_type": "project"
-              }
-            ],
-            "discrepancies": []
-          },
-          {
-            "req_id": "REQ-03",
-            "requirement_name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "confidence": 0.9,
-            "synthesis": "The provided evidence supports the claim that Sarah Chen has a demonstrated track record of leading migrations, architectural decisions, and mentoring engineers, aligning with the requirement for Technical Leadership & Initiative.",
-            "supporting_citations": [
-              "INT-002",
-              "INT-004",
-              "INT-003",
-              "INT-005",
-              "PRO-001",
-              "PRO-004",
-              "PRO-002",
-              "PRO-005",
-              "CV-010",
-              "CV-016",
+              "CV-002",
               "CV-001"
             ],
             "citations": [
-              "INT-002",
-              "INT-004",
-              "INT-003",
-              "INT-005",
-              "PRO-001",
-              "PRO-004",
-              "PRO-002",
-              "PRO-005",
-              "CV-010",
-              "CV-016",
+              "CV-002",
               "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-016",
-                "quote": "Implemented Celery-based asynchronous background processing pipelines handling 500k daily analytical jobs.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-010",
-                "quote": "Architected a distributed telemetry ingestion pipeline in Python 3.11 (AsyncIO, FastAPI, aiokafka) processing 35M events/day with p99 respon",
+                "span_id": "CV-002",
+                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
                 "document_type": "cv"
               },
               {
                 "span_id": "CV-001",
                 "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
                 "document_type": "cv"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-03",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "SUPPORTED",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
+            "supporting_citations": [
+              "CV-001",
+              "CV-012"
+            ],
+            "citations": [
+              "CV-001",
+              "CV-012"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
+                "document_type": "cv"
               },
               {
-                "span_id": "INT-002",
-                "quote": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-004",
-                "quote": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream c",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-003",
-                "quote": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was a",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-005",
-                "quote": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructu",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-004",
-                "quote": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-002",
-                "quote": "## Abstract\nThis document specifies the architecture for real-time schema enforcement across all Kafka producer microservices.",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-005",
-                "quote": "Marcus Bell: Schema Registry Deployment & CI/CD Validation",
-                "document_type": "project"
+                "span_id": "CV-012",
+                "quote": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 3",
+                "document_type": "cv"
               }
             ],
             "discrepancies": []
           },
           {
             "req_id": "REQ-04",
-            "requirement_name": "Production Tenure & Operational Reliability",
+            "requirement_name": "Technical Architecture & RFC Writing",
             "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The candidate has at least 4+ years of commercial production experience, including 3+ years of active on-call rotations and significant contributions to production systems.",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
             "supporting_citations": [
-              "INT-005",
-              "INT-002",
-              "INT-003",
-              "INT-004",
-              "PRO-004",
-              "PRO-001",
-              "PRO-006"
+              "CV-002",
+              "CV-001"
             ],
             "citations": [
-              "INT-005",
-              "INT-002",
-              "INT-003",
-              "INT-004",
-              "PRO-004",
-              "PRO-001",
-              "PRO-006"
+              "CV-002",
+              "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "INT-005",
-                "quote": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks",
-                "document_type": "interview"
+                "span_id": "CV-002",
+                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
+                "document_type": "cv"
               },
               {
-                "span_id": "INT-002",
-                "quote": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
+                "document_type": "cv"
+              }
+            ],
+            "discrepancies": []
+          },
+          {
+            "req_id": "REQ-05",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "SUPPORTED",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
+            "supporting_citations": [
+              "CV-002",
+              "CV-012"
+            ],
+            "citations": [
+              "CV-002",
+              "CV-012"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-002",
+                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
+                "document_type": "cv"
               },
               {
-                "span_id": "INT-003",
-                "quote": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was a",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-004",
-                "quote": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream c",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-004",
-                "quote": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructu",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-006",
-                "quote": "Elena Gomez: Downstream Analytics Consumer Migration",
-                "document_type": "project"
+                "span_id": "CV-012",
+                "quote": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 3",
+                "document_type": "cv"
               }
             ],
             "discrepancies": []
           }
         ],
         "all_discrepancies": []
-      }
+      },
+      "duration_sec": 5.2707
     },
     {
       "step": "recommendation_writing",
@@ -1178,267 +1237,145 @@
         "role_fit_score": 91.7,
         "evidence_consistency_score": 100.0,
         "quadrant": "STRONG MATCH",
+        "degraded": false,
+        "degraded_reason": null,
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
+            "name": "Core Python & AsyncIO Concurrency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
+            "confidence": 0.85,
             "citations": [
-              "CV-015",
-              "INT-002",
-              "INT-003",
-              "INT-004",
-              "INT-005",
-              "ASS-007",
-              "ASS-004",
-              "ASS-006",
-              "PRO-004",
-              "PRO-001",
-              "PRO-003",
-              "PRO-002"
+              "CV-002",
+              "CV-015"
             ],
             "citations_detail": [
+              {
+                "span_id": "CV-002",
+                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
+                "document_type": "cv"
+              },
               {
                 "span_id": "CV-015",
                 "quote": "Developed asynchronous microservices for real-time network anomaly detection using Python, Redis Streams, and PostgreSQL.",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-003",
-                "quote": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was a",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-004",
-                "quote": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream c",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-005",
-                "quote": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-007",
-                "quote": "## Evaluator Notes\n\"Immaculate codebase. Clean separation of concerns with asynchronous queue decoupling, typed Pydantic v2 schemas, proper ",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-004",
-                "quote": "Deadlock & Race Condition Suite (100 parallel async workers): PASSED (100% thread/task safety)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-006",
-                "quote": "Memory Profiling (Tracer leak inspection): PASSED (Stable at 84MB heap over 1-hour soak test)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-004",
-                "quote": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructu",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-003",
-                "quote": "## Implementation Team",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-002",
-                "quote": "## Abstract\nThis document specifies the architecture for real-time schema enforcement across all Kafka producer microservices.",
-                "document_type": "project"
               }
             ],
-            "synthesis": "The provided evidence supports the claim that Sarah Chen has proficiency in Python 3.10+, asynchronous programming, and clean architecture, as evidenced by her work in various projects and assessments."
+            "synthesis": "Analyzed 4 source(s)."
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
+            "name": "Distributed Systems & Event Streaming",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.9,
+            "confidence": 0.85,
             "citations": [
-              "CV-005",
-              "PRO-001",
-              "PRO-004"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-005",
-                "quote": "Distributed Systems: Apache Kafka (Kafka Streams, Schema Registry, Confluent Python), RabbitMQ, Redis Cluster",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructu",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-004",
-                "quote": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The candidate's experience aligns with the requirement of hands-on experience in designing and operating event streams (Kafka/RabbitMQ) and distributed state, as evidenced by her CV and project documentation."
-          },
-          {
-            "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.9,
-            "citations": [
-              "INT-002",
-              "INT-004",
-              "INT-003",
-              "INT-005",
-              "PRO-001",
-              "PRO-004",
-              "PRO-002",
-              "PRO-005",
-              "CV-010",
-              "CV-016",
+              "CV-002",
               "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-016",
-                "quote": "Implemented Celery-based asynchronous background processing pipelines handling 500k daily analytical jobs.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-010",
-                "quote": "Architected a distributed telemetry ingestion pipeline in Python 3.11 (AsyncIO, FastAPI, aiokafka) processing 35M events/day with p99 respon",
+                "span_id": "CV-002",
+                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
                 "document_type": "cv"
               },
               {
                 "span_id": "CV-001",
                 "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-004",
-                "quote": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream c",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-003",
-                "quote": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was a",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-005",
-                "quote": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructu",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-004",
-                "quote": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-002",
-                "quote": "## Abstract\nThis document specifies the architecture for real-time schema enforcement across all Kafka producer microservices.",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-005",
-                "quote": "Marcus Bell: Schema Registry Deployment & CI/CD Validation",
-                "document_type": "project"
               }
             ],
-            "synthesis": "The provided evidence supports the claim that Sarah Chen has a demonstrated track record of leading migrations, architectural decisions, and mentoring engineers, aligning with the requirement for Technical Leadership & Initiative."
+            "synthesis": "Analyzed 4 source(s)."
           },
           {
-            "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
+            "req_id": "REQ-03",
+            "name": "Database Sharding & Data Consistency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
+            "confidence": 0.85,
             "citations": [
-              "INT-005",
-              "INT-002",
-              "INT-003",
-              "INT-004",
-              "PRO-004",
-              "PRO-001",
-              "PRO-006"
+              "CV-001",
+              "CV-012"
             ],
             "citations_detail": [
               {
-                "span_id": "INT-005",
-                "quote": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
+                "document_type": "cv"
               },
               {
-                "span_id": "INT-002",
-                "quote": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-003",
-                "quote": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was a",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-004",
-                "quote": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream c",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-004",
-                "quote": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructu",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-006",
-                "quote": "Elena Gomez: Downstream Analytics Consumer Migration",
-                "document_type": "project"
+                "span_id": "CV-012",
+                "quote": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 3",
+                "document_type": "cv"
               }
             ],
-            "synthesis": "The candidate has at least 4+ years of commercial production experience, including 3+ years of active on-call rotations and significant contributions to production systems."
+            "synthesis": "Analyzed 4 source(s)."
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Technical Architecture & RFC Writing",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.85,
+            "citations": [
+              "CV-002",
+              "CV-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-002",
+                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s)."
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.85,
+            "citations": [
+              "CV-002",
+              "CV-012"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-002",
+                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-012",
+                "quote": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 3",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s)."
           }
         ],
         "unsupported_claim_count": 0,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 79.2,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Sarah Chen | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           91.7 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
-      }
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Sarah Chen | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           91.7 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [PASS] SUPPORTED\n  Distributed Systems & Even   [PASS] SUPPORTED\n  Database Sharding & Data C   [PASS] SUPPORTED\n  Technical Architecture & R   [PASS] SUPPORTED\n  Production Operations & Re   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
+      },
+      "duration_sec": 0.0017
     }
   ],
-  "pipeline_latency_sec": 21.23
+  "pipeline_latency_sec": 5.63,
+  "degraded": false
 }

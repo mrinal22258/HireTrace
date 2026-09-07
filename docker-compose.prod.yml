@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["uvicorn", "ui.server:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-hiretrace}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-hiretrace}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
+      - CONCURRENCY_WORKERS=4
+      - HIRETRACE_REQUIRE_AUTH=1
+      - HIRETRACE_API_KEY=${HIRETRACE_API_KEY:?HIRETRACE_API_KEY must be set — see .env.example}
+    volumes:
+      - hiretrace_shared_uploads:/app/uploads
+      - hiretrace_shared_eval_cases:/app/eval_cases/custom_uploads
+      - hiretrace_shared_trajectories:/app/trajectories
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - postgres
+      - redis
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["python", "worker.py", "--mode", "celery", "--concurrency", "4"]
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-hiretrace}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-hiretrace}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
+      - CONCURRENCY_WORKERS=4
+      - HIRETRACE_REQUIRE_AUTH=1
+      - HIRETRACE_API_KEY=${HIRETRACE_API_KEY:?HIRETRACE_API_KEY must be set — see .env.example}
+    volumes:
+      - hiretrace_shared_uploads:/app/uploads
+      - hiretrace_shared_eval_cases:/app/eval_cases/custom_uploads
+      - hiretrace_shared_trajectories:/app/trajectories
+    deploy:
+      replicas: 4
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 4G
+    depends_on:
+      - postgres
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_prod_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: always
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-hiretrace}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB:-hiretrace}
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-hiretrace}"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: always
+
+volumes:
+  hiretrace_shared_uploads:
+  hiretrace_shared_eval_cases:
+  hiretrace_shared_trajectories:
+  postgres_prod_data:
+  redis_prod_data:

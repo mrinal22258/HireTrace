@@ -860,9 +860,15 @@ if __name__ == "__main__":
     parser.add_argument("--cached", action="store_true", help="Use cached trajectories for fast evaluation")
     parser.add_argument("--limit", type=int, default=None, help="Limit number of cases to evaluate")
     parser.add_argument("--allow-fallback", action="store_true", help="Allow fallback execution if local Ollama daemon is unavailable")
+    parser.add_argument("--model", type=str, default=None, help="Inference model to evaluate (e.g. qwen2.5:3b, qwen2.5:7b, llama3.1:8b)")
+    parser.add_argument("--output", type=str, default=None, help="Custom output directory for evaluation results")
     args = parser.parse_args()
 
+    if args.model:
+        os.environ["OLLAMA_MODEL"] = args.model
+
     eval_cases = CASES[:args.limit] if args.limit else CASES
-    harness = ScientificEvaluationHarness(cases=eval_cases)
+    output_dir = args.output or "eval"
+    harness = ScientificEvaluationHarness(cases=eval_cases, output_dir=output_dir)
     # Default is clean evaluation with require_ollama=True to prevent silent benchmark fallback
     harness.run_all(use_cached_llm=args.cached and not args.fresh, require_ollama=not args.allow_fallback)

@@ -1,11 +1,10 @@
 """
 Asynchronous Job Manager for HireTrace.
 
-Coordinates background execution of candidate evaluations using a bounded thread pool.
-Maintains in-memory job states and step-by-step progress tracking:
+Coordinates background execution of candidate evaluations across bounded worker threads
+or distributed Celery workers backed by Redis.
+Persists job states to the JobQueue database table:
   queued -> parsing -> evaluating -> done / failed
-
-Avoids saturating GPU/CPU resources by capping concurrent local LLM inference.
 """
 
 import time
@@ -13,14 +12,19 @@ import os
 import json
 import asyncio
 import threading
+import logging
 from dataclasses import dataclass, field
 from typing import Dict, Any, Optional, Callable
 
-from agents.evidence_loader import EvidenceLoader, CandidateDossier
-from agents.pipeline import HireTracePipeline
-from agents.fast_triage import FastTriageEngine
 from agents.db import DB
-from baseline.rubric_scorer import RubricScorer
+from agents.pipeline import HireTracePipeline
+
+logger = logging.getLogger("hiretrace.job_manager")
+
+
+class JobPersistenceError(RuntimeError):
+    """Raised when job persistence to the database fails after retries."""
+    pass
 
 
 @dataclass
@@ -57,16 +61,14 @@ class CandidateJob:
 
 class JobManager:
     """
-    Asynchronous bounded worker pool for HireTrace.
+    Hybrid Async/Distributed Worker Pool for HireTrace.
     
-    Coordinates non-blocking background candidate evaluations using Python's asyncio
-    and an in-process bounded worker queue. Multiple candidates are evaluated concurrently
-    against local Ollama / vLLM backends.
+    Supports:
+      1. Celery distributed tasks over Redis for horizontal worker scaling across nodes.
+      2. In-process bounded asyncio worker pool for local, single-node or zero-config execution.
     
-    Scaling Note (Multi-Node / Enterprise Scale):
-    For distributed multi-machine deployments across separate GPU inference nodes,
-    this in-process asyncio worker pool can be swapped with Celery or RQ backed by
-    Redis / RabbitMQ message brokers, pointing worker nodes at dedicated vLLM replicas.
+    Every status transition is persisted to the JobQueue database table so that any API
+    replica or worker process sees consistent, surviving job state.
     """
 
     def __init__(self, max_workers: Optional[int] = None):
@@ -76,7 +78,25 @@ class JobManager:
         self._jobs: Dict[str, CandidateJob] = {}
         self._lock = threading.Lock()
 
-        # Dedicated background asyncio event loop and worker tasks
+        # Determine queue backend
+        self.queue_backend = os.getenv("HIRETRACE_QUEUE_BACKEND", "auto").lower()
+        self.use_celery = False
+        redis_url = os.getenv("REDIS_URL")
+
+        if self.queue_backend in ("celery", "redis"):
+            self.use_celery = True
+        elif self.queue_backend == "auto" and redis_url:
+            try:
+                import redis
+                r = redis.Redis.from_url(redis_url, socket_connect_timeout=1.0)
+                r.ping()
+                self.use_celery = True
+                logger.info(f"Connected to Redis broker at {redis_url}; using Celery task queue.")
+            except Exception as e:
+                logger.info(f"Redis not reachable ({e}); using local bounded worker pool.")
+                self.use_celery = False
+
+        # Dedicated background asyncio event loop and worker tasks for local mode
         self._loop = asyncio.new_event_loop()
         self._queue: Optional[asyncio.Queue] = None
         self._ready_event = threading.Event()
@@ -88,7 +108,6 @@ class JobManager:
         """Dedicated background thread running the asyncio event loop."""
         asyncio.set_event_loop(self._loop)
         self._queue = asyncio.Queue()
-        # Spawn bounded async workers
         for i in range(self.max_workers):
             self._loop.create_task(self._async_worker(i))
         self._ready_event.set()
@@ -100,7 +119,6 @@ class JobManager:
             try:
                 task_args = await self._queue.get()
                 cid, case_data, pipeline, cases_dir, all_cases_list, on_complete = task_args
-                # Run evaluation non-blockingly
                 await asyncio.to_thread(
                     self._run_job_worker,
                     cid,
@@ -111,12 +129,40 @@ class JobManager:
                     on_complete
                 )
             except Exception as e:
-                pass
+                logger.error(f"Async worker exception: {e}", exc_info=True)
             finally:
                 if self._queue:
                     self._queue.task_done()
 
     def create_job(self, candidate_id: str, name: str, target_role: str) -> CandidateJob:
+        """Initializes a new job both in-memory and persistently in the JobQueue table."""
+        step = "Ingested document payload. Queued for evaluation."
+
+        # Persist to database with retries before committing to in-memory state
+        delays = (0.2, 0.5, 1.0)
+        last_err = None
+        for attempt, delay in enumerate(delays):
+            try:
+                DB.save_job(
+                    candidate_id=candidate_id,
+                    status="queued",
+                    progress_pct=10,
+                    current_step=step
+                )
+                last_err = None
+                break
+            except Exception as e:
+                last_err = e
+                if attempt < len(delays) - 1:
+                    logger.warning(f"Failed to persist job creation to DB (retrying in {delay}s): {e}")
+                    time.sleep(delay)
+
+        if last_err is not None:
+            logger.error(f"Exhausted DB retries creating job for candidate {candidate_id}: {last_err}")
+            raise JobPersistenceError(
+                f"Failed to persist job {candidate_id} to database after 3 retries: {last_err}"
+            )
+
         with self._lock:
             job = CandidateJob(
                 candidate_id=candidate_id,
@@ -124,16 +170,60 @@ class JobManager:
                 target_role=target_role,
                 status="queued",
                 progress_pct=10,
-                current_step="Ingested document payload. Queued for evaluation."
+                current_step=step
             )
             self._jobs[candidate_id] = job
-            return job
+
+        return job
 
     def get_job(self, candidate_id: str) -> Optional[CandidateJob]:
+        """
+        Retrieves job status from in-memory cache or restores from the JobQueue database table.
+        Ensures multi-replica and horizontal worker state visibility.
+        """
         with self._lock:
-            return self._jobs.get(candidate_id)
+            cached_job = self._jobs.get(candidate_id)
+
+        # Check DB for true cross-worker state
+        try:
+            db_job = DB.get_job(candidate_id)
+        except Exception:
+            db_job = None
+
+        if db_job:
+            db_status = db_job.get("status", "queued")
+            # If DB has a newer or completed state, return synchronized object
+            db_eval = DB.get_evaluation(candidate_id)
+            cand = DB.get_candidate_full(candidate_id)
+
+            cand_name = (cand.get("name") if cand else None) or (cached_job.name if cached_job else "")
+            cand_role = (cand.get("target_role") if cand else None) or (cached_job.target_role if cached_job else "Senior Software Engineer")
+            rep = db_eval.get("report") if db_eval else (cached_job.report if cached_job else None)
+            base_a = db_eval.get("baseline_a") if db_eval else (cached_job.baseline_a if cached_job else None)
+            is_deg = rep.get("degraded", False) if isinstance(rep, dict) else False
+
+            synced_job = CandidateJob(
+                candidate_id=candidate_id,
+                name=cand_name,
+                target_role=cand_role,
+                status=db_status,
+                progress_pct=db_job.get("progress_pct", 0),
+                current_step=db_job.get("current_step", ""),
+                report=rep,
+                baseline_a=base_a,
+                error=db_job.get("error_msg") or (cached_job.error if cached_job else None),
+                degraded=is_deg,
+                created_at=db_job.get("enqueued_at") or (cached_job.created_at if cached_job else time.time()),
+                updated_at=db_job.get("finished_at") or (cached_job.updated_at if cached_job else time.time())
+            )
+            with self._lock:
+                self._jobs[candidate_id] = synced_job
+            return synced_job
+
+        return cached_job
 
     def update_job(self, candidate_id: str, **kwargs):
+        """Updates job state in memory and persists to the JobQueue database table."""
         with self._lock:
             job = self._jobs.get(candidate_id)
             if job:
@@ -141,183 +231,105 @@ class JobManager:
                     if hasattr(job, k):
                         setattr(job, k, v)
                 job.updated_at = time.time()
+                status = job.status
+                progress_pct = job.progress_pct
+                current_step = job.current_step
+                error = job.error
+            else:
+                status = kwargs.get("status", "evaluating")
+                progress_pct = kwargs.get("progress_pct", 0)
+                current_step = kwargs.get("current_step", "")
+                error = kwargs.get("error")
+
+        try:
+            DB.save_job(
+                candidate_id=candidate_id,
+                status=status,
+                progress_pct=progress_pct,
+                current_step=current_step,
+                error_msg=error
+            )
+        except Exception as e:
+            logger.warning(f"Failed to persist job update to DB: {e}")
+
+    def _on_task_progress(self, cid: str, updates: Dict[str, Any]):
+        """Callback to sync progress from core task worker into JobManager."""
+        self.update_job(cid, **updates)
 
     def submit_evaluation(
         self,
         case_data: Dict[str, Any],
-        pipeline: HireTracePipeline,
-        cases_dir: str,
-        all_cases_list: list,
+        pipeline: Optional[HireTracePipeline] = None,
+        cases_dir: Optional[str] = None,
+        all_cases_list: Optional[list] = None,
         on_complete: Optional[Callable[[Dict[str, Any]], None]] = None
     ):
-        """Enqueues candidate evaluation on the async worker queue."""
+        """
+        Enqueues candidate evaluation.
+        If Celery is enabled, dispatches task to Redis queue for horizontal workers.
+        Otherwise dispatches to the local bounded async queue.
+        """
         cid = case_data["candidate_id"]
-        name = case_data["name"]
+        name = case_data.get("name", "Unknown Candidate")
         target_role = case_data.get("target_role", "Senior Software Engineer")
 
         self.create_job(cid, name, target_role)
-        task_payload = (cid, case_data, pipeline, cases_dir, all_cases_list, on_complete)
 
+        if cases_dir is None:
+            cases_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "eval_cases", "custom_uploads")
+
+        if self.use_celery:
+            try:
+                from agents.tasks import evaluate_candidate_celery_task
+                evaluate_candidate_celery_task.delay(case_data, cases_dir)
+                logger.info(f"Dispatched candidate {cid} to Celery distributed worker queue.")
+                return
+            except Exception as e:
+                logger.warning(f"Failed to dispatch to Celery ({e}); falling back to local thread pool.")
+
+        # Local fallback execution via async worker pool
+        task_payload = (cid, case_data, pipeline, cases_dir, all_cases_list, on_complete)
         if self._loop and self._queue and self._loop.is_running():
             asyncio.run_coroutine_threadsafe(self._queue.put(task_payload), self._loop)
         else:
-            # Fallback direct thread execution if event loop is not yet ready
             threading.Thread(
                 target=self._run_job_worker,
                 args=task_payload,
                 daemon=True
             ).start()
 
-
     def _run_job_worker(
         self,
         cid: str,
         case_data: Dict[str, Any],
-        pipeline: HireTracePipeline,
+        pipeline: Optional[HireTracePipeline],
         cases_dir: str,
-        all_cases_list: list,
+        all_cases_list: Optional[list],
         on_complete: Optional[Callable[[Dict[str, Any]], None]] = None
     ):
-        """Worker thread executing the 4-agent verification pipeline with Tier-0 Fast Triage."""
+        """Worker thread executing the evaluation workflow."""
+        from agents.tasks import run_candidate_evaluation_core
+
         try:
-            # Step 1: Chunking & Dossier Construction
-            self.update_job(
-                cid,
-                status="evaluating",
-                progress_pct=20,
-                current_step="Chunking evidence spans & building candidate dossier..."
-            )
-            dossier = EvidenceLoader.load_case_from_dict(case_data)
-            target_role = case_data.get("target_role", "Senior Software Engineer")
-
-            # Step 1.5: Tier-0 Fast-Triage Pre-screen Filter
-            is_fast_rejected, triage_report = FastTriageEngine.evaluate(dossier, target_role)
-            if is_fast_rejected:
-                rubric = RubricScorer.evaluate_from_dict(dossier.structured_cv_profile)
-                case_data["evaluation_report"] = triage_report
-                case_data["rubric_baseline"] = rubric.to_dict()
-                case_data["role_fit_score"] = triage_report["role_fit_score"]
-                case_data["evidence_consistency_score"] = triage_report["evidence_consistency_score"]
-                case_data["quadrant"] = triage_report["quadrant"]
-                case_data["status"] = "done"
-
-                # Persist to disk and SQLite database
-                case_file = os.path.join(cases_dir, f"{cid}.json")
-                with open(case_file, "w", encoding="utf-8") as f:
-                    json.dump(case_data, f, indent=2)
-
-                DB.save_evaluation(
-                    candidate_id=cid,
-                    role_fit_score=triage_report["role_fit_score"],
-                    evidence_consistency_score=triage_report["evidence_consistency_score"],
-                    quadrant=triage_report["quadrant"],
-                    report_dict=triage_report,
-                    baseline_a_dict=rubric.to_dict()
-                )
-
-                found = False
-                for idx, existing in enumerate(all_cases_list):
-                    if existing.get("candidate_id") == cid:
-                        all_cases_list[idx] = case_data
-                        found = True
-                        break
-                if not found:
-                    all_cases_list.append(case_data)
-
-                self.update_job(
-                    cid,
-                    status="done",
-                    progress_pct=100,
-                    current_step="Tier-0 Fast Triage Complete: Low Domain Fit (Bypassed LLM)",
-                    report=triage_report,
-                    baseline_a=rubric.to_dict()
-                )
-                if on_complete:
-                    try:
-                        on_complete(case_data)
-                    except Exception:
-                        pass
-                return
-
-            # Step 2: Deterministic Baseline Rubric
-            self.update_job(
-                cid,
-                progress_pct=40,
-                current_step="Calculating deterministic CareerCheck rubric baseline..."
-            )
-            rubric = RubricScorer.evaluate_from_dict(dossier.structured_cv_profile)
-
-            # Step 3: Run Multi-Agent Verification Pipeline
-            self.update_job(
-                cid,
-                progress_pct=60,
-                current_step="Retrieval indexing & cross-source contradiction verification..."
-            )
-            report = pipeline.run(dossier, log_trajectory=True)
-
-            self.update_job(
-                cid,
-                progress_pct=90,
-                current_step="Writing 2D quadrant assessment report card..."
+            self.update_job(cid, status="evaluating", progress_pct=15, current_step="Claimed by worker pool. Starting evaluation...")
+            evaluated_case = run_candidate_evaluation_core(
+                cid=cid,
+                case_data=case_data,
+                cases_dir=cases_dir,
+                update_callback=self._on_task_progress,
+                pipeline=pipeline
             )
 
-            # Step 4: Persist Evaluated Case to Disk & DB
-            case_data["evaluation_report"] = report.to_dict()
-            case_data["rubric_baseline"] = rubric.to_dict()
-            case_data["role_fit_score"] = report.role_fit_score
-            case_data["evidence_consistency_score"] = report.evidence_consistency_score
-            case_data["quadrant"] = report.quadrant
-            case_data["status"] = "done"
-
-            case_file = os.path.join(cases_dir, f"{cid}.json")
-            with open(case_file, "w", encoding="utf-8") as f:
-                json.dump(case_data, f, indent=2)
-
-            DB.save_evaluation(
-                candidate_id=cid,
-                role_fit_score=report.role_fit_score,
-                evidence_consistency_score=report.evidence_consistency_score,
-                quadrant=report.quadrant,
-                report_dict=report.to_dict(),
-                baseline_a_dict=rubric.to_dict()
-            )
-
-            # Update in-memory cases pool
-            found = False
-            for idx, existing in enumerate(all_cases_list):
-                if existing.get("candidate_id") == cid:
-                    all_cases_list[idx] = case_data
-                    found = True
-                    break
-            if not found:
-                all_cases_list.append(case_data)
-
-            # Mark job complete
-            is_degraded = getattr(report, "degraded", False)
-            self.update_job(
-                cid,
-                status="done",
-                progress_pct=100,
-                current_step="Assessment complete. Report ready." if not is_degraded else "Assessment complete (DEGRADED: Local LLM offline).",
-                report=report.to_dict(),
-                baseline_a=rubric.to_dict(),
-                degraded=is_degraded
-            )
+            # Evaluation result is persisted to DB (single source of truth) by run_candidate_evaluation_core
 
             if on_complete:
                 try:
-                    on_complete(case_data)
+                    on_complete(evaluated_case)
                 except Exception:
                     pass
 
         except Exception as err:
-            self.update_job(
-                cid,
-                status="failed",
-                progress_pct=100,
-                current_step=f"Evaluation failed: {str(err)}",
-                error=str(err)
-            )
+            logger.error(f"Worker job execution failed for {cid}: {err}", exc_info=True)
 
 
 # Global singleton job manager

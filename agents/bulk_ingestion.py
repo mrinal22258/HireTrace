@@ -28,7 +28,7 @@ from agents.document_parser import (
     infer_document_type,
     compute_file_hash
 )
-from agents.job_manager import JOB_MANAGER, JobManager
+from agents.job_manager import JOB_MANAGER, JobManager, JobPersistenceError
 from agents.pipeline import HireTracePipeline
 from agents.db import DB
 
@@ -282,8 +282,7 @@ class BulkIngestionEngine:
                             existing_cid = db_cid
                             is_dup = True
 
-                    if not is_dup:
-                        # Also check ALL_CASES if file exists on disk
+                    if not is_dup and all_cases_list:
                         for existing_case in all_cases_list:
                             existing_meta = existing_case.get("raw_documents", {})
                             if existing_meta.get("cv", {}).get("sha256") == cv_hash:
@@ -336,7 +335,8 @@ class BulkIngestionEngine:
             DB.save_documents(cid, doc_texts, raw_docs_meta)
 
 
-            all_cases_list.append(new_case)
+            if all_cases_list is not None:
+                all_cases_list.append(new_case)
             batch.queued += 1
             batch.candidates.append({
                 "candidate_id": cid,
@@ -359,13 +359,22 @@ class BulkIngestionEngine:
                             break
                 return _callback
 
-            JOB_MANAGER.submit_evaluation(
-                new_case,
-                pipeline,
-                cases_dir,
-                all_cases_list,
-                on_complete=make_on_complete(batch, cid)
-            )
+            try:
+                JOB_MANAGER.submit_evaluation(
+                    new_case,
+                    pipeline,
+                    cases_dir,
+                    all_cases_list,
+                    on_complete=make_on_complete(batch, cid)
+                )
+            except JobPersistenceError as err:
+                logger.error(f"Bulk ingestion failed to persist evaluation for candidate {cid}: {err}")
+                batch.failed += 1
+                for cand_entry in batch.candidates:
+                    if cand_entry.get("candidate_id") == cid:
+                        cand_entry["status"] = "failed"
+                        cand_entry["error"] = "DB persistence failure"
+                        break
 
         batch.updated_at = time.time()
         return batch

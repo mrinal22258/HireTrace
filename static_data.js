@@ -145,8 +145,8 @@ window.HIRETRACE_STATIC = {
       "name": "Alexander Sterling",
       "category": "centerpiece_deceptive",
       "target_role": "Senior Python & Distributed Systems Engineer",
-      "role_fit_score": 82.7,
-      "evidence_consistency_score": 0.0,
+      "role_fit_score": 86.3,
+      "evidence_consistency_score": 25.0,
       "quadrant": "REVIEW REQUIRED",
       "has_discrepancies": true
     }
@@ -809,7 +809,7 @@ window.HIRETRACE_STATIC = {
         "has_high_scale_experience": false,
         "primary_language_match": true,
         "database_systems_match": true,
-        "distributed_cloud_match": false,
+        "distributed_cloud_match": true,
         "has_tech_writing_or_talks": false,
         "has_mentorship_or_leadership": false,
         "has_competitive_or_academic": false,
@@ -996,7 +996,7 @@ window.HIRETRACE_STATIC = {
         "years_production_experience": 4.0,
         "has_high_scale_experience": false,
         "primary_language_match": true,
-        "database_systems_match": false,
+        "database_systems_match": true,
         "distributed_cloud_match": true,
         "has_tech_writing_or_talks": false,
         "has_mentorship_or_leadership": false,
@@ -1115,7 +1115,7 @@ window.HIRETRACE_STATIC = {
         "has_high_scale_experience": false,
         "primary_language_match": true,
         "database_systems_match": true,
-        "distributed_cloud_match": false,
+        "distributed_cloud_match": true,
         "has_tech_writing_or_talks": false,
         "has_mentorship_or_leadership": false,
         "has_competitive_or_academic": false,
@@ -2532,265 +2532,141 @@ window.HIRETRACE_STATIC = {
         "role_fit_score": 91.7,
         "evidence_consistency_score": 100.0,
         "quadrant": "STRONG MATCH",
+        "degraded": false,
+        "degraded_reason": null,
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
+            "name": "Core Python & AsyncIO Concurrency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
+            "confidence": 0.85,
             "citations": [
-              "CV-015",
-              "INT-002",
-              "INT-003",
-              "INT-004",
-              "INT-005",
-              "ASS-007",
-              "ASS-004",
-              "ASS-006",
-              "PRO-004",
-              "PRO-001",
-              "PRO-003",
-              "PRO-002"
+              "CV-002",
+              "CV-015"
             ],
             "citations_detail": [
+              {
+                "span_id": "CV-002",
+                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
+                "document_type": "cv"
+              },
               {
                 "span_id": "CV-015",
                 "quote": "Developed asynchronous microservices for real-time network anomaly detection using Python, Redis Streams, and PostgreSQL.",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-003",
-                "quote": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was a",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-004",
-                "quote": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream c",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-005",
-                "quote": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-007",
-                "quote": "## Evaluator Notes\n\"Immaculate codebase. Clean separation of concerns with asynchronous queue decoupling, typed Pydantic v2 schemas, proper ",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-004",
-                "quote": "Deadlock & Race Condition Suite (100 parallel async workers): PASSED (100% thread/task safety)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-006",
-                "quote": "Memory Profiling (Tracer leak inspection): PASSED (Stable at 84MB heap over 1-hour soak test)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-004",
-                "quote": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructu",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-003",
-                "quote": "## Implementation Team",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-002",
-                "quote": "## Abstract\nThis document specifies the architecture for real-time schema enforcement across all Kafka producer microservices.",
-                "document_type": "project"
               }
             ],
-            "synthesis": "The provided evidence supports the claim that Sarah Chen has proficiency in Python 3.10+, asynchronous programming, and clean architecture, as evidenced by her work in various projects and assessments."
+            "synthesis": "Analyzed 4 source(s)."
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
+            "name": "Distributed Systems & Event Streaming",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.9,
+            "confidence": 0.85,
             "citations": [
-              "CV-005",
-              "PRO-001",
-              "PRO-004"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-005",
-                "quote": "Distributed Systems: Apache Kafka (Kafka Streams, Schema Registry, Confluent Python), RabbitMQ, Redis Cluster",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructu",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-004",
-                "quote": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The candidate's experience aligns with the requirement of hands-on experience in designing and operating event streams (Kafka/RabbitMQ) and distributed state, as evidenced by her CV and project documentation."
-          },
-          {
-            "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.9,
-            "citations": [
-              "INT-002",
-              "INT-004",
-              "INT-003",
-              "INT-005",
-              "PRO-001",
-              "PRO-004",
-              "PRO-002",
-              "PRO-005",
-              "CV-010",
-              "CV-016",
+              "CV-002",
               "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-016",
-                "quote": "Implemented Celery-based asynchronous background processing pipelines handling 500k daily analytical jobs.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-010",
-                "quote": "Architected a distributed telemetry ingestion pipeline in Python 3.11 (AsyncIO, FastAPI, aiokafka) processing 35M events/day with p99 respon",
+                "span_id": "CV-002",
+                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
                 "document_type": "cv"
               },
               {
                 "span_id": "CV-001",
                 "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-004",
-                "quote": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream c",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-003",
-                "quote": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was a",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-005",
-                "quote": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructu",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-004",
-                "quote": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-002",
-                "quote": "## Abstract\nThis document specifies the architecture for real-time schema enforcement across all Kafka producer microservices.",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-005",
-                "quote": "Marcus Bell: Schema Registry Deployment & CI/CD Validation",
-                "document_type": "project"
               }
             ],
-            "synthesis": "The provided evidence supports the claim that Sarah Chen has a demonstrated track record of leading migrations, architectural decisions, and mentoring engineers, aligning with the requirement for Technical Leadership & Initiative."
+            "synthesis": "Analyzed 4 source(s)."
           },
           {
-            "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
+            "req_id": "REQ-03",
+            "name": "Database Sharding & Data Consistency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
+            "confidence": 0.85,
             "citations": [
-              "INT-005",
-              "INT-002",
-              "INT-003",
-              "INT-004",
-              "PRO-004",
-              "PRO-001",
-              "PRO-006"
+              "CV-001",
+              "CV-012"
             ],
             "citations_detail": [
               {
-                "span_id": "INT-005",
-                "quote": "Alex: \"What is your experience participating in on-call rotations?\"\nSarah: \"I have been on an active 24/7 on-call tier (1 week every 5 weeks",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
+                "document_type": "cv"
               },
               {
-                "span_id": "INT-002",
-                "quote": "Alex: \"Welcome Sarah. Can you walk me through the architecture of the telemetry ingestion service at ScaleMatrix?\"\nSarah: \"Certainly. When I",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-003",
-                "quote": "Alex: \"How do you avoid blocking the asyncio event loop when dealing with disk writes or heavy cryptographic operations?\"\nSarah: \"That was a",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-004",
-                "quote": "Alex: \"Tell me about your role on RFC-108.\"\nSarah: \"I was the primary author and technical lead. We had cross-team issues where downstream c",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-004",
-                "quote": "Sarah Chen: Architecture Lead & Core AsyncIO Producer Implementation",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-108: Centralized Event Ingestion Schema Governance\nCompany: ScaleMatrix Telemetry\nLead Author: Sarah Chen (Senior Infrastructu",
-                "document_type": "project"
-              },
-              {
-                "span_id": "PRO-006",
-                "quote": "Elena Gomez: Downstream Analytics Consumer Migration",
-                "document_type": "project"
+                "span_id": "CV-012",
+                "quote": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 3",
+                "document_type": "cv"
               }
             ],
-            "synthesis": "The candidate has at least 4+ years of commercial production experience, including 3+ years of active on-call rotations and significant contributions to production systems."
+            "synthesis": "Analyzed 4 source(s)."
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Technical Architecture & RFC Writing",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.85,
+            "citations": [
+              "CV-002",
+              "CV-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-002",
+                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s)."
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.85,
+            "citations": [
+              "CV-002",
+              "CV-012"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-002",
+                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-012",
+                "quote": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 3",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s)."
           }
         ],
         "unsupported_claim_count": 0,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 79.2,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Sarah Chen | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           91.7 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Sarah Chen | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           91.7 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [PASS] SUPPORTED\n  Distributed Systems & Even   [PASS] SUPPORTED\n  Database Sharding & Data C   [PASS] SUPPORTED\n  Technical Architecture & R   [PASS] SUPPORTED\n  Production Operations & Re   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_01_strong_01",
@@ -3283,13 +3159,13 @@ window.HIRETRACE_STATIC = {
       },
       "baseline_a": {
         "candidate_id": "case_03_med_01",
-        "raw_total": 63.0,
-        "normalized_score": 52.5,
+        "raw_total": 66.0,
+        "normalized_score": 55.0,
         "category_scores": {
           "open_source": 20.0,
           "self_projects": 20.0,
           "production": 16.0,
-          "technical_skills": 7.0,
+          "technical_skills": 10.0,
           "bonus_points": 0.0
         },
         "summary_audit": [
@@ -3300,7 +3176,8 @@ window.HIRETRACE_STATIC = {
           "Production-grade setup (containers, CI/CD, messaging) (+10)",
           "Mid-to-senior production tenure: 4.0 years (+16)",
           "Primary core language and runtime alignment (+4)",
-          "Database & persistence systems alignment (+3)"
+          "Database & persistence systems alignment (+3)",
+          "Distributed systems & cloud infrastructure alignment (+3)"
         ],
         "details": {
           "open_source": {
@@ -3328,11 +3205,12 @@ window.HIRETRACE_STATIC = {
             ]
           },
           "technical_skills": {
-            "score": 7.0,
+            "score": 10.0,
             "max": 10,
             "notes": [
               "Primary core language and runtime alignment (+4)",
-              "Database & persistence systems alignment (+3)"
+              "Database & persistence systems alignment (+3)",
+              "Distributed systems & cloud infrastructure alignment (+3)"
             ]
           },
           "bonus_points": {
@@ -3512,13 +3390,13 @@ window.HIRETRACE_STATIC = {
       },
       "baseline_a": {
         "candidate_id": "case_04_med_02",
-        "raw_total": 43.0,
-        "normalized_score": 35.83,
+        "raw_total": 46.0,
+        "normalized_score": 38.33,
         "category_scores": {
           "open_source": 0.0,
           "self_projects": 20.0,
           "production": 16.0,
-          "technical_skills": 7.0,
+          "technical_skills": 10.0,
           "bonus_points": 0.0
         },
         "summary_audit": [
@@ -3526,6 +3404,7 @@ window.HIRETRACE_STATIC = {
           "Production-grade setup (containers, CI/CD, messaging) (+10)",
           "Mid-to-senior production tenure: 4.0 years (+16)",
           "Primary core language and runtime alignment (+4)",
+          "Database & persistence systems alignment (+3)",
           "Distributed systems & cloud infrastructure alignment (+3)"
         ],
         "details": {
@@ -3550,10 +3429,11 @@ window.HIRETRACE_STATIC = {
             ]
           },
           "technical_skills": {
-            "score": 7.0,
+            "score": 10.0,
             "max": 10,
             "notes": [
               "Primary core language and runtime alignment (+4)",
+              "Database & persistence systems alignment (+3)",
               "Distributed systems & cloud infrastructure alignment (+3)"
             ]
           },
@@ -3692,13 +3572,13 @@ window.HIRETRACE_STATIC = {
       },
       "baseline_a": {
         "candidate_id": "case_05_med_03",
-        "raw_total": 43.0,
-        "normalized_score": 35.83,
+        "raw_total": 46.0,
+        "normalized_score": 38.33,
         "category_scores": {
           "open_source": 0.0,
           "self_projects": 20.0,
           "production": 16.0,
-          "technical_skills": 7.0,
+          "technical_skills": 10.0,
           "bonus_points": 0.0
         },
         "summary_audit": [
@@ -3706,7 +3586,8 @@ window.HIRETRACE_STATIC = {
           "Production-grade setup (containers, CI/CD, messaging) (+10)",
           "Mid-to-senior production tenure: 3.0 years (+16)",
           "Primary core language and runtime alignment (+4)",
-          "Database & persistence systems alignment (+3)"
+          "Database & persistence systems alignment (+3)",
+          "Distributed systems & cloud infrastructure alignment (+3)"
         ],
         "details": {
           "open_source": {
@@ -3730,11 +3611,12 @@ window.HIRETRACE_STATIC = {
             ]
           },
           "technical_skills": {
-            "score": 7.0,
+            "score": 10.0,
             "max": 10,
             "notes": [
               "Primary core language and runtime alignment (+4)",
-              "Database & persistence systems alignment (+3)"
+              "Database & persistence systems alignment (+3)",
+              "Distributed systems & cloud infrastructure alignment (+3)"
             ]
           },
           "bonus_points": {
@@ -5660,17 +5542,21 @@ window.HIRETRACE_STATIC = {
         "candidate_id": "case_15_deceptive_centerpiece",
         "candidate_name": "Alexander Sterling",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 82.7,
-        "evidence_consistency_score": 0.0,
+        "role_fit_score": 86.3,
+        "evidence_consistency_score": 25.0,
         "quadrant": "REVIEW REQUIRED",
+        "degraded": false,
+        "degraded_reason": null,
         "recommendation": "Proceed to human review.",
         "priority_questions": [
           "Establish actual scope of ownership versus team participation in the architecture migration",
-          "Clarify employment timeline and tenure between CV claims and interview statements"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [
           {
-            "discrepancy_id": "DISC-REQ-01-ROLE-OWNERSHIP",
+            "discrepancy_id": "DISC-GLOBAL-ROLE-OWNERSHIP",
             "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
             "source_a_span_id": "CV-010",
             "source_a_doc": "cv",
@@ -5684,112 +5570,48 @@ window.HIRETRACE_STATIC = {
             "quote_a": "Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin",
             "source_b": "project (PRO-011)",
             "quote_b": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande"
-          },
-          {
-            "discrepancy_id": "DISC-REQ-02-TENURE",
-            "topic": "Employment Tenure Discrepancy (Finflow)",
-            "source_a_span_id": "CV-009",
-            "source_a_doc": "cv",
-            "source_a_quote": "Lead Distributed Systems Architect | FinFlow Technologies (Jan 2022 - Present | 3.5 years continuous tenure)",
-            "source_b_span_id": "INT-002",
-            "source_b_doc": "interview",
-            "source_b_quote": "[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you sta",
-            "contradiction_type": "cv_vs_interview",
-            "severity": "HIGH",
-            "source_a": "cv (CV-009)",
-            "quote_a": "Lead Distributed Systems Architect | FinFlow Technologies (Jan 2022 - Present | 3.5 years continuous tenure)",
-            "source_b": "interview (INT-002)",
-            "quote_b": "[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you sta"
-          },
-          {
-            "discrepancy_id": "DISC-REQ-02-ROLE-OWNERSHIP",
-            "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
-            "source_a_span_id": "CV-001",
-            "source_a_doc": "cv",
-            "source_a_quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-            "source_b_span_id": "PRO-006",
-            "source_b_doc": "project",
-            "source_b_quote": "Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoi",
-            "contradiction_type": "cv_vs_project",
-            "severity": "HIGH",
-            "source_a": "cv (CV-001)",
-            "quote_a": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-            "source_b": "project (PRO-006)",
-            "quote_b": "Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoi"
-          },
-          {
-            "discrepancy_id": "DISC-REQ-03-ROLE-OWNERSHIP",
-            "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
-            "source_a_span_id": "CV-001",
-            "source_a_doc": "cv",
-            "source_a_quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-            "source_b_span_id": "PRO-010",
-            "source_b_doc": "project",
-            "source_b_quote": "## Executive Project Charter\nUnder the leadership of Principal Architect Dr. Robert Vance, the 7-person Core Services team was chartered in ",
-            "contradiction_type": "cv_vs_project",
-            "severity": "HIGH",
-            "source_a": "cv (CV-001)",
-            "quote_a": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-            "source_b": "project (PRO-010)",
-            "quote_b": "## Executive Project Charter\nUnder the leadership of Principal Architect Dr. Robert Vance, the 7-person Core Services team was chartered in "
-          },
-          {
-            "discrepancy_id": "DISC-REQ-04-ROLE-OWNERSHIP",
-            "topic": "Project Leadership & Ownership Claim vs. Contributor Scope",
-            "source_a_span_id": "CV-012",
-            "source_a_doc": "cv",
-            "source_a_quote": "3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident comman",
-            "source_b_span_id": "PRO-011",
-            "source_b_doc": "project",
-            "source_b_quote": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande",
-            "contradiction_type": "cv_vs_project",
-            "severity": "HIGH",
-            "source_a": "cv (CV-012)",
-            "quote_a": "3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident comman",
-            "source_b": "project (PRO-011)",
-            "quote_b": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande"
           }
         ],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
+            "name": "Core Python & AsyncIO Concurrency",
             "status": "CONTRADICTED",
             "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
+            "confidence": 0.92,
             "citations": [
-              "CV-004",
-              "CV-014"
+              "CV-001",
+              "INT-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-004",
-                "quote": "Core Languages: Python 3.10/3.11/3.12 (Expert, AsyncIO, uvloop, C-Extensions), Go, Rust, C++",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
+                "document_type": "interview"
               },
               {
-                "span_id": "CV-014",
-                "quote": "Architected asynchronous event ingestion pipelines using Python, AsyncIO, and Redis Streams.",
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
                 "document_type": "cv"
               }
             ],
-            "synthesis": "Analyzed 4 source(s)."
+            "synthesis": "Documented technical evidence satisfies requirement criteria."
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
+            "name": "Distributed Systems & Event Streaming",
             "status": "CONTRADICTED",
             "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
+            "confidence": 0.92,
             "citations": [
-              "CV-002",
-              "CV-001"
+              "CV-001",
+              "INT-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Executive Summary\nVisionary Distributed Systems Leader with over 8 years of engineering mastery across high-throughput financial architec",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
+                "document_type": "interview"
               },
               {
                 "span_id": "CV-001",
@@ -5797,23 +5619,23 @@ window.HIRETRACE_STATIC = {
                 "document_type": "cv"
               }
             ],
-            "synthesis": "Analyzed 4 source(s)."
+            "synthesis": "Critical cross-source contradiction between CV claims and interview/assessment evidence."
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
+            "name": "Database Sharding & Data Consistency",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.92,
             "citations": [
-              "CV-002",
-              "CV-001"
+              "CV-001",
+              "INT-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Executive Summary\nVisionary Distributed Systems Leader with over 8 years of engineering mastery across high-throughput financial architec",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
+                "document_type": "interview"
               },
               {
                 "span_id": "CV-001",
@@ -5821,37 +5643,61 @@ window.HIRETRACE_STATIC = {
                 "document_type": "cv"
               }
             ],
-            "synthesis": "Analyzed 4 source(s)."
+            "synthesis": "Documented technical evidence satisfies requirement criteria."
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
+            "name": "Technical Architecture & RFC Writing",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.92,
             "citations": [
-              "CV-012",
-              "CV-007"
+              "CV-001",
+              "INT-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-012",
-                "quote": "3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident comman",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
+                "document_type": "interview"
               },
               {
-                "span_id": "CV-007",
-                "quote": "Systems Leadership: Author of Enterprise RFCs, Head of System Architecture, 24/7 On-Call Escalation Commander",
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
                 "document_type": "cv"
               }
             ],
-            "synthesis": "Analyzed 4 source(s)."
+            "synthesis": "Documented technical evidence satisfies requirement criteria."
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "status": "CONTRADICTED",
+            "display": "\u26a0 CONFLICTING",
+            "confidence": 0.92,
+            "citations": [
+              "CV-001",
+              "INT-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
+                "document_type": "interview"
+              },
+              {
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Critical cross-source contradiction between CV claims and interview/assessment evidence."
           }
         ],
         "unsupported_claim_count": 0,
-        "contradicted_claim_count": 4,
+        "contradicted_claim_count": 3,
         "rubric_baseline_score": 79.2,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Alexander Sterling | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           82.7 / 100\nEVIDENCE CONSISTENCY                0.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 5 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO        [WARN] CONFLICTING\n  Distributed Systems & Mess   [WARN] CONFLICTING\n  Technical Leadership & Ini   [WARN] CONFLICTING\n  Production Tenure & Operat   [WARN] CONFLICTING\n\nKEY DISCREPANCIES\n  01  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-010): \"Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin\"\n      - project (PRO-011): \"Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande\"\n  02  Employment Tenure Discrepancy (Finflow)\n      - cv (CV-009): \"Lead Distributed Systems Architect | FinFlow Technologies (Jan 2022 - Present | 3.5 years continuous tenure)\"\n      - interview (INT-002): \"[00:05] Alex: \"Welcome Alexander. Your CV presents an extraordinary background in Kafka and distributed architecture at FinFlow. Can you sta\"\n  03  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-001): \"# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core\"\n      - project (PRO-006): \"Software Engineer (Core Services): Alexander Sterling (Contributing member responsible for secondary message schema serialization and endpoi\"\n  04  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-001): \"# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core\"\n      - project (PRO-010): \"## Executive Project Charter\nUnder the leadership of Principal Architect Dr. Robert Vance, the 7-person Core Services team was chartered in \"\n  05  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-012): \"3.5 years of continuous production engineering leadership managing live high-throughput microservices and serving as primary incident comman\"\n      - project (PRO-011): \"Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande\"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Establish actual scope of ownership versus team participation in the architecture migration\n  -> Clarify employment timeline and tenure between CV claims and interview statements\n===================================================================="
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Alexander Sterling | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           86.3 / 100\nEVIDENCE CONSISTENCY               25.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 1 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] CONFLICTING\n  Distributed Systems & Even   [WARN] CONFLICTING\n  Database Sharding & Data C   [PASS] SUPPORTED\n  Technical Architecture & R   [PASS] SUPPORTED\n  Production Operations & Re   [WARN] CONFLICTING\n\nKEY DISCREPANCIES\n  01  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-010): \"Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin\"\n      - project (PRO-011): \"Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande\"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Establish actual scope of ownership versus team participation in the architecture migration\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_15_deceptive_centerpiece",

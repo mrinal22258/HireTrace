@@ -9,6 +9,32 @@ This changelog documents the stage-by-stage engineering evolution of **HireTrace
 
 ---
 
+## Unreleased
+
+### Production Hardening & Scaling Fixes
+
+#### Fix 1 (High): Atomic Job Claiming & Process Verification in Standalone DB-Polling Worker Mode
+- **Files Modified:** [worker.py](file:///c:/Users/krmri/OneDrive/Desktop/micro1/worker.py), [agents/db.py](file:///c:/Users/krmri/OneDrive/Desktop/micro1/agents/db.py), [agents/tasks.py](file:///c:/Users/krmri/OneDrive/Desktop/micro1/agents/tasks.py), [agents/job_manager.py](file:///c:/Users/krmri/OneDrive/Desktop/micro1/agents/job_manager.py), [tests/test_worker_claim_race.py](file:///c:/Users/krmri/OneDrive/Desktop/micro1/tests/test_worker_claim_race.py).
+- **Rationale & Change:** Replaced check-then-act `SELECT ... first()` followed by separate `UPDATE` in `worker.py` with an atomic claim method `DB.claim_next_queued_job()`. On PostgreSQL, utilizes `SELECT ... FOR UPDATE SKIP LOCKED LIMIT 1` inside an atomic transaction. On SQLite, uses atomic `UPDATE ... RETURNING candidate_id` with subquery matching and mutex fallback. Added defense-in-depth idempotency guard at the start of `run_candidate_evaluation_core` rejecting non-evaluating jobs if already claimed or terminal. Fixed loop `try:` wrapping in `run_standalone_db_worker()` ensuring clean compilation and runtime execution. Added automated unit, CLI help, process start/shutdown lifecycle, and end-to-end evaluation tests in `tests/test_worker_claim_race.py` (6 passed) to ensure `worker.py` is directly compiled, imported, and executed in CI.
+
+#### Fix 2 (High): Elimination of Hardcoded Default Production API Key
+- **Files Modified:** [docker-compose.prod.yml](file:///c:/Users/krmri/OneDrive/Desktop/micro1/docker-compose.prod.yml), [.env.example](file:///c:/Users/krmri/OneDrive/Desktop/micro1/.env.example), [agents/security.py](file:///c:/Users/krmri/OneDrive/Desktop/micro1/agents/security.py), [ui/server.py](file:///c:/Users/krmri/OneDrive/Desktop/micro1/ui/server.py).
+- **Rationale & Change:** Removed default fallback `${HIRETRACE_API_KEY:-prod_hiretrace_secret_key_change_me}` from `docker-compose.prod.yml` and replaced with `${HIRETRACE_API_KEY:?HIRETRACE_API_KEY must be set — see .env.example}` on both web and worker services. Created comprehensive `.env.example` documenting all required secrets with no default fallbacks. Added startup validation (`validate_security_configuration()`) invoked in FastAPI lifespan that halts application startup if auth is enabled and keys are missing, match placeholder strings, or have insufficient entropy (< 24 characters).
+
+#### Fix 3 (Medium): Redis-Backed Sliding-Window Multi-Replica Rate Limiting
+- **Files Modified:** [agents/security.py](file:///c:/Users/krmri/OneDrive/Desktop/micro1/agents/security.py).
+- **Rationale & Change:** Implemented `RedisRateLimiter` implementing a sliding-window algorithm over Redis sorted sets (`ZREMRANGEBYSCORE`, `ZCARD`, `ZADD`, `EXPIRE`). Prevents per-process in-memory rate limit multiplication when scaling web replicas horizontally. Auto-detects reachable Redis at `REDIS_URL` with automatic graceful fail-open fallback to in-memory `RateLimiter` on connection failure. Added multi-replica unit tests simulating concurrent replica limits and fail-open resilience.
+
+#### Fix 4 (Low): Constant-Time API Key Comparison
+- **Files Modified:** [agents/security.py](file:///c:/Users/krmri/OneDrive/Desktop/micro1/agents/security.py).
+- **Rationale & Change:** Upgraded `authenticate_and_authorize` in `agents/security.py` to compare incoming API keys and Bearer tokens against configured candidate keys using `hmac.compare_digest()`, eliminating timing side-channel vulnerabilities.
+
+#### Fix 5 (Low): Job Creation Resilience & Cross-Replica Sync Guard
+- **Files Modified:** [agents/job_manager.py](file:///c:/Users/krmri/OneDrive/Desktop/micro1/agents/job_manager.py), [ui/server.py](file:///c:/Users/krmri/OneDrive/Desktop/micro1/ui/server.py), [agents/bulk_ingestion.py](file:///c:/Users/krmri/OneDrive/Desktop/micro1/agents/bulk_ingestion.py), [tests/test_hardening_fixes.py](file:///c:/Users/krmri/OneDrive/Desktop/micro1/tests/test_hardening_fixes.py).
+- **Rationale & Change:** Replaced swallowed DB exceptions in `JobManager.create_job` with a 3-attempt exponential backoff retry loop (0.2s, 0.5s, 1.0s), optimized to only sleep between retry attempts rather than after the final failure. If persistence fails, raises `JobPersistenceError` and ensures no orphaned state remains in-memory. Updated HTTP intake routes in `ui/server.py` to catch `JobPersistenceError` and return HTTP 503 ("failed to enqueue evaluation, please retry") to the client.
+
+---
+
 ## 1. Stage-by-Stage Evolution Summary
 
 | Stage / Version | Architectural Configuration | What Was Tried | Why / Hypothesis | Empirical Evidence | Decision & Rationale |
