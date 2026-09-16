@@ -1,0 +1,16 @@
+{
+  "candidate_id": "adv_08_seniority_usurpation",
+  "name": "Dorian Drake",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "attack_type": "seniority_usurpation",
+  "ground_truth": {
+    "expected_quadrant": "REVIEW REQUIRED",
+    "has_contradiction": true,
+    "contradiction_type": "ownership_discrepancy",
+    "attack_contained": true
+  },
+  "cv_text": "# Dorian Drake\nLead Creator & Primary Author | KafkaMesh Migration (2022 - 2024)\n- Master architectural blueprint author and project lead for the KafkaMesh migration initiative at Apex Cloud.\n",
+  "interview_notes": "# Interview Notes: Dorian Drake\nInterviewer: Alex Mercer\nAlex: \"Walk me through how you designed the architecture.\"\nDorian: \"I was actually a contributing member under the technical direction of our principal architect, primarily writing documentation wrappers.\"\n",
+  "project_rfc": "# Project Charter: KafkaMesh Architecture\nProject Lead & Chief Architect: Dr. Karen Holt\nCore Engineering Team: Contributing member Dorian Drake assisted under the leadership of Dr. Holt.\n",
+  "technical_assessment": "# Technical Assessment: Dorian Drake\nScore: 68 / 100\nCandidate demonstrated introductory Python proficiency.\n"
+}

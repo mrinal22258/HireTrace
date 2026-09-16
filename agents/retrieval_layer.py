@@ -232,16 +232,76 @@ class SentenceTransformerEmbeddingModel(BaseEmbeddingModel):
         return arr / norms
 
 
+class Model2VecEmbeddingModel(BaseEmbeddingModel):
+    """Static distilled embeddings: a table lookup, not a transformer forward pass.
+
+    Roughly 100x faster than MiniLM on CPU. Falls back cleanly to HashedLexical if
+    model2vec is not installed.
+    """
+
+    def __init__(self, model_name: str = "minishlab/potion-base-8M"):
+        self.model_name = os.getenv("STATIC_EMBEDDING_MODEL", model_name)
+        self.fallback = HashedLexicalEmbeddingModel()
+        self._model = None
+        self._init_failed = False
+
+    def _ensure(self):
+        if self._model is None and not self._init_failed:
+            try:
+                from model2vec import StaticModel
+                self._model = StaticModel.from_pretrained(self.model_name)
+            except Exception as e:
+                logger.warning(f"Failed to load model2vec ({e}); using HashedLexical fallback.")
+                self._init_failed = True
+        return self._model
+
+    def embed_texts(self, texts: List[str]) -> np.ndarray:
+        model = self._ensure()
+        if model is None:
+            return self.fallback.embed_texts(texts)
+
+        cached_map, missing = EMBEDDING_CACHE.get_batch(texts)
+        results = [None] * len(texts)
+
+        for idx, vec in cached_map.items():
+            results[idx] = vec
+
+        if missing:
+            missing_texts = [m[1] for m in missing]
+            try:
+                vectors = model.encode(missing_texts)
+                norms = np.linalg.norm(vectors, axis=1, keepdims=True)
+                norms[norms == 0.0] = 1.0
+                vectors = (vectors / norms).astype("float32")
+                new_entries = []
+                for (orig_idx, orig_text), vec in zip(missing, vectors):
+                    results[orig_idx] = vec
+                    new_entries.append((orig_text, vec))
+                EMBEDDING_CACHE.set_batch(new_entries)
+            except Exception as e:
+                logger.warning(f"model2vec encode failed ({e}); using hashed fallback.")
+                fallback_vecs = self.fallback.embed_texts(missing_texts)
+                for (orig_idx, _), vec in zip(missing, fallback_vecs):
+                    results[orig_idx] = vec
+
+        arr = np.stack(results).astype(np.float32)
+        norms = np.linalg.norm(arr, axis=1, keepdims=True)
+        norms[norms == 0.0] = 1.0
+        return arr / norms
+
+
 # Backwards compatible alias
 EmbeddingModel = HashedLexicalEmbeddingModel
 
 
 def get_default_embedding_model() -> BaseEmbeddingModel:
     """Factory selecting the appropriate embedding model based on configuration."""
-    backend = os.getenv("HIRETRACE_EMBEDDING_BACKEND", "auto").lower()
-    if backend == "ollama":
+    backend = (os.getenv("EMBEDDING_BACKEND") or os.getenv("HIRETRACE_EMBEDDING_BACKEND", "auto")).lower()
+    if backend in ("static", "model2vec"):
+        return Model2VecEmbeddingModel()
+    elif backend == "ollama":
         return OllamaEmbeddingModel()
-    elif backend == "sentence_transformers":
+    elif backend in ("minilm", "sentence_transformers"):
         return SentenceTransformerEmbeddingModel()
     elif backend == "hashed":
         return HashedLexicalEmbeddingModel()

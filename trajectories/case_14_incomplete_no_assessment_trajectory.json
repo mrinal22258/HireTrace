@@ -59,11 +59,13 @@
             "notes": []
           }
         }
-      }
+      },
+      "duration_sec": 0.0004
     },
     {
       "step": "retrieval_index_built",
-      "total_spans_indexed": 3
+      "total_spans_indexed": 3,
+      "duration_sec": 0.0555
     },
     {
       "step": "requirement_mapping",
@@ -71,9 +73,9 @@
       "output": [
         {
           "req_id": "REQ-01",
-          "name": "Core Python & AsyncIO",
+          "name": "Core Python & AsyncIO Concurrency",
           "category": "technical_skills",
-          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, uvloop, and internal concurrency models.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
@@ -83,9 +85,9 @@
         },
         {
           "req_id": "REQ-02",
-          "name": "Distributed Systems & Message Queues",
+          "name": "Distributed Systems & Event Streaming",
           "category": "architecture",
-          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "description": "Hands-on experience deploying and operating event streams (Kafka/RabbitMQ) and partitioned event logs.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
@@ -95,9 +97,21 @@
         },
         {
           "req_id": "REQ-03",
-          "name": "Technical Leadership & Initiative",
+          "name": "Database Sharding & Data Consistency",
+          "category": "architecture",
+          "description": "Managing distributed state consistency across partitioned databases and distributed caches.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Technical Architecture & RFC Writing",
           "category": "leadership",
-          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "description": "Authoring production RFCs, defining component boundaries, and leading cross-service migrations.",
           "importance": "IMPORTANT",
           "expected_sources": [
             "cv",
@@ -106,17 +120,18 @@
           ]
         },
         {
-          "req_id": "REQ-04",
-          "name": "Production Tenure & Operational Reliability",
+          "req_id": "REQ-05",
+          "name": "Production Operations & Reliability",
           "category": "production_experience",
-          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "description": "Managing live customer-facing systems, telemetry instrumentation, and production incident response.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
             "interview"
           ]
         }
-      ]
+      ],
+      "duration_sec": 0.0
     },
     {
       "step": "evidence_aggregation",
@@ -124,7 +139,7 @@
       "output": [
         {
           "req_id": "REQ-01",
-          "requirement_name": "Core Python & AsyncIO",
+          "requirement_name": "Core Python & AsyncIO Concurrency",
           "sources_present": [
             "cv",
             "interview",
@@ -139,7 +154,7 @@
               "section": "resume",
               "text": "# Maya Lin, Senior Backend Engineer\nLocation: San Francisco, CA | 4 years experience at DataStream\nEngineered Kafka event streaming services in Python and Go processing 20M events/day.",
               "metadata": {},
-              "similarity_score": 0.354
+              "similarity_score": 0.308
             }
           ],
           "interview_spans": [
@@ -150,7 +165,7 @@
               "section": "interview",
               "text": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimization. 4 years of continuous production on-call experience verified.",
               "metadata": {},
-              "similarity_score": 0.292
+              "similarity_score": 0.313
             }
           ],
           "assessment_spans": [],
@@ -162,7 +177,7 @@
               "section": "project",
               "text": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
               "metadata": {},
-              "similarity_score": 0.264
+              "similarity_score": 0.205
             }
           ],
           "jd_spans": [],
@@ -174,7 +189,7 @@
         },
         {
           "req_id": "REQ-02",
-          "requirement_name": "Distributed Systems & Message Queues",
+          "requirement_name": "Distributed Systems & Event Streaming",
           "sources_present": [
             "cv",
             "interview",
@@ -189,7 +204,7 @@
               "section": "resume",
               "text": "# Maya Lin, Senior Backend Engineer\nLocation: San Francisco, CA | 4 years experience at DataStream\nEngineered Kafka event streaming services in Python and Go processing 20M events/day.",
               "metadata": {},
-              "similarity_score": 0.281
+              "similarity_score": 0.353
             }
           ],
           "interview_spans": [
@@ -200,7 +215,7 @@
               "section": "interview",
               "text": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimization. 4 years of continuous production on-call experience verified.",
               "metadata": {},
-              "similarity_score": 0.295
+              "similarity_score": 0.306
             }
           ],
           "assessment_spans": [],
@@ -212,7 +227,7 @@
               "section": "project",
               "text": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
               "metadata": {},
-              "similarity_score": 0.187
+              "similarity_score": 0.271
             }
           ],
           "jd_spans": [],
@@ -224,7 +239,7 @@
         },
         {
           "req_id": "REQ-03",
-          "requirement_name": "Technical Leadership & Initiative",
+          "requirement_name": "Database Sharding & Data Consistency",
           "sources_present": [
             "cv",
             "interview",
@@ -239,7 +254,7 @@
               "section": "resume",
               "text": "# Maya Lin, Senior Backend Engineer\nLocation: San Francisco, CA | 4 years experience at DataStream\nEngineered Kafka event streaming services in Python and Go processing 20M events/day.",
               "metadata": {},
-              "similarity_score": 0.293
+              "similarity_score": 0.212
             }
           ],
           "interview_spans": [
@@ -250,7 +265,7 @@
               "section": "interview",
               "text": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimization. 4 years of continuous production on-call experience verified.",
               "metadata": {},
-              "similarity_score": 0.339
+              "similarity_score": 0.268
             }
           ],
           "assessment_spans": [],
@@ -262,7 +277,57 @@
               "section": "project",
               "text": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
               "metadata": {},
-              "similarity_score": 0.214
+              "similarity_score": 0.211
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 35.833333333333336
+          }
+        },
+        {
+          "req_id": "REQ-04",
+          "requirement_name": "Technical Architecture & RFC Writing",
+          "sources_present": [
+            "cv",
+            "interview",
+            "project"
+          ],
+          "total_spans_count": 3,
+          "cv_spans": [
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Maya Lin, Senior Backend Engineer\nLocation: San Francisco, CA | 4 years experience at DataStream\nEngineered Kafka event streaming services in Python and Go processing 20M events/day.",
+              "metadata": {},
+              "similarity_score": 0.299
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimization. 4 years of continuous production on-call experience verified.",
+              "metadata": {},
+              "similarity_score": 0.297
+            }
+          ],
+          "assessment_spans": [],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
+              "metadata": {},
+              "similarity_score": 0.247
             }
           ],
           "jd_spans": [],
@@ -273,8 +338,8 @@
           }
         },
         {
-          "req_id": "REQ-04",
-          "requirement_name": "Production Tenure & Operational Reliability",
+          "req_id": "REQ-05",
+          "requirement_name": "Production Operations & Reliability",
           "sources_present": [
             "cv",
             "interview",
@@ -289,7 +354,7 @@
               "section": "resume",
               "text": "# Maya Lin, Senior Backend Engineer\nLocation: San Francisco, CA | 4 years experience at DataStream\nEngineered Kafka event streaming services in Python and Go processing 20M events/day.",
               "metadata": {},
-              "similarity_score": 0.329
+              "similarity_score": 0.335
             }
           ],
           "interview_spans": [
@@ -300,7 +365,7 @@
               "section": "interview",
               "text": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimization. 4 years of continuous production on-call experience verified.",
               "metadata": {},
-              "similarity_score": 0.385
+              "similarity_score": 0.407
             }
           ],
           "assessment_spans": [],
@@ -312,7 +377,7 @@
               "section": "project",
               "text": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
               "metadata": {},
-              "similarity_score": 0.219
+              "similarity_score": 0.189
             }
           ],
           "jd_spans": [],
@@ -322,148 +387,96 @@
             "normalized_total": 35.833333333333336
           }
         }
-      ]
+      ],
+      "duration_sec": 0.001
     },
     {
       "step": "cross_source_verification",
       "agent": "CrossSourceVerificationAgent",
       "output": {
         "candidate_id": "case_14_incomplete_no_assessment",
-        "total_requirements": 4,
-        "supported_count": 4,
+        "total_requirements": 5,
+        "supported_count": 0,
         "contradicted_count": 0,
-        "insufficient_count": 0,
-        "consistency_score": 85.0,
+        "insufficient_count": 5,
+        "consistency_score": 50.0,
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "verifications": [
           {
             "req_id": "REQ-01",
-            "requirement_name": "Core Python & AsyncIO",
-            "status": "SUPPORTED",
-            "confidence": 0.8,
-            "synthesis": "The CV and Project Document indicate experience with Python and asynchronous programming, but the Interview evidence does not directly support these claims.",
-            "supporting_citations": [
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations": [
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimizati",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
-                "document_type": "project"
-              }
-            ],
-            "discrepancies": []
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
           },
           {
             "req_id": "REQ-02",
-            "requirement_name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The evidence supports the claim of hands-on experience with distributed systems and message queues, specifically Kafka and RabbitMQ, as well as event streams and state management.",
-            "supporting_citations": [
-              "CV-001",
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations": [
-              "CV-001",
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Maya Lin, Senior Backend Engineer\nLocation: San Francisco, CA | 4 years experience at DataStream\nEngineered Kafka event streaming services",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimizati",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
-                "document_type": "project"
-              }
-            ],
-            "discrepancies": []
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
           },
           {
             "req_id": "REQ-03",
-            "requirement_name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "confidence": 0.8,
-            "synthesis": "The CV and Project Document evidence do not fully support the claim of leading migrations and architectural decisions, while the Interview evidence suggests technical depth in distributed systems.",
-            "supporting_citations": [
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations": [
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimizati",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
-                "document_type": "project"
-              }
-            ],
-            "discrepancies": []
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
           },
           {
             "req_id": "REQ-04",
-            "requirement_name": "Production Tenure & Operational Reliability",
-            "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The CV, interview, and project document all support Maya Lin's claim of at least 3+ years of commercial production experience managing live services and on-call.",
-            "supporting_citations": [
-              "CV-001",
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations": [
-              "CV-001",
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Maya Lin, Senior Backend Engineer\nLocation: San Francisco, CA | 4 years experience at DataStream\nEngineered Kafka event streaming services",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimizati",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
-                "document_type": "project"
-              }
-            ],
-            "discrepancies": []
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
+          },
+          {
+            "req_id": "REQ-05",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
           }
         ],
         "all_discrepancies": []
-      }
+      },
+      "duration_sec": 0.0
     },
     {
       "step": "recommendation_writing",
@@ -472,132 +485,130 @@
         "candidate_id": "case_14_incomplete_no_assessment",
         "candidate_name": "Maya Lin",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 74.3,
-        "evidence_consistency_score": 85.0,
-        "quadrant": "STRONG MATCH",
+        "role_fit_score": null,
+        "evidence_consistency_score": 50.0,
+        "quadrant": "DEGRADED",
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimizati",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The CV and Project Document indicate experience with Python and asynchronous programming, but the Interview evidence does not directly support these claims."
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-001",
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Maya Lin, Senior Backend Engineer\nLocation: San Francisco, CA | 4 years experience at DataStream\nEngineered Kafka event streaming services",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimizati",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The evidence supports the claim of hands-on experience with distributed systems and message queues, specifically Kafka and RabbitMQ, as well as event streams and state management."
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimizati",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The CV and Project Document evidence do not fully support the claim of leading migrations and architectural decisions, while the Interview evidence suggests technical depth in distributed systems."
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-001",
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Maya Lin, Senior Backend Engineer\nLocation: San Francisco, CA | 4 years experience at DataStream\nEngineered Kafka event streaming services",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimizati",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The CV, interview, and project document all support Maya Lin's claim of at least 3+ years of commercial production experience managing live services and on-call."
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           }
         ],
-        "unsupported_claim_count": 0,
+        "unsupported_claim_count": 5,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 35.8,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Maya Lin | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           74.3 / 100\nEVIDENCE CONSISTENCY               85.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
-      }
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": null,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": null,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 35.8,
+          "rubric_weight": 0.4,
+          "role_fit_score": null
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-13 08:52:01 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Maya Lin | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                          [DEGRADED - LOCAL LLM OFFLINE]\nEVIDENCE CONSISTENCY               50.0 / 100\nQUADRANT PLACEMENT                [DEGRADED]\n[*] 5 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] INSUFFICIENT [SYNTHESIS]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n  Database Sharding & Data C   [WARN] INSUFFICIENT [SYNTHESIS]\n  Technical Architecture & R   [WARN] INSUFFICIENT [SYNTHESIS]\n  Production Operations & Re   [WARN] INSUFFICIENT [SYNTHESIS]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
+      },
+      "duration_sec": 0.0
+    },
+    {
+      "step": "claim_critic_review",
+      "agent": "ClaimCriticAgent",
+      "output": {
+        "total_claims": 5,
+        "grounded_claims": 0,
+        "synthesized_inferences": 5,
+        "grounding_rate": 0.0
+      },
+      "duration_sec": 0.0
     }
   ],
-  "pipeline_latency_sec": 23.25
+  "pipeline_latency_sec": 0.06,
+  "degraded": true,
+  "degraded_reason": "Local LLM backend unavailable for semantic verification"
 }

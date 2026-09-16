@@ -1,0 +1,40 @@
+{
+  "candidate_name": "Dr. Kenji Takahashi",
+  "employment_history": [
+    {
+      "employer": "DroneNav Autonomous",
+      "title": "Senior Perception Engineer",
+      "start_date": "2020",
+      "end_date": null,
+      "is_current": true
+    }
+  ],
+  "education": [
+    {
+      "institution": "Tokyo Institute of Technology",
+      "degree": "PhD",
+      "field_of_study": "Robotics",
+      "graduation_year": 2020
+    }
+  ],
+  "skills": [
+    "ROS2",
+    "C++",
+    "Python",
+    "LiDAR",
+    "Computer Vision",
+    "Sensor Fusion",
+    "SLAM"
+  ],
+  "project_claims": [
+    {
+      "project_name": "LiDAR-Camera Calibration",
+      "description": "Engineered multi-sensor LiDAR-camera calibration and visual odometry",
+      "technologies": [
+        "ROS2",
+        "C++",
+        "OpenCV"
+      ]
+    }
+  ]
+}

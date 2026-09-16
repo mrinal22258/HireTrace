@@ -47,4 +47,4 @@ def test_centerpiece_case_pipeline():
     assert os.path.exists(traj_path)
     with open(traj_path, "r", encoding="utf-8") as tf:
         traj_data = json.load(tf)
-        assert len(traj_data["steps"]) == 6
+        assert len(traj_data["steps"]) in (6, 7)

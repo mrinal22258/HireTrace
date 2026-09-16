@@ -33,7 +33,7 @@ def server_url():
 
 
 def test_api_cases_list(server_url):
-    res = requests.get(f"{server_url}/api/cases")
+    res = requests.get(f"{server_url}/api/cases?include_demo=true")
     assert res.status_code == 200
     cases = res.json()
     assert len(cases) >= 15

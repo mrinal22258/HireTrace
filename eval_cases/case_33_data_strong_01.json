@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_33_data_strong_01",
+  "name": "Amina Diop",
+  "target_role": "Principal Data Platform Architect",
+  "category": "data_strong",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 96.0,
+    "expert_scores": {
+      "reviewer_1": 95,
+      "reviewer_2": 94,
+      "reviewer_3": 96
+    },
+    "expert_composite_score": 95.0
+  },
+  "cv_text": "# Amina Diop - Principal Data Platform Engineer\n5+ years experience building petabyte-scale lakehouses with Apache Spark, Delta Lake, Snowflake, and dbt.\n## Experience\nLead Data Platform Architect at FinData Mesh (2020 - Present | 4.5 years)\n- Built streaming data lakehouse processing 25TB of daily financial transactions with sub-minute ingestion latency.\n- Optimized distributed Spark SQL queries reducing daily analytics compute costs by $340k annually.\n- Spearheaded enterprise data governance, lineage tracking, and schema contract enforcement with OpenLineage.\n",
+  "interview_notes": "# Interview: Amina Diop\nAmina showed comprehensive expertise in Spark shuffle partitions, Delta Lake compaction/vacuuming, Iceberg metadata catalogs, and data contract testing.\n",
+  "technical_assessment": "# Technical Assessment: Amina Diop\nScore: 97 / 100\nFlawless execution on distributed ETL pipeline construction, partition pruning, and complex window functions.\n"
+}

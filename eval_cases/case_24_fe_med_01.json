@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_24_fe_med_01",
+  "name": "Kavita Rao",
+  "target_role": "Senior Frontend & Web Platform Architect",
+  "category": "frontend_med",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 92.0,
+    "expert_scores": {
+      "reviewer_1": 81,
+      "reviewer_2": 82,
+      "reviewer_3": 80
+    },
+    "expert_composite_score": 81.0
+  },
+  "cv_text": "# Kavita Rao - Frontend Developer\n3 years commercial experience building React single-page applications with Redux Toolkit and CSS Modules.\nDeveloper at RetailTech (2022 - Present | 2.5 years).\n",
+  "interview_notes": "# Interview: Kavita Rao\nSolid React fundamentals and responsive CSS styling, but unfamiliar with Next.js App Router server components.\n",
+  "technical_assessment": "# Technical Assessment: Kavita Rao\nScore: 82 / 100\nPassed all UI widget tests and form validation suites.\n"
+}

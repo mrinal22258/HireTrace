@@ -1,0 +1,34 @@
+{
+  "candidate_name": "Henrik Lindholm",
+  "employment_history": [
+    {
+      "employer": "CloudGrid SRE",
+      "title": "Lead Site Reliability Engineer",
+      "start_date": "2020",
+      "end_date": null,
+      "is_current": true
+    }
+  ],
+  "education": [],
+  "skills": [
+    "Kubernetes",
+    "Terraform",
+    "AWS",
+    "GCP",
+    "Prometheus",
+    "Grafana",
+    "Linux"
+  ],
+  "project_claims": [
+    {
+      "project_name": "Multi-region Kubernetes Deployment",
+      "description": "Architected multi-region Kubernetes deployment across AWS and GCP maintaining 99.99% SLAs",
+      "technologies": [
+        "Kubernetes",
+        "Terraform",
+        "AWS",
+        "GCP"
+      ]
+    }
+  ]
+}

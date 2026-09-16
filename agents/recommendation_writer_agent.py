@@ -12,9 +12,15 @@ It NEVER outputs an autonomous hire/no-hire verdict.
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
 import json
-from agents.cross_source_verification_agent import EvidenceMatrix, Discrepancy
-from baseline.rubric_scorer import RubricScoreBreakdown
+import time
+from pydantic import BaseModel, Field
 from agents.ollama_client import OllamaClient
+from agents.cross_source_verification_agent import EvidenceMatrix, RequirementVerification, Discrepancy
+from baseline.rubric_scorer import RubricScoreBreakdown
+
+
+class PriorityQuestionsSchema(BaseModel):
+    priority_questions: List[str] = Field(default_factory=list)
 
 
 @dataclass
@@ -36,8 +42,27 @@ class AssessmentReport:
     formatted_terminal_card: str
     degraded: bool = False
     degraded_reason: Optional[str] = None
+    total_claims_count: int = 0
+    grounded_claims_count: int = 0
+    synthesized_inferences_count: int = 0
+    grounding_rate: float = 1.0
+    llm_req_fit_score: Optional[float] = None
+    model_name: str = "qwen2.5:3b"
+    prompt_version: str = "v2.1-grounded-json"
+    evaluated_at: Optional[str] = None
+    taxonomy_matched: bool = True
+    role_match_note: Optional[str] = None
+    custom_jd_provided: bool = False
 
     def to_dict(self) -> Dict[str, Any]:
+        score_breakdown = {
+            "formula": "Role Fit = (60% × LLM Match) + (40% × Resume Rubric)",
+            "llm_requirement_match": round(self.llm_req_fit_score, 1) if self.llm_req_fit_score is not None else None,
+            "llm_weight": 0.60,
+            "rubric_baseline_score": round(self.rubric_baseline_score, 1),
+            "rubric_weight": 0.40,
+            "role_fit_score": round(self.role_fit_score, 1) if self.role_fit_score is not None else None,
+        }
         return {
             "candidate_id": self.candidate_id,
             "candidate_name": self.candidate_name,
@@ -54,6 +79,22 @@ class AssessmentReport:
             "unsupported_claim_count": self.unsupported_claim_count,
             "contradicted_claim_count": self.contradicted_claim_count,
             "rubric_baseline_score": round(self.rubric_baseline_score, 1),
+            "total_claims_count": self.total_claims_count,
+            "grounded_claims_count": self.grounded_claims_count,
+            "synthesized_inferences_count": self.synthesized_inferences_count,
+            "grounding_rate": round(self.grounding_rate, 3),
+            "llm_req_fit_score": round(self.llm_req_fit_score, 1) if self.llm_req_fit_score is not None else None,
+            "taxonomy_matched": self.taxonomy_matched,
+            "role_match_note": self.role_match_note,
+            "custom_jd_provided": self.custom_jd_provided,
+            "score_breakdown": score_breakdown,
+            "provenance": {
+                "model_name": self.model_name,
+                "prompt_version": self.prompt_version,
+                "evaluated_at": self.evaluated_at or time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
+                "quadrant_fit_threshold": 72.0,
+                "quadrant_consistency_threshold": 70.0,
+            },
             "formatted_terminal_card": self.formatted_terminal_card
         }
 
@@ -80,7 +121,10 @@ Output strictly valid JSON matching this structure:
         candidate_name: str,
         target_role: str,
         matrix: EvidenceMatrix,
-        rubric: Optional[RubricScoreBreakdown] = None
+        rubric: Optional[RubricScoreBreakdown] = None,
+        taxonomy_matched: bool = True,
+        role_match_note: Optional[str] = None,
+        custom_jd_provided: bool = False
     ) -> AssessmentReport:
         """Assembles the two-dimensional report card."""
         # Check degraded state
@@ -91,6 +135,7 @@ Output strictly valid JSON matching this structure:
         # If degraded, we do NOT fabricate a fake 50.0 fit score
         if is_degraded:
             role_fit_score = None
+            llm_req_fit_score = None
         else:
             req_fit_points = 0.0
             for v in matrix.verifications:
@@ -102,6 +147,7 @@ Output strictly valid JSON matching this structure:
                     req_fit_points += 20.0  # missing evidence
 
             avg_req_fit = req_fit_points / max(1, matrix.total_requirements)
+            llm_req_fit_score = avg_req_fit
             rubric_score = rubric.normalized_score if rubric else 50.0
             role_fit_score = (0.60 * avg_req_fit) + (0.40 * rubric_score)
 
@@ -115,16 +161,17 @@ Output strictly valid JSON matching this structure:
 
         # 3. Determine Quadrant (2D Placement)
         has_insufficient = (matrix.insufficient_count >= 1)
-        high_consistency = (consistency_score >= 70.0) and (not has_contradictions)
+        has_review_split = any(v.status == "NEEDS_HUMAN_REVIEW" for v in matrix.verifications)
+        high_consistency = (consistency_score >= 70.0) and (not has_contradictions) and (not has_review_split)
 
         if is_degraded:
-            if has_contradictions:
+            if has_contradictions or has_review_split:
                 quadrant = "REVIEW REQUIRED"
             elif rubric_score < 55.0 and high_consistency:
                 quadrant = "WEAK MATCH"
             else:
                 quadrant = "DEGRADED"
-        elif has_contradictions:
+        elif has_contradictions or has_review_split:
             quadrant = "REVIEW REQUIRED"
         elif has_insufficient:
             quadrant = "INSUFFICIENT EVIDENCE"
@@ -142,18 +189,45 @@ Output strictly valid JSON matching this structure:
 
         # 5. Format Requirement Table
         requirement_table = []
+        total_claims = 0
+        grounded_claims = 0
+        synthesized_inferences = 0
+
         for v in matrix.verifications:
-            status_symbol = "✓ SUPPORTED" if v.status == "SUPPORTED" else ("⚠ CONFLICTING" if v.status == "CONTRADICTED" else "⚠ INSUFFICIENT")
+            if v.status == "SUPPORTED":
+                status_symbol = "✓ SUPPORTED"
+            elif v.status == "CONTRADICTED":
+                status_symbol = "⚠ CONFLICTING"
+            elif v.status == "NEEDS_HUMAN_REVIEW":
+                status_symbol = "⚠ NEEDS REVIEW"
+            else:
+                status_symbol = "⚠ INSUFFICIENT"
+            c_type = getattr(v, "claim_type", "grounded" if v.supporting_citations else "synthesized_inference")
+            is_g = getattr(v, "is_grounded", bool(v.supporting_citations and c_type == "grounded"))
+            g_rat = getattr(v, "grounding_rationale", "")
+
+            total_claims += 1
+            if is_g:
+                grounded_claims += 1
+            else:
+                synthesized_inferences += 1
+
             requirement_table.append({
                 "req_id": v.req_id,
                 "name": v.requirement_name,
+                "requirement_name": v.requirement_name,
                 "status": v.status,
                 "display": status_symbol,
                 "confidence": v.confidence,
                 "citations": v.supporting_citations,
                 "citations_detail": getattr(v, "citations_detail", []),
-                "synthesis": getattr(v, "synthesis", "")
+                "synthesis": getattr(v, "synthesis", ""),
+                "claim_type": c_type,
+                "is_grounded": is_g,
+                "grounding_rationale": g_rat
             })
+
+        grounding_rate = (grounded_claims / total_claims) if total_claims > 0 else 1.0
 
         # 6. Format Key Discrepancies
         key_discrepancies = [d.to_dict() for d in matrix.all_discrepancies]
@@ -187,7 +261,15 @@ Output strictly valid JSON matching this structure:
             rubric_baseline_score=rubric_score,
             formatted_terminal_card=terminal_card,
             degraded=is_degraded,
-            degraded_reason=degraded_reason
+            degraded_reason=degraded_reason,
+            total_claims_count=total_claims,
+            grounded_claims_count=grounded_claims,
+            synthesized_inferences_count=synthesized_inferences,
+            grounding_rate=grounding_rate,
+            llm_req_fit_score=llm_req_fit_score,
+            taxonomy_matched=taxonomy_matched,
+            role_match_note=role_match_note,
+            custom_jd_provided=custom_jd_provided
         )
 
     def _generate_priority_questions(
@@ -202,7 +284,12 @@ Output strictly valid JSON matching this structure:
         if use_llm_questions and matrix.all_discrepancies and self.client.is_available():
             disc_texts = [f"- {d.topic}: {d.quote_a} vs {d.quote_b}" for d in matrix.all_discrepancies]
             prompt = f"Candidate applied for '{target_role}' and has the following documented evidence discrepancies:\n" + "\n".join(disc_texts) + "\n\nProvide 3 priority interview questions:"
-            resp = self.client.generate_json(prompt=prompt, system_prompt=self.SYSTEM_PROMPT, max_tokens=400)
+            resp = self.client.generate_json(
+                prompt=prompt,
+                system_prompt=self.SYSTEM_PROMPT,
+                max_tokens=400,
+                schema_model=PriorityQuestionsSchema
+            )
             q_list = resp.get("priority_questions", [])
             if isinstance(q_list, list) and len(q_list) > 0:
                 return [str(q) for q in q_list[:4]]
@@ -303,7 +390,8 @@ Output strictly valid JSON matching this structure:
         for r in req_table:
             name_padded = (r['name'][:26]).ljust(28)
             disp = r['display'].replace("✓", "[PASS]").replace("⚠", "[WARN]")
-            lines.append(f"  {name_padded} {disp}")
+            tag = f"[GROUNDED: {', '.join(r['citations'])}]" if r.get('is_grounded') and r.get('citations') else "[SYNTHESIS]"
+            lines.append(f"  {name_padded} {disp} {tag}")
             if r.get("status") == "INSUFFICIENT_EVIDENCE" and r.get("synthesis"):
                 lines.append(f"      Interpretation: {r['synthesis']}")
 

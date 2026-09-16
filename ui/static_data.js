@@ -15,9 +15,9 @@ window.HIRETRACE_STATIC = {
       "name": "Marcus Vance",
       "category": "normal_strong",
       "target_role": "Senior Python & Distributed Systems Engineer",
-      "role_fit_score": 85.3,
-      "evidence_consistency_score": 100.0,
-      "quadrant": "STRONG MATCH",
+      "role_fit_score": null,
+      "evidence_consistency_score": 50.0,
+      "quadrant": "DEGRADED",
       "has_discrepancies": false
     },
     {
@@ -25,7 +25,7 @@ window.HIRETRACE_STATIC = {
       "name": "Elena Rostova",
       "category": "normal_medium",
       "target_role": "Senior Python & Distributed Systems Engineer",
-      "role_fit_score": 81.0,
+      "role_fit_score": 82.0,
       "evidence_consistency_score": 100.0,
       "quadrant": "STRONG MATCH",
       "has_discrepancies": false
@@ -35,9 +35,9 @@ window.HIRETRACE_STATIC = {
       "name": "David Kim",
       "category": "normal_medium",
       "target_role": "Senior Python & Distributed Systems Engineer",
-      "role_fit_score": 74.3,
-      "evidence_consistency_score": 100.0,
-      "quadrant": "STRONG MATCH",
+      "role_fit_score": null,
+      "evidence_consistency_score": 50.0,
+      "quadrant": "DEGRADED",
       "has_discrepancies": false
     },
     {
@@ -45,9 +45,9 @@ window.HIRETRACE_STATIC = {
       "name": "Priya Patel",
       "category": "normal_medium",
       "target_role": "Senior Python & Distributed Systems Engineer",
-      "role_fit_score": 74.3,
-      "evidence_consistency_score": 100.0,
-      "quadrant": "STRONG MATCH",
+      "role_fit_score": null,
+      "evidence_consistency_score": 50.0,
+      "quadrant": "DEGRADED",
       "has_discrepancies": false
     },
     {
@@ -65,9 +65,9 @@ window.HIRETRACE_STATIC = {
       "name": "Jessica Lee",
       "category": "normal_weak",
       "target_role": "Senior Python & Distributed Systems Engineer",
-      "role_fit_score": 64.7,
-      "evidence_consistency_score": 100.0,
-      "quadrant": "WEAK MATCH",
+      "role_fit_score": null,
+      "evidence_consistency_score": 50.0,
+      "quadrant": "DEGRADED",
       "has_discrepancies": false
     },
     {
@@ -75,9 +75,9 @@ window.HIRETRACE_STATIC = {
       "name": "Lucas Meyer",
       "category": "normal_weak",
       "target_role": "Senior Python & Distributed Systems Engineer",
-      "role_fit_score": 69.0,
-      "evidence_consistency_score": 100.0,
-      "quadrant": "WEAK MATCH",
+      "role_fit_score": null,
+      "evidence_consistency_score": 50.0,
+      "quadrant": "DEGRADED",
       "has_discrepancies": false
     },
     {
@@ -85,37 +85,37 @@ window.HIRETRACE_STATIC = {
       "name": "Jordan Hayes",
       "category": "adversarial",
       "target_role": "Senior Python & Distributed Systems Engineer",
-      "role_fit_score": 67.0,
-      "evidence_consistency_score": 0.0,
-      "quadrant": "REVIEW REQUIRED",
-      "has_discrepancies": true
+      "role_fit_score": null,
+      "evidence_consistency_score": 50.0,
+      "quadrant": "DEGRADED",
+      "has_discrepancies": false
     },
     {
       "candidate_id": "case_10_adv_cv_vs_assessment",
       "name": "Ryan Mercer",
       "category": "adversarial",
       "target_role": "Senior Python & Distributed Systems Engineer",
-      "role_fit_score": 57.3,
-      "evidence_consistency_score": 0.0,
-      "quadrant": "REVIEW REQUIRED",
-      "has_discrepancies": true
+      "role_fit_score": null,
+      "evidence_consistency_score": 50.0,
+      "quadrant": "DEGRADED",
+      "has_discrepancies": false
     },
     {
       "candidate_id": "case_11_adv_interview_vs_assessment",
       "name": "Chloe Bennett",
       "category": "adversarial",
       "target_role": "Senior Python & Distributed Systems Engineer",
-      "role_fit_score": 56.7,
-      "evidence_consistency_score": 0.0,
-      "quadrant": "REVIEW REQUIRED",
-      "has_discrepancies": true
+      "role_fit_score": null,
+      "evidence_consistency_score": 50.0,
+      "quadrant": "DEGRADED",
+      "has_discrepancies": false
     },
     {
       "candidate_id": "case_12_adv_jd_vs_claim",
       "name": "Evan Brooks",
       "category": "incomplete",
       "target_role": "Senior Python & Distributed Systems Engineer",
-      "role_fit_score": 66.3,
+      "role_fit_score": 68.7,
       "evidence_consistency_score": 55.0,
       "quadrant": "INSUFFICIENT EVIDENCE",
       "has_discrepancies": false
@@ -125,9 +125,9 @@ window.HIRETRACE_STATIC = {
       "name": "Nathaniel Reed",
       "category": "incomplete",
       "target_role": "Senior Python & Distributed Systems Engineer",
-      "role_fit_score": 83.7,
-      "evidence_consistency_score": 85.0,
-      "quadrant": "STRONG MATCH",
+      "role_fit_score": null,
+      "evidence_consistency_score": 50.0,
+      "quadrant": "DEGRADED",
       "has_discrepancies": false
     },
     {
@@ -135,9 +135,9 @@ window.HIRETRACE_STATIC = {
       "name": "Maya Lin",
       "category": "incomplete",
       "target_role": "Senior Python & Distributed Systems Engineer",
-      "role_fit_score": 74.3,
-      "evidence_consistency_score": 85.0,
-      "quadrant": "STRONG MATCH",
+      "role_fit_score": null,
+      "evidence_consistency_score": 50.0,
+      "quadrant": "DEGRADED",
       "has_discrepancies": false
     },
     {
@@ -2545,128 +2545,138 @@ window.HIRETRACE_STATIC = {
           {
             "req_id": "REQ-01",
             "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.85,
+            "confidence": 0.92,
             "citations": [
-              "CV-002",
-              "CV-015"
+              "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-015",
-                "quote": "Developed asynchronous microservices for real-time network anomaly detection using Python, Redis Streams, and PostgreSQL.",
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
                 "document_type": "cv"
               }
             ],
-            "synthesis": "Analyzed 4 source(s)."
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords"
           },
           {
             "req_id": "REQ-02",
             "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.85,
+            "confidence": 0.92,
             "citations": [
-              "CV-002",
               "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
-                "document_type": "cv"
-              },
-              {
                 "span_id": "CV-001",
-                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
                 "document_type": "cv"
               }
             ],
-            "synthesis": "Analyzed 4 source(s)."
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Confirmed grounded by critic verification pass"
           },
           {
             "req_id": "REQ-03",
             "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.85,
+            "confidence": 0.92,
             "citations": [
-              "CV-001",
-              "CV-012"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-012",
-                "quote": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 3",
-                "document_type": "cv"
-              }
-            ],
-            "synthesis": "Analyzed 4 source(s)."
-          },
-          {
-            "req_id": "REQ-04",
-            "name": "Technical Architecture & RFC Writing",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.85,
-            "citations": [
-              "CV-002",
               "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
-                "document_type": "cv"
-              },
-              {
                 "span_id": "CV-001",
-                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
                 "document_type": "cv"
               }
             ],
-            "synthesis": "Analyzed 4 source(s)."
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords"
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.92,
+            "citations": [
+              "CV-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords"
           },
           {
             "req_id": "REQ-05",
             "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.85,
+            "confidence": 0.92,
             "citations": [
-              "CV-002",
-              "CV-012"
+              "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-012",
-                "quote": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 3",
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
                 "document_type": "cv"
               }
             ],
-            "synthesis": "Analyzed 4 source(s)."
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords"
           }
         ],
         "unsupported_claim_count": 0,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 79.2,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Sarah Chen | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           91.7 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [PASS] SUPPORTED\n  Distributed Systems & Even   [PASS] SUPPORTED\n  Database Sharding & Data C   [PASS] SUPPORTED\n  Technical Architecture & R   [PASS] SUPPORTED\n  Production Operations & Re   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": 100.0,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": 100.0,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 79.2,
+          "rubric_weight": 0.4,
+          "role_fit_score": 91.7
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-16 07:58:13 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Sarah Chen | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           91.7 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [PASS] SUPPORTED [GROUNDED: CV-001]\n  Distributed Systems & Even   [PASS] SUPPORTED [GROUNDED: CV-001]\n  Database Sharding & Data C   [PASS] SUPPORTED [GROUNDED: CV-001]\n  Technical Architecture & R   [PASS] SUPPORTED [GROUNDED: CV-001]\n  Production Operations & Re   [PASS] SUPPORTED [GROUNDED: CV-001]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_01_strong_01",
@@ -2745,202 +2755,114 @@ window.HIRETRACE_STATIC = {
         "candidate_id": "case_02_strong_02",
         "candidate_name": "Marcus Vance",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 85.3,
-        "evidence_consistency_score": 100.0,
-        "quadrant": "STRONG MATCH",
+        "role_fit_score": null,
+        "evidence_consistency_score": 50.0,
+        "quadrant": "DEGRADED",
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-004",
-              "CV-009",
-              "CV-002",
-              "INT-002",
-              "INT-001",
-              "ASS-005",
-              "ASS-003",
-              "ASS-004",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-004",
-                "quote": "Python 3.10/3.11, Cython, AsyncIO, Aiohttp, FastAPI, Celery",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-009",
-                "quote": "Built distributed asynchronous order-processing orchestrator in Python/AsyncIO processing 12,000 transactions/sec.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-002",
-                "quote": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, hig",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pip",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-005",
-                "quote": "Code Architecture: Solid AsyncIO design with typing and clean modularity.",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-003",
-                "quote": "Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-004",
-                "quote": "Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus:",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The provided evidence supports the claim that Marcus Vance has proficiency in Python 3.10+, asynchronous programming, and clean architecture."
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-002",
-              "INT-002",
-              "INT-001",
-              "PRO-001",
-              "CV-013",
-              "CV-005"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-002",
-                "quote": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, hig",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-013",
-                "quote": "Implemented RabbitMQ messaging queues and background tasks for high-frequency financial statement reconciliation.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-005",
-                "quote": "Apache Kafka, RabbitMQ, Redis Cluster, Distributed Locking (Redlock)",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pip",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus:",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The evidence supports the requirement of hands-on experience with distributed systems and message queues, including Kafka/RabbitMQ, as well as distributed state management."
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-001",
-              "INT-002",
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Marcus Vance, Distributed Systems Engineer\nEmail: m.vance@coredev.io | GitHub: github.com/marcus-vance (5 repos, 110 stars)\nLinkedIn: link",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pip",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus:",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The evidence from the CV, interview, and project documents all support the claim of technical leadership and initiative, including experience with migrations, architectural decisions, and mentoring."
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-002",
-              "INT-002",
-              "INT-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-002",
-                "quote": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, hig",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pip",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
-                "document_type": "interview"
-              }
-            ],
-            "synthesis": "The candidate's CV and interview evidence both support the claim of at least 3+ years of commercial production experience managing live services and on-call."
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           }
         ],
-        "unsupported_claim_count": 0,
+        "unsupported_claim_count": 5,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 63.3,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Marcus Vance | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           85.3 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": null,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": null,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 63.3,
+          "rubric_weight": 0.4,
+          "role_fit_score": null
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-13 08:51:59 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Marcus Vance | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                          [DEGRADED - LOCAL LLM OFFLINE]\nEVIDENCE CONSISTENCY               50.0 / 100\nQUADRANT PLACEMENT                [DEGRADED]\n[*] 5 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] INSUFFICIENT [SYNTHESIS]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n  Database Sharding & Data C   [WARN] INSUFFICIENT [SYNTHESIS]\n  Technical Architecture & R   [WARN] INSUFFICIENT [SYNTHESIS]\n  Production Operations & Re   [WARN] INSUFFICIENT [SYNTHESIS]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_02_strong_02",
@@ -3014,148 +2936,184 @@ window.HIRETRACE_STATIC = {
         "candidate_id": "case_03_med_01",
         "candidate_name": "Elena Rostova",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 81.0,
+        "role_fit_score": 82.0,
         "evidence_consistency_score": 100.0,
         "quadrant": "STRONG MATCH",
+        "degraded": false,
+        "degraded_reason": null,
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
+            "confidence": 0.85,
             "citations": [
-              "CV-004",
               "INT-002",
-              "PRO-001"
+              "CV-004"
             ],
             "citations_detail": [
+              {
+                "span_id": "INT-002",
+                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO",
+                "document_type": "interview"
+              },
               {
                 "span_id": "CV-004",
                 "quote": "Developed asynchronous Python backend services using FastAPI and PostgreSQL.",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure ha",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-                "document_type": "project"
               }
             ],
-            "synthesis": "The evidence from the CV, Interview, and Project documents all support the claim of proficiency in Python 3.10+, asynchronous programming, and clean architecture."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Confirmed grounded by critic verification pass"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
+            "confidence": 0.85,
             "citations": [
-              "CV-005",
               "INT-002",
-              "INT-001",
-              "PRO-001"
+              "CV-005"
             ],
             "citations_detail": [
+              {
+                "span_id": "INT-002",
+                "quote": "Her experience with RabbitMQ is solid, though her Kafka exposure has been primarily consumption rather than architecting multi-broker clusters from scratch",
+                "document_type": "interview"
+              },
               {
                 "span_id": "CV-005",
                 "quote": "Implemented RabbitMQ messaging workers handling video rendering job dispatches.",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure ha",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Elena Rostova\nInterviewer: Alex Mercer (Principal Architect)\nDate: 2025-02-20",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-                "document_type": "project"
               }
             ],
-            "synthesis": "The provided evidence supports the claim that Elena Rostova has hands-on experience with RabbitMQ and distributed systems, as evidenced by her CV and interview notes."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords; Flagged by LLM critic as insufficiently grounded in context"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
+            "confidence": 0.85,
             "citations": [
-              "CV-004",
-              "INT-002",
-              "PRO-001"
+              "CV-008",
+              "CV-006"
             ],
             "citations_detail": [
+              {
+                "span_id": "CV-008",
+                "quote": "Maintained Python REST APIs and participated in weekly code reviews and database tuning.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-006",
+                "quote": "Configured Redis caching layers reducing database load by 35%.",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Flagged by LLM critic as insufficiently grounded in context"
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.85,
+            "citations": [
+              "INT-002",
+              "CV-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-002",
+                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO",
+                "document_type": "interview"
+              },
               {
                 "span_id": "CV-004",
                 "quote": "Developed asynchronous Python backend services using FastAPI and PostgreSQL.",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure ha",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-                "document_type": "project"
               }
             ],
-            "synthesis": "The evidence supports the claim of technical leadership and initiative, as evidenced by the candidate's experience with asynchronous services, architectural decisions, and mentoring engineers."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords; Flagged by LLM critic as insufficiently grounded in context"
           },
           {
-            "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
+            "confidence": 0.85,
             "citations": [
-              "CV-001",
               "INT-002",
-              "PRO-001"
+              "CV-007"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-001",
-                "quote": "# Elena Rostova, Backend Software Engineer\nEmail: elena.rostova@techmail.io | GitHub: github.com/elena-rostova (3 repos, 45 stars)\nLocation:",
-                "document_type": "cv"
-              },
-              {
                 "span_id": "INT-002",
-                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure ha",
+                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO",
                 "document_type": "interview"
               },
               {
-                "span_id": "PRO-001",
-                "quote": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-                "document_type": "project"
+                "span_id": "CV-007",
+                "quote": "Junior Backend Engineer | CoreStack Labs (Sep 2020 - Jan 2022 | 1.4 years)",
+                "document_type": "cv"
               }
             ],
-            "synthesis": "The CV, interview, and project documentation all support the claim of at least 3+ years of commercial production experience managing live services and on-call."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords; Flagged by LLM critic as insufficiently grounded in context"
           }
         ],
         "unsupported_claim_count": 0,
         "contradicted_claim_count": 0,
-        "rubric_baseline_score": 52.5,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Elena Rostova | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           81.0 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+        "rubric_baseline_score": 55.0,
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": 100.0,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": 100.0,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 55.0,
+          "rubric_weight": 0.4,
+          "role_fit_score": 82.0
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-15 13:52:53 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Elena Rostova | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           82.0 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [PASS] SUPPORTED [GROUNDED: INT-002, CV-004]\n  Distributed Systems & Even   [PASS] SUPPORTED [GROUNDED: INT-002, CV-005]\n  Database Sharding & Data C   [PASS] SUPPORTED [GROUNDED: CV-008, CV-006]\n  Technical Architecture & R   [PASS] SUPPORTED [GROUNDED: INT-002, CV-004]\n  Production Operations & Re   [PASS] SUPPORTED [GROUNDED: INT-002, CV-007]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_03_med_01",
@@ -3227,166 +3185,114 @@ window.HIRETRACE_STATIC = {
         "candidate_id": "case_04_med_02",
         "candidate_name": "David Kim",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 74.3,
-        "evidence_consistency_score": 100.0,
-        "quadrant": "STRONG MATCH",
+        "role_fit_score": null,
+        "evidence_consistency_score": 50.0,
+        "quadrant": "DEGRADED",
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-004",
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-004",
-                "quote": "Built Python and AsyncIO services for network telemetry monitoring.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of con",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Py",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The evidence from the CV, interview, and technical assessment all support the claim of proficiency in Python 3.10+, asynchronous programming, and clean architecture."
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-005",
-              "INT-001",
-              "ASS-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-005",
-                "quote": "Managed Kafka event consumer instances and ClickHouse analytical storage.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of con",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Py",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-19: Telemetry Monitoring Collector\nCompany: Veloce Networks | Author: David Kim",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The candidate's experience and evidence support the requirement of hands-on experience with distributed systems and message queues, including Kafka and RabbitMQ."
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.9,
-            "citations": [
-              "CV-006",
-              "CV-004",
-              "CV-001",
-              "INT-001",
-              "ASS-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-006",
-                "quote": "4 years production deployment and on-call rotation experience.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-004",
-                "quote": "Built Python and AsyncIO services for network telemetry monitoring.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-001",
-                "quote": "# David Kim, Systems Engineer\nEmail: david.kim@cloudsys.net | Location: San Jose, CA",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of con",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Py",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-19: Telemetry Monitoring Collector\nCompany: Veloce Networks | Author: David Kim",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The candidate's CV, interview, and technical assessment all support the claim of technical leadership and initiative, particularly in areas such as Python asyncio, Kafka consumer lag monitoring, and production deployment experience."
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-006",
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-006",
-                "quote": "4 years production deployment and on-call rotation experience.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of con",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Py",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The candidate's CV, interview, and technical assessment all support the claim of at least 3+ years of commercial production experience managing live services and on-call."
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           }
         ],
-        "unsupported_claim_count": 0,
+        "unsupported_claim_count": 5,
         "contradicted_claim_count": 0,
-        "rubric_baseline_score": 35.8,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: David Kim | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           74.3 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+        "rubric_baseline_score": 38.3,
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": null,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": null,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 38.3,
+          "rubric_weight": 0.4,
+          "role_fit_score": null
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-13 08:52:00 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: David Kim | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                          [DEGRADED - LOCAL LLM OFFLINE]\nEVIDENCE CONSISTENCY               50.0 / 100\nQUADRANT PLACEMENT                [DEGRADED]\n[*] 5 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] INSUFFICIENT [SYNTHESIS]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n  Database Sharding & Data C   [WARN] INSUFFICIENT [SYNTHESIS]\n  Technical Architecture & R   [WARN] INSUFFICIENT [SYNTHESIS]\n  Production Operations & Re   [WARN] INSUFFICIENT [SYNTHESIS]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_04_med_02",
@@ -3451,124 +3357,114 @@ window.HIRETRACE_STATIC = {
         "candidate_id": "case_05_med_03",
         "candidate_name": "Priya Patel",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 74.3,
-        "evidence_consistency_score": 100.0,
-        "quadrant": "STRONG MATCH",
+        "role_fit_score": null,
+        "evidence_consistency_score": 50.0,
+        "quadrant": "DEGRADED",
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.9,
-            "citations": [
-              "CV-004",
-              "CV-005",
-              "INT-001",
-              "ASS-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-004",
-                "quote": "Built data processing microservices with Python, FastAPI, and PostgreSQL.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-005",
-                "quote": "Implemented event streaming using RabbitMQ and Redis pub/sub.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Priya Patel\nSolid knowledge of Python asynchronous programming. Good understanding of database indexes and messaging queues.",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Priya Patel\nScore: 78 / 100 | Grade: Competent (Tier: Silver)\nFunctional code delivered on time. Handled test scenar",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The candidate's CV, interview, and technical assessment all support proficiency in Python and asynchronous programming, aligning with the requirement for Core Python & AsyncIO."
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The candidate's experience and skills as described in the CV and Project Document do not fully support the requirement of hands-on experience with distributed systems and message queues (Kafka/RabbitMQ). The interview notes suggest a focus on Python asynchronous programming and database indexes, which are not directly related to the required experience."
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The provided evidence does not support the claim of leading migrations or architectural decisions, which are key aspects of the Technical Leadership & Initiative requirement."
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "CV-006",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-006",
-                "quote": "3 years production experience with on-call duties.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-31: Event Pipeline Architecture\nCompany: DataHub Analytics | Author: Priya Patel",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The CV and Project Document provide evidence of 3+ years of production experience, but the Technical Assessment and Interview notes do not explicitly confirm this."
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           }
         ],
-        "unsupported_claim_count": 0,
+        "unsupported_claim_count": 5,
         "contradicted_claim_count": 0,
-        "rubric_baseline_score": 35.8,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Priya Patel | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           74.3 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+        "rubric_baseline_score": 38.3,
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": null,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": null,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 38.3,
+          "rubric_weight": 0.4,
+          "role_fit_score": null
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-13 08:52:00 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Priya Patel | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                          [DEGRADED - LOCAL LLM OFFLINE]\nEVIDENCE CONSISTENCY               50.0 / 100\nQUADRANT PLACEMENT                [DEGRADED]\n[*] 5 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] INSUFFICIENT [SYNTHESIS]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n  Database Sharding & Data C   [WARN] INSUFFICIENT [SYNTHESIS]\n  Technical Architecture & R   [WARN] INSUFFICIENT [SYNTHESIS]\n  Production Operations & Re   [WARN] INSUFFICIENT [SYNTHESIS]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_05_med_03",
@@ -3636,115 +3532,181 @@ window.HIRETRACE_STATIC = {
         "role_fit_score": 70.0,
         "evidence_consistency_score": 100.0,
         "quadrant": "WEAK MATCH",
+        "degraded": false,
+        "degraded_reason": null,
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
+            "confidence": 0.85,
             "citations": [
-              "INT-001",
-              "ASS-001"
+              "CV-004",
+              "CV-002"
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django app",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints block",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The candidate's technical skills, as evidenced by the interview and technical assessment, do not support proficiency in Python 3.10+, asynchronous programming, and clean architecture, contradicting the requirement."
-          },
-          {
-            "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django app",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints block",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The candidate's experience and skills do not support the requirement of hands-on experience with Kafka and RabbitMQ, as evidenced by the interview and CV, but the technical assessment score suggests a lack of proficiency."
-          },
-          {
-            "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "INT-001",
-              "CV-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Tom Bradley, Junior-Mid Backend Engineer",
+                "span_id": "CV-004",
+                "quote": "Basic familiarity with Python and Docker.",
                 "document_type": "cv"
               },
               {
-                "span_id": "INT-001",
-                "quote": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django app",
-                "document_type": "interview"
+                "span_id": "CV-002",
+                "quote": "Location: Denver, CO | Experience: 1.8 years total",
+                "document_type": "cv"
               }
             ],
-            "synthesis": "The candidate's CV and interview evidence suggest limited experience with distributed systems and high-severity on-call rotations, which contradicts the requirement for technical leadership and initiative."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Flagged by LLM critic as insufficiently grounded in context"
           },
           {
-            "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
+            "req_id": "REQ-02",
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
+            "confidence": 0.85,
             "citations": [
-              "INT-001",
-              "ASS-001"
+              "CV-005",
+              "CV-004"
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django app",
-                "document_type": "interview"
+                "span_id": "CV-005",
+                "quote": "No commercial Kafka or large-scale distributed systems experience.",
+                "document_type": "cv"
               },
               {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints block",
-                "document_type": "assessment"
+                "span_id": "CV-004",
+                "quote": "Basic familiarity with Python and Docker.",
+                "document_type": "cv"
               }
             ],
-            "synthesis": "The candidate's experience does not meet the requirement of at least 3+ years of commercial production experience managing live services and on-call, as evidenced by the interview and technical assessment."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Flagged by LLM critic as insufficiently grounded in context"
+          },
+          {
+            "req_id": "REQ-03",
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.85,
+            "citations": [
+              "CV-005",
+              "CV-002"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-005",
+                "quote": "No commercial Kafka or large-scale distributed systems experience.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-002",
+                "quote": "Location: Denver, CO | Experience: 1.8 years total",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords; Flagged by LLM critic as insufficiently grounded in context"
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.85,
+            "citations": [
+              "CV-005",
+              "CV-002"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-005",
+                "quote": "No commercial Kafka or large-scale distributed systems experience.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-002",
+                "quote": "Location: Denver, CO | Experience: 1.8 years total",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords; Flagged by LLM critic as insufficiently grounded in context"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.85,
+            "citations": [
+              "CV-005",
+              "CV-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-005",
+                "quote": "No commercial Kafka or large-scale distributed systems experience.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-004",
+                "quote": "Basic familiarity with Python and Docker.",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords; Flagged by LLM critic as insufficiently grounded in context"
           }
         ],
         "unsupported_claim_count": 0,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 25.0,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Tom Bradley | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           70.0 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [WEAK MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": 100.0,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": 100.0,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 25.0,
+          "rubric_weight": 0.4,
+          "role_fit_score": 70.0
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-15 13:53:32 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Tom Bradley | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           70.0 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [WEAK MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [PASS] SUPPORTED [GROUNDED: CV-004, CV-002]\n  Distributed Systems & Even   [PASS] SUPPORTED [GROUNDED: CV-005, CV-004]\n  Database Sharding & Data C   [PASS] SUPPORTED [GROUNDED: CV-005, CV-002]\n  Technical Architecture & R   [PASS] SUPPORTED [GROUNDED: CV-005, CV-002]\n  Production Operations & Re   [PASS] SUPPORTED [GROUNDED: CV-005, CV-004]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_06_weak_01",
@@ -3809,118 +3771,114 @@ window.HIRETRACE_STATIC = {
         "candidate_id": "case_07_weak_02",
         "candidate_name": "Jessica Lee",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 64.7,
-        "evidence_consistency_score": 100.0,
-        "quadrant": "WEAK MATCH",
+        "role_fit_score": null,
+        "evidence_consistency_score": 50.0,
+        "quadrant": "DEGRADED",
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchron",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The interview and technical assessment evidence contradict the claim of proficiency in Python 3.10+, asynchronous programming, and clean architecture."
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchron",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The candidate's experience and skills do not fully support the requirement of hands-on experience with Kafka and RabbitMQ, as evidenced by the technical assessment and interview notes."
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchron",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The candidate's experience and skills do not align with the requirement of having a demonstrated track record of leading migrations and architectural decisions, as evidenced by the technical assessment and interview notes."
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "ASS-001",
-              "INT-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Jessica Lee\nStrong frontend knowledge, but junior in backend distributed architectures. Lacks experience with Kafka and AsyncIO",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Jessica Lee\nScore: 50 / 100 | Grade: Below Threshold (Tier: Bronze)\nBasic API completed, failed distributed synchron",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The candidate's experience does not meet the requirement of at least 3+ years of commercial production experience managing live services and on-call, as evidenced by the technical assessment and interview notes."
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           }
         ],
-        "unsupported_claim_count": 0,
+        "unsupported_claim_count": 5,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 11.7,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Jessica Lee | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           64.7 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [WEAK MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": null,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": null,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 11.7,
+          "rubric_weight": 0.4,
+          "role_fit_score": null
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-13 08:52:00 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Jessica Lee | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                          [DEGRADED - LOCAL LLM OFFLINE]\nEVIDENCE CONSISTENCY               50.0 / 100\nQUADRANT PLACEMENT                [DEGRADED]\n[*] 5 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] INSUFFICIENT [SYNTHESIS]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n  Database Sharding & Data C   [WARN] INSUFFICIENT [SYNTHESIS]\n  Technical Architecture & R   [WARN] INSUFFICIENT [SYNTHESIS]\n  Production Operations & Re   [WARN] INSUFFICIENT [SYNTHESIS]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_07_weak_02",
@@ -3979,118 +3937,114 @@ window.HIRETRACE_STATIC = {
         "candidate_id": "case_08_weak_03",
         "candidate_name": "Lucas Meyer",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 69.0,
-        "evidence_consistency_score": 100.0,
-        "quadrant": "WEAK MATCH",
+        "role_fit_score": null,
+        "evidence_consistency_score": 50.0,
+        "quadrant": "DEGRADED",
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.9,
-            "citations": [
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Lucas Meyer\nScore: 45 / 100 | Grade: Fail (Tier: Bronze)\nCould not complete the AsyncIO event loop challenge.",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The candidate's CV and interview evidence both contradict the requirement of proficiency in Python 3.10+, asynchronous programming, and clean architecture."
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.9,
-            "citations": [
-              "INT-001",
-              "CV-004"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-004",
-                "quote": "No commercial experience with microservices, Kafka, or production on-call.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never",
-                "document_type": "interview"
-              }
-            ],
-            "synthesis": "The candidate's CV and interview notes both contradict the technical assessment and project document, indicating a lack of relevant experience with distributed systems and message queues."
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.9,
-            "citations": [
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-Draft: Script Scheduler Automation\nAuthor: Lucas Meyer",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The candidate's CV and interview evidence contradict the requirement of leading migrations and architectural decisions, as well as mentoring engineers, which are implied by the technical leadership and initiative requirement."
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.9,
-            "citations": [
-              "INT-001",
-              "CV-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Lucas Meyer, Data Analyst / Junior Scripting Developer",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Lucas Meyer\nCandidate admitted during technical screening that he has only used Python for offline data scripting and has never",
-                "document_type": "interview"
-              }
-            ],
-            "synthesis": "The candidate's CV and interview evidence strongly contradict the requirement of at least 3+ years of commercial production experience managing live services and on-call, as evidenced by the lack of relevant experience in Python for offline data scripting and lack of experience with microservices, Kafka, or production on-call."
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           }
         ],
-        "unsupported_claim_count": 0,
+        "unsupported_claim_count": 5,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 22.5,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Lucas Meyer | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           69.0 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [WEAK MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": null,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": null,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 22.5,
+          "rubric_weight": 0.4,
+          "role_fit_score": null
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-13 08:52:00 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Lucas Meyer | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                          [DEGRADED - LOCAL LLM OFFLINE]\nEVIDENCE CONSISTENCY               50.0 / 100\nQUADRANT PLACEMENT                [DEGRADED]\n[*] 5 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] INSUFFICIENT [SYNTHESIS]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n  Database Sharding & Data C   [WARN] INSUFFICIENT [SYNTHESIS]\n  Technical Architecture & R   [WARN] INSUFFICIENT [SYNTHESIS]\n  Production Operations & Re   [WARN] INSUFFICIENT [SYNTHESIS]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_08_weak_03",
@@ -4153,201 +4107,114 @@ window.HIRETRACE_STATIC = {
         "candidate_id": "case_09_adv_cv_vs_interview",
         "candidate_name": "Jordan Hayes",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 67.0,
-        "evidence_consistency_score": 0.0,
-        "quadrant": "REVIEW REQUIRED",
+        "role_fit_score": null,
+        "evidence_consistency_score": 50.0,
+        "quadrant": "DEGRADED",
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Could you provide more details on your role as Lead Systems Architect at FinTech Cloud and the specific projects you were responsible for during your tenure?",
-          "Can you elaborate on the technical challenges you faced during your time as Lead Systems Architect at FinTech Cloud and how you overcame them?",
-          "Could you discuss your contributions to the architecture design and migration of the Kafka system at FinTech Cloud? Please provide specific examples."
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
-        "key_discrepancies": [
-          {
-            "discrepancy_id": "DISC-REQ-01-TENURE",
-            "topic": "Employment Tenure Discrepancy (Fintech)",
-            "source_a_span_id": "CV-003",
-            "source_a_doc": "cv",
-            "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
-            "source_b_span_id": "INT-002",
-            "source_b_doc": "interview",
-            "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
-            "contradiction_type": "cv_vs_interview",
-            "severity": "HIGH",
-            "source_a": "cv (CV-003)",
-            "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
-            "source_b": "interview (INT-002)",
-            "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
-          },
-          {
-            "discrepancy_id": "DISC-REQ-02-TENURE",
-            "topic": "Employment Tenure Discrepancy (Fintech)",
-            "source_a_span_id": "CV-003",
-            "source_a_doc": "cv",
-            "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
-            "source_b_span_id": "INT-002",
-            "source_b_doc": "interview",
-            "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
-            "contradiction_type": "cv_vs_interview",
-            "severity": "HIGH",
-            "source_a": "cv (CV-003)",
-            "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
-            "source_b": "interview (INT-002)",
-            "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
-          },
-          {
-            "discrepancy_id": "DISC-REQ-03-TENURE",
-            "topic": "Employment Tenure Discrepancy (Fintech)",
-            "source_a_span_id": "CV-003",
-            "source_a_doc": "cv",
-            "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
-            "source_b_span_id": "INT-002",
-            "source_b_doc": "interview",
-            "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
-            "contradiction_type": "cv_vs_interview",
-            "severity": "HIGH",
-            "source_a": "cv (CV-003)",
-            "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
-            "source_b": "interview (INT-002)",
-            "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
-          },
-          {
-            "discrepancy_id": "DISC-REQ-04-TENURE",
-            "topic": "Employment Tenure Discrepancy (Fintech)",
-            "source_a_span_id": "CV-003",
-            "source_a_doc": "cv",
-            "source_a_quote": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
-            "source_b_span_id": "INT-002",
-            "source_b_doc": "interview",
-            "source_b_quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
-            "contradiction_type": "cv_vs_interview",
-            "severity": "HIGH",
-            "source_a": "cv (CV-003)",
-            "quote_a": "Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)",
-            "source_b": "interview (INT-002)",
-            "quote_b": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ"
-          }
-        ],
+        "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 1.0,
-            "citations": [
-              "INT-001",
-              "ASS-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Jordan Hayes\nInterviewer: Alex Mercer (Principal Architect)",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Jordan Hayes\nScore: 82 / 100 | Grade: Pass\nImplemented asynchronous queue endpoints with satisfactory throughput.",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-12: Event Ingestion Bridge\nCompany: FinTech Cloud | Author: Jordan Hayes",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The evidence supports the claim that Jordan Hayes has proficiency in Python 3.10+, asynchronous programming, and clean architecture, as evidenced by his technical assessment and project documentation."
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 1.0,
-            "citations": [
-              "CV-004",
-              "INT-002",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-004",
-                "quote": "Headed core infrastructure team for 4 continuous years designing Kafka streaming engines.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-12: Event Ingestion Bridge\nCompany: FinTech Cloud | Author: Jordan Hayes",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The evidence supports the claim that Jordan Hayes has hands-on experience with distributed systems and message queues, including Kafka and RabbitMQ, as evidenced by his CV and project documentation."
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
-            "citations": [
-              "INT-002",
-              "CV-004",
-              "CV-005"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-004",
-                "quote": "Headed core infrastructure team for 4 continuous years designing Kafka streaming engines.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-005",
-                "quote": "4 years of senior leadership and 24/7 on-call tier ownership.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
-                "document_type": "interview"
-              }
-            ],
-            "synthesis": "The interview evidence contradicts the CV evidence regarding Jordan Hayes's tenure at FinTech Cloud, suggesting he was an independent contractor for a significant portion of his claimed time."
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
-            "citations": [
-              "INT-002",
-              "INT-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-002",
-                "quote": "Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Jordan Hayes\nInterviewer: Alex Mercer (Principal Architect)",
-                "document_type": "interview"
-              }
-            ],
-            "synthesis": "The interview evidence contradicts the CV evidence regarding Jordan Hayes' FinTech Cloud experience, suggesting he was an independent contractor for a significant portion of his claimed tenure."
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           }
         ],
-        "unsupported_claim_count": 0,
-        "contradicted_claim_count": 4,
+        "unsupported_claim_count": 5,
+        "contradicted_claim_count": 0,
         "rubric_baseline_score": 40.0,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Jordan Hayes | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           67.0 / 100\nEVIDENCE CONSISTENCY                0.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 4 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO        [WARN] CONFLICTING\n  Distributed Systems & Mess   [WARN] CONFLICTING\n  Technical Leadership & Ini   [WARN] CONFLICTING\n  Production Tenure & Operat   [WARN] CONFLICTING\n\nKEY DISCREPANCIES\n  01  Employment Tenure Discrepancy (Fintech)\n      - cv (CV-003): \"Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)\"\n      - interview (INT-002): \"Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ\"\n  02  Employment Tenure Discrepancy (Fintech)\n      - cv (CV-003): \"Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)\"\n      - interview (INT-002): \"Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ\"\n  03  Employment Tenure Discrepancy (Fintech)\n      - cv (CV-003): \"Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)\"\n      - interview (INT-002): \"Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ\"\n  04  Employment Tenure Discrepancy (Fintech)\n      - cv (CV-003): \"Lead Systems Architect | FinTech Cloud (2021 - Present | 4 years full-time)\"\n      - interview (INT-002): \"Alex: \"Your CV mentions 4 years as Lead Systems Architect at FinTech Cloud starting in early 2021. Can you walk me through that timeline?\"\nJ\"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Could you provide more details on your role as Lead Systems Architect at FinTech Cloud and the specific projects you were responsible for during your tenure?\n  -> Can you elaborate on the technical challenges you faced during your time as Lead Systems Architect at FinTech Cloud and how you overcame them?\n  -> Could you discuss your contributions to the architecture design and migration of the Kafka system at FinTech Cloud? Please provide specific examples.\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": null,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": null,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 40.0,
+          "rubric_weight": 0.4,
+          "role_fit_score": null
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-13 08:52:00 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Jordan Hayes | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                          [DEGRADED - LOCAL LLM OFFLINE]\nEVIDENCE CONSISTENCY               50.0 / 100\nQUADRANT PLACEMENT                [DEGRADED]\n[*] 5 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] INSUFFICIENT [SYNTHESIS]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n  Database Sharding & Data C   [WARN] INSUFFICIENT [SYNTHESIS]\n  Technical Architecture & R   [WARN] INSUFFICIENT [SYNTHESIS]\n  Production Operations & Re   [WARN] INSUFFICIENT [SYNTHESIS]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_09_adv_cv_vs_interview",
@@ -4411,231 +4278,114 @@ window.HIRETRACE_STATIC = {
         "candidate_id": "case_10_adv_cv_vs_assessment",
         "candidate_name": "Ryan Mercer",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 57.3,
-        "evidence_consistency_score": 0.0,
-        "quadrant": "REVIEW REQUIRED",
+        "role_fit_score": null,
+        "evidence_consistency_score": 50.0,
+        "quadrant": "DEGRADED",
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Could you provide an example of a real-world project where you implemented Python AsyncIO and uvloop to handle high-concurrency tasks? How did you ensure thread safety and avoid deadlocks in such scenarios?",
-          "Can you walk us through your approach to designing the architecture for a system that required migrating from a traditional database to Apache Kafka? What specific challenges did you face and how did you address them?",
-          "Could you demonstrate your understanding of async task scheduling by writing a simple asyncio program that includes both async coroutines and the use of time.sleep()? What are the potential issues with this approach and how would you mitigate them?"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
-        "key_discrepancies": [
-          {
-            "discrepancy_id": "DISC-REQ-01-SKILL-ASSESS",
-            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
-            "source_a_span_id": "CV-003",
-            "source_a_doc": "cv",
-            "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
-            "source_b_span_id": "ASS-006",
-            "source_b_doc": "assessment",
-            "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
-            "contradiction_type": "cv_vs_assessment",
-            "severity": "HIGH",
-            "source_a": "cv (CV-003)",
-            "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
-            "source_b": "assessment (ASS-006)",
-            "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
-          },
-          {
-            "discrepancy_id": "DISC-REQ-02-SKILL-ASSESS",
-            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
-            "source_a_span_id": "CV-003",
-            "source_a_doc": "cv",
-            "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
-            "source_b_span_id": "ASS-006",
-            "source_b_doc": "assessment",
-            "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
-            "contradiction_type": "cv_vs_assessment",
-            "severity": "HIGH",
-            "source_a": "cv (CV-003)",
-            "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
-            "source_b": "assessment (ASS-006)",
-            "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
-          },
-          {
-            "discrepancy_id": "DISC-REQ-03-SKILL-ASSESS",
-            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
-            "source_a_span_id": "CV-003",
-            "source_a_doc": "cv",
-            "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
-            "source_b_span_id": "ASS-006",
-            "source_b_doc": "assessment",
-            "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
-            "contradiction_type": "cv_vs_assessment",
-            "severity": "HIGH",
-            "source_a": "cv (CV-003)",
-            "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
-            "source_b": "assessment (ASS-006)",
-            "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
-          },
-          {
-            "discrepancy_id": "DISC-REQ-04-SKILL-ASSESS",
-            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
-            "source_a_span_id": "CV-003",
-            "source_a_doc": "cv",
-            "source_a_quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
-            "source_b_span_id": "ASS-006",
-            "source_b_doc": "assessment",
-            "source_b_quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
-            "contradiction_type": "cv_vs_assessment",
-            "severity": "HIGH",
-            "source_a": "cv (CV-003)",
-            "quote_a": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
-            "source_b": "assessment (ASS-006)",
-            "quote_b": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, "
-          }
-        ],
+        "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
-            "citations": [
-              "ASS-006",
-              "ASS-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "ASS-006",
-                "quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Ryan Mercer\nChallenge: \"Asynchronous Deadlock Resolution & Concurrency Pipeline\"\nScore: 22 / 100 | Grade: Critical F",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-88: High Performance Microservices\nAuthor: Ryan Mercer",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The technical assessment and project document evidence contradict the claim of proficiency in Python 3.10+, asynchronous programming, and clean architecture based on the evaluator's note and the technical assessment score."
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
-            "citations": [
-              "INT-001",
-              "ASS-006",
-              "ASS-003",
-              "ASS-004"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Ryan Mercer\nDiscussed high-level async theory fluently and claimed deep expertise in debugging deadlocks and event loop starvat",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-006",
-                "quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-003",
-                "quote": "Concurrency Suite: FAILED (Produced immediate event loop deadlocks under 50 concurrent requests)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-004",
-                "quote": "Unhandled Exception Trap: FAILED (Fatal unhandled exceptions crashed Python runtime)",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The candidate's experience and skills as described in the CV and interview notes do not fully support the requirement of hands-on experience with distributed systems and message queues, as evidenced by the low scores and failures in the technical assessment."
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
-            "citations": [
-              "CV-004",
-              "CV-003",
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-004",
-                "quote": "Author of high-throughput async microservices processing millions of concurrent connections.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-003",
-                "quote": "Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Ryan Mercer\nDiscussed high-level async theory fluently and claimed deep expertise in debugging deadlocks and event loop starvat",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-88: High Performance Microservices\nAuthor: Ryan Mercer",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The CV and Interview evidence support a strong track record of technical leadership and initiative, while the Technical Assessment and Project Document evidence contradict this, indicating a lack of proficiency in asynchronous programming and debugging."
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
-            "citations": [
-              "ASS-006",
-              "ASS-001",
-              "ASS-003",
-              "ASS-005",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "ASS-006",
-                "quote": "Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, ",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Ryan Mercer\nChallenge: \"Asynchronous Deadlock Resolution & Concurrency Pipeline\"\nScore: 22 / 100 | Grade: Critical F",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-003",
-                "quote": "Concurrency Suite: FAILED (Produced immediate event loop deadlocks under 50 concurrent requests)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-005",
-                "quote": "Memory Profiling: FAILED (Rapid memory leak exceeding 2GB within 90 seconds)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-88: High Performance Microservices\nAuthor: Ryan Mercer",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The candidate's CV highlights extensive experience with async programming, but the technical assessment and project documents show significant issues with async task scheduling and concurrency, contradicting the claim of at least 3+ years of commercial production experience managing live services and on-call."
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           }
         ],
-        "unsupported_claim_count": 0,
-        "contradicted_claim_count": 4,
+        "unsupported_claim_count": 5,
+        "contradicted_claim_count": 0,
         "rubric_baseline_score": 15.8,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Ryan Mercer | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           57.3 / 100\nEVIDENCE CONSISTENCY                0.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 4 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO        [WARN] CONFLICTING\n  Distributed Systems & Mess   [WARN] CONFLICTING\n  Technical Leadership & Ini   [WARN] CONFLICTING\n  Production Tenure & Operat   [WARN] CONFLICTING\n\nKEY DISCREPANCIES\n  01  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - cv (CV-003): \"Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.\"\n      - assessment (ASS-006): \"Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, \"\n  02  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - cv (CV-003): \"Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.\"\n      - assessment (ASS-006): \"Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, \"\n  03  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - cv (CV-003): \"Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.\"\n      - assessment (ASS-006): \"Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, \"\n  04  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - cv (CV-003): \"Recognized world-class authority on Python AsyncIO internals, uvloop runtime, and low-latency non-blocking network programming.\"\n      - assessment (ASS-006): \"Evaluator Note: \"Code displayed catastrophic misunderstanding of async task scheduling; used blocking time.sleep() inside async coroutines, \"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Could you provide an example of a real-world project where you implemented Python AsyncIO and uvloop to handle high-concurrency tasks? How did you ensure thread safety and avoid deadlocks in such scenarios?\n  -> Can you walk us through your approach to designing the architecture for a system that required migrating from a traditional database to Apache Kafka? What specific challenges did you face and how did you address them?\n  -> Could you demonstrate your understanding of async task scheduling by writing a simple asyncio program that includes both async coroutines and the use of time.sleep()? What are the potential issues with this approach and how would you mitigate them?\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": null,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": null,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 15.8,
+          "rubric_weight": 0.4,
+          "role_fit_score": null
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-13 08:52:01 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Ryan Mercer | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                          [DEGRADED - LOCAL LLM OFFLINE]\nEVIDENCE CONSISTENCY               50.0 / 100\nQUADRANT PLACEMENT                [DEGRADED]\n[*] 5 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] INSUFFICIENT [SYNTHESIS]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n  Database Sharding & Data C   [WARN] INSUFFICIENT [SYNTHESIS]\n  Technical Architecture & R   [WARN] INSUFFICIENT [SYNTHESIS]\n  Production Operations & Re   [WARN] INSUFFICIENT [SYNTHESIS]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_10_adv_cv_vs_assessment",
@@ -4696,247 +4446,114 @@ window.HIRETRACE_STATIC = {
         "candidate_id": "case_11_adv_interview_vs_assessment",
         "candidate_name": "Chloe Bennett",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 56.7,
-        "evidence_consistency_score": 0.0,
-        "quadrant": "REVIEW REQUIRED",
+        "role_fit_score": null,
+        "evidence_consistency_score": 50.0,
+        "quadrant": "DEGRADED",
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Could you provide specific examples of how you have addressed concurrency race conditions in your previous projects, and how you ensured the reliability of your async pipelines?",
-          "Could you elaborate on your role in the development of the Kafka migration project, including your responsibilities and the architecture you designed?",
-          "Could you walk us through a recent project where you had to implement a concurrency engine, and what steps you took to prevent race conditions and ensure the stability of your system?"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
-        "key_discrepancies": [
-          {
-            "discrepancy_id": "DISC-REQ-01-1",
-            "topic": "Race Condition Prevention in Async Pipelines",
-            "source_a_span_id": "CV-001",
-            "source_a_doc": "cv",
-            "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
-            "source_b_span_id": "PRO-001",
-            "source_b_doc": "project",
-            "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
-            "contradiction_type": "technical assessment_vs_interview",
-            "severity": "HIGH",
-            "source_a": "cv (CV-001)",
-            "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
-            "source_b": "project (PRO-001)",
-            "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
-          },
-          {
-            "discrepancy_id": "DISC-REQ-01-SKILL-ASSESS",
-            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
-            "source_a_span_id": "INT-001",
-            "source_a_doc": "interview",
-            "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
-            "source_b_span_id": "ASS-001",
-            "source_b_doc": "assessment",
-            "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
-            "contradiction_type": "interview_vs_assessment",
-            "severity": "HIGH",
-            "source_a": "interview (INT-001)",
-            "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
-            "source_b": "assessment (ASS-001)",
-            "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
-          },
-          {
-            "discrepancy_id": "DISC-REQ-02-1",
-            "topic": "Concurrency and Race Conditions",
-            "source_a_span_id": "CV-001",
-            "source_a_doc": "cv",
-            "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
-            "source_b_span_id": "PRO-001",
-            "source_b_doc": "project",
-            "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
-            "contradiction_type": "cv_vs_assessment",
-            "severity": "HIGH",
-            "source_a": "cv (CV-001)",
-            "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
-            "source_b": "project (PRO-001)",
-            "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
-          },
-          {
-            "discrepancy_id": "DISC-REQ-02-SKILL-ASSESS",
-            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
-            "source_a_span_id": "INT-001",
-            "source_a_doc": "interview",
-            "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
-            "source_b_span_id": "ASS-001",
-            "source_b_doc": "assessment",
-            "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
-            "contradiction_type": "interview_vs_assessment",
-            "severity": "HIGH",
-            "source_a": "interview (INT-001)",
-            "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
-            "source_b": "assessment (ASS-001)",
-            "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
-          },
-          {
-            "discrepancy_id": "DISC-REQ-03-1",
-            "topic": "Technical Leadership & Initiative",
-            "source_a_span_id": "CV-001",
-            "source_a_doc": "cv",
-            "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
-            "source_b_span_id": "PRO-001",
-            "source_b_doc": "project",
-            "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
-            "contradiction_type": "cv_vs_assessment",
-            "severity": "HIGH",
-            "source_a": "cv (CV-001)",
-            "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
-            "source_b": "project (PRO-001)",
-            "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
-          },
-          {
-            "discrepancy_id": "DISC-REQ-03-SKILL-ASSESS",
-            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
-            "source_a_span_id": "INT-001",
-            "source_a_doc": "interview",
-            "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
-            "source_b_span_id": "ASS-001",
-            "source_b_doc": "assessment",
-            "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
-            "contradiction_type": "interview_vs_assessment",
-            "severity": "HIGH",
-            "source_a": "interview (INT-001)",
-            "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
-            "source_b": "assessment (ASS-001)",
-            "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
-          },
-          {
-            "discrepancy_id": "DISC-REQ-04-1",
-            "topic": "Concurrency Race Conditions",
-            "source_a_span_id": "CV-001",
-            "source_a_doc": "cv",
-            "source_a_quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
-            "source_b_span_id": "PRO-001",
-            "source_b_doc": "project",
-            "source_b_quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
-            "contradiction_type": "cv_vs_assessment",
-            "severity": "HIGH",
-            "source_a": "cv (CV-001)",
-            "quote_a": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
-            "source_b": "project (PRO-001)",
-            "quote_b": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett"
-          },
-          {
-            "discrepancy_id": "DISC-REQ-04-SKILL-ASSESS",
-            "topic": "Concurrency Mastery Claim vs. Assessment Deadlock Failure",
-            "source_a_span_id": "INT-001",
-            "source_a_doc": "interview",
-            "source_a_quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
-            "source_b_span_id": "ASS-001",
-            "source_b_doc": "assessment",
-            "source_b_quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
-            "contradiction_type": "interview_vs_assessment",
-            "severity": "HIGH",
-            "source_a": "interview (INT-001)",
-            "quote_a": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
-            "source_b": "assessment (ASS-001)",
-            "quote_b": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib"
-          }
-        ],
+        "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
-            "citations": [
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The technical assessment and interview evidence contradict each other regarding Chloe Bennett's proficiency in preventing race conditions in async pipelines."
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
-            "citations": [
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The CV and Interview evidence do not support the Technical Assessment and Project Document evidence, indicating a significant discrepancy in Chloe Bennett's claimed experience and actual performance."
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
-            "citations": [
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The CV and Interview evidence suggest technical leadership and initiative, while the Assessment evidence contradicts this with a critical failure score and deadlock issues."
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "CONTRADICTED",
-            "display": "\u26a0 CONFLICTING",
-            "confidence": 0.9,
-            "citations": [
-              "INT-001",
-              "CV-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have ",
-                "document_type": "interview"
-              }
-            ],
-            "synthesis": "The CV and Interview evidence suggest Chloe Bennett has extensive production experience, while the Technical Assessment and Project Document evidence indicate significant issues with her concurrency management."
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           }
         ],
-        "unsupported_claim_count": 0,
-        "contradicted_claim_count": 4,
+        "unsupported_claim_count": 5,
+        "contradicted_claim_count": 0,
         "rubric_baseline_score": 14.2,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Chloe Bennett | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           56.7 / 100\nEVIDENCE CONSISTENCY                0.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 8 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO        [WARN] CONFLICTING\n  Distributed Systems & Mess   [WARN] CONFLICTING\n  Technical Leadership & Ini   [WARN] CONFLICTING\n  Production Tenure & Operat   [WARN] CONFLICTING\n\nKEY DISCREPANCIES\n  01  Race Condition Prevention in Async Pipelines\n      - cv (CV-001): \"# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.\"\n      - project (PRO-001): \"# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett\"\n  02  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - interview (INT-001): \"# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have \"\n      - assessment (ASS-001): \"# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib\"\n  03  Concurrency and Race Conditions\n      - cv (CV-001): \"# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.\"\n      - project (PRO-001): \"# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett\"\n  04  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - interview (INT-001): \"# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have \"\n      - assessment (ASS-001): \"# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib\"\n  05  Technical Leadership & Initiative\n      - cv (CV-001): \"# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.\"\n      - project (PRO-001): \"# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett\"\n  06  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - interview (INT-001): \"# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have \"\n      - assessment (ASS-001): \"# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib\"\n  07  Concurrency Race Conditions\n      - cv (CV-001): \"# Chloe Bennett, Backend Engineer\nExperience: 3 years at Distributed Data Systems working on Python backend services.\"\n      - project (PRO-001): \"# RFC-33: Concurrency Engine Specification\nAuthor: Chloe Bennett\"\n  08  Concurrency Mastery Claim vs. Assessment Deadlock Failure\n      - interview (INT-001): \"# Interview: Chloe Bennett\nInterviewer: \"How do you guarantee your async pipelines are free of concurrency race conditions?\"\nChloe: \"I have \"\n      - assessment (ASS-001): \"# Technical Assessment: Chloe Bennett\nScore: 35 / 100 | Grade: Critical Failure\nTest Suite: FAILED. The submitted code entered an irreversib\"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Could you provide specific examples of how you have addressed concurrency race conditions in your previous projects, and how you ensured the reliability of your async pipelines?\n  -> Could you elaborate on your role in the development of the Kafka migration project, including your responsibilities and the architecture you designed?\n  -> Could you walk us through a recent project where you had to implement a concurrency engine, and what steps you took to prevent race conditions and ensure the stability of your system?\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": null,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": null,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 14.2,
+          "rubric_weight": 0.4,
+          "role_fit_score": null
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-13 08:52:01 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Chloe Bennett | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                          [DEGRADED - LOCAL LLM OFFLINE]\nEVIDENCE CONSISTENCY               50.0 / 100\nQUADRANT PLACEMENT                [DEGRADED]\n[*] 5 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] INSUFFICIENT [SYNTHESIS]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n  Database Sharding & Data C   [WARN] INSUFFICIENT [SYNTHESIS]\n  Technical Architecture & R   [WARN] INSUFFICIENT [SYNTHESIS]\n  Production Operations & Re   [WARN] INSUFFICIENT [SYNTHESIS]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_11_adv_interview_vs_assessment",
@@ -4997,39 +4614,55 @@ window.HIRETRACE_STATIC = {
         "candidate_id": "case_12_adv_jd_vs_claim",
         "candidate_name": "Evan Brooks",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 66.3,
+        "role_fit_score": 68.7,
         "evidence_consistency_score": 55.0,
         "quadrant": "INSUFFICIENT EVIDENCE",
+        "degraded": false,
+        "degraded_reason": null,
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Probe concrete production evidence for requirement: Distributed Systems & Message Queues"
+          "Probe concrete production evidence for requirement: Distributed Systems & Event Streaming",
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
+            "confidence": 0.85,
             "citations": [
-              "CV-004"
+              "CV-004",
+              "CV-003"
             ],
             "citations_detail": [
               {
                 "span_id": "CV-004",
                 "quote": "Architected enterprise relational data storage and microservice APIs using Python and FastAPI.",
                 "document_type": "cv"
+              },
+              {
+                "span_id": "CV-003",
+                "quote": "Senior Architect | CloudSys Solutions (2020 - Present | 4 years)",
+                "document_type": "cv"
               }
             ],
-            "synthesis": "The candidate's CV and interview responses contradict each other regarding their experience with Kafka and distributed event streaming architectures, which is a requirement for the technical skills mentioned in the job description."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Confirmed grounded by critic verification pass"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
             "status": "INSUFFICIENT_EVIDENCE",
             "display": "\u26a0 INSUFFICIENT",
-            "confidence": 0.8,
+            "confidence": 0.85,
             "citations": [
               "CV-006",
               "INT-001"
@@ -5042,18 +4675,50 @@ window.HIRETRACE_STATIC = {
               },
               {
                 "span_id": "INT-001",
-                "quote": "# Interview: Evan Brooks\nInterviewer: \"The JD specifies hands-on experience scaling Apache Kafka event streaming clusters. Have you deployed",
+                "quote": "Interviewer: \"The JD specifies hands-on experience scaling Apache Kafka event streaming clusters",
                 "document_type": "interview"
               }
             ],
-            "synthesis": "Candidate explicitly reports zero experience with Kafka, RabbitMQ, and Distributed Systems & Message Queues (Requirement not satisfied)."
+            "synthesis": "Candidate explicitly reports zero experience with Kafka, RabbitMQ, and Distributed Systems & Event Streaming (Requirement not satisfied).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Synthesized inference: requirement lacks sufficient cross-source backing."
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
+            "confidence": 0.85,
+            "citations": [
+              "CV-004",
+              "CV-005"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-004",
+                "quote": "Architected enterprise relational data storage and microservice APIs using Python and FastAPI.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-005",
+                "quote": "Maintained 99.9% uptime across production web services with synchronous PostgreSQL backends.",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Flagged by LLM critic as insufficiently grounded in context"
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.85,
             "citations": [
               "CV-004"
             ],
@@ -5064,31 +4729,64 @@ window.HIRETRACE_STATIC = {
                 "document_type": "cv"
               }
             ],
-            "synthesis": "The CV and Interview notes contradict each other regarding Evan Brooks' experience with Kafka and distributed event streaming architectures, which is a key requirement for the Technical Leadership & Initiative role."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords; Flagged by LLM critic as insufficiently grounded in context"
           },
           {
-            "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
+            "confidence": 0.85,
             "citations": [
-              "CV-005"
+              "CV-005",
+              "CV-003"
             ],
             "citations_detail": [
               {
                 "span_id": "CV-005",
                 "quote": "Maintained 99.9% uptime across production web services with synchronous PostgreSQL backends.",
                 "document_type": "cv"
+              },
+              {
+                "span_id": "CV-003",
+                "quote": "Senior Architect | CloudSys Solutions (2020 - Present | 4 years)",
+                "document_type": "cv"
               }
             ],
-            "synthesis": "The CV and Interview evidence contradict each other regarding Evan's production experience with Kafka and RabbitMQ, while the Technical Assessment and Project Document evidence do not provide relevant information."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords"
           }
         ],
         "unsupported_claim_count": 1,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 45.8,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Evan Brooks | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           66.3 / 100\nEVIDENCE CONSISTENCY               55.0 / 100\nQUADRANT PLACEMENT                [INSUFFICIENT EVIDENCE]\n[*] 1 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [WARN] INSUFFICIENT\n      Interpretation: Candidate explicitly reports zero experience with Kafka, RabbitMQ, and Distributed Systems & Message Queues (Requirement not satisfied).\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Probe concrete production evidence for requirement: Distributed Systems & Message Queues\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 4,
+        "synthesized_inferences_count": 1,
+        "grounding_rate": 0.8,
+        "llm_req_fit_score": 84.0,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": 84.0,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 45.8,
+          "rubric_weight": 0.4,
+          "role_fit_score": 68.7
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-15 13:54:06 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Evan Brooks | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           68.7 / 100\nEVIDENCE CONSISTENCY               55.0 / 100\nQUADRANT PLACEMENT                [INSUFFICIENT EVIDENCE]\n[*] 1 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [PASS] SUPPORTED [GROUNDED: CV-004, CV-003]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n      Interpretation: Candidate explicitly reports zero experience with Kafka, RabbitMQ, and Distributed Systems & Event Streaming (Requirement not satisfied).\n  Database Sharding & Data C   [PASS] SUPPORTED [GROUNDED: CV-004, CV-005]\n  Technical Architecture & R   [PASS] SUPPORTED [GROUNDED: CV-004]\n  Production Operations & Re   [PASS] SUPPORTED [GROUNDED: CV-005, CV-003]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Probe concrete production evidence for requirement: Distributed Systems & Event Streaming\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_12_adv_jd_vs_claim",
@@ -5155,136 +4853,114 @@ window.HIRETRACE_STATIC = {
         "candidate_id": "case_13_incomplete_no_interview",
         "candidate_name": "Nathaniel Reed",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 83.7,
-        "evidence_consistency_score": 85.0,
-        "quadrant": "STRONG MATCH",
+        "role_fit_score": null,
+        "evidence_consistency_score": 50.0,
+        "quadrant": "DEGRADED",
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-001",
-              "CV-003",
-              "PRO-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-003",
-                "quote": "years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-001",
-                "quote": "# Nathaniel Reed, Distributed Systems Engineer",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Nathaniel Reed\nScore: 88 / 100 | Grade: Superior\nPassed all async concurrency and message ingestion benchmarks clean",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The provided evidence supports the claim that Nathaniel Reed has proficiency in Python 3.10+, asynchronous programming, and clean architecture, as evidenced by his experience with asynchronous backend services, GitHub contributions, and technical assessment score."
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-001",
-              "CV-003",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Nathaniel Reed, Distributed Systems Engineer",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-003",
-                "quote": "years experience developing asynchronous backend services in Python, aiokafka, and PostgreSQL at GridScale.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The evidence supports the claim that Nathaniel Reed has hands-on experience with distributed systems and message queues, specifically Kafka and RabbitMQ, as evidenced by his CV, technical assessment, and project documentation."
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-001",
-              "PRO-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Nathaniel Reed, Distributed Systems Engineer",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Nathaniel Reed\nScore: 88 / 100 | Grade: Superior\nPassed all async concurrency and message ingestion benchmarks clean",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The provided evidence supports the claim of technical leadership and initiative, including experience with asynchronous backend services, architectural decisions, and mentoring engineers."
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-10: Ingestion Scaling Spec\nAuthor: Nathaniel Reed | Company: GridScale",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The CV and Project Document evidence do not support the claim of at least 3+ years of commercial production experience managing live services and on-call, as they focus on development experience and project documentation rather than direct production experience."
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           }
         ],
-        "unsupported_claim_count": 0,
+        "unsupported_claim_count": 5,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 59.2,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Nathaniel Reed | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           83.7 / 100\nEVIDENCE CONSISTENCY               85.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": null,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": null,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 59.2,
+          "rubric_weight": 0.4,
+          "role_fit_score": null
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-13 08:52:01 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Nathaniel Reed | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                          [DEGRADED - LOCAL LLM OFFLINE]\nEVIDENCE CONSISTENCY               50.0 / 100\nQUADRANT PLACEMENT                [DEGRADED]\n[*] 5 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] INSUFFICIENT [SYNTHESIS]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n  Database Sharding & Data C   [WARN] INSUFFICIENT [SYNTHESIS]\n  Technical Architecture & R   [WARN] INSUFFICIENT [SYNTHESIS]\n  Production Operations & Re   [WARN] INSUFFICIENT [SYNTHESIS]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_13_incomplete_no_interview",
@@ -5356,130 +5032,114 @@ window.HIRETRACE_STATIC = {
         "candidate_id": "case_14_incomplete_no_assessment",
         "candidate_name": "Maya Lin",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 74.3,
-        "evidence_consistency_score": 85.0,
-        "quadrant": "STRONG MATCH",
+        "role_fit_score": null,
+        "evidence_consistency_score": 50.0,
+        "quadrant": "DEGRADED",
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimizati",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The CV and Project Document indicate experience with Python and asynchronous programming, but the Interview evidence does not directly support these claims."
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-001",
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Maya Lin, Senior Backend Engineer\nLocation: San Francisco, CA | 4 years experience at DataStream\nEngineered Kafka event streaming services",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimizati",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The evidence supports the claim of hands-on experience with distributed systems and message queues, specifically Kafka and RabbitMQ, as well as event streams and state management."
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimizati",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The CV and Project Document evidence do not fully support the claim of leading migrations and architectural decisions, while the Interview evidence suggests technical depth in distributed systems."
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-001",
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Maya Lin, Senior Backend Engineer\nLocation: San Francisco, CA | 4 years experience at DataStream\nEngineered Kafka event streaming services",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Maya Lin\nDemonstrated high technical depth in distributed event systems, offset management, and PostgreSQL optimizati",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-71: Multi-Region Event Streaming\nAuthor: Maya Lin | Company: DataStream",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The CV, interview, and project document all support Maya Lin's claim of at least 3+ years of commercial production experience managing live services and on-call."
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           }
         ],
-        "unsupported_claim_count": 0,
+        "unsupported_claim_count": 5,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 35.8,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Maya Lin | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           74.3 / 100\nEVIDENCE CONSISTENCY               85.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": null,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": null,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 35.8,
+          "rubric_weight": 0.4,
+          "role_fit_score": null
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-13 08:52:01 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Maya Lin | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                          [DEGRADED - LOCAL LLM OFFLINE]\nEVIDENCE CONSISTENCY               50.0 / 100\nQUADRANT PLACEMENT                [DEGRADED]\n[*] 5 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] INSUFFICIENT [SYNTHESIS]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n  Database Sharding & Data C   [WARN] INSUFFICIENT [SYNTHESIS]\n  Technical Architecture & R   [WARN] INSUFFICIENT [SYNTHESIS]\n  Production Operations & Re   [WARN] INSUFFICIENT [SYNTHESIS]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_14_incomplete_no_assessment",
@@ -5576,6 +5236,7 @@ window.HIRETRACE_STATIC = {
           {
             "req_id": "REQ-01",
             "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
             "status": "CONTRADICTED",
             "display": "\u26a0 CONFLICTING",
             "confidence": 0.92,
@@ -5585,21 +5246,25 @@ window.HIRETRACE_STATIC = {
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "Email: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core (6 repos, 250+ stars)",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling",
+                "document_type": "interview"
               }
             ],
-            "synthesis": "Documented technical evidence satisfies requirement criteria."
+            "synthesis": "Documented technical evidence satisfies requirement criteria.",
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Confirmed grounded by critic verification pass"
           },
           {
             "req_id": "REQ-02",
             "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
             "status": "CONTRADICTED",
             "display": "\u26a0 CONFLICTING",
             "confidence": 0.92,
@@ -5609,21 +5274,25 @@ window.HIRETRACE_STATIC = {
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling",
+                "document_type": "interview"
               }
             ],
-            "synthesis": "Critical cross-source contradiction between CV claims and interview/assessment evidence."
+            "synthesis": "Critical cross-source contradiction between CV claims and interview/assessment evidence.",
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Confirmed grounded by critic verification pass"
           },
           {
             "req_id": "REQ-03",
             "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
             "confidence": 0.92,
@@ -5633,21 +5302,25 @@ window.HIRETRACE_STATIC = {
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling",
+                "document_type": "interview"
               }
             ],
-            "synthesis": "Documented technical evidence satisfies requirement criteria."
+            "synthesis": "Documented technical evidence satisfies requirement criteria.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords"
           },
           {
             "req_id": "REQ-04",
             "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
             "confidence": 0.92,
@@ -5657,21 +5330,25 @@ window.HIRETRACE_STATIC = {
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling",
+                "document_type": "interview"
               }
             ],
-            "synthesis": "Documented technical evidence satisfies requirement criteria."
+            "synthesis": "Documented technical evidence satisfies requirement criteria.",
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Confirmed grounded by critic verification pass"
           },
           {
             "req_id": "REQ-05",
             "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
             "status": "CONTRADICTED",
             "display": "\u26a0 CONFLICTING",
             "confidence": 0.92,
@@ -5681,23 +5358,49 @@ window.HIRETRACE_STATIC = {
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "Date: 2025-02-22 | Duration: 65 minutes | Format: Video & Live Architecture Review",
+                "document_type": "interview"
               }
             ],
-            "synthesis": "Critical cross-source contradiction between CV claims and interview/assessment evidence."
+            "synthesis": "Critical cross-source contradiction between CV claims and interview/assessment evidence.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords"
           }
         ],
         "unsupported_claim_count": 0,
         "contradicted_claim_count": 3,
         "rubric_baseline_score": 79.2,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Alexander Sterling | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           86.3 / 100\nEVIDENCE CONSISTENCY               25.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 1 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] CONFLICTING\n  Distributed Systems & Even   [WARN] CONFLICTING\n  Database Sharding & Data C   [PASS] SUPPORTED\n  Technical Architecture & R   [PASS] SUPPORTED\n  Production Operations & Re   [WARN] CONFLICTING\n\nKEY DISCREPANCIES\n  01  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-010): \"Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin\"\n      - project (PRO-011): \"Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande\"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Establish actual scope of ownership versus team participation in the architecture migration\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": 91.0,
+        "taxonomy_matched": true,
+        "role_match_note": null,
+        "custom_jd_provided": false,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": 91.0,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 79.2,
+          "rubric_weight": 0.4,
+          "role_fit_score": 86.3
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-16 10:07:32 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Alexander Sterling | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           86.3 / 100\nEVIDENCE CONSISTENCY               25.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 1 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] CONFLICTING [GROUNDED: CV-001, INT-001]\n  Distributed Systems & Even   [WARN] CONFLICTING [GROUNDED: CV-001, INT-001]\n  Database Sharding & Data C   [PASS] SUPPORTED [GROUNDED: CV-001, INT-001]\n  Technical Architecture & R   [PASS] SUPPORTED [GROUNDED: CV-001, INT-001]\n  Production Operations & Re   [WARN] CONFLICTING [GROUNDED: CV-001, INT-001]\n\nKEY DISCREPANCIES\n  01  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-010): \"Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin\"\n      - project (PRO-011): \"Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande\"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Establish actual scope of ownership versus team participation in the architecture migration\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
       "baseline_a": {
         "candidate_id": "case_15_deceptive_centerpiece",
@@ -5905,7 +5608,91 @@ window.HIRETRACE_STATIC = {
           "recall": 1.0,
           "grounding": 0.67
         }
+      ],
+      "calibration_metrics": {
+        "brier_score": 0.2281,
+        "expected_calibration_error": 0.2395,
+        "total_evaluations": 75,
+        "spearman_rho": 0.816,
+        "contradiction_recall": 1.0,
+        "contradiction_precision": 1.0,
+        "contradiction_f1": 1.0
+      }
+    }
+  },
+  "auditSummary": {
+    "status": "ok",
+    "snapshot_taken_at": "2026-08-30 15:32:13 UTC",
+    "data_source": "frozen_benchmark_snapshot",
+    "grounding": {
+      "grounded_claim_fidelity": 100.0,
+      "citation_validity_rate": 100.0,
+      "exact_quote_containment": 100.0,
+      "asserted_grounded_claims": 55,
+      "synthesized_inferences": 24,
+      "unsupported_claims": 0
+    },
+    "calibration": {
+      "brier_score": 0.2281,
+      "expected_calibration_error": 0.2395,
+      "spearman_rho": 0.816,
+      "bootstrap_ci_95": [
+        0.446,
+        0.983
+      ],
+      "contradiction_recall": 100.0,
+      "contradiction_precision": 100.0,
+      "contradiction_f1": 1.0
+    },
+    "fairness": {
+      "eeoc_four_fifths_compliant": true,
+      "minimum_disparate_impact_ratio": 1.0,
+      "mean_role_fit_delta_pts": 0.0,
+      "mean_consistency_delta_pts": 0.0,
+      "quadrant_stability_percent": 100.0,
+      "demographic_evaluations_count": 44,
+      "demographic_groups_count": 11,
+      "standards": "EEOC Uniform Guidelines (4 CFR Part 60)"
+    },
+    "adversarial": {
+      "prompt_injection_defense_rate": 100.0,
+      "fabrication_recall": 100.0,
+      "tested_attacks": [
+        "direct_prompt_injection",
+        "hidden_comment_injection",
+        "interview_jailbreak",
+        "json_schema_smuggling",
+        "temporal_fabrication",
+        "anachronistic_tenure",
+        "concurrency_deadlock_fabrication",
+        "seniority_usurpation"
       ]
+    },
+    "governance": {
+      "autonomous_hire_verdict_permitted": false,
+      "human_in_the_loop_mandatory": true,
+      "recommendation_contract": "Proceed to human review with priority questions",
+      "zero_autonomous_decisions": true,
+      "eeoc_compliant": true,
+      "disparate_impact_ratio": 1.0,
+      "disparate_impact_standard": "Four-Fifths Rule (EEOC 4 CFR Part 60)",
+      "score_drift_pts": 0.0,
+      "zero_cost_offline": true,
+      "hallucination_containment": 100.0
+    },
+    "extraction": {
+      "matched_leaf_accuracy": 84.8,
+      "completion_rate": 100.0,
+      "array_row_precision": 73.1,
+      "array_row_recall": 79.7,
+      "standard": "LongExtractBench Deterministic Grader (Local)"
+    },
+    "efficiency": {
+      "time_saved_pct": 80.6,
+      "candidate_review_minutes": 3.5,
+      "manual_baseline_minutes": 18.0,
+      "pipeline_median_latency_seconds": 26.25,
+      "model": "Standardized Cognitive Load Model (2,200 words @ 220 wpm + reconciliation)"
     }
   }
 };

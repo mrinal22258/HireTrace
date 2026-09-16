@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" fill="none">
+  <!-- C1: Confident Dossier Reviewer Owl (Lower-Left emergence) -->
+  <path d="M8 95 C8 38, 22 16, 52 16 C82 16, 92 36, 92 95 Z" fill="#1C1815" />
+  <!-- Executive Reviewer Chest -->
+  <path d="M22 95 C22 62, 38 52, 60 52 C82 52, 88 68, 88 95 Z" fill="#C55E38" />
+  <!-- Sharp Observation Frames -->
+  <circle cx="42" cy="44" r="18" fill="#D9714A" stroke="#1C1815" stroke-width="2.5" />
+  <circle cx="42" cy="44" r="14" fill="#FAF7F2" />
+  <circle cx="44" cy="44" r="8" fill="#1C1815" />
+  <circle cx="42" cy="42" r="2.8" fill="#FFFFFF" />
+  <circle cx="72" cy="40" r="18" fill="#D9714A" stroke="#1C1815" stroke-width="2.5" />
+  <circle cx="72" cy="40" r="14" fill="#FAF7F2" />
+  <circle cx="74" cy="40" r="8" fill="#1C1815" />
+  <circle cx="72" cy="38" r="2.8" fill="#FFFFFF" />
+  <path d="M56 43 Q57 40 58 42" stroke="#D9714A" stroke-width="4" stroke-linecap="round" fill="none" />
+  <path d="M54 50 L58 56 L62 50 Z" fill="#D9714A" />
+</svg>

@@ -1,0 +1,75 @@
+{
+  "candidate_name": "Sarah Chen",
+  "employment_history": [
+    {
+      "employer": "ScaleMatrix Telemetry",
+      "title": "Senior Infrastructure Engineer",
+      "start_date": "2021-10",
+      "end_date": null,
+      "is_current": true
+    },
+    {
+      "employer": "DataPulse Networks",
+      "title": "Backend Software Engineer",
+      "start_date": "2019-06",
+      "end_date": "2021-09",
+      "is_current": false
+    }
+  ],
+  "education": [],
+  "skills": [
+    "Python",
+    "AsyncIO",
+    "uvloop",
+    "Cython",
+    "Go",
+    "SQL",
+    "C++",
+    "Apache Kafka",
+    "Kafka Streams",
+    "Schema Registry",
+    "Confluent Python",
+    "RabbitMQ",
+    "Redis Cluster",
+    "PostgreSQL",
+    "TimescaleDB",
+    "Redis",
+    "ClickHouse",
+    "Docker",
+    "Kubernetes",
+    "Helm",
+    "Terraform",
+    "Prometheus",
+    "Grafana",
+    "OpenTelemetry"
+  ],
+  "project_claims": [
+    {
+      "project_name": "Telemetry Ingestion Pipeline",
+      "description": "Architected distributed telemetry ingestion pipeline processing 35M events/day with p99 < 45ms",
+      "technologies": [
+        "Python 3.11",
+        "AsyncIO",
+        "FastAPI",
+        "aiokafka"
+      ]
+    },
+    {
+      "project_name": "Kafka Consumer Scaling",
+      "description": "Engineered dynamic Kafka consumer group scaling using Kubernetes KEDA, reducing lag by 82%",
+      "technologies": [
+        "Kubernetes",
+        "KEDA",
+        "Apache Kafka"
+      ]
+    },
+    {
+      "project_name": "async-kafka-batcher",
+      "description": "Python library for high-throughput micro-batching over aiokafka",
+      "technologies": [
+        "Python",
+        "aiokafka"
+      ]
+    }
+  ]
+}

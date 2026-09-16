@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_40_sre_med_01",
+  "name": "Faisal Al-Mansoor",
+  "target_role": "Lead Site Reliability & Cloud Infrastructure Engineer",
+  "category": "sre_med",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 91.0,
+    "expert_scores": {
+      "reviewer_1": 80,
+      "reviewer_2": 82,
+      "reviewer_3": 81
+    },
+    "expert_composite_score": 81.0
+  },
+  "cv_text": "# Faisal Al-Mansoor - Systems Administrator\n3 years experience managing Linux servers, bash scripting, and basic Docker containers.\n",
+  "interview_notes": "# Interview: Faisal Al-Mansoor\nSolid Linux administration and troubleshooting skills, but limited experience with distributed Kubernetes orchestration.\n",
+  "technical_assessment": "# Technical Assessment: Faisal Al-Mansoor\nScore: 82 / 100\nClean Linux server troubleshooting and shell scripting.\n"
+}

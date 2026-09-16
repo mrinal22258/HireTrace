@@ -1,0 +1,51 @@
+# Version control & metadata
+.git/
+.gitignore
+.github/
+
+# Python bytecode & caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local database & state
+hiretrace.db
+hiretrace.db-wal
+hiretrace.db-shm
+
+# Dynamic uploads & caches
+uploads/
+eval_cases/cache/
+eval_cases/custom_*.json
+eval_cases/custom_uploads/
+trajectories/custom_*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Media, video & archives
+video/
+scratch/
+*.zip
+*.mp4
+*.avi
+*.wav
+*.screenrec
+
+# Local dev & IDE
+powershell.cmd
+*.log
+.gemini/
+.idea/
+.vscode/
+.DS_Store
+benchmarks/results_*.json
+
+# Test suite (not needed in production container)
+tests/

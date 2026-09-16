@@ -1,0 +1,22 @@
+{
+  "candidate_name": "Tom Bradley",
+  "employment_history": [],
+  "education": [],
+  "skills": [
+    "Django",
+    "SQLite",
+    "PostgreSQL",
+    "Python",
+    "Docker"
+  ],
+  "project_claims": [
+    {
+      "project_name": "REST Endpoints",
+      "description": "Built REST endpoints using Django and SQLite/PostgreSQL",
+      "technologies": [
+        "Django",
+        "PostgreSQL"
+      ]
+    }
+  ]
+}

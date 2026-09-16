@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_44_fde_weak_01",
+  "name": "Julian Ross",
+  "target_role": "Forward Deployed Engineer",
+  "category": "fde_weak",
+  "ground_truth": {
+    "expected_quadrant": "WEAK MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 88.0,
+    "expert_scores": {
+      "reviewer_1": 42,
+      "reviewer_2": 45,
+      "reviewer_3": 40
+    },
+    "expert_composite_score": 42.33
+  },
+  "cv_text": "# Julian Ross - Pure Theoretical Computer Science Researcher\nPure academic background focusing on theoretical complexity classes (P vs NP, circuit lower bounds).\n## Experience\nPostdoctoral Researcher at Institute for Advanced Mathematics (2021 - Present | 3.5 years)\n- Proved structural theorems on Boolean circuit complexity and algebraic graph properties.\n- Authored theoretical papers in STOC and FOCS conferences.\n- No commercial software development experience; zero customer interaction or on-site deployment experience.\n",
+  "interview_notes": "# Technical Interview: Julian Ross\nInterviewer: Alex Vance\nAlex: \"Have you ever deployed software to an enterprise customer environment or managed a live incident?\"\nJulian: \"No, my work is exclusively theoretical pencil-and-paper proofs. I prefer not to engage with customers or work with time-pressured production systems.\"\n",
+  "technical_assessment": "# Technical Assessment: Julian Ross\nScore: 45 / 100 | Result: Not Recommended for FDE\nTheoretical mathematics is brilliant, but candidate has zero practical customer deployment skills, no rapid prototyping capability, and low tolerance for operational ambiguity.\n"
+}

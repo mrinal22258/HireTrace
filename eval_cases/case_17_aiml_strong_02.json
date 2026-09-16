@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_17_aiml_strong_02",
+  "name": "Tariq Mansour",
+  "target_role": "Senior Applied AI & Model Architect",
+  "category": "aiml_strong",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 95.0,
+    "expert_scores": {
+      "reviewer_1": 92,
+      "reviewer_2": 93,
+      "reviewer_3": 91
+    },
+    "expert_composite_score": 92.0
+  },
+  "cv_text": "# Tariq Mansour, Senior ML Systems Engineer\n## Experience\nLead ML Engineer at TensorWave Systems (2020 - Present | 4.5 years)\n- Productionized high-throughput LLM serving clusters using vLLM and TensorRT-LLM delivering 4,200 tokens/sec.\n- Architected semantic chunking and dense-sparse hybrid retrieval pipelines for enterprise financial compliance.\n",
+  "interview_notes": "# Technical Interview: Tariq Mansour\nInterviewer: Dr. Aris Thorne\nAris: \"Tell us about continuous batching in vLLM.\"\nTariq: \"PagedAttention eliminated memory fragmentation. We paired dynamic request scheduling with speculative decoding using draft models, doubling sustained concurrency.\"\n",
+  "technical_assessment": "# Technical Assessment: Tariq Mansour\nScore: 92 / 100\nHigh marks on model serving infrastructure, tensor parallelism, and batching dynamics.\n"
+}

@@ -11,8 +11,22 @@ from typing import List, Dict, Any, Optional
 import json
 import re
 import hashlib
+from pydantic import BaseModel, Field
 from agents.ollama_client import OllamaClient
 from agents.db import DB
+
+
+class RequirementItemSchema(BaseModel):
+    req_id: Optional[str] = None
+    name: str
+    category: Optional[str] = "technical_skills"
+    description: Optional[str] = ""
+    importance: Optional[str] = "MUST_HAVE"
+    expected_sources: Optional[List[str]] = ["cv", "interview"]
+
+
+class RequirementMappingSchema(BaseModel):
+    requirements: List[RequirementItemSchema]
 
 
 @dataclass
@@ -24,6 +38,8 @@ class JobRequirement:
     description: str              # Description of expected competency
     importance: str               # "MUST_HAVE", "IMPORTANT", "NICE_TO_HAVE"
     expected_sources: List[str]   # ["cv", "interview", "assessment", "project"]
+    degraded: bool = False
+    source_note: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -32,7 +48,9 @@ class JobRequirement:
             "category": self.category,
             "description": self.description,
             "importance": self.importance,
-            "expected_sources": self.expected_sources
+            "expected_sources": self.expected_sources,
+            "degraded": self.degraded,
+            "source_note": self.source_note
         }
 
     @classmethod
@@ -43,7 +61,9 @@ class JobRequirement:
             category=data.get("category", "technical_skills"),
             description=data.get("description", ""),
             importance=data.get("importance", "MUST_HAVE"),
-            expected_sources=data.get("expected_sources", ["cv", "interview"])
+            expected_sources=data.get("expected_sources", ["cv", "interview"]),
+            degraded=data.get("degraded", False),
+            source_note=data.get("source_note")
         )
 
 
@@ -72,6 +92,11 @@ Output strictly JSON matching this structure:
         self.cache_hits = 0
         self.cache_misses = 0
 
+    @property
+    def prompt_sha(self) -> str:
+        """Returns SHA-256 fingerprint of the requirement mapping system prompt."""
+        return hashlib.sha256(self.SYSTEM_PROMPT.encode("utf-8")).hexdigest()[:16]
+
     def compute_cache_key(self, jd_text: str, target_role: str) -> str:
         """Generates deterministic SHA-256 key from normalized role + JD content."""
         content = f"{target_role.strip().lower()}::{jd_text.strip()}"
@@ -90,15 +115,17 @@ Output strictly JSON matching this structure:
             return self._default_requirements(target_role)
 
         cache_key = self.compute_cache_key(jd_text, target_role)
+        model_name = getattr(self.client, "model", "qwen2.5:3b")
+        p_sha = self.prompt_sha
 
         # 1. Tier-1: In-memory cache hit
         if cache_key in self._memory_cache:
             self.cache_hits += 1
             return self._memory_cache[cache_key]
 
-        # 2. Tier-2: Persistent DB cache hit
+        # 2. Tier-2: Persistent DB cache hit (validating model and prompt template SHA)
         try:
-            db_cached = DB.get_cached_requirements(cache_key)
+            db_cached = DB.get_cached_requirements(cache_key, model=model_name, prompt_sha=p_sha)
             if db_cached:
                 reqs = [JobRequirement.from_dict(item) for item in db_cached]
                 self._memory_cache[cache_key] = reqs
@@ -110,7 +137,12 @@ Output strictly JSON matching this structure:
         # 3. Cache miss: Compute via LLM or deterministic fallback
         self.cache_misses += 1
         prompt = f"Role: {target_role}\n\nJob Description:\n{jd_text}\n\nDecompose into 4-6 key requirements:"
-        response = self.client.generate_json(prompt=prompt, system_prompt=self.SYSTEM_PROMPT, max_tokens=768)
+        response = self.client.generate_json(
+            prompt=prompt,
+            system_prompt=self.SYSTEM_PROMPT,
+            max_tokens=768,
+            schema_model=RequirementMappingSchema
+        )
 
         req_list = response.get("requirements", [])
         if not req_list and "items" in response:
@@ -155,7 +187,13 @@ Output strictly JSON matching this structure:
         # Store in both memory and persistent DB cache
         self._memory_cache[cache_key] = requirements
         try:
-            DB.set_cached_requirements(cache_key, target_role, [r.to_dict() for r in requirements])
+            DB.set_cached_requirements(
+                cache_key,
+                target_role,
+                [r.to_dict() for r in requirements],
+                model=model_name,
+                prompt_sha=p_sha
+            )
         except Exception:
             pass
 
@@ -196,6 +234,13 @@ Output strictly JSON matching this structure:
         return requirements
 
     def _default_requirements(self, target_role: str) -> List[JobRequirement]:
+        reqs = self._get_hardcoded_default_requirements(target_role)
+        for r in reqs:
+            r.degraded = True
+            r.source_note = "generic requirements — offline mode"
+        return reqs
+
+    def _get_hardcoded_default_requirements(self, target_role: str) -> List[JobRequirement]:
         role_lower = (target_role or "").lower()
 
         # 1. Robotics & Perception / Autonomous Systems

@@ -19,8 +19,11 @@ import os
 import json
 import time
 import threading
+import logging
 from typing import Dict, Any, List, Optional
 from contextlib import contextmanager
+
+logger = logging.getLogger("hiretrace.db")
 
 from sqlalchemy import (
     create_engine, Column, String, Float, Integer, Text, ForeignKey,
@@ -94,6 +97,7 @@ class JobQueue(Base):
     enqueued_at = Column(Float, nullable=False)
     started_at = Column(Float, nullable=True)
     finished_at = Column(Float, nullable=True)
+    updated_at = Column(Float, nullable=True)
 
 
 class DedupHash(Base):
@@ -109,8 +113,10 @@ class RequirementCache(Base):
     __tablename__ = "requirement_cache"
 
     cache_key = Column(String(64), primary_key=True)
-    target_role = Column(String(256), nullable=False)
+    target_role = Column(String(256), nullable=False, index=True)
     requirements_json = Column(Text, nullable=False)
+    model = Column(String(128), nullable=False, default="qwen2.5:3b")
+    prompt_sha = Column(String(64), nullable=False, default="")
     created_at = Column(Float, nullable=False)
 
 
@@ -213,6 +219,22 @@ class DatabaseManager:
                         if col_names and "tenant_id" not in col_names:
                             conn.execute(text(f"ALTER TABLE {table} ADD COLUMN tenant_id VARCHAR(128) DEFAULT 'default_tenant'"))
                             conn.commit()
+
+                    jq_res = conn.execute(text("PRAGMA table_info(job_queue)")).fetchall()
+                    jq_cols = [r[1] for r in jq_res]
+                    if jq_cols and "updated_at" not in jq_cols:
+                        conn.execute(text("ALTER TABLE job_queue ADD COLUMN updated_at FLOAT"))
+                        conn.execute(text("UPDATE job_queue SET updated_at = COALESCE(started_at, enqueued_at) WHERE updated_at IS NULL"))
+                        conn.commit()
+
+                    rc_res = conn.execute(text("PRAGMA table_info(requirement_cache)")).fetchall()
+                    rc_cols = [r[1] for r in rc_res]
+                    if rc_cols:
+                        if "model" not in rc_cols:
+                            conn.execute(text("ALTER TABLE requirement_cache ADD COLUMN model VARCHAR(128) DEFAULT 'qwen2.5:3b'"))
+                        if "prompt_sha" not in rc_cols:
+                            conn.execute(text("ALTER TABLE requirement_cache ADD COLUMN prompt_sha VARCHAR(64) DEFAULT ''"))
+                        conn.commit()
             except Exception:
                 pass
 
@@ -428,7 +450,8 @@ class DatabaseManager:
         status: Optional[str] = None,
         quadrant: Optional[str] = None,
         search: Optional[str] = None,
-        tenant_id: Optional[str] = None
+        tenant_id: Optional[str] = None,
+        include_demo: bool = False
     ) -> Dict[str, Any]:
         """Paginated, filtered candidate summary query with tenant scoping."""
         page = max(1, page)
@@ -448,6 +471,14 @@ class DatabaseManager:
                 Evaluation.quadrant,
                 Evaluation.report_json
             ).outerjoin(Evaluation, Candidate.candidate_id == Evaluation.candidate_id)
+
+            if not include_demo:
+                try:
+                    from eval_cases.dataset import CASES
+                    bench_ids = [c["candidate_id"] for c in CASES]
+                    query = query.filter(~Candidate.candidate_id.in_(bench_ids))
+                except Exception:
+                    pass
 
             if tenant_id and tenant_id != "*":
                 query = query.filter(Candidate.tenant_id == tenant_id)
@@ -497,6 +528,35 @@ class DatabaseManager:
                 "pages": pages
             }
 
+    def delete_candidate(self, candidate_id: str) -> Dict[str, int]:
+        """
+        Deletes all candidate records across candidates, documents, evaluations,
+        dedup_hashes, and job_queue tables within a single atomic transaction.
+        Returns a summary of deleted row counts.
+        """
+        counts = {
+            "candidates": 0,
+            "documents": 0,
+            "evaluations": 0,
+            "dedup_hashes": 0,
+            "job_queue": 0,
+        }
+        with self.session_scope() as session:
+            # Delete dependent records first (and let cascading take care of foreign keys)
+            counts["evaluations"] = session.query(Evaluation).filter_by(candidate_id=candidate_id).delete()
+            counts["documents"] = session.query(Document).filter_by(candidate_id=candidate_id).delete()
+            counts["dedup_hashes"] = session.query(DedupHash).filter_by(candidate_id=candidate_id).delete()
+            counts["job_queue"] = session.query(JobQueue).filter_by(candidate_id=candidate_id).delete()
+            counts["candidates"] = session.query(Candidate).filter_by(candidate_id=candidate_id).delete()
+
+        return counts
+
+    def get_candidate_ids_older_than(self, cutoff_timestamp: float) -> List[str]:
+        """Returns candidate IDs created before the specified timestamp."""
+        with self.session_scope() as session:
+            rows = session.query(Candidate.candidate_id).filter(Candidate.created_at < cutoff_timestamp).all()
+            return [r[0] for r in rows]
+
     def check_dedup_hash(self, sha256_hash: str) -> Optional[str]:
         if not sha256_hash:
             return None
@@ -519,11 +579,20 @@ class DatabaseManager:
         with self.session_scope() as session:
             job = session.query(JobQueue).filter_by(candidate_id=candidate_id).first()
             if job:
+                # Monotonicity guard: reject progress regression while still evaluating
+                if status == "evaluating" and job.status == "evaluating" and (job.progress_pct or 0) > progress_pct:
+                    logger.warning(
+                        f"Monotonicity guard rejected progress reduction for {candidate_id}: "
+                        f"current={job.progress_pct}% > incoming={progress_pct}%. Preserving {job.progress_pct}%."
+                    )
+                    progress_pct = job.progress_pct
+
                 job.status = status
                 job.progress_pct = progress_pct
                 job.current_step = current_step
                 job.error_msg = error_msg
                 job.tenant_id = tenant
+                job.updated_at = now
                 if status in ("done", "failed"):
                     job.finished_at = now
             else:
@@ -536,6 +605,7 @@ class DatabaseManager:
                     current_step=current_step,
                     error_msg=error_msg,
                     enqueued_at=now,
+                    updated_at=now,
                     finished_at=now if status in ("done", "failed") else None
                 )
                 session.add(job)
@@ -555,7 +625,8 @@ class DatabaseManager:
                 "error_msg": job.error_msg,
                 "enqueued_at": job.enqueued_at,
                 "started_at": job.started_at,
-                "finished_at": job.finished_at
+                "finished_at": job.finished_at,
+                "updated_at": job.updated_at or job.started_at or job.enqueued_at,
             }
 
     def claim_next_queued_job(self) -> Optional[Dict[str, Any]]:
@@ -588,6 +659,7 @@ class DatabaseManager:
 
                 job.status = "evaluating"
                 job.started_at = now
+                job.updated_at = now
                 job.current_step = step
                 job.attempts = (job.attempts or 0) + 1
                 session.flush()
@@ -599,7 +671,8 @@ class DatabaseManager:
                     "current_step": job.current_step,
                     "attempts": job.attempts,
                     "enqueued_at": job.enqueued_at,
-                    "started_at": job.started_at
+                    "started_at": job.started_at,
+                    "updated_at": job.updated_at
                 }
             else:
                 # SQLite: Use atomic conditional UPDATE statement with correlated subquery.
@@ -608,7 +681,7 @@ class DatabaseManager:
                     res = session.execute(
                         text("""
                             UPDATE job_queue
-                            SET status='evaluating', started_at=:now, current_step=:step, attempts=COALESCE(attempts, 0) + 1
+                            SET status='evaluating', started_at=:now, updated_at=:now, current_step=:step, attempts=COALESCE(attempts, 0) + 1
                             WHERE candidate_id = (
                                 SELECT candidate_id FROM job_queue WHERE status='queued' ORDER BY enqueued_at ASC LIMIT 1
                             )
@@ -642,6 +715,7 @@ class DatabaseManager:
                         cid = job.candidate_id
                         job.status = "evaluating"
                         job.started_at = now
+                        job.updated_at = now
                         job.current_step = step
                         job.attempts = (job.attempts or 0) + 1
                         session.flush()
@@ -651,13 +725,46 @@ class DatabaseManager:
                             "status": "evaluating",
                             "attempts": job.attempts,
                             "enqueued_at": job.enqueued_at,
-                            "started_at": now
+                            "started_at": now,
+                            "updated_at": now
                         }
 
-    # Requirement mapping cache methods for Step 5
-    def get_cached_requirements(self, cache_key: str) -> Optional[List[Dict[str, Any]]]:
+    def reap_stale_jobs(self, timeout_seconds: float = 300.0) -> List[str]:
+        """
+        Reaps jobs stuck in 'evaluating' state past timeout_seconds (e.g. worker crashed mid-job).
+        Marks them as 'failed' with error_msg="Job timed out — worker may have crashed. Please retry."
+        Returns the list of reaped candidate_ids.
+        """
+        now = time.time()
+        cutoff = now - timeout_seconds
+        reaped_ids: List[str] = []
         with self.session_scope() as session:
-            entry = session.query(RequirementCache).filter_by(cache_key=cache_key).first()
+            stale_jobs = session.query(JobQueue).filter(JobQueue.status == "evaluating").all()
+            for job in stale_jobs:
+                last_activity = job.updated_at or job.started_at or job.enqueued_at or 0.0
+                if last_activity < cutoff:
+                    job.status = "failed"
+                    job.error_msg = "Job timed out — worker may have crashed. Please retry."
+                    job.finished_at = now
+                    job.updated_at = now
+                    job.current_step = "Failed: Execution timed out"
+                    reaped_ids.append(job.candidate_id)
+        return reaped_ids
+
+    # Requirement mapping cache methods for Step 3
+    def get_cached_requirements(
+        self,
+        cache_key: str,
+        model: Optional[str] = None,
+        prompt_sha: Optional[str] = None
+    ) -> Optional[List[Dict[str, Any]]]:
+        with self.session_scope() as session:
+            q = session.query(RequirementCache).filter_by(cache_key=cache_key)
+            if model:
+                q = q.filter_by(model=model)
+            if prompt_sha:
+                q = q.filter_by(prompt_sha=prompt_sha)
+            entry = q.first()
             if entry and entry.requirements_json:
                 try:
                     return json.loads(entry.requirements_json)
@@ -665,7 +772,14 @@ class DatabaseManager:
                     return None
             return None
 
-    def set_cached_requirements(self, cache_key: str, target_role: str, requirements_data: List[Dict[str, Any]]):
+    def set_cached_requirements(
+        self,
+        cache_key: str,
+        target_role: str,
+        requirements_data: List[Dict[str, Any]],
+        model: str = "qwen2.5:3b",
+        prompt_sha: str = ""
+    ):
         now = time.time()
         req_json = json.dumps(requirements_data)
         with self.session_scope() as session:
@@ -673,11 +787,15 @@ class DatabaseManager:
             if entry:
                 entry.target_role = target_role
                 entry.requirements_json = req_json
+                entry.model = model
+                entry.prompt_sha = prompt_sha
             else:
                 session.add(RequirementCache(
                     cache_key=cache_key,
                     target_role=target_role,
                     requirements_json=req_json,
+                    model=model,
+                    prompt_sha=prompt_sha,
                     created_at=now
                 ))
 

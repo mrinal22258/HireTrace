@@ -1,0 +1,37 @@
+{
+  "candidate_name": "Dr. Linnea Holmgren",
+  "employment_history": [
+    {
+      "employer": "NeuroScale Labs",
+      "title": "Staff Applied Scientist",
+      "start_date": "2021",
+      "end_date": null,
+      "is_current": true
+    }
+  ],
+  "education": [
+    {
+      "institution": "ETH Zurich",
+      "degree": "PhD",
+      "field_of_study": "Computational Intelligence",
+      "graduation_year": 2021
+    }
+  ],
+  "skills": [
+    "PyTorch",
+    "Transformers",
+    "Distributed Training",
+    "Multimodal",
+    "Python"
+  ],
+  "project_claims": [
+    {
+      "project_name": "Transformer Distillation",
+      "description": "Trained and distilled 14B parameter multimodal models",
+      "technologies": [
+        "PyTorch",
+        "CUDA"
+      ]
+    }
+  ]
+}

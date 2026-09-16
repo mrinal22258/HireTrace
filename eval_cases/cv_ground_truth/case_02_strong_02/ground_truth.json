@@ -1,0 +1,53 @@
+{
+  "candidate_name": "Marcus Vance",
+  "employment_history": [
+    {
+      "employer": "CloudFlux Solutions",
+      "title": "Senior Backend Engineer",
+      "start_date": "2022-01",
+      "end_date": null,
+      "is_current": true
+    },
+    {
+      "employer": "Apex FinTech Systems",
+      "title": "Software Engineer",
+      "start_date": "2020-07",
+      "end_date": "2021-12",
+      "is_current": false
+    }
+  ],
+  "education": [],
+  "skills": [
+    "Python",
+    "Cython",
+    "AsyncIO",
+    "Aiohttp",
+    "FastAPI",
+    "Celery",
+    "Apache Kafka",
+    "RabbitMQ",
+    "Redis Cluster",
+    "Redlock",
+    "PostgreSQL",
+    "Redis",
+    "Docker",
+    "Kubernetes"
+  ],
+  "project_claims": [
+    {
+      "project_name": "Order-processing Orchestrator",
+      "description": "Built distributed asynchronous order-processing orchestrator processing 12,000 tx/sec",
+      "technologies": [
+        "Python",
+        "AsyncIO"
+      ]
+    },
+    {
+      "project_name": "Kafka Messaging Architecture",
+      "description": "Deployed multi-broker Kafka messaging architecture with zero message-loss guarantees",
+      "technologies": [
+        "Apache Kafka"
+      ]
+    }
+  ]
+}

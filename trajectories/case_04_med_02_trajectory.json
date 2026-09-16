@@ -8,13 +8,13 @@
       "agent": "RubricScorer (Deterministic Baseline A)",
       "output": {
         "candidate_id": "case_04_med_02",
-        "raw_total": 43.0,
-        "normalized_score": 35.83,
+        "raw_total": 46.0,
+        "normalized_score": 38.33,
         "category_scores": {
           "open_source": 0.0,
           "self_projects": 20.0,
           "production": 16.0,
-          "technical_skills": 7.0,
+          "technical_skills": 10.0,
           "bonus_points": 0.0
         },
         "summary_audit": [
@@ -22,6 +22,7 @@
           "Production-grade setup (containers, CI/CD, messaging) (+10)",
           "Mid-to-senior production tenure: 4.0 years (+16)",
           "Primary core language and runtime alignment (+4)",
+          "Database & persistence systems alignment (+3)",
           "Distributed systems & cloud infrastructure alignment (+3)"
         ],
         "details": {
@@ -46,10 +47,11 @@
             ]
           },
           "technical_skills": {
-            "score": 7.0,
+            "score": 10.0,
             "max": 10,
             "notes": [
               "Primary core language and runtime alignment (+4)",
+              "Database & persistence systems alignment (+3)",
               "Distributed systems & cloud infrastructure alignment (+3)"
             ]
           },
@@ -59,11 +61,13 @@
             "notes": []
           }
         }
-      }
+      },
+      "duration_sec": 0.0
     },
     {
       "step": "retrieval_index_built",
-      "total_spans_indexed": 9
+      "total_spans_indexed": 9,
+      "duration_sec": 0.0526
     },
     {
       "step": "requirement_mapping",
@@ -71,9 +75,9 @@
       "output": [
         {
           "req_id": "REQ-01",
-          "name": "Core Python & AsyncIO",
+          "name": "Core Python & AsyncIO Concurrency",
           "category": "technical_skills",
-          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, uvloop, and internal concurrency models.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
@@ -83,9 +87,9 @@
         },
         {
           "req_id": "REQ-02",
-          "name": "Distributed Systems & Message Queues",
+          "name": "Distributed Systems & Event Streaming",
           "category": "architecture",
-          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "description": "Hands-on experience deploying and operating event streams (Kafka/RabbitMQ) and partitioned event logs.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
@@ -95,9 +99,21 @@
         },
         {
           "req_id": "REQ-03",
-          "name": "Technical Leadership & Initiative",
+          "name": "Database Sharding & Data Consistency",
+          "category": "architecture",
+          "description": "Managing distributed state consistency across partitioned databases and distributed caches.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Technical Architecture & RFC Writing",
           "category": "leadership",
-          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "description": "Authoring production RFCs, defining component boundaries, and leading cross-service migrations.",
           "importance": "IMPORTANT",
           "expected_sources": [
             "cv",
@@ -106,17 +122,18 @@
           ]
         },
         {
-          "req_id": "REQ-04",
-          "name": "Production Tenure & Operational Reliability",
+          "req_id": "REQ-05",
+          "name": "Production Operations & Reliability",
           "category": "production_experience",
-          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "description": "Managing live customer-facing systems, telemetry instrumentation, and production incident response.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
             "interview"
           ]
         }
-      ]
+      ],
+      "duration_sec": 0.0
     },
     {
       "step": "evidence_aggregation",
@@ -124,7 +141,7 @@
       "output": [
         {
           "req_id": "REQ-01",
-          "requirement_name": "Core Python & AsyncIO",
+          "requirement_name": "Core Python & AsyncIO Concurrency",
           "sources_present": [
             "cv",
             "interview",
@@ -142,18 +159,7 @@
               "metadata": {
                 "raw_line": "- Built Python and AsyncIO services for network telemetry monitoring."
               },
-              "similarity_score": 0.364
-            },
-            {
-              "span_id": "CV-006",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "4 years production deployment and on-call rotation experience.",
-              "metadata": {
-                "raw_line": "- 4 years production deployment and on-call rotation experience."
-              },
-              "similarity_score": 0.265
+              "similarity_score": 0.35
             },
             {
               "span_id": "CV-005",
@@ -164,15 +170,28 @@
               "metadata": {
                 "raw_line": "- Managed Kafka event consumer instances and ClickHouse analytical storage."
               },
-              "similarity_score": 0.233
+              "similarity_score": 0.246
             },
             {
-              "span_id": "CV-001",
+              "span_id": "CV-006",
               "source_file": "cv.txt",
               "document_type": "cv",
               "section": "resume",
-              "text": "# David Kim, Systems Engineer\nEmail: david.kim@cloudsys.net | Location: San Jose, CA",
-              "metadata": {},
+              "text": "4 years production deployment and on-call rotation experience.",
+              "metadata": {
+                "raw_line": "- 4 years production deployment and on-call rotation experience."
+              },
+              "similarity_score": 0.24
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Systems Engineer | Veloce Networks (2021 - Present | 4 years)",
+              "metadata": {
+                "raw_line": "Systems Engineer | Veloce Networks (2021 - Present | 4 years)"
+              },
               "similarity_score": 0.196
             }
           ],
@@ -184,7 +203,7 @@
               "section": "interview",
               "text": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of continuous production experience and on-call support.",
               "metadata": {},
-              "similarity_score": 0.318
+              "similarity_score": 0.327
             }
           ],
           "assessment_spans": [
@@ -195,7 +214,7 @@
               "section": "assessment",
               "text": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Python code.",
               "metadata": {},
-              "similarity_score": 0.285
+              "similarity_score": 0.259
             }
           ],
           "project_spans": [
@@ -206,19 +225,19 @@
               "section": "project",
               "text": "# RFC-19: Telemetry Monitoring Collector\nCompany: Veloce Networks | Author: David Kim",
               "metadata": {},
-              "similarity_score": 0.199
+              "similarity_score": 0.185
             }
           ],
           "jd_spans": [],
           "rubric_signal": {
             "category": "technical_skills",
-            "score": 7.0,
-            "normalized_total": 35.833333333333336
+            "score": 10.0,
+            "normalized_total": 38.333333333333336
           }
         },
         {
           "req_id": "REQ-02",
-          "requirement_name": "Distributed Systems & Message Queues",
+          "requirement_name": "Distributed Systems & Event Streaming",
           "sources_present": [
             "cv",
             "interview",
@@ -236,7 +255,7 @@
               "metadata": {
                 "raw_line": "- Managed Kafka event consumer instances and ClickHouse analytical storage."
               },
-              "similarity_score": 0.25
+              "similarity_score": 0.269
             },
             {
               "span_id": "CV-006",
@@ -247,7 +266,7 @@
               "metadata": {
                 "raw_line": "- 4 years production deployment and on-call rotation experience."
               },
-              "similarity_score": 0.225
+              "similarity_score": 0.241
             },
             {
               "span_id": "CV-003",
@@ -258,79 +277,7 @@
               "metadata": {
                 "raw_line": "Systems Engineer | Veloce Networks (2021 - Present | 4 years)"
               },
-              "similarity_score": 0.216
-            },
-            {
-              "span_id": "CV-001",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "# David Kim, Systems Engineer\nEmail: david.kim@cloudsys.net | Location: San Jose, CA",
-              "metadata": {},
-              "similarity_score": 0.189
-            }
-          ],
-          "interview_spans": [
-            {
-              "span_id": "INT-001",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of continuous production experience and on-call support.",
-              "metadata": {},
-              "similarity_score": 0.282
-            }
-          ],
-          "assessment_spans": [
-            {
-              "span_id": "ASS-001",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Python code.",
-              "metadata": {},
-              "similarity_score": 0.225
-            }
-          ],
-          "project_spans": [
-            {
-              "span_id": "PRO-001",
-              "source_file": "project_doc.txt",
-              "document_type": "project",
-              "section": "project",
-              "text": "# RFC-19: Telemetry Monitoring Collector\nCompany: Veloce Networks | Author: David Kim",
-              "metadata": {},
-              "similarity_score": 0.124
-            }
-          ],
-          "jd_spans": [],
-          "rubric_signal": {
-            "category": "self_projects",
-            "score": 20.0,
-            "normalized_total": 35.833333333333336
-          }
-        },
-        {
-          "req_id": "REQ-03",
-          "requirement_name": "Technical Leadership & Initiative",
-          "sources_present": [
-            "cv",
-            "interview",
-            "assessment",
-            "project"
-          ],
-          "total_spans_count": 7,
-          "cv_spans": [
-            {
-              "span_id": "CV-006",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "4 years production deployment and on-call rotation experience.",
-              "metadata": {
-                "raw_line": "- 4 years production deployment and on-call rotation experience."
-              },
-              "similarity_score": 0.231
+              "similarity_score": 0.228
             },
             {
               "span_id": "CV-004",
@@ -341,17 +288,60 @@
               "metadata": {
                 "raw_line": "- Built Python and AsyncIO services for network telemetry monitoring."
               },
-              "similarity_score": 0.212
-            },
+              "similarity_score": 0.197
+            }
+          ],
+          "interview_spans": [
             {
-              "span_id": "CV-001",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "# David Kim, Systems Engineer\nEmail: david.kim@cloudsys.net | Location: San Jose, CA",
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of continuous production experience and on-call support.",
               "metadata": {},
-              "similarity_score": 0.201
-            },
+              "similarity_score": 0.248
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Python code.",
+              "metadata": {},
+              "similarity_score": 0.193
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-19: Telemetry Monitoring Collector\nCompany: Veloce Networks | Author: David Kim",
+              "metadata": {},
+              "similarity_score": 0.137
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 38.333333333333336
+          }
+        },
+        {
+          "req_id": "REQ-03",
+          "requirement_name": "Database Sharding & Data Consistency",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
             {
               "span_id": "CV-005",
               "source_file": "cv.txt",
@@ -360,6 +350,37 @@
               "text": "Managed Kafka event consumer instances and ClickHouse analytical storage.",
               "metadata": {
                 "raw_line": "- Managed Kafka event consumer instances and ClickHouse analytical storage."
+              },
+              "similarity_score": 0.349
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Systems Engineer | Veloce Networks (2021 - Present | 4 years)",
+              "metadata": {
+                "raw_line": "Systems Engineer | Veloce Networks (2021 - Present | 4 years)"
+              },
+              "similarity_score": 0.207
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# David Kim, Systems Engineer\nEmail: david.kim@cloudsys.net | Location: San Jose, CA",
+              "metadata": {},
+              "similarity_score": 0.204
+            },
+            {
+              "span_id": "CV-006",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "4 years production deployment and on-call rotation experience.",
+              "metadata": {
+                "raw_line": "- 4 years production deployment and on-call rotation experience."
               },
               "similarity_score": 0.201
             }
@@ -372,7 +393,7 @@
               "section": "interview",
               "text": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of continuous production experience and on-call support.",
               "metadata": {},
-              "similarity_score": 0.329
+              "similarity_score": 0.25
             }
           ],
           "assessment_spans": [
@@ -383,7 +404,7 @@
               "section": "assessment",
               "text": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Python code.",
               "metadata": {},
-              "similarity_score": 0.249
+              "similarity_score": 0.22
             }
           ],
           "project_spans": [
@@ -394,19 +415,19 @@
               "section": "project",
               "text": "# RFC-19: Telemetry Monitoring Collector\nCompany: Veloce Networks | Author: David Kim",
               "metadata": {},
-              "similarity_score": 0.21
+              "similarity_score": 0.162
             }
           ],
           "jd_spans": [],
           "rubric_signal": {
-            "category": "bonus_points",
-            "score": 0.0,
-            "normalized_total": 35.833333333333336
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 38.333333333333336
           }
         },
         {
           "req_id": "REQ-04",
-          "requirement_name": "Production Tenure & Operational Reliability",
+          "requirement_name": "Technical Architecture & RFC Writing",
           "sources_present": [
             "cv",
             "interview",
@@ -424,7 +445,7 @@
               "metadata": {
                 "raw_line": "- 4 years production deployment and on-call rotation experience."
               },
-              "similarity_score": 0.394
+              "similarity_score": 0.285
             },
             {
               "span_id": "CV-001",
@@ -433,7 +454,7 @@
               "section": "resume",
               "text": "# David Kim, Systems Engineer\nEmail: david.kim@cloudsys.net | Location: San Jose, CA",
               "metadata": {},
-              "similarity_score": 0.236
+              "similarity_score": 0.241
             },
             {
               "span_id": "CV-005",
@@ -444,18 +465,18 @@
               "metadata": {
                 "raw_line": "- Managed Kafka event consumer instances and ClickHouse analytical storage."
               },
-              "similarity_score": 0.217
+              "similarity_score": 0.228
             },
             {
-              "span_id": "CV-002",
+              "span_id": "CV-004",
               "source_file": "cv.txt",
               "document_type": "cv",
               "section": "resume",
-              "text": "## Experience",
+              "text": "Built Python and AsyncIO services for network telemetry monitoring.",
               "metadata": {
-                "raw_line": "## Experience"
+                "raw_line": "- Built Python and AsyncIO services for network telemetry monitoring."
               },
-              "similarity_score": 0.185
+              "similarity_score": 0.179
             }
           ],
           "interview_spans": [
@@ -466,7 +487,7 @@
               "section": "interview",
               "text": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of continuous production experience and on-call support.",
               "metadata": {},
-              "similarity_score": 0.455
+              "similarity_score": 0.303
             }
           ],
           "assessment_spans": [
@@ -477,7 +498,7 @@
               "section": "assessment",
               "text": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Python code.",
               "metadata": {},
-              "similarity_score": 0.28
+              "similarity_score": 0.235
             }
           ],
           "project_spans": [
@@ -488,200 +509,200 @@
               "section": "project",
               "text": "# RFC-19: Telemetry Monitoring Collector\nCompany: Veloce Networks | Author: David Kim",
               "metadata": {},
-              "similarity_score": 0.166
+              "similarity_score": 0.235
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 0.0,
+            "normalized_total": 38.333333333333336
+          }
+        },
+        {
+          "req_id": "REQ-05",
+          "requirement_name": "Production Operations & Reliability",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-006",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "4 years production deployment and on-call rotation experience.",
+              "metadata": {
+                "raw_line": "- 4 years production deployment and on-call rotation experience."
+              },
+              "similarity_score": 0.33
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# David Kim, Systems Engineer\nEmail: david.kim@cloudsys.net | Location: San Jose, CA",
+              "metadata": {},
+              "similarity_score": 0.303
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Managed Kafka event consumer instances and ClickHouse analytical storage.",
+              "metadata": {
+                "raw_line": "- Managed Kafka event consumer instances and ClickHouse analytical storage."
+              },
+              "similarity_score": 0.301
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Built Python and AsyncIO services for network telemetry monitoring.",
+              "metadata": {
+                "raw_line": "- Built Python and AsyncIO services for network telemetry monitoring."
+              },
+              "similarity_score": 0.235
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of continuous production experience and on-call support.",
+              "metadata": {},
+              "similarity_score": 0.328
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Python code.",
+              "metadata": {},
+              "similarity_score": 0.243
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-19: Telemetry Monitoring Collector\nCompany: Veloce Networks | Author: David Kim",
+              "metadata": {},
+              "similarity_score": 0.277
             }
           ],
           "jd_spans": [],
           "rubric_signal": {
             "category": "production",
             "score": 16.0,
-            "normalized_total": 35.833333333333336
+            "normalized_total": 38.333333333333336
           }
         }
-      ]
+      ],
+      "duration_sec": 0.001
     },
     {
       "step": "cross_source_verification",
       "agent": "CrossSourceVerificationAgent",
       "output": {
         "candidate_id": "case_04_med_02",
-        "total_requirements": 4,
-        "supported_count": 4,
+        "total_requirements": 5,
+        "supported_count": 0,
         "contradicted_count": 0,
-        "insufficient_count": 0,
-        "consistency_score": 100.0,
+        "insufficient_count": 5,
+        "consistency_score": 50.0,
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "verifications": [
           {
             "req_id": "REQ-01",
-            "requirement_name": "Core Python & AsyncIO",
-            "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The evidence from the CV, interview, and technical assessment all support the claim of proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
-            "supporting_citations": [
-              "CV-004",
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations": [
-              "CV-004",
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-004",
-                "quote": "Built Python and AsyncIO services for network telemetry monitoring.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of con",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Py",
-                "document_type": "assessment"
-              }
-            ],
-            "discrepancies": []
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
           },
           {
             "req_id": "REQ-02",
-            "requirement_name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The candidate's experience and evidence support the requirement of hands-on experience with distributed systems and message queues, including Kafka and RabbitMQ.",
-            "supporting_citations": [
-              "CV-005",
-              "INT-001",
-              "ASS-001",
-              "PRO-001"
-            ],
-            "citations": [
-              "CV-005",
-              "INT-001",
-              "ASS-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-005",
-                "quote": "Managed Kafka event consumer instances and ClickHouse analytical storage.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of con",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Py",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-19: Telemetry Monitoring Collector\nCompany: Veloce Networks | Author: David Kim",
-                "document_type": "project"
-              }
-            ],
-            "discrepancies": []
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
           },
           {
             "req_id": "REQ-03",
-            "requirement_name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "confidence": 0.9,
-            "synthesis": "The candidate's CV, interview, and technical assessment all support the claim of technical leadership and initiative, particularly in areas such as Python asyncio, Kafka consumer lag monitoring, and production deployment experience.",
-            "supporting_citations": [
-              "CV-006",
-              "CV-004",
-              "CV-001",
-              "INT-001",
-              "ASS-001",
-              "PRO-001"
-            ],
-            "citations": [
-              "CV-006",
-              "CV-004",
-              "CV-001",
-              "INT-001",
-              "ASS-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-006",
-                "quote": "4 years production deployment and on-call rotation experience.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-004",
-                "quote": "Built Python and AsyncIO services for network telemetry monitoring.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-001",
-                "quote": "# David Kim, Systems Engineer\nEmail: david.kim@cloudsys.net | Location: San Jose, CA",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of con",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Py",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-19: Telemetry Monitoring Collector\nCompany: Veloce Networks | Author: David Kim",
-                "document_type": "project"
-              }
-            ],
-            "discrepancies": []
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
           },
           {
             "req_id": "REQ-04",
-            "requirement_name": "Production Tenure & Operational Reliability",
-            "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The candidate's CV, interview, and technical assessment all support the claim of at least 3+ years of commercial production experience managing live services and on-call.",
-            "supporting_citations": [
-              "CV-006",
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations": [
-              "CV-006",
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-006",
-                "quote": "4 years production deployment and on-call rotation experience.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of con",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Py",
-                "document_type": "assessment"
-              }
-            ],
-            "discrepancies": []
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
+          },
+          {
+            "req_id": "REQ-05",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
           }
         ],
         "all_discrepancies": []
-      }
+      },
+      "duration_sec": 0.001
     },
     {
       "step": "recommendation_writing",
@@ -690,168 +711,130 @@
         "candidate_id": "case_04_med_02",
         "candidate_name": "David Kim",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 74.3,
-        "evidence_consistency_score": 100.0,
-        "quadrant": "STRONG MATCH",
+        "role_fit_score": null,
+        "evidence_consistency_score": 50.0,
+        "quadrant": "DEGRADED",
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-004",
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-004",
-                "quote": "Built Python and AsyncIO services for network telemetry monitoring.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of con",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Py",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The evidence from the CV, interview, and technical assessment all support the claim of proficiency in Python 3.10+, asynchronous programming, and clean architecture."
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-005",
-              "INT-001",
-              "ASS-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-005",
-                "quote": "Managed Kafka event consumer instances and ClickHouse analytical storage.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of con",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Py",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-19: Telemetry Monitoring Collector\nCompany: Veloce Networks | Author: David Kim",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The candidate's experience and evidence support the requirement of hands-on experience with distributed systems and message queues, including Kafka and RabbitMQ."
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.9,
-            "citations": [
-              "CV-006",
-              "CV-004",
-              "CV-001",
-              "INT-001",
-              "ASS-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-006",
-                "quote": "4 years production deployment and on-call rotation experience.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-004",
-                "quote": "Built Python and AsyncIO services for network telemetry monitoring.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-001",
-                "quote": "# David Kim, Systems Engineer\nEmail: david.kim@cloudsys.net | Location: San Jose, CA",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of con",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Py",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-19: Telemetry Monitoring Collector\nCompany: Veloce Networks | Author: David Kim",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The candidate's CV, interview, and technical assessment all support the claim of technical leadership and initiative, particularly in areas such as Python asyncio, Kafka consumer lag monitoring, and production deployment experience."
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-006",
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-006",
-                "quote": "4 years production deployment and on-call rotation experience.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: David Kim\nDemonstrated clear, practical knowledge of Python asyncio and Kafka consumer lag monitoring. Confirmed 4 years of con",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: David Kim\nScore: 81 / 100 | Grade: Good (Tier: Gold)\nPassed all functional test suites with clean, readable async Py",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The candidate's CV, interview, and technical assessment all support the claim of at least 3+ years of commercial production experience managing live services and on-call."
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           }
         ],
-        "unsupported_claim_count": 0,
+        "unsupported_claim_count": 5,
         "contradicted_claim_count": 0,
-        "rubric_baseline_score": 35.8,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: David Kim | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           74.3 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
-      }
+        "rubric_baseline_score": 38.3,
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": null,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": null,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 38.3,
+          "rubric_weight": 0.4,
+          "role_fit_score": null
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-13 08:52:00 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: David Kim | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                          [DEGRADED - LOCAL LLM OFFLINE]\nEVIDENCE CONSISTENCY               50.0 / 100\nQUADRANT PLACEMENT                [DEGRADED]\n[*] 5 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] INSUFFICIENT [SYNTHESIS]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n  Database Sharding & Data C   [WARN] INSUFFICIENT [SYNTHESIS]\n  Technical Architecture & R   [WARN] INSUFFICIENT [SYNTHESIS]\n  Production Operations & Re   [WARN] INSUFFICIENT [SYNTHESIS]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
+      },
+      "duration_sec": 0.0
+    },
+    {
+      "step": "claim_critic_review",
+      "agent": "ClaimCriticAgent",
+      "output": {
+        "total_claims": 5,
+        "grounded_claims": 0,
+        "synthesized_inferences": 5,
+        "grounding_rate": 0.0
+      },
+      "duration_sec": 0.0
     }
   ],
-  "pipeline_latency_sec": 15.2
+  "pipeline_latency_sec": 0.05,
+  "degraded": true,
+  "degraded_reason": "Local LLM backend unavailable for semantic verification"
 }

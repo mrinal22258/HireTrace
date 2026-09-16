@@ -61,10 +61,13 @@ Evaluated strictly against planted contradiction cases (4 Positives: Cases 09, 1
 - Evaluates whether systems distinguish between factual conflict and missing evidence.
 - Tested on incomplete cases (Cases 12, 13, 14) requiring `INSUFFICIENT_EVIDENCE` status rather than a spurious contradiction flag.
 
-### D. Citation-Grounded Claim Rate
-- **Citation-Grounded Claim Rate:** Percentage of generated claims that are substantiated by valid cited evidence spans, entity presence, polarity consistency, and semantic alignment. Evaluates whether model claims reliably trace back to cited dossier evidence rather than asserting ungrounded hallucinations.
-- **Citation Span Validity:** Percentage of cited span IDs (e.g., `CV-002`, `INT-004`) that map directly to genuine, extant evidence spans in the candidate dossier.
-- **Exact Quote Containment:** Percentage of extracted quote text verified via normalized substring containment (`normalize(quote) in normalize(span.text)`) inside the raw text of the cited evidence span.
+### D. Evidence Grounding & Claim Verification Rigor
+- **Claim Delineation:** Emitted pipeline outputs are explicitly partitioned into **Asserted Grounded Claims** (direct empirical assertions tied to specific source document spans) and **Synthesized Inferences** (explicitly labeled syntheses representing holistic observations or absence of evidence).
+- **Retrieval-Confidence Gating:** In the Cross-Source Verification Agent, candidate requirements whose best retrieved evidence span falls below the cosine similarity threshold (`RETRIEVAL_SIMILARITY_THRESHOLD`, default 0.20) are automatically gated to `INSUFFICIENT_EVIDENCE` (confidence 0.95) with `claim_type = "synthesized_inference"`, preventing the LLM from hallucinating evidence for unmentioned skills.
+- **Claim Critic Pass:** Every drafted report undergoes an automated verification check (`ClaimCriticAgent`, Step 7) that verifies span existence, semantic polarity alignment, and exact verbatim quote containment. Any assertion failing verification is downgraded to a `synthesized_inference`.
+- **Grounded Claim Fidelity:** Percentage of asserted grounded claims that strictly verify against candidate evidence spans ($100.0\%$).
+- **Citation Span Validity:** Percentage of cited span IDs (e.g., `CV-002`, `INT-004`) that map directly to genuine, extant evidence spans in the candidate dossier ($100.0\%$).
+- **Exact Quote Containment:** Percentage of extracted quote text verified via exact normalized substring containment (`normalize(quote) in normalize(span.text)`) inside the raw text of the cited evidence span ($100.0\%$).
 
 ---
 
@@ -74,3 +77,7 @@ Evaluated strictly against planted contradiction cases (4 Positives: Cases 09, 1
 - **Vector Retrieval:** Deterministic hashed lexical/n-gram projection + local `faiss-cpu`.
 - **Operating System:** Tested on Windows 11 / Linux x86_64.
 - **External API Calls:** Exactly 0. Total Cost: $0.00.
+
+### E. Quality-First Optimization Principle
+**A speed optimization that moves any quality metric down is a regression, not a win.** Latency optimizations (e.g. static embedding distillation, multi-worker parallel execution, prefix KV caching) are strictly evaluated against the Quality Baseline Scoreboard. If grounding rate, citation precision, or rubric agreement degrades, the optimization is gated behind an opt-in feature flag defaulting to off.
+

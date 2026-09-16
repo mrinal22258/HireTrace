@@ -1,0 +1,20 @@
+{
+  "candidate_name": "Jessica Lee",
+  "employment_history": [],
+  "education": [],
+  "skills": [
+    "React",
+    "Python",
+    "Flask"
+  ],
+  "project_claims": [
+    {
+      "project_name": "Frontend Web Development",
+      "description": "Frontend React developer transitioning into backend Python Flask development",
+      "technologies": [
+        "React",
+        "Flask"
+      ]
+    }
+  ]
+}

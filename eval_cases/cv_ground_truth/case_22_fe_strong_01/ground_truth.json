@@ -1,0 +1,32 @@
+{
+  "candidate_name": "Maya Lindqvist",
+  "employment_history": [
+    {
+      "employer": "Omnichannel Web",
+      "title": "Senior Frontend Engineer",
+      "start_date": "2020",
+      "end_date": null,
+      "is_current": true
+    }
+  ],
+  "education": [],
+  "skills": [
+    "React",
+    "Next.js",
+    "TypeScript",
+    "JavaScript",
+    "HTML5",
+    "CSS3"
+  ],
+  "project_claims": [
+    {
+      "project_name": "Next.js App Router Migration",
+      "description": "Architected enterprise Next.js App Router migration improving Core Web Vitals",
+      "technologies": [
+        "Next.js",
+        "React",
+        "TypeScript"
+      ]
+    }
+  ]
+}

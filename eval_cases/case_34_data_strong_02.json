@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_34_data_strong_02",
+  "name": "Liam Murphy",
+  "target_role": "Principal Data Platform Architect",
+  "category": "data_strong",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 94.0,
+    "expert_scores": {
+      "reviewer_1": 91,
+      "reviewer_2": 92,
+      "reviewer_3": 90
+    },
+    "expert_composite_score": 91.0
+  },
+  "cv_text": "# Liam Murphy, Senior Data Engineer\n4 years experience building automated batch pipelines with PySpark, Airflow, and BigQuery.\nSenior Data Engineer at StreamMetrics (2021 - Present | 3.8 years).\n",
+  "interview_notes": "# Interview: Liam Murphy\nDeep proficiency in Airflow DAG optimization, backfilling strategies, and columnar database storage schemas.\n",
+  "technical_assessment": "# Technical Assessment: Liam Murphy\nScore: 91 / 100\nPassed lakehouse data modeling benchmark and SQL performance tuning challenges.\n"
+}

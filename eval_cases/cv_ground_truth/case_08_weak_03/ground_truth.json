@@ -1,0 +1,20 @@
+{
+  "candidate_name": "Lucas Meyer",
+  "employment_history": [],
+  "education": [],
+  "skills": [
+    "Python",
+    "Pandas",
+    "cron"
+  ],
+  "project_claims": [
+    {
+      "project_name": "Automated ETL Scripts",
+      "description": "Wrote automated ETL scripts in Python using Pandas and cron jobs",
+      "technologies": [
+        "Python",
+        "Pandas"
+      ]
+    }
+  ]
+}

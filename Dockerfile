@@ -18,7 +18,15 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Create uploads directory and ensure permissions
-RUN mkdir -p uploads benchmarks eval_cases/custom_uploads
+RUN mkdir -p uploads benchmarks eval_cases/custom_uploads trajectories
+
+# Create non-root user and assign ownership
+RUN useradd -m appuser && chown -R appuser:appuser /app
+
+# Add healthcheck probe
+HEALTHCHECK --interval=30s --timeout=3s CMD curl -f http://localhost:8000/healthz || exit 1
+
+USER appuser
 
 EXPOSE 8000
 

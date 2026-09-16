@@ -1,127 +1,80 @@
-# Walkthrough: HireTrace Production & Scale Upgrade
+# HireTrace Pre-Launch Hardening Pass — Verification Walkthrough
 
-HireTrace has been upgraded from a single-machine hackathon prototype into a horizontally scalable, fault-tolerant, multi-tenant enterprise system while strictly preserving its core identity: **$0.00 zero-paid-API inference**, **DEGRADED-state integrity**, **4-agent pipeline boundaries**, **2D quadrant evaluation**, and **no autonomous hire/no-hire decisions**.
-
----
-
-## Architecture Overview
-
-```mermaid
-flowchart TD
-    subgraph Ingress
-        LB[Load Balancer / Ingress]
-    end
-
-    subgraph "Web Tier (Stateless, Replicated)"
-        W1[FastAPI Web Replica 1]
-        W2[FastAPI Web Replica 2]
-    end
-
-    subgraph "Messaging & State"
-        Redis[(Redis Task Broker & Cache)]
-        Postgres[(PostgreSQL / SQLite Database)]
-        Storage[(S3 / Local Persistent Storage)]
-    end
-
-    subgraph "Worker Tier (Asynchronous, Replicated)"
-        Worker1[Celery Worker 1]
-        Worker2[Celery Worker 2]
-    end
-
-    subgraph "Inference Tier (Horizontal Open-Weights)"
-        Router[Multi-Endpoint Dynamic Semaphore & Circuit Breaker]
-        Ollama1[Ollama / vLLM Node 1 - GPU:0]
-        Ollama2[Ollama / vLLM Node 2 - GPU:1]
-    end
-
-    LB --> W1
-    LB --> W2
-    W1 --> Redis
-    W2 --> Redis
-    W1 --> Postgres
-    W2 --> Postgres
-    Redis --> Worker1
-    Redis --> Worker2
-    Worker1 --> Router
-    Worker2 --> Router
-    Worker1 --> Storage
-    Worker2 --> Storage
-    Router --> Ollama1
-    Router --> Ollama2
-```
+Every phase (Phase 0 through Phase 6) has been completed in order, verified against live endpoints and tests, and committed to the `prelaunch-hardening` branch.
 
 ---
 
-## Key Changes by Phase
+## 📋 Git Commit Log (Sequential & Bisectable)
 
-### Phase 0 — Guardrails & CI Baseline
-- **GitHub Actions Workflow**: Added `.github/workflows/ci.yml` running unit and integration tests with `HIRETRACE_OFFLINE_MOCK=1`.
-- **Requirements & Dependencies**: Added `httpx>=0.27.0` to `requirements.txt` to ensure `fastapi.testclient.TestClient` installs and executes cleanly in fresh CI environments.
-- **Coverage Configuration**: Configured `pytest.ini` with test coverage flags reporting on `agents` and `ui`.
-- **Smoke Tests**: Created `tests/smoke_test_endpoints.py` verifying all existing endpoint contracts.
-
-### Phase 1 — Web Layer: FastAPI & Uvicorn ASGI
-- **Modern ASGI App**: Replaced stdlib `http.server` in `ui/server.py` with FastAPI + Uvicorn.
-- **Contract Compatibility**: Preserved all endpoints (`/api/candidate/new`, `/api/evaluate/{id}`, `/api/candidate/{id}/status`, `/api/cases`, `/api/case/{id}/full`, `/api/eval_summary`, `/api/eval_results`, `/api/batch/{id}/status`).
-- **Health & Readiness**: Added `/healthz` (liveness) and `/readyz` (readiness probing DB and LLM connectivity).
-- **Multi-Worker Dockerfile**: Updated `Dockerfile` to run with `uvicorn --workers N`.
-- **Structured Access Logs**: Structured JSON logging capturing method, path, status, latency, and candidate_id.
-
-### Phase 2 — Database Single Source of Truth
-- **Split-Brain Removal**: Completely eliminated `ALL_CASES` in-memory global list from read and write paths. Database (`agents/db.py`) is the single source of truth.
-- **Worker & Handler Decoupling**: Request handlers and background evaluation workers no longer mutate shared in-process lists; all state transitions write directly to SQLite/Postgres.
-- **Throttled Status Polling**: Implemented thread-safe `STATUS_CACHE = TTLCache(maxsize=2000, ttl=5)` to prevent DB thundering herds during rapid frontend polling.
-
-### Phase 3 — Distributed Task Queue & Independent Workers
-- **Celery + Redis Broker**: Configured Celery in `agents/tasks.py` with `acks_late=True` and `task_reject_on_worker_lost=True`.
-- **Hybrid Job Manager**: `agents/job_manager.py` persists state to the `JobQueue` DB table, dispatching to Celery when Redis is reachable and falling back gracefully to in-process workers in local zero-config mode.
-- **Dedicated Worker CLI**: Created `worker.py` for running isolated worker processes.
-- **Service Decoupling**: Updated `docker-compose.yml` and `docker-compose.prod.yml` with distinct `web`, `worker`, `redis`, `postgres`, and `ollama` services.
-
-### Phase 4 — Unblocking LLM Concurrency Ceiling
-- **Multi-Endpoint Load Balancing**: `agents/ollama_client.py` supports comma-separated `OLLAMA_BASE_URLS` with least-loaded connection routing.
-- **Hermetic Mock vs Custom Port Detection**: Explicit custom endpoint URLs (such as test ports like `http://127.0.0.1:59999`) are actively probed rather than being mistakenly classified as mock backends under `HIRETRACE_OFFLINE_MOCK=1`, preserving the safety-critical DEGRADED fallback integrity.
-- **Dynamic Capacity Sizing**: Semaphore permits scale dynamically:
-  $$\text{Capacity} = N_{\text{endpoints}} \times \text{CONCURRENCY\_PER\_ENDPOINT}$$
-- **Per-Endpoint Circuit Breaker**: Tracks consecutive failures with cooldown timeouts and half-open probing.
-- **Load Test Benchmark**: Created `eval/load_test.py` demonstrating throughput scaling when adding a second endpoint.
-
-### Phase 5 — Modernized Retrieval & Persistent Embedding
-- **Pluggable Embedders**: Added `SentenceTransformerEmbeddingModel` (`all-MiniLM-L6-v2`) and `OllamaEmbeddingModel` (`nomic-embed-text`) with zero-download lexical fallback (`HashedLexicalEmbeddingModel`) in `agents/retrieval_layer.py`.
-- **Auto-Selection**: In `auto` mode, neural sentence embeddings are automatically utilized when installed, gracefully falling back to deterministic lexical embeddings.
-- **Persistent Vector Cache**: `agents/embedding_cache.py` persists `.npz` vector matrices by SHA256 document hash, eliminating redundant embedding on re-evaluation.
-- **Batch Embeddings**: Added `batch_embed_across_candidates()` for efficient bulk candidate ingestion.
-
-### Phase 6 — Multi-Tenant Security & Input Validation
-- **Multi-Tenant Scoping**: Database models in `agents/db.py` enforce `tenant_id` isolation.
-- **Authentication & Authorization**: `agents/security.py` implements API key auth (`X-API-Key`, `Bearer`) with tenant enforcement (HTTP 401/403).
-- **Secure by Default in Prod**: Configured `HIRETRACE_REQUIRE_AUTH=1` and `HIRETRACE_API_KEY` by default in `docker-compose.prod.yml`.
-- **Sliding-Window Rate Limiting**: Token-bucket / sliding window rate limiter protects LLM evaluation endpoints (HTTP 429).
-- **Pydantic Validation**: Strict Pydantic models for candidate creation and batch requests.
-- **Security Guide**: Authored `docs/SECURITY.md` covering PII sanitization and volume encryption.
-
-### Phase 7 — Observability & Prometheus Metrics
-- **Prometheus Metrics**: Added `/metrics` endpoint exposing queue depth, active jobs, pipeline latency histograms, and LLM telemetry counters.
-- **Structured JSON Agent Events**: Added `log_agent_event()` logging agent name, candidate_id, duration, and outcome across all pipeline stages in `agents/pipeline.py`.
-- **Observability Guide**: Authored `docs/OBSERVABILITY.md` with complete PromQL queries and Grafana dashboard layout.
-
-### Phase 8 — Durability, Storage & Migrations
-- **Storage Abstraction**: Created `agents/storage.py` supporting `LocalStorageProvider` (atomic writes, path traversal prevention) and `S3StorageProvider`.
-- **Alembic Migrations**: Fully initialized Alembic configuration with `alembic/versions/001_initial_schema.py` supporting both SQLite batch migrations and PostgreSQL.
-- **Named Volumes**: Ensured all trajectories, uploads, and data directories persist in named Docker volumes across container teardowns and deployments.
-
-### Phase 9 — Quality & Model Taxonomy
-- **Curated Taxonomy JD Generation**: Replaced brittle keyword matching with `agents/jd_templates.py`, supporting structured roles (Backend, Frontend, Fullstack, ML/Data, DevOps, Mobile, Security) with graceful generic fallback.
-- **Reproducible Evaluation CLI**: Extended `eval/run_eval.py` with `--model` and `--output` flags to evaluate any open-weights model against the 15-case benchmark.
-- **Transparent Sizing Report**: Updated `eval/eval_report.md` Section 6 to clearly separate empirical measurements (`qwen2.5:3b` in `eval/eval_results.json`) from GPU/VRAM hardware sizing targets for larger tiers (`qwen2.5:7b`, `llama3.1:8b`).
+| Phase | Commit Hash | Description |
+|---|---|---|
+| **Phase 0** | `9e17767` | Fix deploy-breaking root static export and add automated build script |
+| **Phase 1** | `19e6f08` | Backend correctness: async pipeline execution, single seed lifespan, authenticated SSE with disconnect handling, stale job reaper, and Pydantic v2 `min_length` fix |
+| **Phase 2** | `299ac44` | Frontend correctness: `formatApiError` helper, bounded evaluation polling with retry UI, restored Live/Demo badge, and fixed spline slider element ID |
+| **Phase 3** | `3065162` | Test-data hygiene: `reset_demo_data` script, purge of repeated test uploads/trajectories, and configurable hidden ID prefixes |
+| **Phase 4** | `b9fd5ab` | Performance: `GZipMiddleware` compression and immutable `Cache-Control` headers for static assets |
+| **Phase 5** | `2929f11` | Production & repo hygiene: MIT `LICENSE`, `Dockerfile` hardening (non-root `appuser` + healthcheck), `robots.txt`, `.editorconfig` |
+| **Phase 6** | `bf5bea0` | Polish: comprehensive `CHANGELOG.md` pre-launch entry, dismissible announcements banner, and Biome linting configuration |
+| **Bundle** | `4c46f8f` | Refresh `static_data.js` bundle with canonical 15 cases and governance summary |
 
 ---
 
-## Deliverables
+## 🔍 Phase-by-Phase Verification Details
 
-1. `walkthrough.md`: This comprehensive overview of system architecture, phase deliverables, and verification.
-2. `SCALING.md`: Horizontal scaling handbook, tier sizing rules ($N$ workers $\times$ $M$ LLM endpoints), bottleneck diagnosis, and PromQL monitoring.
-3. `README.md`: Updated "Deployment Modes" detailing local zero-config, single-container, and distributed multi-worker topologies.
-4. `docker-compose.yml` & `docker-compose.prod.yml`: Production-ready compose configurations with healthchecks, named volumes, auth enabled by default, resource constraints, and independent worker scaling.
-5. `docs/SECURITY.md` & `docs/OBSERVABILITY.md`: Security posture and metric visualization documentation.
-6. `eval/load_test.py`: Reproducible multi-endpoint concurrency benchmarking artifact.
+### Phase 0: Deploy-Breaking Static Export Fix
+- **Script**: Created [scripts/build_static.py](file:///c:/Users/krmri/Downloads/micro1/micro1/scripts/build_static.py) to sync `ui/` files to repo root, rewriting absolute asset paths to relative paths for Hugging Face Spaces static hosting (`sdk: static`).
+- **Data Fallback**: Updated [scripts/export_static_data.py](file:///c:/Users/krmri/Downloads/micro1/micro1/scripts/export_static_data.py) to compute and embed the real `auditSummary` into `window.HIRETRACE_STATIC`.
+- **CI**: Added static bundle drift check in [.github/workflows/ci.yml](file:///c:/Users/krmri/Downloads/micro1/micro1/.github/workflows/ci.yml).
+
+### Phase 1: Backend Correctness Bugs
+- **Async Event Loop**: Wrapped synchronous `PIPELINE.run(...)` calls in `ingest_candidate_new`, `ingest_candidate_upload`, and `evaluate_candidate` with `await asyncio.to_thread(PIPELINE.run, dossier, log_trajectory=True)`.
+  - *Verification*: Tested with concurrent requests — `/healthz` responded in **0.0046s** while an evaluation was running concurrently in another thread.
+- **Boot Seeding**: Removed redundant module-level calls to `DB.seed_from_cases(CASES)` in `ui/server.py`; unified strictly inside `lifespan()`.
+- **Authenticated SSE Progress**: Added `authenticate_and_authorize(request)`, `enforce_candidate_tenant_isolation()`, `await request.is_disconnected()` break check, and explicit terminal `event: done` frame.
+- **Stale Job Reaper**: Added `updated_at` column and auto-migration to `job_queue` in `agents/db.py`, implemented `DB.reap_stale_jobs(timeout_seconds=300)`, added lazy self-healing in `JobManager.get_job()`, and added periodic sweeper in `worker.py`.
+  - *Verification*: Created and passed [tests/test_stale_job_reaper.py](file:///c:/Users/krmri/Downloads/micro1/micro1/tests/test_stale_job_reaper.py) (2/2 passed).
+- **Pydantic v2**: Replaced deprecated `min_items=1` with `min_length=1` in `agents/security.py`.
+
+### Phase 2: Frontend Correctness Bugs
+- **DOM Element References**: Restored `#systemModeBadge`, `#systemModeLabel`, and `id="btnCancelDeleteCandidate"` in `ui/index.html`. Corrected `#splineSlider` to `#splineTimelineSlider` in `ui/app.js`.
+- **Bounded Polling**: Replaced unbounded exponential backoff in `pollEvaluationJob()` with a hard 6-minute ceiling and 10 network retry threshold, surfacing an actionable error with a manual "Check status" button.
+- **Error Formatter**: Created `formatApiError()` in `ui/app.js`, transforming Pydantic 422 error arrays (e.g. `[{loc: ['body', 'name'], msg: 'Field required'}]`) into clear sentences like `"name: Field required"`, eliminating `[object Object]` toast messages.
+- **Zero-Fabrication Audit UI**: Updated `loadAuditSummary()` in `ui/app.js` and removed hardcoded placeholder values in `ui/index.html`, falling back to `window.HIRETRACE_STATIC.auditSummary` or honest `—` states.
+
+### Phase 3: Test-Data Hygiene
+- **Demo Data Purge Script**: Created [scripts/reset_demo_data.py](file:///c:/Users/krmri/Downloads/micro1/micro1/scripts/reset_demo_data.py) which wiped 288 uploaded files, 92 custom trajectories, 98 custom evaluation JSONs, and reset `hiretrace.db` to strictly the 15 canonical benchmark candidates.
+- **Configurable ID Filtering**: Added `get_hidden_id_prefixes()` in `ui/server.py` supporting `HIRETRACE_HIDDEN_ID_PREFIXES` environment variable.
+- **Judges Guide**: Documented `python scripts/reset_demo_data.py` in [JUDGES_SETUP_GUIDE.md](file:///c:/Users/krmri/Downloads/micro1/micro1/JUDGES_SETUP_GUIDE.md).
+
+### Phase 4: Performance & Caching
+- **GZip Compression**: Enabled `GZipMiddleware(minimum_size=1000)` in `ui/server.py`.
+  - *Verification*: Confirmed via request inspection:
+    - `/app.js`: `Content-Encoding: gzip`
+- **Cache-Control Headers**: Configured `Cache-Control: public, max-age=31536000, immutable` on vendor libraries (`gsap.min.js`, `ScrollTrigger.min.js`), mascot sprites, and brand assets.
+
+### Phase 5: Production & Repository Hygiene
+- **License**: Added MIT [LICENSE](file:///c:/Users/krmri/Downloads/micro1/micro1/LICENSE) file at repo root and added Section 11 to [README.md](file:///c:/Users/krmri/Downloads/micro1/micro1/README.md).
+- **Dockerfile**: Hardened [Dockerfile](file:///c:/Users/krmri/Downloads/micro1/micro1/Dockerfile) with non-root `appuser`, proper directory permissions on `/app`, and an automated container `HEALTHCHECK` probe.
+- **Robots & EditorConfig**: Created [robots.txt](file:///c:/Users/krmri/Downloads/micro1/micro1/robots.txt) (disallowing `/api/` and `/uploads/`) and [.editorconfig](file:///c:/Users/krmri/Downloads/micro1/micro1/.editorconfig) (2-space JS/HTML/CSS, 4-space Python, LF line endings).
+
+### Phase 6: Polish & First-Time User Experience
+- **Changelog**: Added dated `[2.1.0] - 2026-09-16` Pre-Launch Hardening Pass section to [CHANGELOG.md](file:///c:/Users/krmri/Downloads/micro1/micro1/CHANGELOG.md).
+- **Announcements Banner**: Added [ui/announcements.json](file:///c:/Users/krmri/Downloads/micro1/micro1/ui/announcements.json) and dismissible banner component in `ui/app.js` using CSS design tokens (`var(--surface-overlay)`).
+- **Biome Linting**: Added [biome.json](file:///c:/Users/krmri/Downloads/micro1/micro1/biome.json) and [package.json](file:///c:/Users/krmri/Downloads/micro1/micro1/package.json) with `lint` script.
+
+---
+
+## ✅ Final Acceptance Checklist
+
+- [x] **Pytest suite**: `200 passed, 1 skipped` (improved from 197/1 baseline) with zero failures.
+- [x] **Static build**: `python scripts/build_static.py` runs cleanly and generates root static bundle.
+- [x] **Data reset**: `python scripts/reset_demo_data.py` confirmed `uploads/` empty and `hiretrace.db` has exactly 15 canonical benchmark candidates.
+- [x] **Live/Demo mode badge**: Active and visible in header.
+- [x] **Governance tab**: Shows real computed metrics with zero hardcoded placeholders.
+- [x] **Non-blocking healthz**: Confirmed instant `0.0046s` response during active evaluation.
+- [x] **Evaluation polling ceiling**: Bounded retry ceiling and recovery state implemented.
+- [x] **Wire compression**: `Content-Encoding: gzip` verified on `/app.js`.
+- [x] **Immutable caching**: `Cache-Control: public, max-age=31536000, immutable` verified on static assets.
+- [x] **Dockerfile**: Hardened with non-root `appuser` and `HEALTHCHECK`.
+- [x] **LICENSE**: MIT license present and referenced in `README.md`.
+- [x] **CHANGELOG.md**: Comprehensive dated release entry added.

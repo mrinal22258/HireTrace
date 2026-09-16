@@ -70,11 +70,13 @@
             "notes": []
           }
         }
-      }
+      },
+      "duration_sec": 0.0
     },
     {
       "step": "retrieval_index_built",
-      "total_spans_indexed": 22
+      "total_spans_indexed": 22,
+      "duration_sec": 0.0457
     },
     {
       "step": "requirement_mapping",
@@ -82,9 +84,9 @@
       "output": [
         {
           "req_id": "REQ-01",
-          "name": "Core Python & AsyncIO",
+          "name": "Core Python & AsyncIO Concurrency",
           "category": "technical_skills",
-          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, uvloop, and internal concurrency models.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
@@ -94,9 +96,9 @@
         },
         {
           "req_id": "REQ-02",
-          "name": "Distributed Systems & Message Queues",
+          "name": "Distributed Systems & Event Streaming",
           "category": "architecture",
-          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "description": "Hands-on experience deploying and operating event streams (Kafka/RabbitMQ) and partitioned event logs.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
@@ -106,9 +108,21 @@
         },
         {
           "req_id": "REQ-03",
-          "name": "Technical Leadership & Initiative",
+          "name": "Database Sharding & Data Consistency",
+          "category": "architecture",
+          "description": "Managing distributed state consistency across partitioned databases and distributed caches.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Technical Architecture & RFC Writing",
           "category": "leadership",
-          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "description": "Authoring production RFCs, defining component boundaries, and leading cross-service migrations.",
           "importance": "IMPORTANT",
           "expected_sources": [
             "cv",
@@ -117,17 +131,18 @@
           ]
         },
         {
-          "req_id": "REQ-04",
-          "name": "Production Tenure & Operational Reliability",
+          "req_id": "REQ-05",
+          "name": "Production Operations & Reliability",
           "category": "production_experience",
-          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "description": "Managing live customer-facing systems, telemetry instrumentation, and production incident response.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
             "interview"
           ]
         }
-      ]
+      ],
+      "duration_sec": 0.0
     },
     {
       "step": "evidence_aggregation",
@@ -135,7 +150,7 @@
       "output": [
         {
           "req_id": "REQ-01",
-          "requirement_name": "Core Python & AsyncIO",
+          "requirement_name": "Core Python & AsyncIO Concurrency",
           "sources_present": [
             "cv",
             "interview",
@@ -153,7 +168,7 @@
               "metadata": {
                 "raw_line": "- Python 3.10/3.11, Cython, AsyncIO, Aiohttp, FastAPI, Celery"
               },
-              "similarity_score": 0.398
+              "similarity_score": 0.383
             },
             {
               "span_id": "CV-009",
@@ -164,16 +179,7 @@
               "metadata": {
                 "raw_line": "- Built distributed asynchronous order-processing orchestrator in Python/AsyncIO processing 12,000 transactions/sec."
               },
-              "similarity_score": 0.39
-            },
-            {
-              "span_id": "CV-002",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, high-performance messaging (Kafka/RabbitMQ), and database scalability.",
-              "metadata": {},
-              "similarity_score": 0.323
+              "similarity_score": 0.364
             },
             {
               "span_id": "CV-014",
@@ -184,7 +190,16 @@
               "metadata": {
                 "raw_line": "- Maintained production on-call rotation with 99.98% service uptime compliance."
               },
-              "similarity_score": 0.304
+              "similarity_score": 0.352
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, high-performance messaging (Kafka/RabbitMQ), and database scalability.",
+              "metadata": {},
+              "similarity_score": 0.303
             }
           ],
           "interview_spans": [
@@ -195,7 +210,7 @@
               "section": "interview",
               "text": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pipelines, we use cooperative sticky rebalancing with manual offset commit loops. We ensure that in-flight asynchronous tasks flush their local buffers and commit offsets before relinquishing partition ownership during consumer group rebalance events.\"\nRachel: \"Tell me about your on-call experience.\"\nMarcus: \"I have been in the on-call pager rotation at CloudFlux for over 3 years. We take secondary on-call shifts every 4 weeks. I've resolved cluster split-brains and PostgreSQL connection pool exhaustions.\"",
               "metadata": {},
-              "similarity_score": 0.366
+              "similarity_score": 0.371
             },
             {
               "span_id": "INT-001",
@@ -204,21 +219,10 @@
               "section": "interview",
               "text": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
               "metadata": {},
-              "similarity_score": 0.193
+              "similarity_score": 0.202
             }
           ],
           "assessment_spans": [
-            {
-              "span_id": "ASS-005",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Code Architecture: Solid AsyncIO design with typing and clean modularity.",
-              "metadata": {
-                "raw_line": "- Code Architecture: Solid AsyncIO design with typing and clean modularity."
-              },
-              "similarity_score": 0.274
-            },
             {
               "span_id": "ASS-003",
               "source_file": "assessment_report.txt",
@@ -228,7 +232,18 @@
               "metadata": {
                 "raw_line": "- Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)"
               },
-              "similarity_score": 0.195
+              "similarity_score": 0.26
+            },
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Code Architecture: Solid AsyncIO design with typing and clean modularity.",
+              "metadata": {
+                "raw_line": "- Code Architecture: Solid AsyncIO design with typing and clean modularity."
+              },
+              "similarity_score": 0.189
             },
             {
               "span_id": "ASS-004",
@@ -239,18 +254,18 @@
               "metadata": {
                 "raw_line": "- Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)"
               },
-              "similarity_score": 0.18
+              "similarity_score": 0.175
             },
             {
-              "span_id": "ASS-001",
+              "span_id": "ASS-002",
               "source_file": "assessment_report.txt",
               "document_type": "assessment",
               "section": "assessment",
-              "text": "# Technical Assessment: Marcus Vance",
+              "text": "Score: 92 / 100 | Grade: Superior (Tier: Legend)",
               "metadata": {
-                "raw_line": "# Technical Assessment: Marcus Vance"
+                "raw_line": "Score: 92 / 100 | Grade: Superior (Tier: Legend)"
               },
-              "similarity_score": 0.124
+              "similarity_score": 0.116
             }
           ],
           "project_spans": [
@@ -261,7 +276,7 @@
               "section": "project",
               "text": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus: Implemented (August 2022)\nTeam: Marcus Vance (Lead), Kevin Cho (DevOps), Maya Patel (QA)",
               "metadata": {},
-              "similarity_score": 0.268
+              "similarity_score": 0.245
             }
           ],
           "jd_spans": [],
@@ -273,7 +288,7 @@
         },
         {
           "req_id": "REQ-02",
-          "requirement_name": "Distributed Systems & Message Queues",
+          "requirement_name": "Distributed Systems & Event Streaming",
           "sources_present": [
             "cv",
             "interview",
@@ -289,7 +304,16 @@
               "section": "resume",
               "text": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, high-performance messaging (Kafka/RabbitMQ), and database scalability.",
               "metadata": {},
-              "similarity_score": 0.427
+              "similarity_score": 0.39
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Marcus Vance, Distributed Systems Engineer\nEmail: m.vance@coredev.io | GitHub: github.com/marcus-vance (5 repos, 110 stars)\nLinkedIn: linkedin.com/in/marcus-vance-systems | Location: Austin, TX",
+              "metadata": {},
+              "similarity_score": 0.3
             },
             {
               "span_id": "CV-013",
@@ -300,16 +324,7 @@
               "metadata": {
                 "raw_line": "- Implemented RabbitMQ messaging queues and background tasks for high-frequency financial statement reconciliation."
               },
-              "similarity_score": 0.355
-            },
-            {
-              "span_id": "CV-001",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "# Marcus Vance, Distributed Systems Engineer\nEmail: m.vance@coredev.io | GitHub: github.com/marcus-vance (5 repos, 110 stars)\nLinkedIn: linkedin.com/in/marcus-vance-systems | Location: Austin, TX",
-              "metadata": {},
-              "similarity_score": 0.29
+              "similarity_score": 0.278
             },
             {
               "span_id": "CV-005",
@@ -320,7 +335,7 @@
               "metadata": {
                 "raw_line": "- Apache Kafka, RabbitMQ, Redis Cluster, Distributed Locking (Redlock)"
               },
-              "similarity_score": 0.262
+              "similarity_score": 0.271
             }
           ],
           "interview_spans": [
@@ -331,7 +346,7 @@
               "section": "interview",
               "text": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pipelines, we use cooperative sticky rebalancing with manual offset commit loops. We ensure that in-flight asynchronous tasks flush their local buffers and commit offsets before relinquishing partition ownership during consumer group rebalance events.\"\nRachel: \"Tell me about your on-call experience.\"\nMarcus: \"I have been in the on-call pager rotation at CloudFlux for over 3 years. We take secondary on-call shifts every 4 weeks. I've resolved cluster split-brains and PostgreSQL connection pool exhaustions.\"",
               "metadata": {},
-              "similarity_score": 0.367
+              "similarity_score": 0.388
             },
             {
               "span_id": "INT-001",
@@ -340,7 +355,7 @@
               "section": "interview",
               "text": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
               "metadata": {},
-              "similarity_score": 0.301
+              "similarity_score": 0.281
             }
           ],
           "assessment_spans": [
@@ -353,18 +368,7 @@
               "metadata": {
                 "raw_line": "- Code Architecture: Solid AsyncIO design with typing and clean modularity."
               },
-              "similarity_score": 0.223
-            },
-            {
-              "span_id": "ASS-004",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)",
-              "metadata": {
-                "raw_line": "- Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)"
-              },
-              "similarity_score": 0.206
+              "similarity_score": 0.245
             },
             {
               "span_id": "ASS-003",
@@ -375,7 +379,18 @@
               "metadata": {
                 "raw_line": "- Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)"
               },
-              "similarity_score": 0.176
+              "similarity_score": 0.211
+            },
+            {
+              "span_id": "ASS-004",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)",
+              "metadata": {
+                "raw_line": "- Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)"
+              },
+              "similarity_score": 0.209
             },
             {
               "span_id": "ASS-002",
@@ -386,7 +401,7 @@
               "metadata": {
                 "raw_line": "Score: 92 / 100 | Grade: Superior (Tier: Legend)"
               },
-              "similarity_score": 0.145
+              "similarity_score": 0.155
             }
           ],
           "project_spans": [
@@ -397,7 +412,7 @@
               "section": "project",
               "text": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus: Implemented (August 2022)\nTeam: Marcus Vance (Lead), Kevin Cho (DevOps), Maya Patel (QA)",
               "metadata": {},
-              "similarity_score": 0.301
+              "similarity_score": 0.317
             }
           ],
           "jd_spans": [],
@@ -409,7 +424,7 @@
         },
         {
           "req_id": "REQ-03",
-          "requirement_name": "Technical Leadership & Initiative",
+          "requirement_name": "Database Sharding & Data Consistency",
           "sources_present": [
             "cv",
             "interview",
@@ -425,18 +440,7 @@
               "section": "resume",
               "text": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, high-performance messaging (Kafka/RabbitMQ), and database scalability.",
               "metadata": {},
-              "similarity_score": 0.308
-            },
-            {
-              "span_id": "CV-011",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Led operational migration of 14 monolithic endpoints into event-driven microservices.",
-              "metadata": {
-                "raw_line": "- Led operational migration of 14 monolithic endpoints into event-driven microservices."
-              },
-              "similarity_score": 0.3
+              "similarity_score": 0.341
             },
             {
               "span_id": "CV-009",
@@ -447,7 +451,7 @@
               "metadata": {
                 "raw_line": "- Built distributed asynchronous order-processing orchestrator in Python/AsyncIO processing 12,000 transactions/sec."
               },
-              "similarity_score": 0.287
+              "similarity_score": 0.272
             },
             {
               "span_id": "CV-001",
@@ -456,112 +460,7 @@
               "section": "resume",
               "text": "# Marcus Vance, Distributed Systems Engineer\nEmail: m.vance@coredev.io | GitHub: github.com/marcus-vance (5 repos, 110 stars)\nLinkedIn: linkedin.com/in/marcus-vance-systems | Location: Austin, TX",
               "metadata": {},
-              "similarity_score": 0.273
-            }
-          ],
-          "interview_spans": [
-            {
-              "span_id": "INT-002",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pipelines, we use cooperative sticky rebalancing with manual offset commit loops. We ensure that in-flight asynchronous tasks flush their local buffers and commit offsets before relinquishing partition ownership during consumer group rebalance events.\"\nRachel: \"Tell me about your on-call experience.\"\nMarcus: \"I have been in the on-call pager rotation at CloudFlux for over 3 years. We take secondary on-call shifts every 4 weeks. I've resolved cluster split-brains and PostgreSQL connection pool exhaustions.\"",
-              "metadata": {},
-              "similarity_score": 0.421
-            },
-            {
-              "span_id": "INT-001",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
-              "metadata": {},
-              "similarity_score": 0.207
-            }
-          ],
-          "assessment_spans": [
-            {
-              "span_id": "ASS-004",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)",
-              "metadata": {
-                "raw_line": "- Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)"
-              },
-              "similarity_score": 0.262
-            },
-            {
-              "span_id": "ASS-005",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Code Architecture: Solid AsyncIO design with typing and clean modularity.",
-              "metadata": {
-                "raw_line": "- Code Architecture: Solid AsyncIO design with typing and clean modularity."
-              },
-              "similarity_score": 0.253
-            },
-            {
-              "span_id": "ASS-001",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "# Technical Assessment: Marcus Vance",
-              "metadata": {
-                "raw_line": "# Technical Assessment: Marcus Vance"
-              },
-              "similarity_score": 0.167
-            },
-            {
-              "span_id": "ASS-003",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)",
-              "metadata": {
-                "raw_line": "- Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)"
-              },
-              "similarity_score": 0.165
-            }
-          ],
-          "project_spans": [
-            {
-              "span_id": "PRO-001",
-              "source_file": "project_doc.txt",
-              "document_type": "project",
-              "section": "project",
-              "text": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus: Implemented (August 2022)\nTeam: Marcus Vance (Lead), Kevin Cho (DevOps), Maya Patel (QA)",
-              "metadata": {},
-              "similarity_score": 0.313
-            }
-          ],
-          "jd_spans": [],
-          "rubric_signal": {
-            "category": "bonus_points",
-            "score": 0.0,
-            "normalized_total": 63.33333333333333
-          }
-        },
-        {
-          "req_id": "REQ-04",
-          "requirement_name": "Production Tenure & Operational Reliability",
-          "sources_present": [
-            "cv",
-            "interview",
-            "assessment",
-            "project"
-          ],
-          "total_spans_count": 11,
-          "cv_spans": [
-            {
-              "span_id": "CV-002",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, high-performance messaging (Kafka/RabbitMQ), and database scalability.",
-              "metadata": {},
-              "similarity_score": 0.361
+              "similarity_score": 0.269
             },
             {
               "span_id": "CV-013",
@@ -572,29 +471,7 @@
               "metadata": {
                 "raw_line": "- Implemented RabbitMQ messaging queues and background tasks for high-frequency financial statement reconciliation."
               },
-              "similarity_score": 0.353
-            },
-            {
-              "span_id": "CV-014",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Maintained production on-call rotation with 99.98% service uptime compliance.",
-              "metadata": {
-                "raw_line": "- Maintained production on-call rotation with 99.98% service uptime compliance."
-              },
-              "similarity_score": 0.35
-            },
-            {
-              "span_id": "CV-005",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Apache Kafka, RabbitMQ, Redis Cluster, Distributed Locking (Redlock)",
-              "metadata": {
-                "raw_line": "- Apache Kafka, RabbitMQ, Redis Cluster, Distributed Locking (Redlock)"
-              },
-              "similarity_score": 0.284
+              "similarity_score": 0.262
             }
           ],
           "interview_spans": [
@@ -605,7 +482,7 @@
               "section": "interview",
               "text": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pipelines, we use cooperative sticky rebalancing with manual offset commit loops. We ensure that in-flight asynchronous tasks flush their local buffers and commit offsets before relinquishing partition ownership during consumer group rebalance events.\"\nRachel: \"Tell me about your on-call experience.\"\nMarcus: \"I have been in the on-call pager rotation at CloudFlux for over 3 years. We take secondary on-call shifts every 4 weeks. I've resolved cluster split-brains and PostgreSQL connection pool exhaustions.\"",
               "metadata": {},
-              "similarity_score": 0.437
+              "similarity_score": 0.35
             },
             {
               "span_id": "INT-001",
@@ -614,21 +491,10 @@
               "section": "interview",
               "text": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
               "metadata": {},
-              "similarity_score": 0.27
+              "similarity_score": 0.169
             }
           ],
           "assessment_spans": [
-            {
-              "span_id": "ASS-003",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)",
-              "metadata": {
-                "raw_line": "- Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)"
-              },
-              "similarity_score": 0.214
-            },
             {
               "span_id": "ASS-005",
               "source_file": "assessment_report.txt",
@@ -652,15 +518,26 @@
               "similarity_score": 0.188
             },
             {
-              "span_id": "ASS-001",
+              "span_id": "ASS-003",
               "source_file": "assessment_report.txt",
               "document_type": "assessment",
               "section": "assessment",
-              "text": "# Technical Assessment: Marcus Vance",
+              "text": "Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)",
               "metadata": {
-                "raw_line": "# Technical Assessment: Marcus Vance"
+                "raw_line": "- Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)"
               },
-              "similarity_score": 0.148
+              "similarity_score": 0.182
+            },
+            {
+              "span_id": "ASS-002",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Score: 92 / 100 | Grade: Superior (Tier: Legend)",
+              "metadata": {
+                "raw_line": "Score: 92 / 100 | Grade: Superior (Tier: Legend)"
+              },
+              "similarity_score": 0.149
             }
           ],
           "project_spans": [
@@ -671,7 +548,279 @@
               "section": "project",
               "text": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus: Implemented (August 2022)\nTeam: Marcus Vance (Lead), Kevin Cho (DevOps), Maya Patel (QA)",
               "metadata": {},
-              "similarity_score": 0.272
+              "similarity_score": 0.32
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 63.33333333333333
+          }
+        },
+        {
+          "req_id": "REQ-04",
+          "requirement_name": "Technical Architecture & RFC Writing",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 11,
+          "cv_spans": [
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, high-performance messaging (Kafka/RabbitMQ), and database scalability.",
+              "metadata": {},
+              "similarity_score": 0.306
+            },
+            {
+              "span_id": "CV-013",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Implemented RabbitMQ messaging queues and background tasks for high-frequency financial statement reconciliation.",
+              "metadata": {
+                "raw_line": "- Implemented RabbitMQ messaging queues and background tasks for high-frequency financial statement reconciliation."
+              },
+              "similarity_score": 0.3
+            },
+            {
+              "span_id": "CV-009",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Built distributed asynchronous order-processing orchestrator in Python/AsyncIO processing 12,000 transactions/sec.",
+              "metadata": {
+                "raw_line": "- Built distributed asynchronous order-processing orchestrator in Python/AsyncIO processing 12,000 transactions/sec."
+              },
+              "similarity_score": 0.298
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Marcus Vance, Distributed Systems Engineer\nEmail: m.vance@coredev.io | GitHub: github.com/marcus-vance (5 repos, 110 stars)\nLinkedIn: linkedin.com/in/marcus-vance-systems | Location: Austin, TX",
+              "metadata": {},
+              "similarity_score": 0.284
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pipelines, we use cooperative sticky rebalancing with manual offset commit loops. We ensure that in-flight asynchronous tasks flush their local buffers and commit offsets before relinquishing partition ownership during consumer group rebalance events.\"\nRachel: \"Tell me about your on-call experience.\"\nMarcus: \"I have been in the on-call pager rotation at CloudFlux for over 3 years. We take secondary on-call shifts every 4 weeks. I've resolved cluster split-brains and PostgreSQL connection pool exhaustions.\"",
+              "metadata": {},
+              "similarity_score": 0.391
+            },
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
+              "metadata": {},
+              "similarity_score": 0.227
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Code Architecture: Solid AsyncIO design with typing and clean modularity.",
+              "metadata": {
+                "raw_line": "- Code Architecture: Solid AsyncIO design with typing and clean modularity."
+              },
+              "similarity_score": 0.32
+            },
+            {
+              "span_id": "ASS-004",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)",
+              "metadata": {
+                "raw_line": "- Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)"
+              },
+              "similarity_score": 0.16
+            },
+            {
+              "span_id": "ASS-003",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)",
+              "metadata": {
+                "raw_line": "- Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)"
+              },
+              "similarity_score": 0.147
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Marcus Vance",
+              "metadata": {
+                "raw_line": "# Technical Assessment: Marcus Vance"
+              },
+              "similarity_score": 0.144
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus: Implemented (August 2022)\nTeam: Marcus Vance (Lead), Kevin Cho (DevOps), Maya Patel (QA)",
+              "metadata": {},
+              "similarity_score": 0.356
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 0.0,
+            "normalized_total": 63.33333333333333
+          }
+        },
+        {
+          "req_id": "REQ-05",
+          "requirement_name": "Production Operations & Reliability",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 11,
+          "cv_spans": [
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, high-performance messaging (Kafka/RabbitMQ), and database scalability.",
+              "metadata": {},
+              "similarity_score": 0.346
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Marcus Vance, Distributed Systems Engineer\nEmail: m.vance@coredev.io | GitHub: github.com/marcus-vance (5 repos, 110 stars)\nLinkedIn: linkedin.com/in/marcus-vance-systems | Location: Austin, TX",
+              "metadata": {},
+              "similarity_score": 0.301
+            },
+            {
+              "span_id": "CV-009",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Built distributed asynchronous order-processing orchestrator in Python/AsyncIO processing 12,000 transactions/sec.",
+              "metadata": {
+                "raw_line": "- Built distributed asynchronous order-processing orchestrator in Python/AsyncIO processing 12,000 transactions/sec."
+              },
+              "similarity_score": 0.289
+            },
+            {
+              "span_id": "CV-014",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Maintained production on-call rotation with 99.98% service uptime compliance.",
+              "metadata": {
+                "raw_line": "- Maintained production on-call rotation with 99.98% service uptime compliance."
+              },
+              "similarity_score": 0.281
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pipelines, we use cooperative sticky rebalancing with manual offset commit loops. We ensure that in-flight asynchronous tasks flush their local buffers and commit offsets before relinquishing partition ownership during consumer group rebalance events.\"\nRachel: \"Tell me about your on-call experience.\"\nMarcus: \"I have been in the on-call pager rotation at CloudFlux for over 3 years. We take secondary on-call shifts every 4 weeks. I've resolved cluster split-brains and PostgreSQL connection pool exhaustions.\"",
+              "metadata": {},
+              "similarity_score": 0.423
+            },
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
+              "metadata": {},
+              "similarity_score": 0.234
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-003",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)",
+              "metadata": {
+                "raw_line": "- Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)"
+              },
+              "similarity_score": 0.212
+            },
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Code Architecture: Solid AsyncIO design with typing and clean modularity.",
+              "metadata": {
+                "raw_line": "- Code Architecture: Solid AsyncIO design with typing and clean modularity."
+              },
+              "similarity_score": 0.159
+            },
+            {
+              "span_id": "ASS-004",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)",
+              "metadata": {
+                "raw_line": "- Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)"
+              },
+              "similarity_score": 0.147
+            },
+            {
+              "span_id": "ASS-002",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Score: 92 / 100 | Grade: Superior (Tier: Legend)",
+              "metadata": {
+                "raw_line": "Score: 92 / 100 | Grade: Superior (Tier: Legend)"
+              },
+              "similarity_score": 0.124
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus: Implemented (August 2022)\nTeam: Marcus Vance (Lead), Kevin Cho (DevOps), Maya Patel (QA)",
+              "metadata": {},
+              "similarity_score": 0.32
             }
           ],
           "jd_spans": [],
@@ -681,232 +830,96 @@
             "normalized_total": 63.33333333333333
           }
         }
-      ]
+      ],
+      "duration_sec": 0.001
     },
     {
       "step": "cross_source_verification",
       "agent": "CrossSourceVerificationAgent",
       "output": {
         "candidate_id": "case_02_strong_02",
-        "total_requirements": 4,
-        "supported_count": 4,
+        "total_requirements": 5,
+        "supported_count": 0,
         "contradicted_count": 0,
-        "insufficient_count": 0,
-        "consistency_score": 100.0,
+        "insufficient_count": 5,
+        "consistency_score": 50.0,
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "verifications": [
           {
             "req_id": "REQ-01",
-            "requirement_name": "Core Python & AsyncIO",
-            "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The provided evidence supports the claim that Marcus Vance has proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
-            "supporting_citations": [
-              "CV-004",
-              "CV-009",
-              "CV-002",
-              "INT-002",
-              "INT-001",
-              "ASS-005",
-              "ASS-003",
-              "ASS-004",
-              "PRO-001"
-            ],
-            "citations": [
-              "CV-004",
-              "CV-009",
-              "CV-002",
-              "INT-002",
-              "INT-001",
-              "ASS-005",
-              "ASS-003",
-              "ASS-004",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-004",
-                "quote": "Python 3.10/3.11, Cython, AsyncIO, Aiohttp, FastAPI, Celery",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-009",
-                "quote": "Built distributed asynchronous order-processing orchestrator in Python/AsyncIO processing 12,000 transactions/sec.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-002",
-                "quote": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, hig",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pip",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-005",
-                "quote": "Code Architecture: Solid AsyncIO design with typing and clean modularity.",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-003",
-                "quote": "Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-004",
-                "quote": "Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus:",
-                "document_type": "project"
-              }
-            ],
-            "discrepancies": []
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
           },
           {
             "req_id": "REQ-02",
-            "requirement_name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The evidence supports the requirement of hands-on experience with distributed systems and message queues, including Kafka/RabbitMQ, as well as distributed state management.",
-            "supporting_citations": [
-              "CV-002",
-              "INT-002",
-              "INT-001",
-              "PRO-001",
-              "CV-013",
-              "CV-005"
-            ],
-            "citations": [
-              "CV-002",
-              "INT-002",
-              "INT-001",
-              "PRO-001",
-              "CV-013",
-              "CV-005"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-002",
-                "quote": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, hig",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-013",
-                "quote": "Implemented RabbitMQ messaging queues and background tasks for high-frequency financial statement reconciliation.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-005",
-                "quote": "Apache Kafka, RabbitMQ, Redis Cluster, Distributed Locking (Redlock)",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pip",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus:",
-                "document_type": "project"
-              }
-            ],
-            "discrepancies": []
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
           },
           {
             "req_id": "REQ-03",
-            "requirement_name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The evidence from the CV, interview, and project documents all support the claim of technical leadership and initiative, including experience with migrations, architectural decisions, and mentoring.",
-            "supporting_citations": [
-              "CV-001",
-              "INT-002",
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations": [
-              "CV-001",
-              "INT-002",
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Marcus Vance, Distributed Systems Engineer\nEmail: m.vance@coredev.io | GitHub: github.com/marcus-vance (5 repos, 110 stars)\nLinkedIn: link",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pip",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus:",
-                "document_type": "project"
-              }
-            ],
-            "discrepancies": []
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
           },
           {
             "req_id": "REQ-04",
-            "requirement_name": "Production Tenure & Operational Reliability",
-            "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The candidate's CV and interview evidence both support the claim of at least 3+ years of commercial production experience managing live services and on-call.",
-            "supporting_citations": [
-              "CV-002",
-              "INT-002",
-              "INT-001"
-            ],
-            "citations": [
-              "CV-002",
-              "INT-002",
-              "INT-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-002",
-                "quote": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, hig",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pip",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
-                "document_type": "interview"
-              }
-            ],
-            "discrepancies": []
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
+          },
+          {
+            "req_id": "REQ-05",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "confidence": 0.0,
+            "synthesis": "LLM backend unavailable.",
+            "supporting_citations": [],
+            "citations": [],
+            "citations_detail": [],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": ""
           }
         ],
         "all_discrepancies": []
-      }
+      },
+      "duration_sec": 0.0
     },
     {
       "step": "recommendation_writing",
@@ -915,204 +928,130 @@
         "candidate_id": "case_02_strong_02",
         "candidate_name": "Marcus Vance",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 85.3,
-        "evidence_consistency_score": 100.0,
-        "quadrant": "STRONG MATCH",
+        "role_fit_score": null,
+        "evidence_consistency_score": 50.0,
+        "quadrant": "DEGRADED",
+        "degraded": true,
+        "degraded_reason": "Local LLM backend unavailable for semantic verification",
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-004",
-              "CV-009",
-              "CV-002",
-              "INT-002",
-              "INT-001",
-              "ASS-005",
-              "ASS-003",
-              "ASS-004",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-004",
-                "quote": "Python 3.10/3.11, Cython, AsyncIO, Aiohttp, FastAPI, Celery",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-009",
-                "quote": "Built distributed asynchronous order-processing orchestrator in Python/AsyncIO processing 12,000 transactions/sec.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-002",
-                "quote": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, hig",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pip",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-005",
-                "quote": "Code Architecture: Solid AsyncIO design with typing and clean modularity.",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-003",
-                "quote": "Concurrency & Throughput Test: PASSED (p99 = 48ms under 30k req/s)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "ASS-004",
-                "quote": "Error Handling & Recovery: PASSED (Gracefully handled broker dropouts)",
-                "document_type": "assessment"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus:",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The provided evidence supports the claim that Marcus Vance has proficiency in Python 3.10+, asynchronous programming, and clean architecture."
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-002",
-              "INT-002",
-              "INT-001",
-              "PRO-001",
-              "CV-013",
-              "CV-005"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-002",
-                "quote": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, hig",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-013",
-                "quote": "Implemented RabbitMQ messaging queues and background tasks for high-frequency financial statement reconciliation.",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-005",
-                "quote": "Apache Kafka, RabbitMQ, Redis Cluster, Distributed Locking (Redlock)",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pip",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus:",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The evidence supports the requirement of hands-on experience with distributed systems and message queues, including Kafka/RabbitMQ, as well as distributed state management."
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-001",
-              "INT-002",
-              "INT-001",
-              "PRO-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Marcus Vance, Distributed Systems Engineer\nEmail: m.vance@coredev.io | GitHub: github.com/marcus-vance (5 repos, 110 stars)\nLinkedIn: link",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pip",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# Project RFC-054: Distributed Order Processing Topology\nCompany: CloudFlux Solutions\nAuthor: Marcus Vance (Senior Backend Engineer)\nStatus:",
-                "document_type": "project"
-              }
-            ],
-            "synthesis": "The evidence from the CV, interview, and project documents all support the claim of technical leadership and initiative, including experience with migrations, architectural decisions, and mentoring."
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           },
           {
             "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
-            "citations": [
-              "CV-002",
-              "INT-002",
-              "INT-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-002",
-                "quote": "## Summary\nDistributed Systems Software Engineer with 4.5 years commercial experience specializing in asynchronous Python architectures, hig",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Rachel: \"Marcus, how do you handle Kafka partition rebalances in Python without creating message duplication?\"\nMarcus: \"In our CloudFlux pip",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Marcus Vance\nInterviewer: Rachel Torres (Staff Engineer)\nDate: 2025-02-18 | Duration: 55 minutes",
-                "document_type": "interview"
-              }
-            ],
-            "synthesis": "The candidate's CV and interview evidence both support the claim of at least 3+ years of commercial production experience managing live services and on-call."
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "DEGRADED",
+            "display": "\u26a0 INSUFFICIENT",
+            "confidence": 0.0,
+            "citations": [],
+            "citations_detail": [],
+            "synthesis": "LLM backend unavailable.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: No citations provided"
           }
         ],
-        "unsupported_claim_count": 0,
+        "unsupported_claim_count": 5,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 63.3,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Marcus Vance | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           85.3 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
-      }
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": null,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": null,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 63.3,
+          "rubric_weight": 0.4,
+          "role_fit_score": null
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-13 08:51:59 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Marcus Vance | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                          [DEGRADED - LOCAL LLM OFFLINE]\nEVIDENCE CONSISTENCY               50.0 / 100\nQUADRANT PLACEMENT                [DEGRADED]\n[*] 5 requirement(s) lack sufficient cross-source backing\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] INSUFFICIENT [SYNTHESIS]\n  Distributed Systems & Even   [WARN] INSUFFICIENT [SYNTHESIS]\n  Database Sharding & Data C   [WARN] INSUFFICIENT [SYNTHESIS]\n  Technical Architecture & R   [WARN] INSUFFICIENT [SYNTHESIS]\n  Production Operations & Re   [WARN] INSUFFICIENT [SYNTHESIS]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
+      },
+      "duration_sec": 0.0
+    },
+    {
+      "step": "claim_critic_review",
+      "agent": "ClaimCriticAgent",
+      "output": {
+        "total_claims": 5,
+        "grounded_claims": 0,
+        "synthesized_inferences": 5,
+        "grounding_rate": 0.0
+      },
+      "duration_sec": 0.0
     }
   ],
-  "pipeline_latency_sec": 16.91
+  "pipeline_latency_sec": 0.05,
+  "degraded": true,
+  "degraded_reason": "Local LLM backend unavailable for semantic verification"
 }

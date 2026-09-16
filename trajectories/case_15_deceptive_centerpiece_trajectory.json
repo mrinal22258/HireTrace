@@ -78,12 +78,16 @@
           }
         }
       },
-      "duration_sec": 0.0
+      "duration_sec": 0.0565,
+      "overlapped": true,
+      "wall_clock_sec": 0.0565
     },
     {
       "step": "retrieval_index_built",
       "total_spans_indexed": 40,
-      "duration_sec": 5.7895
+      "duration_sec": 0.0565,
+      "overlapped": true,
+      "wall_clock_sec": 0.0565
     },
     {
       "step": "requirement_mapping",
@@ -99,7 +103,9 @@
             "cv",
             "assessment",
             "interview"
-          ]
+          ],
+          "degraded": true,
+          "source_note": "generic requirements \u2014 offline mode"
         },
         {
           "req_id": "REQ-02",
@@ -111,7 +117,9 @@
             "cv",
             "project",
             "interview"
-          ]
+          ],
+          "degraded": true,
+          "source_note": "generic requirements \u2014 offline mode"
         },
         {
           "req_id": "REQ-03",
@@ -123,7 +131,9 @@
             "cv",
             "project",
             "interview"
-          ]
+          ],
+          "degraded": true,
+          "source_note": "generic requirements \u2014 offline mode"
         },
         {
           "req_id": "REQ-04",
@@ -135,7 +145,9 @@
             "cv",
             "interview",
             "project"
-          ]
+          ],
+          "degraded": true,
+          "source_note": "generic requirements \u2014 offline mode"
         },
         {
           "req_id": "REQ-05",
@@ -146,10 +158,15 @@
           "expected_sources": [
             "cv",
             "interview"
-          ]
+          ],
+          "degraded": true,
+          "source_note": "generic requirements \u2014 offline mode"
         }
       ],
-      "duration_sec": 0.0
+      "duration_sec": 0.0565,
+      "overlapped": true,
+      "precomputed": false,
+      "wall_clock_sec": 0.0565
     },
     {
       "step": "evidence_aggregation",
@@ -1057,7 +1074,7 @@
           }
         }
       ],
-      "duration_sec": 0.0
+      "duration_sec": 0.0031
     },
     {
       "step": "cross_source_verification",
@@ -1088,14 +1105,14 @@
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "Email: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core (6 repos, 250+ stars)",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling",
+                "document_type": "interview"
               }
             ],
             "discrepancies": [
@@ -1115,7 +1132,10 @@
                 "source_b": "project (PRO-011)",
                 "quote_b": "Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande"
               }
-            ]
+            ],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           },
           {
             "req_id": "REQ-02",
@@ -1133,17 +1153,20 @@
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling",
+                "document_type": "interview"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Grounded in verified multi-source contradiction discrepancy."
           },
           {
             "req_id": "REQ-03",
@@ -1161,17 +1184,20 @@
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling",
+                "document_type": "interview"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           },
           {
             "req_id": "REQ-04",
@@ -1189,17 +1215,20 @@
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling",
+                "document_type": "interview"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           },
           {
             "req_id": "REQ-05",
@@ -1217,17 +1246,20 @@
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "Date: 2025-02-22 | Duration: 65 minutes | Format: Video & Live Architecture Review",
+                "document_type": "interview"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Grounded in verified multi-source contradiction discrepancy."
           }
         ],
         "all_discrepancies": [
@@ -1249,7 +1281,7 @@
           }
         ]
       },
-      "duration_sec": 0.0055
+      "duration_sec": 0.0039
     },
     {
       "step": "recommendation_writing",
@@ -1292,6 +1324,7 @@
           {
             "req_id": "REQ-01",
             "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
             "status": "CONTRADICTED",
             "display": "\u26a0 CONFLICTING",
             "confidence": 0.92,
@@ -1301,21 +1334,25 @@
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "Email: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core (6 repos, 250+ stars)",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling",
+                "document_type": "interview"
               }
             ],
-            "synthesis": "Documented technical evidence satisfies requirement criteria."
+            "synthesis": "Documented technical evidence satisfies requirement criteria.",
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Confirmed grounded by critic verification pass"
           },
           {
             "req_id": "REQ-02",
             "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
             "status": "CONTRADICTED",
             "display": "\u26a0 CONFLICTING",
             "confidence": 0.92,
@@ -1325,21 +1362,25 @@
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling",
+                "document_type": "interview"
               }
             ],
-            "synthesis": "Critical cross-source contradiction between CV claims and interview/assessment evidence."
+            "synthesis": "Critical cross-source contradiction between CV claims and interview/assessment evidence.",
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Confirmed grounded by critic verification pass"
           },
           {
             "req_id": "REQ-03",
             "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
             "confidence": 0.92,
@@ -1349,21 +1390,25 @@
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling",
+                "document_type": "interview"
               }
             ],
-            "synthesis": "Documented technical evidence satisfies requirement criteria."
+            "synthesis": "Documented technical evidence satisfies requirement criteria.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords"
           },
           {
             "req_id": "REQ-04",
             "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
             "confidence": 0.92,
@@ -1373,21 +1418,25 @@
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling",
+                "document_type": "interview"
               }
             ],
-            "synthesis": "Documented technical evidence satisfies requirement criteria."
+            "synthesis": "Documented technical evidence satisfies requirement criteria.",
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Confirmed grounded by critic verification pass"
           },
           {
             "req_id": "REQ-05",
             "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
             "status": "CONTRADICTED",
             "display": "\u26a0 CONFLICTING",
             "confidence": 0.92,
@@ -1397,27 +1446,64 @@
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Technical Screening & Architectural Interview: Alexander Sterling\nCandidate: Alexander Sterling\nInterviewers: Dr. Sarah Vance (Director of",
-                "document_type": "interview"
+                "span_id": "CV-001",
+                "quote": "# Alexander Sterling, Lead Distributed Systems Architect",
+                "document_type": "cv"
               },
               {
-                "span_id": "CV-001",
-                "quote": "# Alexander Sterling, Lead Distributed Systems Architect\nEmail: alexander.sterling@finflow-tech.internal | GitHub: github.com/asterling-core",
-                "document_type": "cv"
+                "span_id": "INT-001",
+                "quote": "Date: 2025-02-22 | Duration: 65 minutes | Format: Video & Live Architecture Review",
+                "document_type": "interview"
               }
             ],
-            "synthesis": "Critical cross-source contradiction between CV claims and interview/assessment evidence."
+            "synthesis": "Critical cross-source contradiction between CV claims and interview/assessment evidence.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords"
           }
         ],
         "unsupported_claim_count": 0,
         "contradicted_claim_count": 3,
         "rubric_baseline_score": 79.2,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Alexander Sterling | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           86.3 / 100\nEVIDENCE CONSISTENCY               25.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 1 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] CONFLICTING\n  Distributed Systems & Even   [WARN] CONFLICTING\n  Database Sharding & Data C   [PASS] SUPPORTED\n  Technical Architecture & R   [PASS] SUPPORTED\n  Production Operations & Re   [WARN] CONFLICTING\n\nKEY DISCREPANCIES\n  01  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-010): \"Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin\"\n      - project (PRO-011): \"Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande\"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Establish actual scope of ownership versus team participation in the architecture migration\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": 91.0,
+        "taxonomy_matched": true,
+        "role_match_note": null,
+        "custom_jd_provided": false,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": 91.0,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 79.2,
+          "rubric_weight": 0.4,
+          "role_fit_score": 86.3
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-16 10:07:32 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Alexander Sterling | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           86.3 / 100\nEVIDENCE CONSISTENCY               25.0 / 100\nQUADRANT PLACEMENT                [REVIEW REQUIRED]\n[!] 1 critical discrepancy/discrepancies require verification\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [WARN] CONFLICTING [GROUNDED: CV-001, INT-001]\n  Distributed Systems & Even   [WARN] CONFLICTING [GROUNDED: CV-001, INT-001]\n  Database Sharding & Data C   [PASS] SUPPORTED [GROUNDED: CV-001, INT-001]\n  Technical Architecture & R   [PASS] SUPPORTED [GROUNDED: CV-001, INT-001]\n  Production Operations & Re   [WARN] CONFLICTING [GROUNDED: CV-001, INT-001]\n\nKEY DISCREPANCIES\n  01  Project Leadership & Ownership Claim vs. Contributor Scope\n      - cv (CV-010): \"Led migration of legacy monolithic core to Apache Kafka for a 7-person team, authoring the master architectural blueprint and decommissionin\"\n      - project (PRO-011): \"Alexander Sterling served as a contributing member of the 7-person implementation team led by Principal Architect Dr. Robert Vance. Alexande\"\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Establish actual scope of ownership versus team participation in the architecture migration\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
+      },
+      "duration_sec": 0.0
+    },
+    {
+      "step": "claim_critic_review",
+      "agent": "ClaimCriticAgent",
+      "output": {
+        "total_claims": 5,
+        "grounded_claims": 3,
+        "synthesized_inferences": 2,
+        "grounding_rate": 0.6
       },
       "duration_sec": 0.0
     }
   ],
-  "pipeline_latency_sec": 5.81,
+  "pipeline_latency_sec": 0.06,
   "degraded": false
 }

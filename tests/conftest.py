@@ -10,6 +10,9 @@ import pytest
 from agents.ollama_client import OllamaClient
 from agents.mock_ollama_client import MockOllamaClient
 
+# Ensure test session defaults to dev mode unless explicitly overridden by auth tests
+os.environ.setdefault("HIRETRACE_DEV_MODE", "1")
+
 
 @pytest.fixture(autouse=True)
 def configure_ci_mock_backend(monkeypatch, request):
@@ -38,7 +41,9 @@ def configure_ci_mock_backend(monkeypatch, request):
         monkeypatch.setenv("HIRETRACE_OFFLINE_MOCK", "1")
 
 
+
 @pytest.fixture
 def mock_ollama():
     """Explicit fixture for tests requesting a mock Ollama client."""
     return MockOllamaClient()
+

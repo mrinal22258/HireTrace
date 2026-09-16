@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_35_data_med_01",
+  "name": "Yuki Tanaka",
+  "target_role": "Principal Data Platform Architect",
+  "category": "data_med",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 90.0,
+    "expert_scores": {
+      "reviewer_1": 80,
+      "reviewer_2": 82,
+      "reviewer_3": 81
+    },
+    "expert_composite_score": 81.0
+  },
+  "cv_text": "# Yuki Tanaka - Data Analyst & SQL Developer\n3 years experience writing SQL queries, building Tableau dashboards, and maintaining small Airflow ETL tasks.\n",
+  "interview_notes": "# Interview: Yuki Tanaka\nExcellent SQL modeling knowledge, but limited experience with distributed Spark clusters or streaming architectures.\n",
+  "technical_assessment": "# Technical Assessment: Yuki Tanaka\nScore: 82 / 100\nPassed all relational SQL challenges with optimal execution plans.\n"
+}

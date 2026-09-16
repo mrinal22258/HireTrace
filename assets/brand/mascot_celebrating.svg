@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" fill="none">
+  <!-- Raised Wing Left -->
+  <path d="M16 68 C8 45, 12 28, 28 35 C32 48, 28 62, 16 68 Z" fill="#D9714A" />
+  <!-- Raised Wing Right -->
+  <path d="M84 68 C92 45, 88 28, 72 35 C68 48, 72 62, 84 68 Z" fill="#D9714A" />
+  <!-- Main Torso Silhouette -->
+  <path d="M22 95 C20 45, 32 24, 50 24 C68 24, 80 45, 78 95 Z" fill="#2D241E" />
+  <!-- Terracotta Belly -->
+  <path d="M30 95 C30 65, 40 55, 50 55 C60 55, 70 65, 70 95 Z" fill="#D9714A" />
+  <!-- Left Happy Eye (Cheer curved arch) -->
+  <path d="M35 48 C35 40, 47 40, 47 48" stroke="#D9714A" stroke-width="4.5" stroke-linecap="round" fill="none" />
+  <circle cx="41" cy="41" r="9" stroke="#2D241E" stroke-width="2" fill="none" />
+  <!-- Right Happy Eye (Cheer curved arch) -->
+  <path d="M53 48 C53 40, 65 40, 65 48" stroke="#D9714A" stroke-width="4.5" stroke-linecap="round" fill="none" />
+  <circle cx="59" cy="41" r="9" stroke="#2D241E" stroke-width="2" fill="none" />
+  <!-- Glasses Bridge -->
+  <path d="M47 42 Q50 39 53 42" stroke="#D9714A" stroke-width="3" stroke-linecap="round" fill="none" />
+  <!-- Cheerful Smiling Beak -->
+  <path d="M48 51 L50 56 L52 51 Z" fill="#D9714A" />
+  <!-- Verified Badge on Chest -->
+  <circle cx="50" cy="74" r="8" fill="#2D8A5E" />
+  <path d="M47 74 L49 76 L53 72" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <!-- Celebration Sparkles -->
+  <g transform="translate(24, 20)">
+    <polygon points="0,-5 1.5,-1.5 5,0 1.5,1.5 0,5 -1.5,1.5 -5,0 -1.5,-1.5" fill="#D97706" />
+  </g>
+  <g transform="translate(76, 20)">
+    <polygon points="0,-5 1.5,-1.5 5,0 1.5,1.5 0,5 -1.5,1.5 -5,0 -1.5,-1.5" fill="#2D8A5E" />
+  </g>
+</svg>

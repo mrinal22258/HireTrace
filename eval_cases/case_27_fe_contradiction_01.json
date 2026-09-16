@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_27_fe_contradiction_01",
+  "name": "Trevor Vance",
+  "target_role": "Senior Frontend & Web Platform Architect",
+  "category": "frontend_contradiction",
+  "ground_truth": {
+    "expected_quadrant": "REVIEW REQUIRED",
+    "has_contradiction": true,
+    "contradiction_type": "tenure_conflict",
+    "expected_consistency": 25.0,
+    "expert_scores": {
+      "reviewer_1": 50,
+      "reviewer_2": 48,
+      "reviewer_3": 52
+    },
+    "expert_composite_score": 50.0
+  },
+  "cv_text": "# Trevor Vance - Principal Frontend Architect\nVP of Web Architecture at CloudPortal (2017 - Present | 7.5 years)\n- Led 45 frontend engineers rebuilding customer portal in React.\n",
+  "interview_notes": "# Interview: Trevor Vance\nInterviewer: \"How long were you with CloudPortal?\"\nTrevor: \"I started with CloudPortal 10 months ago when they hired contractors.\"\n",
+  "technical_assessment": "# Technical Assessment: Trevor Vance\nScore: 75 / 100\nCandidate knows basic React, but interview reveals major tenure inflation.\n"
+}

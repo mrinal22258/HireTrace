@@ -35,3 +35,8 @@ jobs:
           PYTHONPATH: "."
         run: |
           pytest --cov=agents --cov=baseline --cov=ui --cov-report=term-missing --cov-report=xml
+
+      - name: Verify static export build integrity
+        run: |
+          python scripts/build_static.py
+          git diff --exit-code index.html static_data.js

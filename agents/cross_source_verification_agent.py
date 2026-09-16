@@ -15,9 +15,29 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional, Tuple
 import json
 import re
+from collections import Counter
+from pydantic import BaseModel, Field
 from agents.ollama_client import OllamaClient
 from agents.evidence_aggregation_agent import AggregatedEvidence
 from agents.evidence_loader import EvidenceSpan
+
+
+class DiscrepancyItemSchema(BaseModel):
+    topic: str
+    quote_a: str
+    quote_b: str
+    source_a: Optional[str] = ""
+    source_b: Optional[str] = ""
+    contradiction_type: Optional[str] = "cross_source"
+    severity: Optional[str] = "HIGH"
+
+
+class RequirementVerificationSchema(BaseModel):
+    status: str
+    confidence: float = Field(default=0.8, ge=0.0, le=1.0)
+    synthesis: str
+    supporting_citations: List[str] = []
+    discrepancies: Optional[List[DiscrepancyItemSchema]] = []
 
 
 @dataclass
@@ -79,6 +99,9 @@ class RequirementVerification:
     supporting_citations: List[str] = field(default_factory=list)
     citations_detail: List[Dict[str, Any]] = field(default_factory=list)
     discrepancies: List[Discrepancy] = field(default_factory=list)
+    claim_type: str = "grounded"        # "grounded" or "synthesized_inference"
+    is_grounded: bool = True
+    grounding_rationale: str = ""
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -90,7 +113,10 @@ class RequirementVerification:
             "supporting_citations": self.supporting_citations,
             "citations": self.supporting_citations,
             "citations_detail": self.citations_detail,
-            "discrepancies": [d.to_dict() for d in self.discrepancies]
+            "discrepancies": [d.to_dict() for d in self.discrepancies],
+            "claim_type": self.claim_type,
+            "is_grounded": self.is_grounded,
+            "grounding_rationale": self.grounding_rationale
         }
 
 
@@ -193,6 +219,17 @@ class NormalizedCrossSourceContradictionComparator:
             mo = cls.parse_duration_months(s.text, is_interview=False)
             if mo and mo >= 6:
                 emp = cls.extract_employer_entity(s.text)
+                if not emp:
+                    # Structured extractor fallback to resolve employer
+                    try:
+                        from agents.cv_extractor import extract_structured_cv
+                        struct = extract_structured_cv(s.text)
+                        for item in struct.get("employment_history", []):
+                            if item.get("employer"):
+                                emp = cls.normalize_employer(item["employer"])
+                                break
+                    except Exception:
+                        pass
                 if emp:
                     cv_tenures.append((emp, mo, s))
 
@@ -370,9 +407,86 @@ Return ONLY valid JSON matching this schema:
   ]
 }"""
 
-    def __init__(self, ollama_client: Optional[OllamaClient] = None, enable_generic_comparator: bool = True):
+    def __init__(
+        self,
+        ollama_client: Optional[OllamaClient] = None,
+        enable_generic_comparator: bool = True,
+        retrieval_similarity_threshold: Optional[float] = None,
+        vote_count: Optional[int] = None
+    ):
+        import os
         self.client = ollama_client or OllamaClient()
         self.enable_generic_comparator = enable_generic_comparator
+        if retrieval_similarity_threshold is not None:
+            self.retrieval_similarity_threshold = float(retrieval_similarity_threshold)
+        else:
+            self.retrieval_similarity_threshold = float(os.getenv("RETRIEVAL_SIMILARITY_THRESHOLD", "0.20"))
+        if vote_count is not None:
+            self.vote_count = int(vote_count)
+        else:
+            self.vote_count = int(os.getenv("VERIFICATION_VOTE_COUNT", "3"))
+
+    @staticmethod
+    def _extract_verbatim_quote(text: str, req_name: str = "", req_desc: str = "") -> str:
+        """
+        Extracts an exact verbatim sentence or clause from source text.
+        Guaranteed 100% exact substring containment.
+        """
+        if not text or not text.strip():
+            return ""
+        # Candidate sentences/clauses
+        raw_parts = [p.strip() for p in re.split(r"[\n\r]+|[.!?]\s+", text) if p.strip()]
+        if not raw_parts:
+            return text[:140].strip()
+
+        req_words = set(re.findall(r"\b[A-Za-z0-9_-]{4,}\b", (req_name + " " + req_desc).lower())) - {
+            "experience", "senior", "engineer", "software", "production", "years", "proven", "demonstrates", "requirement"
+        }
+
+        best_part = raw_parts[0]
+        best_score = -1
+        for part in raw_parts:
+            if len(part) < 15:
+                continue
+            part_words = set(re.findall(r"\b[A-Za-z0-9_-]{4,}\b", part.lower()))
+            score = len(req_words & part_words)
+            if score > best_score:
+                best_score = score
+                best_part = part
+
+        quote = best_part[:160].strip()
+        # Ensure exact substring containment
+        if quote in text:
+            return quote
+        return text[:140].strip()
+
+    @staticmethod
+    def _rank_candidate_spans_for_requirement(
+        retrieved_spans: List[Any],
+        req_name: str,
+        req_desc: str
+    ) -> List[EvidenceSpan]:
+        """
+        Ranks candidate evidence spans for a requirement, prioritizing technical substance
+        over generic CV/document headers.
+        """
+        req_words = set(re.findall(r"\b[A-Za-z0-9_-]{4,}\b", (req_name + " " + req_desc).lower())) - {
+            "experience", "senior", "engineer", "software", "production", "years", "proven", "demonstrates", "requirement"
+        }
+
+        def span_sort_key(item: Any) -> Tuple[int, float, int]:
+            s = getattr(item, "span", item)
+            sim = getattr(item, "similarity_score", 0.0)
+            text_lower = s.text.lower()
+            is_header = getattr(s, "section", "").lower() in ("header", "contact", "personal_info") or s.text.strip().startswith(("#", "Email:", "Phone:"))
+            header_penalty = -10 if is_header else 0
+
+            content_words = set(re.findall(r"\b[A-Za-z0-9_-]{4,}\b", text_lower))
+            overlap = len(req_words & content_words)
+            return (overlap + header_penalty, sim, len(s.text))
+
+        sorted_items = sorted(retrieved_spans, key=span_sort_key, reverse=True)
+        return [getattr(it, "span", it) for it in sorted_items]
 
     def _validate_citations_and_quotes(
         self,
@@ -488,10 +602,27 @@ Return ONLY valid JSON matching this schema:
         jd_spans = [s.span for s in aggregated.jd_spans]
         all_candidate_spans = cv_spans + int_spans + ass_spans + proj_spans
 
+        # Retrieval-confidence gating: force INSUFFICIENT_EVIDENCE if similarity is below threshold
+        candidate_retrieved_spans = aggregated.cv_spans + aggregated.interview_spans + aggregated.assessment_spans + aggregated.project_spans
+        max_sim = max([s.similarity_score for s in candidate_retrieved_spans]) if candidate_retrieved_spans else 0.0
+        if not candidate_retrieved_spans or max_sim < self.retrieval_similarity_threshold:
+            return RequirementVerification(
+                req_id=req.req_id,
+                requirement_name=req.name,
+                status="INSUFFICIENT_EVIDENCE",
+                confidence=0.95,
+                synthesis=f"Insufficient evidence retrieved for requirement: {req.name} (retrieval confidence {max_sim:.3f} < threshold {self.retrieval_similarity_threshold:.3f}).",
+                supporting_citations=[],
+                citations_detail=[],
+                discrepancies=[],
+                claim_type="synthesized_inference",
+                is_grounded=False,
+                grounding_rationale="Gated by retrieval confidence threshold."
+            )
+
         # Build evidence text summary
         evidence_text_parts = []
         citations = []
-
         if cv_spans:
             cv_texts = [f"[{s.span_id}] {s.text}" for s in cv_spans]
             evidence_text_parts.append("CV Evidence:\n" + "\n".join(cv_texts))
@@ -512,35 +643,57 @@ Return ONLY valid JSON matching this schema:
             evidence_text_parts.append("Project Document Evidence:\n" + "\n".join(proj_texts))
             citations.extend([s.span_id for s in proj_spans])
 
-        # If no candidate evidence spans were retrieved at all
-        if not evidence_text_parts:
-            return RequirementVerification(
-                req_id=req.req_id,
-                requirement_name=req.name,
-                status="INSUFFICIENT_EVIDENCE",
-                confidence=0.9,
-                synthesis=f"No tangible evidence spans found in candidate dossier for requirement: {req.name}.",
-                supporting_citations=[],
-                citations_detail=[],
-                discrepancies=[]
-            )
-
         evidence_prompt = f"Requirement: {req.name} ({req.category})\nDescription: {req.description}\n\n" + "\n\n".join(evidence_text_parts)
 
-        response = self.client.generate_json(
-            prompt=evidence_prompt,
-            system_prompt=self.SYSTEM_PROMPT,
-            temperature=0.1,
-            max_tokens=600
-        )
+        # Multi-pass self-consistency voting with schema enforcement
+        responses = []
+        is_live_backend = self.client.is_available() and getattr(self.client, "backend", "") != "mock"
+        passes_to_run = self.vote_count if (self.vote_count > 1 and is_live_backend) else 1
+
+        for pass_idx in range(passes_to_run):
+            temp = 0.4 if passes_to_run > 1 else 0.1
+            r = self.client.generate_json(
+                prompt=evidence_prompt,
+                system_prompt=self.SYSTEM_PROMPT,
+                temperature=temp,
+                max_tokens=600,
+                schema_model=RequirementVerificationSchema
+            )
+            responses.append(r)
+
+        # Tally self-consistency votes
+        statuses = []
+        for r in responses:
+            st = r.get("status")
+            if st in ("SUPPORTED", "CONTRADICTED", "INSUFFICIENT_EVIDENCE", "NEEDS_HUMAN_REVIEW"):
+                statuses.append(st)
+            elif r.get("degraded"):
+                statuses.append("DEGRADED")
+            else:
+                statuses.append("SUPPORTED" if len(aggregated.sources_present) >= 2 else "INSUFFICIENT_EVIDENCE")
+
+        vote_counts = Counter(statuses)
+        majority_threshold = (len(responses) // 2) + 1
+
+        majority_status = None
+        for st, cnt in vote_counts.items():
+            if cnt >= majority_threshold:
+                majority_status = st
+                break
+
+        split_disagreement = False
+        if majority_status:
+            status = majority_status
+            response = next(r for r, s in zip(responses, statuses) if s == majority_status)
+            confidence = float(sum(float(r.get("confidence", 0.8)) for r, s in zip(responses, statuses) if s == majority_status) / vote_counts[majority_status])
+        else:
+            # 1-1-1 split across 3 statuses: flag as NEEDS_HUMAN_REVIEW
+            status = "NEEDS_HUMAN_REVIEW"
+            confidence = 0.50
+            split_disagreement = True
+            response = responses[0]
 
         is_degraded = bool(response.get("degraded"))
-        status = response.get("status")
-        if status not in ("SUPPORTED", "CONTRADICTED", "INSUFFICIENT_EVIDENCE"):
-            if is_degraded:
-                status = "DEGRADED"
-            else:
-                status = "SUPPORTED" if len(aggregated.sources_present) >= 2 else "INSUFFICIENT_EVIDENCE"
 
         # Specific core technical tools required by this job requirement
         tech_competency_words = [
@@ -562,7 +715,9 @@ Return ONLY valid JSON matching this schema:
             for s in all_candidate_spans
         )
 
-        if disclaims_req and not has_direct_competency:
+        if split_disagreement:
+            synthesis = f"High uncertainty: Self-consistency split across {dict(vote_counts)}. Flagged for human review."
+        elif disclaims_req and not has_direct_competency:
             status = "INSUFFICIENT_EVIDENCE"
             synthesis = f"Candidate explicitly reports zero experience with Kafka, RabbitMQ, and {req.name} (Requirement not satisfied)."
         elif not any(not re.search(r"\b(no experience|never|skipped)\b", s.text, re.IGNORECASE) for s in all_candidate_spans):
@@ -571,7 +726,8 @@ Return ONLY valid JSON matching this schema:
         else:
             synthesis = response.get("synthesis", f"Analyzed {len(aggregated.sources_present)} source(s).")
 
-        confidence = float(response.get("confidence", 0.8))
+        if not split_disagreement:
+            confidence = float(response.get("confidence", 0.8))
         raw_citations = response.get("supporting_citations", citations[:2])
 
         # Parse model discrepancies with strict contradiction verification
@@ -656,14 +812,41 @@ Return ONLY valid JSON matching this schema:
             if disclaim_cits:
                 final_citations = disclaim_cits[:2]
 
-        citations_detail = [
-            {
-                "span_id": s.span_id,
-                "quote": s.text[:140],
-                "document_type": s.document_type
-            }
-            for s in all_candidate_spans if s.span_id in final_citations
-        ]
+        all_candidate_spans_map = {s.span_id: s for s in all_candidate_spans}
+        citations_detail = []
+        for cid in final_citations:
+            if cid in all_candidate_spans_map:
+                s = all_candidate_spans_map[cid]
+                quote = self._extract_verbatim_quote(s.text, req.name, req.description)
+                citations_detail.append({
+                    "span_id": s.span_id,
+                    "quote": quote,
+                    "document_type": s.document_type
+                })
+
+        is_grounded = False
+        claim_type = "synthesized_inference"
+        grounding_rationale = ""
+        if status == "SUPPORTED":
+            if citations_detail:
+                is_grounded = True
+                claim_type = "grounded"
+                grounding_rationale = "Directly grounded with verified span citation and quote."
+            else:
+                claim_type = "synthesized_inference"
+                grounding_rationale = "Synthesized inference without direct 1:1 candidate evidence quote."
+        elif status == "CONTRADICTED":
+            is_grounded = True
+            claim_type = "grounded"
+            grounding_rationale = "Grounded in verified multi-source contradiction discrepancy."
+        elif status == "NEEDS_HUMAN_REVIEW":
+            claim_type = "synthesized_inference"
+            is_grounded = False
+            grounding_rationale = f"Flagged for human review due to self-consistency voting split: {dict(vote_counts)}."
+        else:
+            claim_type = "synthesized_inference"
+            is_grounded = False
+            grounding_rationale = "Synthesized inference: requirement lacks sufficient cross-source backing."
 
         return RequirementVerification(
             req_id=req.req_id,
@@ -673,7 +856,10 @@ Return ONLY valid JSON matching this schema:
             synthesis=synthesis,
             supporting_citations=final_citations,
             citations_detail=citations_detail,
-            discrepancies=clean_discrepancies
+            discrepancies=clean_discrepancies,
+            claim_type=claim_type,
+            is_grounded=is_grounded,
+            grounding_rationale=grounding_rationale
         )
 
     @staticmethod
@@ -835,20 +1021,23 @@ Return ONLY valid JSON matching this schema:
 
         for agg in aggregated_list:
             req = agg.requirement
-            req_candidate_spans = [
-                s.span for s in agg.cv_spans + agg.interview_spans + agg.assessment_spans + agg.project_spans
-            ]
+            candidate_retrieved_spans = agg.cv_spans + agg.interview_spans + agg.assessment_spans + agg.project_spans
+            req_candidate_spans = [s.span for s in candidate_retrieved_spans]
+            max_sim = max([s.similarity_score for s in candidate_retrieved_spans]) if candidate_retrieved_spans else 0.0
 
-            if not req_candidate_spans:
+            if not req_candidate_spans or max_sim < self.retrieval_similarity_threshold:
                 verifications.append(RequirementVerification(
                     req_id=req.req_id,
                     requirement_name=req.name,
                     status="INSUFFICIENT_EVIDENCE",
-                    confidence=0.9,
-                    synthesis=f"No tangible evidence spans found in candidate dossier for requirement: {req.name}.",
+                    confidence=0.95,
+                    synthesis=f"Insufficient evidence retrieved for requirement: {req.name} (retrieval confidence {max_sim:.3f} < threshold {self.retrieval_similarity_threshold:.3f}).",
                     supporting_citations=[],
                     citations_detail=[],
-                    discrepancies=[]
+                    discrepancies=[],
+                    claim_type="synthesized_inference",
+                    is_grounded=False,
+                    grounding_rationale="Gated by retrieval confidence threshold."
                 ))
                 continue
 
@@ -888,7 +1077,10 @@ Return ONLY valid JSON matching this schema:
                 synthesis = v_raw.get("synthesis", f"Analyzed {len(agg.sources_present)} source(s).")
 
             confidence = float(v_raw.get("confidence", 0.85))
-            raw_citations = v_raw.get("supporting_citations", [s.span_id for s in req_candidate_spans[:2]])
+            ranked_spans = self._rank_candidate_spans_for_requirement(candidate_retrieved_spans, req.name, req.description)
+            raw_citations = v_raw.get("supporting_citations")
+            if not raw_citations:
+                raw_citations = [s.span_id for s in ranked_spans[:2]]
 
             clean_citations, _ = self._validate_citations_and_quotes(
                 citations=raw_citations,
@@ -896,7 +1088,7 @@ Return ONLY valid JSON matching this schema:
                 all_spans=all_candidate_spans
             )
 
-            final_citations = clean_citations or [s.span_id for s in req_candidate_spans[:2]]
+            final_citations = clean_citations or [s.span_id for s in ranked_spans[:2]]
             if status == "SUPPORTED":
                 supported_cits = [
                     cid for cid in final_citations
@@ -915,14 +1107,37 @@ Return ONLY valid JSON matching this schema:
                 if disclaim_cits:
                     final_citations = disclaim_cits[:2]
 
-            citations_detail = [
-                {
-                    "span_id": s.span_id,
-                    "quote": s.text[:140],
-                    "document_type": s.document_type
-                }
-                for s in all_candidate_spans if s.span_id in final_citations
-            ]
+            all_candidate_spans_map = {s.span_id: s for s in all_candidate_spans}
+            citations_detail = []
+            for cid in final_citations:
+                if cid in all_candidate_spans_map:
+                    s = all_candidate_spans_map[cid]
+                    quote = self._extract_verbatim_quote(s.text, req.name, req.description)
+                    citations_detail.append({
+                        "span_id": s.span_id,
+                        "quote": quote,
+                        "document_type": s.document_type
+                    })
+
+            is_grounded = False
+            claim_type = "synthesized_inference"
+            grounding_rationale = ""
+            if status == "SUPPORTED":
+                if citations_detail:
+                    is_grounded = True
+                    claim_type = "grounded"
+                    grounding_rationale = "Directly grounded with verified span citation and quote."
+                else:
+                    claim_type = "synthesized_inference"
+                    grounding_rationale = "Synthesized inference without direct 1:1 candidate evidence quote."
+            elif status == "CONTRADICTED":
+                is_grounded = True
+                claim_type = "grounded"
+                grounding_rationale = "Grounded in verified multi-source contradiction discrepancy."
+            else:
+                claim_type = "synthesized_inference"
+                is_grounded = False
+                grounding_rationale = "Synthesized inference: requirement lacks sufficient cross-source backing."
 
             verifications.append(RequirementVerification(
                 req_id=req.req_id,
@@ -932,7 +1147,10 @@ Return ONLY valid JSON matching this schema:
                 synthesis=synthesis,
                 supporting_citations=final_citations,
                 citations_detail=citations_detail,
-                discrepancies=[]
+                discrepancies=[],
+                claim_type=claim_type,
+                is_grounded=is_grounded,
+                grounding_rationale=grounding_rationale
             ))
 
         # 4. Parse model discrepancies from response

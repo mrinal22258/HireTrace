@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" fill="none">
+  <!-- B2: Calm Verification Badge Owl (Lower-Right emergence) -->
+  <path d="M15 95 C15 45, 35 22, 65 22 C92 22, 98 42, 98 95 Z" fill="#2D241E" />
+  <!-- Shield Badge Chest Motif -->
+  <path d="M45 95 C45 68, 55 58, 72 58 C88 58, 95 68, 95 95 Z" fill="#D97706" />
+  <circle cx="52" cy="45" r="15" fill="#FAF7F2" stroke="#2D241E" stroke-width="2.5" />
+  <circle cx="52" cy="45" r="7" fill="#2D241E" />
+  <circle cx="50" cy="43" r="2.2" fill="#FFFFFF" />
+  <circle cx="78" cy="42" r="16" fill="#FAF7F2" stroke="#2D241E" stroke-width="2.5" />
+  <circle cx="78" cy="42" r="7.5" fill="#2D241E" />
+  <circle cx="76" cy="40" r="2.4" fill="#FFFFFF" />
+  <!-- Subtle Shield Verification Center -->
+  <path d="M63 50 L66 54 L69 50 Z" fill="#D97706" />
+</svg>

@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_45_novel_adversarial_01",
+  "name": "Dr. Zephyr Orion",
+  "target_role": "Chief Spacecraft Orbital Trajectory Optimizer",
+  "category": "novel_role_adversarial",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 92.0,
+    "expert_scores": {
+      "reviewer_1": 90,
+      "reviewer_2": 91,
+      "reviewer_3": 92
+    },
+    "expert_composite_score": 91.0
+  },
+  "cv_text": "# Dr. Zephyr Orion - Lead Astrodynamics & Spacecraft Trajectory Architect\nPhD in Aerospace Engineering & Celestial Mechanics (Caltech, 2019). 6+ years designing orbital trajectory solutions.\n## Experience\nStaff Astrodynamics Specialist at Orbital Flight Dynamics (2019 - Present | 5.5 years)\n- Developed high-precision orbital trajectory optimization algorithms using collocation and multi-body gravitational perturbation models.\n- Architected interplanetary low-thrust trajectory planners calculating optimal delta-v burns across lunar and Martian transit corridors.\n- Validated numerical orbital propagation simulations against real flight telemetry data from deep space missions.\n",
+  "interview_notes": "# Technical Interview: Dr. Zephyr Orion\nInterviewer: Dr. Evelyn Reed\nEvelyn: \"How do you handle gravity-assist flyby optimization across multi-body gravitational fields?\"\nZephyr: \"We formulate the flyby as a patched-conic initial guess refined through nonlinear programming (NLP) with Runge-Kutta 8th order ephemeris integration.\"\n",
+  "technical_assessment": "# Technical Assessment: Dr. Zephyr Orion\nScore: 92 / 100 | Result: Exceptional\nFlawless demonstration of orbital mechanics numerical modeling, trajectory optimization, and astrodynamics problem solving.\n"
+}

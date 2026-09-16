@@ -1,0 +1,31 @@
+{
+  "candidate_name": "David Kim",
+  "employment_history": [
+    {
+      "employer": "Veloce Networks",
+      "title": "Systems Engineer",
+      "start_date": "2021",
+      "end_date": null,
+      "is_current": true
+    }
+  ],
+  "education": [],
+  "skills": [
+    "Python",
+    "AsyncIO",
+    "Kafka",
+    "ClickHouse"
+  ],
+  "project_claims": [
+    {
+      "project_name": "Network Telemetry Monitoring",
+      "description": "Built Python and AsyncIO services for network telemetry monitoring",
+      "technologies": [
+        "Python",
+        "AsyncIO",
+        "Kafka",
+        "ClickHouse"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_21_aiml_contradiction_01",
+  "name": "Zackary Stone",
+  "target_role": "Senior Applied AI & Model Architect",
+  "category": "aiml_contradiction",
+  "ground_truth": {
+    "expected_quadrant": "REVIEW REQUIRED",
+    "has_contradiction": true,
+    "contradiction_type": "tenure_conflict",
+    "expected_consistency": 25.0,
+    "expert_scores": {
+      "reviewer_1": 48,
+      "reviewer_2": 50,
+      "reviewer_3": 52
+    },
+    "expert_composite_score": 50.0
+  },
+  "cv_text": "# Zackary Stone - Principal AI Architect\nSenior Principal Architect at CognitionAI (Jan 2018 - Present | 7+ years)\n- Led development of CognitionAI foundation model training cluster and authored company patents.\n",
+  "interview_notes": "# Interview Notes: Zackary Stone\nInterviewer: Dr. Aris Thorne\nAris: \"Can you confirm your tenure at CognitionAI?\"\nZackary: \"I actually joined CognitionAI 8 months ago as a junior contractor.\"\n",
+  "technical_assessment": "# Technical Assessment: Zackary Stone\nScore: 70 / 100\nCandidate completed basic model deployment, but interview revealed serious cross-source tenure discrepancy.\n"
+}

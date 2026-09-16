@@ -153,3 +153,30 @@ def test_pydantic_schema_validation_rejects_malformed_id():
         }
     )
     assert resp.status_code == 422
+
+
+def test_secure_by_default_requires_auth_when_no_dev_mode(monkeypatch):
+    """Secure by default: without dev mode or explicit disable, auth is required."""
+    monkeypatch.delenv("HIRETRACE_DEV_MODE", raising=False)
+    monkeypatch.delenv("HIRETRACE_REQUIRE_AUTH", raising=False)
+    monkeypatch.setenv("HIRETRACE_API_KEY", "prod_valid_test_secret_key_12345678")
+
+    from agents.security import is_auth_required
+    assert is_auth_required() is True
+
+    # Unauthenticated request must get 401
+    resp = client.get("/api/cases")
+    assert resp.status_code == 401
+
+
+def test_dev_mode_bypasses_auth(monkeypatch):
+    """Dev mode: HIRETRACE_DEV_MODE=1 allows zero-config unauthenticated access."""
+    monkeypatch.setenv("HIRETRACE_DEV_MODE", "1")
+    monkeypatch.delenv("HIRETRACE_REQUIRE_AUTH", raising=False)
+
+    from agents.security import is_auth_required
+    assert is_auth_required() is False
+
+    resp = client.get("/api/cases")
+    assert resp.status_code == 200
+

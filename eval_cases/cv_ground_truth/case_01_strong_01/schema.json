@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CandidateCVSchema",
+  "description": "Structured CV Schema for multi-source verification and deterministic extraction grading.",
+  "type": "object",
+  "required": [
+    "candidate_name",
+    "employment_history",
+    "education",
+    "skills",
+    "project_claims"
+  ],
+  "properties": {
+    "candidate_name": {
+      "type": "string",
+      "description": "Full name of the candidate."
+    },
+    "employment_history": {
+      "type": "array",
+      "description": "List of professional roles held by the candidate.",
+      "items": {
+        "type": "object",
+        "required": [
+          "employer",
+          "title",
+          "start_date"
+        ],
+        "properties": {
+          "employer": {
+            "type": "string",
+            "description": "Name of the employing company or organization."
+          },
+          "title": {
+            "type": "string",
+            "description": "Job title or role designation."
+          },
+          "start_date": {
+            "type": "string",
+            "description": "Start date (YYYY-MM or YYYY)."
+          },
+          "end_date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "End date (YYYY-MM or YYYY), or null if currently employed."
+          },
+          "is_current": {
+            "type": "boolean",
+            "description": "True if this is the current active role."
+          }
+        }
+      }
+    },
+    "education": {
+      "type": "array",
+      "description": "List of degrees and academic qualifications.",
+      "items": {
+        "type": "object",
+        "required": [
+          "institution",
+          "degree"
+        ],
+        "properties": {
+          "institution": {
+            "type": "string",
+            "description": "Name of college, university, or school."
+          },
+          "degree": {
+            "type": "string",
+            "description": "Degree attained (e.g. BS, MS, PhD, BA)."
+          },
+          "field_of_study": {
+            "type": "string",
+            "description": "Academic major or field of study."
+          },
+          "graduation_year": {
+            "type": [
+              "string",
+              "number",
+              "null"
+            ],
+            "description": "Graduation year or completion date."
+          }
+        }
+      }
+    },
+    "skills": {
+      "type": "array",
+      "description": "Technical skills, programming languages, frameworks, and infrastructure tools.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "project_claims": {
+      "type": "array",
+      "description": "Major project accomplishments or claims stated on the resume.",
+      "items": {
+        "type": "object",
+        "required": [
+          "project_name",
+          "description"
+        ],
+        "properties": {
+          "project_name": {
+            "type": "string",
+            "description": "Name of the initiative, system, or project."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the contribution or claimed metric."
+          },
+          "technologies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Technologies used in the project."
+          }
+        }
+      }
+    }
+  }
+}

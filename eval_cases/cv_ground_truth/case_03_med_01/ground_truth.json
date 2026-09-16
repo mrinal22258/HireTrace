@@ -1,0 +1,45 @@
+{
+  "candidate_name": "Elena Rostova",
+  "employment_history": [
+    {
+      "employer": "Omnilink Media",
+      "title": "Backend Engineer",
+      "start_date": "2022-02",
+      "end_date": null,
+      "is_current": true
+    },
+    {
+      "employer": "CoreStack Labs",
+      "title": "Junior Backend Engineer",
+      "start_date": "2020-09",
+      "end_date": "2022-01",
+      "is_current": false
+    }
+  ],
+  "education": [],
+  "skills": [
+    "Python",
+    "FastAPI",
+    "PostgreSQL",
+    "RabbitMQ",
+    "Redis"
+  ],
+  "project_claims": [
+    {
+      "project_name": "Video Rendering Job Dispatch",
+      "description": "Implemented RabbitMQ messaging workers handling video rendering job dispatches",
+      "technologies": [
+        "RabbitMQ",
+        "Python"
+      ]
+    },
+    {
+      "project_name": "Redis Caching Layer",
+      "description": "Configured Redis caching layers reducing database load by 35%",
+      "technologies": [
+        "Redis",
+        "PostgreSQL"
+      ]
+    }
+  ]
+}

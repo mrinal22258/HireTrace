@@ -1,0 +1,63 @@
+{
+  "candidate_name": "Alexander Sterling",
+  "employment_history": [
+    {
+      "employer": "FinFlow Technologies",
+      "title": "Lead Distributed Systems Architect",
+      "start_date": "2022-01",
+      "end_date": null,
+      "is_current": true
+    },
+    {
+      "employer": "Apex Distributed Solutions",
+      "title": "Senior Backend Engineer",
+      "start_date": "2019-03",
+      "end_date": "2021-12",
+      "is_current": false
+    }
+  ],
+  "education": [],
+  "skills": [
+    "Python",
+    "AsyncIO",
+    "uvloop",
+    "Go",
+    "Rust",
+    "C++",
+    "Apache Kafka",
+    "Kafka Connect",
+    "KSQL",
+    "RabbitMQ",
+    "Redis Cluster",
+    "PostgreSQL",
+    "ClickHouse",
+    "CockroachDB"
+  ],
+  "project_claims": [
+    {
+      "project_name": "FinFlow Monolith Migration",
+      "description": "Led migration of legacy monolithic core to Apache Kafka for a 7-person team",
+      "technologies": [
+        "Apache Kafka",
+        "Python"
+      ]
+    },
+    {
+      "project_name": "Distributed Event Mesh",
+      "description": "Designed distributed event mesh processing 40M financial events/day with exactly-once processing",
+      "technologies": [
+        "Kafka",
+        "AsyncIO"
+      ]
+    },
+    {
+      "project_name": "distributed-raft-py",
+      "description": "Python implementation of Raft consensus algorithm with asyncio network transport",
+      "technologies": [
+        "Python",
+        "AsyncIO",
+        "Raft"
+      ]
+    }
+  ]
+}

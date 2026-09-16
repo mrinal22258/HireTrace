@@ -1,0 +1,28 @@
+{
+  "candidate_name": "Nadia Sterling-Vance",
+  "employment_history": [
+    {
+      "employer": "QuantumMesh",
+      "title": "Senior Director of Distributed Platforms",
+      "start_date": "2016-05",
+      "end_date": "2024-12",
+      "is_current": false
+    }
+  ],
+  "education": [],
+  "skills": [
+    "Kafka",
+    "Telemetry",
+    "Distributed Platforms"
+  ],
+  "project_claims": [
+    {
+      "project_name": "QuantumMesh Kafka Telemetry",
+      "description": "Founded and scaled QuantumMesh Kafka telemetry network across 8 production regions",
+      "technologies": [
+        "Kafka",
+        "Telemetry"
+      ]
+    }
+  ]
+}

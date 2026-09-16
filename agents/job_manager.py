@@ -192,6 +192,23 @@ class JobManager:
 
         if db_job:
             db_status = db_job.get("status", "queued")
+            # Lazy stale check for self-healing even if worker is not running
+            stale_timeout = float(os.getenv("HIRETRACE_JOB_STALE_TIMEOUT_SECONDS", "300"))
+            if db_status == "evaluating":
+                last_activity = db_job.get("updated_at") or db_job.get("started_at") or db_job.get("enqueued_at") or 0.0
+                if (time.time() - last_activity) > stale_timeout:
+                    err_msg = "Job timed out — worker may have crashed. Please retry."
+                    DB.save_job(
+                        candidate_id=candidate_id,
+                        status="failed",
+                        progress_pct=db_job.get("progress_pct", 0),
+                        current_step="Failed: Execution timed out",
+                        error_msg=err_msg
+                    )
+                    db_status = "failed"
+                    db_job["status"] = "failed"
+                    db_job["error_msg"] = err_msg
+
             # If DB has a newer or completed state, return synchronized object
             db_eval = DB.get_evaluation(candidate_id)
             cand = DB.get_candidate_full(candidate_id)
@@ -227,6 +244,15 @@ class JobManager:
         with self._lock:
             job = self._jobs.get(candidate_id)
             if job:
+                incoming_pct = kwargs.get("progress_pct")
+                incoming_status = kwargs.get("status", job.status)
+                if incoming_status == "evaluating" and job.status == "evaluating" and incoming_pct is not None:
+                    if (job.progress_pct or 0) > incoming_pct:
+                        logger.warning(
+                            f"In-memory monotonicity guard preserved {job.progress_pct}% over incoming {incoming_pct}% for {candidate_id}"
+                        )
+                        kwargs["progress_pct"] = job.progress_pct
+
                 for k, v in kwargs.items():
                     if hasattr(job, k):
                         setattr(job, k, v)
@@ -263,17 +289,25 @@ class JobManager:
         cases_dir: Optional[str] = None,
         all_cases_list: Optional[list] = None,
         on_complete: Optional[Callable[[Dict[str, Any]], None]] = None
-    ):
+    ) -> CandidateJob:
         """
-        Enqueues candidate evaluation.
-        If Celery is enabled, dispatches task to Redis queue for horizontal workers.
-        Otherwise dispatches to the local bounded async queue.
+        Enqueues candidate evaluation with a single-flight idempotency guard.
+        If a job is already queued or evaluating for this candidate, returns the existing job.
         """
-        cid = case_data["candidate_id"]
+        cid = case_data.get("candidate_id")
+        if not cid:
+            raise ValueError("case_data must contain 'candidate_id'")
+
+        # Single-flight idempotency guard
+        existing = self.get_job(cid)
+        if existing and existing.status in ("queued", "evaluating", "retrying"):
+            logger.info(f"Evaluation already active for candidate {cid} (status={existing.status}, progress={existing.progress_pct}%). Attaching to existing job.")
+            return existing
+
         name = case_data.get("name", "Unknown Candidate")
         target_role = case_data.get("target_role", "Senior Software Engineer")
 
-        self.create_job(cid, name, target_role)
+        job = self.create_job(cid, name, target_role)
 
         if cases_dir is None:
             cases_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "eval_cases", "custom_uploads")
@@ -283,7 +317,7 @@ class JobManager:
                 from agents.tasks import evaluate_candidate_celery_task
                 evaluate_candidate_celery_task.delay(case_data, cases_dir)
                 logger.info(f"Dispatched candidate {cid} to Celery distributed worker queue.")
-                return
+                return job
             except Exception as e:
                 logger.warning(f"Failed to dispatch to Celery ({e}); falling back to local thread pool.")
 
@@ -295,8 +329,9 @@ class JobManager:
             threading.Thread(
                 target=self._run_job_worker,
                 args=task_payload,
-                daemon=True
+                daemon=True,
             ).start()
+        return job
 
     def _run_job_worker(
         self,

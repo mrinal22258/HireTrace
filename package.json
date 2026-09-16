@@ -1,0 +1,13 @@
+{
+  "name": "hiretrace",
+  "version": "2.1.0",
+  "private": true,
+  "description": "Multi-Source Evidence-First Candidate Assessment & Governance",
+  "scripts": {
+    "lint": "biome check ui/",
+    "format": "biome format --write ui/"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4"
+  }
+}

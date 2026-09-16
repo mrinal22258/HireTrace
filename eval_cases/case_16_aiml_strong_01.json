@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_16_aiml_strong_01",
+  "name": "Dr. Linnea Holmgren",
+  "target_role": "Senior Applied AI & Model Architect",
+  "category": "aiml_strong",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 96.0,
+    "expert_scores": {
+      "reviewer_1": 94,
+      "reviewer_2": 95,
+      "reviewer_3": 96
+    },
+    "expert_composite_score": 95.0
+  },
+  "cv_text": "# Dr. Linnea Holmgren - Senior AI Research Scientist\nPhD in Computational Intelligence (ETH Zurich, 2021). 4+ years industry experience scaling transformer models.\n## Experience\nStaff Applied Scientist at NeuroScale Labs (2021 - Present | 3.8 years)\n- Trained and distilled 14B parameter multimodal embedding models using PyTorch FSDP across 128 H100 GPUs.\n- Designed vector retrieval architecture indexing 80M documents using FAISS and ScaNN, reducing p99 search latency to 28ms.\n- Authored 3 NeurIPS/ICLR papers on parameter-efficient fine-tuning (LoRA/QLoRA) and uncertainty calibration.\n",
+  "interview_notes": "# Technical Interview: Dr. Linnea Holmgren\nInterviewer: Dr. Aris Thorne\nAris: \"How did you handle memory fragmentation during PyTorch distributed training?\"\nLinnea: \"We implemented custom PyTorch CUDA memory allocators and activated flash-attention-v2 with gradient checkpointing, reducing per-node VRAM overhead by 42%.\"\n",
+  "technical_assessment": "# Technical Assessment: Dr. Linnea Holmgren\nScore: 96 / 100 | Result: Exceptional\nSuccessfully implemented custom LoRA projection kernel and optimized vector index recall to 98.4% under latency constraints.\n"
+}

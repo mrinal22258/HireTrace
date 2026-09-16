@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_29_robotics_strong_02",
+  "name": "Ingrid Bergman",
+  "target_role": "Autonomous Systems Perception Engineer",
+  "category": "robotics_strong",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 94.0,
+    "expert_scores": {
+      "reviewer_1": 90,
+      "reviewer_2": 92,
+      "reviewer_3": 91
+    },
+    "expert_composite_score": 91.0
+  },
+  "cv_text": "# Ingrid Bergman, Autonomous Systems Engineer\nMS in Robotics (KTH Royal Institute, 2021). 3.5 years experience developing SLAM and point cloud perception for ground AGVs.\nExperience at AutoLogistics (2021 - Present | 3.5 years).\n",
+  "interview_notes": "# Interview: Ingrid Bergman\nDeep knowledge of LiDAR point cloud clustering, bounding box estimation with PointNet++, and C++ ROS2 node development.\n",
+  "technical_assessment": "# Technical Assessment: Ingrid Bergman\nScore: 92 / 100\nPassed sensor fusion benchmark and real-time obstacle tracking simulations.\n"
+}

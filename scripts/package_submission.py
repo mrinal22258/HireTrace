@@ -12,27 +12,41 @@ import shutil
 EXCLUDE_DIRS = {
     "__pycache__",
     ".git",
+    ".github",
     ".pytest_cache",
     "scratch",
     ".gemini",
     ".idea",
     ".vscode",
-    "video"
+    "video",
+    "uploads",
+    "htmlcov",
+    "custom_uploads",
+    "cache"
 }
 
 EXCLUDE_FILES = {
     "powershell.cmd",
     ".DS_Store",
-    "test_clip.mp4"
+    "test_clip.mp4",
+    "hiretrace.db",
+    "hiretrace.db-wal",
+    "hiretrace.db-shm",
+    ".coverage",
+    ".env",
+    ".env.local",
+    ".env.production",
 }
 
 EXCLUDE_EXTENSIONS = (
     ".pyc",
     ".pyo",
+    ".pyd",
     ".zip",
     ".screenrec",
     ".avi",
-    ".wav"
+    ".wav",
+    ".log"
 )
 
 def package_submission(output_zip: str = "hiretrace_clean_submission.zip", include_video: bool = False):
@@ -51,6 +65,10 @@ def package_submission(output_zip: str = "hiretrace_clean_submission.zip", inclu
 
             for file in files:
                 if file in EXCLUDE_FILES or file.endswith(EXCLUDE_EXTENSIONS):
+                    continue
+                if file.startswith(".env.") and file != ".env.example":
+                    continue
+                if file.startswith("hiretrace.db"):
                     continue
                 if not include_video and file.endswith(".mp4"):
                     continue

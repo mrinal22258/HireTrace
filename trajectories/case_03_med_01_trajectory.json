@@ -8,13 +8,13 @@
       "agent": "RubricScorer (Deterministic Baseline A)",
       "output": {
         "candidate_id": "case_03_med_01",
-        "raw_total": 63.0,
-        "normalized_score": 52.5,
+        "raw_total": 66.0,
+        "normalized_score": 55.0,
         "category_scores": {
           "open_source": 20.0,
           "self_projects": 20.0,
           "production": 16.0,
-          "technical_skills": 7.0,
+          "technical_skills": 10.0,
           "bonus_points": 0.0
         },
         "summary_audit": [
@@ -25,7 +25,8 @@
           "Production-grade setup (containers, CI/CD, messaging) (+10)",
           "Mid-to-senior production tenure: 4.0 years (+16)",
           "Primary core language and runtime alignment (+4)",
-          "Database & persistence systems alignment (+3)"
+          "Database & persistence systems alignment (+3)",
+          "Distributed systems & cloud infrastructure alignment (+3)"
         ],
         "details": {
           "open_source": {
@@ -53,11 +54,12 @@
             ]
           },
           "technical_skills": {
-            "score": 7.0,
+            "score": 10.0,
             "max": 10,
             "notes": [
               "Primary core language and runtime alignment (+4)",
-              "Database & persistence systems alignment (+3)"
+              "Database & persistence systems alignment (+3)",
+              "Distributed systems & cloud infrastructure alignment (+3)"
             ]
           },
           "bonus_points": {
@@ -66,11 +68,13 @@
             "notes": []
           }
         }
-      }
+      },
+      "duration_sec": 0.0
     },
     {
       "step": "retrieval_index_built",
-      "total_spans_indexed": 16
+      "total_spans_indexed": 16,
+      "duration_sec": 0.0439
     },
     {
       "step": "requirement_mapping",
@@ -78,9 +82,9 @@
       "output": [
         {
           "req_id": "REQ-01",
-          "name": "Core Python & AsyncIO",
+          "name": "Core Python & AsyncIO Concurrency",
           "category": "technical_skills",
-          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, uvloop, and internal concurrency models.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
@@ -90,9 +94,9 @@
         },
         {
           "req_id": "REQ-02",
-          "name": "Distributed Systems & Message Queues",
+          "name": "Distributed Systems & Event Streaming",
           "category": "architecture",
-          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "description": "Hands-on experience deploying and operating event streams (Kafka/RabbitMQ) and partitioned event logs.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
@@ -102,9 +106,21 @@
         },
         {
           "req_id": "REQ-03",
-          "name": "Technical Leadership & Initiative",
+          "name": "Database Sharding & Data Consistency",
+          "category": "architecture",
+          "description": "Managing distributed state consistency across partitioned databases and distributed caches.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Technical Architecture & RFC Writing",
           "category": "leadership",
-          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "description": "Authoring production RFCs, defining component boundaries, and leading cross-service migrations.",
           "importance": "IMPORTANT",
           "expected_sources": [
             "cv",
@@ -113,17 +129,18 @@
           ]
         },
         {
-          "req_id": "REQ-04",
-          "name": "Production Tenure & Operational Reliability",
+          "req_id": "REQ-05",
+          "name": "Production Operations & Reliability",
           "category": "production_experience",
-          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "description": "Managing live customer-facing systems, telemetry instrumentation, and production incident response.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
             "interview"
           ]
         }
-      ]
+      ],
+      "duration_sec": 0.0
     },
     {
       "step": "evidence_aggregation",
@@ -131,7 +148,7 @@
       "output": [
         {
           "req_id": "REQ-01",
-          "requirement_name": "Core Python & AsyncIO",
+          "requirement_name": "Core Python & AsyncIO Concurrency",
           "sources_present": [
             "cv",
             "interview",
@@ -149,7 +166,7 @@
               "metadata": {
                 "raw_line": "- Developed asynchronous Python backend services using FastAPI and PostgreSQL."
               },
-              "similarity_score": 0.325
+              "similarity_score": 0.307
             },
             {
               "span_id": "CV-001",
@@ -158,7 +175,18 @@
               "section": "resume",
               "text": "# Elena Rostova, Backend Software Engineer\nEmail: elena.rostova@techmail.io | GitHub: github.com/elena-rostova (3 repos, 45 stars)\nLocation: Boston, MA",
               "metadata": {},
-              "similarity_score": 0.312
+              "similarity_score": 0.285
+            },
+            {
+              "span_id": "CV-006",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Configured Redis caching layers reducing database load by 35%.",
+              "metadata": {
+                "raw_line": "- Configured Redis caching layers reducing database load by 35%."
+              },
+              "similarity_score": 0.275
             },
             {
               "span_id": "CV-008",
@@ -169,18 +197,7 @@
               "metadata": {
                 "raw_line": "- Maintained Python REST APIs and participated in weekly code reviews and database tuning."
               },
-              "similarity_score": 0.251
-            },
-            {
-              "span_id": "CV-003",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Backend Engineer | Omnilink Media (Feb 2022 - Present | 3.5 years)",
-              "metadata": {
-                "raw_line": "Backend Engineer | Omnilink Media (Feb 2022 - Present | 3.5 years)"
-              },
-              "similarity_score": 0.239
+              "similarity_score": 0.266
             }
           ],
           "interview_spans": [
@@ -191,7 +208,7 @@
               "section": "interview",
               "text": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure has been primarily consumption rather than architecting multi-broker clusters from scratch. She has 3.5 years of continuous production experience with regular on-call participation.",
               "metadata": {},
-              "similarity_score": 0.435
+              "similarity_score": 0.393
             },
             {
               "span_id": "INT-001",
@@ -200,10 +217,21 @@
               "section": "interview",
               "text": "# Technical Interview: Elena Rostova\nInterviewer: Alex Mercer (Principal Architect)\nDate: 2025-02-20",
               "metadata": {},
-              "similarity_score": 0.183
+              "similarity_score": 0.172
             }
           ],
           "assessment_spans": [
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Minor latency jitter under peak 40k req/s load test.",
+              "metadata": {
+                "raw_line": "- Minor latency jitter under peak 40k req/s load test."
+              },
+              "similarity_score": 0.264
+            },
             {
               "span_id": "ASS-003",
               "source_file": "assessment_report.txt",
@@ -213,29 +241,7 @@
               "metadata": {
                 "raw_line": "- Asynchronous API endpoints implemented cleanly."
               },
-              "similarity_score": 0.193
-            },
-            {
-              "span_id": "ASS-005",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Minor latency jitter under peak 40k req/s load test.",
-              "metadata": {
-                "raw_line": "- Minor latency jitter under peak 40k req/s load test."
-              },
-              "similarity_score": 0.191
-            },
-            {
-              "span_id": "ASS-001",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "# Technical Assessment: Elena Rostova",
-              "metadata": {
-                "raw_line": "# Technical Assessment: Elena Rostova"
-              },
-              "similarity_score": 0.184
+              "similarity_score": 0.165
             },
             {
               "span_id": "ASS-004",
@@ -246,123 +252,7 @@
               "metadata": {
                 "raw_line": "- Redis caching logic properly implemented with TTL."
               },
-              "similarity_score": 0.18
-            }
-          ],
-          "project_spans": [
-            {
-              "span_id": "PRO-001",
-              "source_file": "project_doc.txt",
-              "document_type": "project",
-              "section": "project",
-              "text": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-              "metadata": {},
-              "similarity_score": 0.334
-            }
-          ],
-          "jd_spans": [],
-          "rubric_signal": {
-            "category": "technical_skills",
-            "score": 7.0,
-            "normalized_total": 52.5
-          }
-        },
-        {
-          "req_id": "REQ-02",
-          "requirement_name": "Distributed Systems & Message Queues",
-          "sources_present": [
-            "cv",
-            "interview",
-            "assessment",
-            "project"
-          ],
-          "total_spans_count": 11,
-          "cv_spans": [
-            {
-              "span_id": "CV-005",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Implemented RabbitMQ messaging workers handling video rendering job dispatches.",
-              "metadata": {
-                "raw_line": "- Implemented RabbitMQ messaging workers handling video rendering job dispatches."
-              },
-              "similarity_score": 0.286
-            },
-            {
-              "span_id": "CV-004",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Developed asynchronous Python backend services using FastAPI and PostgreSQL.",
-              "metadata": {
-                "raw_line": "- Developed asynchronous Python backend services using FastAPI and PostgreSQL."
-              },
-              "similarity_score": 0.236
-            },
-            {
-              "span_id": "CV-008",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Maintained Python REST APIs and participated in weekly code reviews and database tuning.",
-              "metadata": {
-                "raw_line": "- Maintained Python REST APIs and participated in weekly code reviews and database tuning."
-              },
-              "similarity_score": 0.217
-            },
-            {
-              "span_id": "CV-001",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "# Elena Rostova, Backend Software Engineer\nEmail: elena.rostova@techmail.io | GitHub: github.com/elena-rostova (3 repos, 45 stars)\nLocation: Boston, MA",
-              "metadata": {},
-              "similarity_score": 0.17
-            }
-          ],
-          "interview_spans": [
-            {
-              "span_id": "INT-002",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure has been primarily consumption rather than architecting multi-broker clusters from scratch. She has 3.5 years of continuous production experience with regular on-call participation.",
-              "metadata": {},
-              "similarity_score": 0.326
-            },
-            {
-              "span_id": "INT-001",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "# Technical Interview: Elena Rostova\nInterviewer: Alex Mercer (Principal Architect)\nDate: 2025-02-20",
-              "metadata": {},
-              "similarity_score": 0.235
-            }
-          ],
-          "assessment_spans": [
-            {
-              "span_id": "ASS-005",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Minor latency jitter under peak 40k req/s load test.",
-              "metadata": {
-                "raw_line": "- Minor latency jitter under peak 40k req/s load test."
-              },
-              "similarity_score": 0.175
-            },
-            {
-              "span_id": "ASS-004",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Redis caching logic properly implemented with TTL.",
-              "metadata": {
-                "raw_line": "- Redis caching logic properly implemented with TTL."
-              },
-              "similarity_score": 0.168
+              "similarity_score": 0.158
             },
             {
               "span_id": "ASS-002",
@@ -373,18 +263,7 @@
               "metadata": {
                 "raw_line": "Score: 84 / 100 | Grade: Good (Tier: Gold)"
               },
-              "similarity_score": 0.153
-            },
-            {
-              "span_id": "ASS-003",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Asynchronous API endpoints implemented cleanly.",
-              "metadata": {
-                "raw_line": "- Asynchronous API endpoints implemented cleanly."
-              },
-              "similarity_score": 0.141
+              "similarity_score": 0.144
             }
           ],
           "project_spans": [
@@ -395,19 +274,19 @@
               "section": "project",
               "text": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
               "metadata": {},
-              "similarity_score": 0.166
+              "similarity_score": 0.297
             }
           ],
           "jd_spans": [],
           "rubric_signal": {
-            "category": "self_projects",
-            "score": 20.0,
-            "normalized_total": 52.5
+            "category": "technical_skills",
+            "score": 10.0,
+            "normalized_total": 55.00000000000001
           }
         },
         {
-          "req_id": "REQ-03",
-          "requirement_name": "Technical Leadership & Initiative",
+          "req_id": "REQ-02",
+          "requirement_name": "Distributed Systems & Event Streaming",
           "sources_present": [
             "cv",
             "interview",
@@ -417,17 +296,6 @@
           "total_spans_count": 11,
           "cv_spans": [
             {
-              "span_id": "CV-004",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Developed asynchronous Python backend services using FastAPI and PostgreSQL.",
-              "metadata": {
-                "raw_line": "- Developed asynchronous Python backend services using FastAPI and PostgreSQL."
-              },
-              "similarity_score": 0.294
-            },
-            {
               "span_id": "CV-005",
               "source_file": "cv.txt",
               "document_type": "cv",
@@ -436,7 +304,18 @@
               "metadata": {
                 "raw_line": "- Implemented RabbitMQ messaging workers handling video rendering job dispatches."
               },
-              "similarity_score": 0.241
+              "similarity_score": 0.316
+            },
+            {
+              "span_id": "CV-008",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Maintained Python REST APIs and participated in weekly code reviews and database tuning.",
+              "metadata": {
+                "raw_line": "- Maintained Python REST APIs and participated in weekly code reviews and database tuning."
+              },
+              "similarity_score": 0.26
             },
             {
               "span_id": "CV-007",
@@ -447,16 +326,18 @@
               "metadata": {
                 "raw_line": "Junior Backend Engineer | CoreStack Labs (Sep 2020 - Jan 2022 | 1.4 years)"
               },
-              "similarity_score": 0.238
+              "similarity_score": 0.255
             },
             {
-              "span_id": "CV-001",
+              "span_id": "CV-004",
               "source_file": "cv.txt",
               "document_type": "cv",
               "section": "resume",
-              "text": "# Elena Rostova, Backend Software Engineer\nEmail: elena.rostova@techmail.io | GitHub: github.com/elena-rostova (3 repos, 45 stars)\nLocation: Boston, MA",
-              "metadata": {},
-              "similarity_score": 0.199
+              "text": "Developed asynchronous Python backend services using FastAPI and PostgreSQL.",
+              "metadata": {
+                "raw_line": "- Developed asynchronous Python backend services using FastAPI and PostgreSQL."
+              },
+              "similarity_score": 0.237
             }
           ],
           "interview_spans": [
@@ -467,7 +348,145 @@
               "section": "interview",
               "text": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure has been primarily consumption rather than architecting multi-broker clusters from scratch. She has 3.5 years of continuous production experience with regular on-call participation.",
               "metadata": {},
-              "similarity_score": 0.334
+              "similarity_score": 0.356
+            },
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Interview: Elena Rostova\nInterviewer: Alex Mercer (Principal Architect)\nDate: 2025-02-20",
+              "metadata": {},
+              "similarity_score": 0.201
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Minor latency jitter under peak 40k req/s load test.",
+              "metadata": {
+                "raw_line": "- Minor latency jitter under peak 40k req/s load test."
+              },
+              "similarity_score": 0.19
+            },
+            {
+              "span_id": "ASS-004",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Redis caching logic properly implemented with TTL.",
+              "metadata": {
+                "raw_line": "- Redis caching logic properly implemented with TTL."
+              },
+              "similarity_score": 0.153
+            },
+            {
+              "span_id": "ASS-002",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Score: 84 / 100 | Grade: Good (Tier: Gold)",
+              "metadata": {
+                "raw_line": "Score: 84 / 100 | Grade: Good (Tier: Gold)"
+              },
+              "similarity_score": 0.147
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Elena Rostova",
+              "metadata": {
+                "raw_line": "# Technical Assessment: Elena Rostova"
+              },
+              "similarity_score": 0.138
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
+              "metadata": {},
+              "similarity_score": 0.181
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 55.00000000000001
+          }
+        },
+        {
+          "req_id": "REQ-03",
+          "requirement_name": "Database Sharding & Data Consistency",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 11,
+          "cv_spans": [
+            {
+              "span_id": "CV-008",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Maintained Python REST APIs and participated in weekly code reviews and database tuning.",
+              "metadata": {
+                "raw_line": "- Maintained Python REST APIs and participated in weekly code reviews and database tuning."
+              },
+              "similarity_score": 0.328
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Elena Rostova, Backend Software Engineer\nEmail: elena.rostova@techmail.io | GitHub: github.com/elena-rostova (3 repos, 45 stars)\nLocation: Boston, MA",
+              "metadata": {},
+              "similarity_score": 0.278
+            },
+            {
+              "span_id": "CV-006",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Configured Redis caching layers reducing database load by 35%.",
+              "metadata": {
+                "raw_line": "- Configured Redis caching layers reducing database load by 35%."
+              },
+              "similarity_score": 0.253
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Implemented RabbitMQ messaging workers handling video rendering job dispatches.",
+              "metadata": {
+                "raw_line": "- Implemented RabbitMQ messaging workers handling video rendering job dispatches."
+              },
+              "similarity_score": 0.248
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure has been primarily consumption rather than architecting multi-broker clusters from scratch. She has 3.5 years of continuous production experience with regular on-call participation.",
+              "metadata": {},
+              "similarity_score": 0.292
             },
             {
               "span_id": "INT-001",
@@ -489,7 +508,7 @@
               "metadata": {
                 "raw_line": "- Minor latency jitter under peak 40k req/s load test."
               },
-              "similarity_score": 0.231
+              "similarity_score": 0.189
             },
             {
               "span_id": "ASS-003",
@@ -500,18 +519,7 @@
               "metadata": {
                 "raw_line": "- Asynchronous API endpoints implemented cleanly."
               },
-              "similarity_score": 0.223
-            },
-            {
-              "span_id": "ASS-001",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "# Technical Assessment: Elena Rostova",
-              "metadata": {
-                "raw_line": "# Technical Assessment: Elena Rostova"
-              },
-              "similarity_score": 0.167
+              "similarity_score": 0.161
             },
             {
               "span_id": "ASS-004",
@@ -522,123 +530,7 @@
               "metadata": {
                 "raw_line": "- Redis caching logic properly implemented with TTL."
               },
-              "similarity_score": 0.155
-            }
-          ],
-          "project_spans": [
-            {
-              "span_id": "PRO-001",
-              "source_file": "project_doc.txt",
-              "document_type": "project",
-              "section": "project",
-              "text": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-              "metadata": {},
-              "similarity_score": 0.231
-            }
-          ],
-          "jd_spans": [],
-          "rubric_signal": {
-            "category": "bonus_points",
-            "score": 0.0,
-            "normalized_total": 52.5
-          }
-        },
-        {
-          "req_id": "REQ-04",
-          "requirement_name": "Production Tenure & Operational Reliability",
-          "sources_present": [
-            "cv",
-            "interview",
-            "assessment",
-            "project"
-          ],
-          "total_spans_count": 11,
-          "cv_spans": [
-            {
-              "span_id": "CV-005",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Implemented RabbitMQ messaging workers handling video rendering job dispatches.",
-              "metadata": {
-                "raw_line": "- Implemented RabbitMQ messaging workers handling video rendering job dispatches."
-              },
-              "similarity_score": 0.325
-            },
-            {
-              "span_id": "CV-004",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Developed asynchronous Python backend services using FastAPI and PostgreSQL.",
-              "metadata": {
-                "raw_line": "- Developed asynchronous Python backend services using FastAPI and PostgreSQL."
-              },
-              "similarity_score": 0.256
-            },
-            {
-              "span_id": "CV-001",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "# Elena Rostova, Backend Software Engineer\nEmail: elena.rostova@techmail.io | GitHub: github.com/elena-rostova (3 repos, 45 stars)\nLocation: Boston, MA",
-              "metadata": {},
-              "similarity_score": 0.241
-            },
-            {
-              "span_id": "CV-007",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Junior Backend Engineer | CoreStack Labs (Sep 2020 - Jan 2022 | 1.4 years)",
-              "metadata": {
-                "raw_line": "Junior Backend Engineer | CoreStack Labs (Sep 2020 - Jan 2022 | 1.4 years)"
-              },
-              "similarity_score": 0.227
-            }
-          ],
-          "interview_spans": [
-            {
-              "span_id": "INT-002",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure has been primarily consumption rather than architecting multi-broker clusters from scratch. She has 3.5 years of continuous production experience with regular on-call participation.",
-              "metadata": {},
-              "similarity_score": 0.495
-            },
-            {
-              "span_id": "INT-001",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "# Technical Interview: Elena Rostova\nInterviewer: Alex Mercer (Principal Architect)\nDate: 2025-02-20",
-              "metadata": {},
-              "similarity_score": 0.23
-            }
-          ],
-          "assessment_spans": [
-            {
-              "span_id": "ASS-005",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Minor latency jitter under peak 40k req/s load test.",
-              "metadata": {
-                "raw_line": "- Minor latency jitter under peak 40k req/s load test."
-              },
-              "similarity_score": 0.195
-            },
-            {
-              "span_id": "ASS-004",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "Redis caching logic properly implemented with TTL.",
-              "metadata": {
-                "raw_line": "- Redis caching logic properly implemented with TTL."
-              },
-              "similarity_score": 0.172
+              "similarity_score": 0.148
             },
             {
               "span_id": "ASS-002",
@@ -649,7 +541,134 @@
               "metadata": {
                 "raw_line": "Score: 84 / 100 | Grade: Good (Tier: Gold)"
               },
+              "similarity_score": 0.12
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
+              "metadata": {},
+              "similarity_score": 0.224
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 55.00000000000001
+          }
+        },
+        {
+          "req_id": "REQ-04",
+          "requirement_name": "Technical Architecture & RFC Writing",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 11,
+          "cv_spans": [
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Developed asynchronous Python backend services using FastAPI and PostgreSQL.",
+              "metadata": {
+                "raw_line": "- Developed asynchronous Python backend services using FastAPI and PostgreSQL."
+              },
+              "similarity_score": 0.313
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Implemented RabbitMQ messaging workers handling video rendering job dispatches.",
+              "metadata": {
+                "raw_line": "- Implemented RabbitMQ messaging workers handling video rendering job dispatches."
+              },
+              "similarity_score": 0.291
+            },
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Elena Rostova, Backend Software Engineer\nEmail: elena.rostova@techmail.io | GitHub: github.com/elena-rostova (3 repos, 45 stars)\nLocation: Boston, MA",
+              "metadata": {},
+              "similarity_score": 0.248
+            },
+            {
+              "span_id": "CV-007",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Junior Backend Engineer | CoreStack Labs (Sep 2020 - Jan 2022 | 1.4 years)",
+              "metadata": {
+                "raw_line": "Junior Backend Engineer | CoreStack Labs (Sep 2020 - Jan 2022 | 1.4 years)"
+              },
+              "similarity_score": 0.2
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure has been primarily consumption rather than architecting multi-broker clusters from scratch. She has 3.5 years of continuous production experience with regular on-call participation.",
+              "metadata": {},
+              "similarity_score": 0.368
+            },
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Interview: Elena Rostova\nInterviewer: Alex Mercer (Principal Architect)\nDate: 2025-02-20",
+              "metadata": {},
+              "similarity_score": 0.174
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-004",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Redis caching logic properly implemented with TTL.",
+              "metadata": {
+                "raw_line": "- Redis caching logic properly implemented with TTL."
+              },
+              "similarity_score": 0.155
+            },
+            {
+              "span_id": "ASS-003",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Asynchronous API endpoints implemented cleanly.",
+              "metadata": {
+                "raw_line": "- Asynchronous API endpoints implemented cleanly."
+              },
               "similarity_score": 0.145
+            },
+            {
+              "span_id": "ASS-002",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Score: 84 / 100 | Grade: Good (Tier: Gold)",
+              "metadata": {
+                "raw_line": "Score: 84 / 100 | Grade: Good (Tier: Gold)"
+              },
+              "similarity_score": 0.144
             },
             {
               "span_id": "ASS-001",
@@ -671,179 +690,329 @@
               "section": "project",
               "text": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
               "metadata": {},
-              "similarity_score": 0.289
+              "similarity_score": 0.298
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 0.0,
+            "normalized_total": 55.00000000000001
+          }
+        },
+        {
+          "req_id": "REQ-05",
+          "requirement_name": "Production Operations & Reliability",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 11,
+          "cv_spans": [
+            {
+              "span_id": "CV-001",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "# Elena Rostova, Backend Software Engineer\nEmail: elena.rostova@techmail.io | GitHub: github.com/elena-rostova (3 repos, 45 stars)\nLocation: Boston, MA",
+              "metadata": {},
+              "similarity_score": 0.272
+            },
+            {
+              "span_id": "CV-007",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Junior Backend Engineer | CoreStack Labs (Sep 2020 - Jan 2022 | 1.4 years)",
+              "metadata": {
+                "raw_line": "Junior Backend Engineer | CoreStack Labs (Sep 2020 - Jan 2022 | 1.4 years)"
+              },
+              "similarity_score": 0.262
+            },
+            {
+              "span_id": "CV-008",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Maintained Python REST APIs and participated in weekly code reviews and database tuning.",
+              "metadata": {
+                "raw_line": "- Maintained Python REST APIs and participated in weekly code reviews and database tuning."
+              },
+              "similarity_score": 0.236
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Developed asynchronous Python backend services using FastAPI and PostgreSQL.",
+              "metadata": {
+                "raw_line": "- Developed asynchronous Python backend services using FastAPI and PostgreSQL."
+              },
+              "similarity_score": 0.231
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-002",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure has been primarily consumption rather than architecting multi-broker clusters from scratch. She has 3.5 years of continuous production experience with regular on-call participation.",
+              "metadata": {},
+              "similarity_score": 0.361
+            },
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Technical Interview: Elena Rostova\nInterviewer: Alex Mercer (Principal Architect)\nDate: 2025-02-20",
+              "metadata": {},
+              "similarity_score": 0.147
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-005",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Minor latency jitter under peak 40k req/s load test.",
+              "metadata": {
+                "raw_line": "- Minor latency jitter under peak 40k req/s load test."
+              },
+              "similarity_score": 0.233
+            },
+            {
+              "span_id": "ASS-004",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Redis caching logic properly implemented with TTL.",
+              "metadata": {
+                "raw_line": "- Redis caching logic properly implemented with TTL."
+              },
+              "similarity_score": 0.187
+            },
+            {
+              "span_id": "ASS-003",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "Asynchronous API endpoints implemented cleanly.",
+              "metadata": {
+                "raw_line": "- Asynchronous API endpoints implemented cleanly."
+              },
+              "similarity_score": 0.173
+            },
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Elena Rostova",
+              "metadata": {
+                "raw_line": "# Technical Assessment: Elena Rostova"
+              },
+              "similarity_score": 0.118
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
+              "metadata": {},
+              "similarity_score": 0.319
             }
           ],
           "jd_spans": [],
           "rubric_signal": {
             "category": "production",
             "score": 16.0,
-            "normalized_total": 52.5
+            "normalized_total": 55.00000000000001
           }
         }
-      ]
+      ],
+      "duration_sec": 0.0
     },
     {
       "step": "cross_source_verification",
       "agent": "CrossSourceVerificationAgent",
       "output": {
         "candidate_id": "case_03_med_01",
-        "total_requirements": 4,
-        "supported_count": 4,
+        "total_requirements": 5,
+        "supported_count": 5,
         "contradicted_count": 0,
         "insufficient_count": 0,
         "consistency_score": 100.0,
+        "degraded": false,
+        "degraded_reason": null,
         "verifications": [
           {
             "req_id": "REQ-01",
-            "requirement_name": "Core Python & AsyncIO",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
             "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The evidence from the CV, Interview, and Project documents all support the claim of proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
             "supporting_citations": [
-              "CV-004",
               "INT-002",
-              "PRO-001"
+              "CV-004"
             ],
             "citations": [
-              "CV-004",
               "INT-002",
-              "PRO-001"
+              "CV-004"
             ],
             "citations_detail": [
+              {
+                "span_id": "INT-002",
+                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO",
+                "document_type": "interview"
+              },
               {
                 "span_id": "CV-004",
                 "quote": "Developed asynchronous Python backend services using FastAPI and PostgreSQL.",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure ha",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-                "document_type": "project"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           },
           {
             "req_id": "REQ-02",
-            "requirement_name": "Distributed Systems & Message Queues",
+            "requirement_name": "Distributed Systems & Event Streaming",
             "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The provided evidence supports the claim that Elena Rostova has hands-on experience with RabbitMQ and distributed systems, as evidenced by her CV and interview notes.",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
             "supporting_citations": [
-              "CV-005",
               "INT-002",
-              "INT-001",
-              "PRO-001"
+              "CV-005"
             ],
             "citations": [
-              "CV-005",
               "INT-002",
-              "INT-001",
-              "PRO-001"
+              "CV-005"
             ],
             "citations_detail": [
+              {
+                "span_id": "INT-002",
+                "quote": "Her experience with RabbitMQ is solid, though her Kafka exposure has been primarily consumption rather than architecting multi-broker clusters from scratch",
+                "document_type": "interview"
+              },
               {
                 "span_id": "CV-005",
                 "quote": "Implemented RabbitMQ messaging workers handling video rendering job dispatches.",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure ha",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Elena Rostova\nInterviewer: Alex Mercer (Principal Architect)\nDate: 2025-02-20",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-                "document_type": "project"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           },
           {
             "req_id": "REQ-03",
-            "requirement_name": "Technical Leadership & Initiative",
+            "requirement_name": "Database Sharding & Data Consistency",
             "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The evidence supports the claim of technical leadership and initiative, as evidenced by the candidate's experience with asynchronous services, architectural decisions, and mentoring engineers.",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
             "supporting_citations": [
-              "CV-004",
-              "INT-002",
-              "PRO-001"
+              "CV-008",
+              "CV-006"
             ],
             "citations": [
-              "CV-004",
-              "INT-002",
-              "PRO-001"
+              "CV-008",
+              "CV-006"
             ],
             "citations_detail": [
+              {
+                "span_id": "CV-008",
+                "quote": "Maintained Python REST APIs and participated in weekly code reviews and database tuning.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-006",
+                "quote": "Configured Redis caching layers reducing database load by 35%.",
+                "document_type": "cv"
+              }
+            ],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
+          },
+          {
+            "req_id": "REQ-04",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "SUPPORTED",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
+            "supporting_citations": [
+              "INT-002",
+              "CV-004"
+            ],
+            "citations": [
+              "INT-002",
+              "CV-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-002",
+                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO",
+                "document_type": "interview"
+              },
               {
                 "span_id": "CV-004",
                 "quote": "Developed asynchronous Python backend services using FastAPI and PostgreSQL.",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure ha",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-                "document_type": "project"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           },
           {
-            "req_id": "REQ-04",
-            "requirement_name": "Production Tenure & Operational Reliability",
+            "req_id": "REQ-05",
+            "requirement_name": "Production Operations & Reliability",
             "status": "SUPPORTED",
-            "confidence": 1.0,
-            "synthesis": "The CV, interview, and project documentation all support the claim of at least 3+ years of commercial production experience managing live services and on-call.",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
             "supporting_citations": [
-              "CV-001",
               "INT-002",
-              "PRO-001"
+              "CV-007"
             ],
             "citations": [
-              "CV-001",
               "INT-002",
-              "PRO-001"
+              "CV-007"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-001",
-                "quote": "# Elena Rostova, Backend Software Engineer\nEmail: elena.rostova@techmail.io | GitHub: github.com/elena-rostova (3 repos, 45 stars)\nLocation:",
-                "document_type": "cv"
-              },
-              {
                 "span_id": "INT-002",
-                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure ha",
+                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO",
                 "document_type": "interview"
               },
               {
-                "span_id": "PRO-001",
-                "quote": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-                "document_type": "project"
+                "span_id": "CV-007",
+                "quote": "Junior Backend Engineer | CoreStack Labs (Sep 2020 - Jan 2022 | 1.4 years)",
+                "document_type": "cv"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           }
         ],
         "all_discrepancies": []
-      }
+      },
+      "duration_sec": 22.4185
     },
     {
       "step": "recommendation_writing",
@@ -852,150 +1021,199 @@
         "candidate_id": "case_03_med_01",
         "candidate_name": "Elena Rostova",
         "target_role": "Senior Python & Distributed Systems Engineer",
-        "role_fit_score": 81.0,
+        "role_fit_score": 82.0,
         "evidence_consistency_score": 100.0,
         "quadrant": "STRONG MATCH",
+        "degraded": false,
+        "degraded_reason": null,
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
+            "confidence": 0.85,
             "citations": [
-              "CV-004",
               "INT-002",
-              "PRO-001"
+              "CV-004"
             ],
             "citations_detail": [
+              {
+                "span_id": "INT-002",
+                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO",
+                "document_type": "interview"
+              },
               {
                 "span_id": "CV-004",
                 "quote": "Developed asynchronous Python backend services using FastAPI and PostgreSQL.",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure ha",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-                "document_type": "project"
               }
             ],
-            "synthesis": "The evidence from the CV, Interview, and Project documents all support the claim of proficiency in Python 3.10+, asynchronous programming, and clean architecture."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Confirmed grounded by critic verification pass"
           },
           {
             "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
+            "confidence": 0.85,
             "citations": [
-              "CV-005",
               "INT-002",
-              "INT-001",
-              "PRO-001"
+              "CV-005"
             ],
             "citations_detail": [
+              {
+                "span_id": "INT-002",
+                "quote": "Her experience with RabbitMQ is solid, though her Kafka exposure has been primarily consumption rather than architecting multi-broker clusters from scratch",
+                "document_type": "interview"
+              },
               {
                 "span_id": "CV-005",
                 "quote": "Implemented RabbitMQ messaging workers handling video rendering job dispatches.",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure ha",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "INT-001",
-                "quote": "# Technical Interview: Elena Rostova\nInterviewer: Alex Mercer (Principal Architect)\nDate: 2025-02-20",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-                "document_type": "project"
               }
             ],
-            "synthesis": "The provided evidence supports the claim that Elena Rostova has hands-on experience with RabbitMQ and distributed systems, as evidenced by her CV and interview notes."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords; Flagged by LLM critic as insufficiently grounded in context"
           },
           {
             "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
+            "confidence": 0.85,
             "citations": [
-              "CV-004",
-              "INT-002",
-              "PRO-001"
+              "CV-008",
+              "CV-006"
             ],
             "citations_detail": [
+              {
+                "span_id": "CV-008",
+                "quote": "Maintained Python REST APIs and participated in weekly code reviews and database tuning.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-006",
+                "quote": "Configured Redis caching layers reducing database load by 35%.",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Flagged by LLM critic as insufficiently grounded in context"
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.85,
+            "citations": [
+              "INT-002",
+              "CV-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "INT-002",
+                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO",
+                "document_type": "interview"
+              },
               {
                 "span_id": "CV-004",
                 "quote": "Developed asynchronous Python backend services using FastAPI and PostgreSQL.",
                 "document_type": "cv"
-              },
-              {
-                "span_id": "INT-002",
-                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure ha",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "PRO-001",
-                "quote": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-                "document_type": "project"
               }
             ],
-            "synthesis": "The evidence supports the claim of technical leadership and initiative, as evidenced by the candidate's experience with asynchronous services, architectural decisions, and mentoring engineers."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords; Flagged by LLM critic as insufficiently grounded in context"
           },
           {
-            "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 1.0,
+            "confidence": 0.85,
             "citations": [
-              "CV-001",
               "INT-002",
-              "PRO-001"
+              "CV-007"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-001",
-                "quote": "# Elena Rostova, Backend Software Engineer\nEmail: elena.rostova@techmail.io | GitHub: github.com/elena-rostova (3 repos, 45 stars)\nLocation:",
-                "document_type": "cv"
-              },
-              {
                 "span_id": "INT-002",
-                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO. Her experience with RabbitMQ is solid, though her Kafka exposure ha",
+                "quote": "Elena demonstrated strong proficiency in modern Python 3.10 and AsyncIO",
                 "document_type": "interview"
               },
               {
-                "span_id": "PRO-001",
-                "quote": "# RFC-022: Asynchronous Media Dispatch Service\nCompany: Omnilink Media\nAuthor: Elena Rostova | Status: Production Active",
-                "document_type": "project"
+                "span_id": "CV-007",
+                "quote": "Junior Backend Engineer | CoreStack Labs (Sep 2020 - Jan 2022 | 1.4 years)",
+                "document_type": "cv"
               }
             ],
-            "synthesis": "The CV, interview, and project documentation all support the claim of at least 3+ years of commercial production experience managing live services and on-call."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords; Flagged by LLM critic as insufficiently grounded in context"
           }
         ],
         "unsupported_claim_count": 0,
         "contradicted_claim_count": 0,
-        "rubric_baseline_score": 52.5,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Elena Rostova | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           81.0 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
-      }
+        "rubric_baseline_score": 55.0,
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": 100.0,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": 100.0,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 55.0,
+          "rubric_weight": 0.4,
+          "role_fit_score": 82.0
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-15 13:52:53 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Elena Rostova | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           82.0 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [PASS] SUPPORTED [GROUNDED: INT-002, CV-004]\n  Distributed Systems & Even   [PASS] SUPPORTED [GROUNDED: INT-002, CV-005]\n  Database Sharding & Data C   [PASS] SUPPORTED [GROUNDED: CV-008, CV-006]\n  Technical Architecture & R   [PASS] SUPPORTED [GROUNDED: INT-002, CV-004]\n  Production Operations & Re   [PASS] SUPPORTED [GROUNDED: INT-002, CV-007]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
+      },
+      "duration_sec": 0.0
+    },
+    {
+      "step": "claim_critic_review",
+      "agent": "ClaimCriticAgent",
+      "output": {
+        "total_claims": 5,
+        "grounded_claims": 1,
+        "synthesized_inferences": 4,
+        "grounding_rate": 0.2
+      },
+      "duration_sec": 9.7309
     }
   ],
-  "pipeline_latency_sec": 14.76
+  "pipeline_latency_sec": 32.2,
+  "degraded": false
 }

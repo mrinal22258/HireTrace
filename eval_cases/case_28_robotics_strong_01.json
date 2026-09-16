@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_28_robotics_strong_01",
+  "name": "Dr. Kenji Takahashi",
+  "target_role": "Autonomous Systems Perception Engineer",
+  "category": "robotics_strong",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 97.0,
+    "expert_scores": {
+      "reviewer_1": 96,
+      "reviewer_2": 97,
+      "reviewer_3": 95
+    },
+    "expert_composite_score": 96.0
+  },
+  "cv_text": "# Dr. Kenji Takahashi - Robotics Perception Scientist\nPhD in Robotics (Tokyo Institute of Technology, 2020). 4+ years production robotics experience.\n## Experience\nSenior Perception Engineer at DroneNav Autonomous (2020 - Present | 4.2 years)\n- Engineered multi-sensor LiDAR-camera calibration and visual-inertial odometry (VIO) on physical hexacopter platforms.\n- Deployed real-time obstacle avoidance algorithms running at 60 FPS on NVIDIA Jetson Orin with ROS2.\n- 4 papers published in IEEE ICRA and IROS on map-free autonomous navigation.\n",
+  "interview_notes": "# Interview: Dr. Kenji Takahashi\nKenji demonstrated flawless mastery of Kalman Filtering (EKF/UKF), graph-based SLAM factor graphs (GTSAM), and real-time Sim-to-Real sensor calibration.\n",
+  "technical_assessment": "# Technical Assessment: Dr. Kenji Takahashi\nScore: 97 / 100\nFlawless point cloud registration implementation and robust ROS2 node latency profiling.\n"
+}

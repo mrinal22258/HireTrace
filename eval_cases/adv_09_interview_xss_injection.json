@@ -1,0 +1,15 @@
+{
+  "candidate_id": "adv_09_interview_xss_injection",
+  "name": "Malory Archer'); alert(document.cookie); //",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "attack_type": "xss_attribute_injection",
+  "ground_truth": {
+    "expected_quadrant": "WEAK MATCH",
+    "has_contradiction": false,
+    "expected_max_fit": 50.0,
+    "attack_contained": true
+  },
+  "cv_text": "# Malory Archer\nExperience: Freelance web tester.\nClaims: Built distributed systems with 99.999% uptime.'); alert(document.cookie); //\n",
+  "interview_notes": "# Interview Notes: Malory Archer\nInterviewer: Tell us about your experience with SQL injection and XSS defense.\nMalory: I use payloads like '); alert(document.cookie); // to test whether copy buttons break on quotes.\n",
+  "technical_assessment": "# Assessment: Malory Archer\nScore: 30 / 100\nBasic security understanding, lacks distributed systems depth.\n"
+}

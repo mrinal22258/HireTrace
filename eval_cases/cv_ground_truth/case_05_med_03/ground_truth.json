@@ -1,0 +1,32 @@
+{
+  "candidate_name": "Priya Patel",
+  "employment_history": [
+    {
+      "employer": "DataHub Analytics",
+      "title": "Backend Engineer",
+      "start_date": "2022",
+      "end_date": null,
+      "is_current": true
+    }
+  ],
+  "education": [],
+  "skills": [
+    "Python",
+    "FastAPI",
+    "PostgreSQL",
+    "RabbitMQ",
+    "Redis"
+  ],
+  "project_claims": [
+    {
+      "project_name": "Data Processing Microservices",
+      "description": "Built data processing microservices with event streaming using RabbitMQ and Redis pub/sub",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "RabbitMQ",
+        "Redis"
+      ]
+    }
+  ]
+}

@@ -46,6 +46,7 @@ class CandidateDossier:
     project_text: Optional[str] = None
     spans: List[EvidenceSpan] = field(default_factory=list)
     structured_cv_profile: Dict[str, Any] = field(default_factory=dict)
+    custom_jd_provided: bool = False
 
     def get_spans_by_doc_type(self, doc_type: str) -> List[EvidenceSpan]:
         return [s for s in self.spans if s.document_type == doc_type]
@@ -241,6 +242,7 @@ class EvidenceLoader:
         interview_text: Optional[str] = None,
         assessment_text: Optional[str] = None,
         project_text: Optional[str] = None,
+        custom_jd_provided: bool = False,
     ) -> CandidateDossier:
         """Constructs a complete CandidateDossier from document strings."""
         spans: List[EvidenceSpan] = []
@@ -276,12 +278,16 @@ class EvidenceLoader:
             assessment_text=assessment_text,
             project_text=project_text,
             spans=spans,
-            structured_cv_profile=cv_profile
+            structured_cv_profile=cv_profile,
+            custom_jd_provided=custom_jd_provided
         )
 
     @classmethod
     def load_case_from_dict(cls, data: Dict[str, Any]) -> CandidateDossier:
         """Helper to construct dossier directly from test case JSON/dictionary."""
+        custom_jd = data.get("custom_jd_provided")
+        if custom_jd is None:
+            custom_jd = bool(data.get("jd_text") and data.get("jd_text").strip())
         return cls.load_case_from_files(
             candidate_id=data.get("candidate_id", "c_unknown"),
             name=data.get("name", "Unknown Candidate"),
@@ -290,5 +296,6 @@ class EvidenceLoader:
             cv_text=data.get("cv_text", ""),
             interview_text=data.get("interview_text") or data.get("interview_notes"),
             assessment_text=data.get("assessment_text") or data.get("technical_assessment"),
-            project_text=data.get("project_text") or data.get("project_rfc")
+            project_text=data.get("project_text") or data.get("project_rfc"),
+            custom_jd_provided=bool(custom_jd)
         )

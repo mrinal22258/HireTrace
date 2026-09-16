@@ -31,6 +31,7 @@ from agents.document_parser import (
 from agents.job_manager import JOB_MANAGER, JobManager, JobPersistenceError
 from agents.pipeline import HireTracePipeline
 from agents.db import DB
+from agents.zip_safety import assert_zip_entry_is_safe
 
 
 
@@ -125,12 +126,47 @@ class BulkIngestionEngine:
             batch = BatchJob(batch_id=batch_id)
             self._batches[batch_id] = batch
 
+        MAX_ZIP_ENTRIES = 500
+        MAX_ENTRY_UNCOMPRESSED_BYTES = 25 * 1024 * 1024   # 25 MB
+        MAX_TOTAL_UNCOMPRESSED_BYTES = 200 * 1024 * 1024  # 200 MB
+        MAX_COMPRESSION_RATIO = 100.0
+
         files_map: Dict[str, bytes] = {}
         try:
             with zipfile.ZipFile(io.BytesIO(zip_bytes)) as z:
-                for info in z.infolist():
+                infolist = z.infolist()
+                if len(infolist) > MAX_ZIP_ENTRIES:
+                    batch.status = "failed"
+                    batch.errors.append(
+                        f"ZIP archive rejected: contains {len(infolist)} entries, exceeding maximum allowed limit ({MAX_ZIP_ENTRIES})."
+                    )
+                    return batch
+
+                total_uncompressed = 0
+                for info in infolist:
                     if info.is_dir() or self._is_noise_file(info.filename):
                         continue
+
+                    # Validate entry safety via shared zip_safety guard
+                    try:
+                        assert_zip_entry_is_safe(
+                            info,
+                            max_uncompressed_bytes=MAX_ENTRY_UNCOMPRESSED_BYTES,
+                            max_ratio=MAX_COMPRESSION_RATIO
+                        )
+                    except ValueError as zip_err:
+                        batch.status = "failed"
+                        batch.errors.append(f"ZIP archive rejected: {zip_err}")
+                        return batch
+
+                    total_uncompressed += info.file_size
+                    if total_uncompressed > MAX_TOTAL_UNCOMPRESSED_BYTES:
+                        batch.status = "failed"
+                        batch.errors.append(
+                            f"ZIP archive rejected: total uncompressed size exceeds maximum allowed {MAX_TOTAL_UNCOMPRESSED_BYTES / (1024*1024):.0f} MB."
+                        )
+                        return batch
+
                     files_map[info.filename.replace("\\", "/")] = z.read(info.filename)
         except Exception as err:
             batch.status = "failed"
@@ -163,10 +199,29 @@ class BulkIngestionEngine:
                 self._batches[batch_id] = BatchJob(batch_id=batch_id)
             batch = self._batches[batch_id]
 
+        MAX_ZIP_ENTRIES = 500
+        MAX_ENTRY_UNCOMPRESSED_BYTES = 25 * 1024 * 1024   # 25 MB
+        MAX_TOTAL_UNCOMPRESSED_BYTES = 200 * 1024 * 1024  # 200 MB
+
+        if len(files_map) > MAX_ZIP_ENTRIES:
+            batch.status = "failed"
+            batch.errors.append(
+                f"Folder payload rejected: contains {len(files_map)} entries, exceeding maximum allowed limit ({MAX_ZIP_ENTRIES})."
+            )
+            return batch
+
+        total_bytes = sum(len(b) for b in files_map.values())
+        if total_bytes > MAX_TOTAL_UNCOMPRESSED_BYTES:
+            batch.status = "failed"
+            batch.errors.append(
+                f"Folder payload rejected: total size exceeds maximum allowed {MAX_TOTAL_UNCOMPRESSED_BYTES / (1024*1024):.0f} MB."
+            )
+            return batch
+
         batch.total_files = len(files_map)
         batch.uploaded = len(files_map)
 
-        # 1. Group files by candidate folder
+        # 1. Group files by candidate folder with path-traversal sanitization
         # Supported structures:
         #   applicants/jane_doe/cv.pdf, applicants/jane_doe/interview.txt
         #   jane_doe/cv.pdf
@@ -177,7 +232,36 @@ class BulkIngestionEngine:
             if self._is_noise_file(path_str):
                 continue
 
-            parts = [p for p in path_str.strip("/").split("/") if p]
+            if len(data) > MAX_ENTRY_UNCOMPRESSED_BYTES:
+                batch.status = "failed"
+                batch.errors.append(
+                    f"File '{path_str}' size ({len(data)/(1024*1024):.1f} MB) exceeds maximum allowed {MAX_ENTRY_UNCOMPRESSED_BYTES/(1024*1024):.0f} MB."
+                )
+                return batch
+
+            # Validate DOCX safety if present
+            clean_path = path_str.replace("\\", "/")
+            if clean_path.lower().endswith(".docx"):
+                try:
+                    with zipfile.ZipFile(io.BytesIO(data)) as zf:
+                        if len(zf.infolist()) > MAX_ZIP_ENTRIES:
+                            raise ValueError("DOCX archive contains excessive entries")
+                        docx_total = 0
+                        for zinfo in zf.infolist():
+                            assert_zip_entry_is_safe(zinfo, max_uncompressed_bytes=MAX_ENTRY_UNCOMPRESSED_BYTES)
+                            docx_total += zinfo.file_size
+                            if docx_total > MAX_TOTAL_UNCOMPRESSED_BYTES:
+                                raise ValueError("DOCX archive total uncompressed size exceeds limit")
+                except Exception as docx_err:
+                    batch.status = "failed"
+                    batch.errors.append(f"Invalid or unsafe document '{path_str}': {docx_err}")
+                    return batch
+
+            # Strict path-traversal sanitization
+            parts = [p for p in clean_path.strip("/").split("/") if p and p not in (".", "..")]
+            if not parts:
+                continue
+
             if len(parts) >= 2:
                 # Subfolder structure: ignore top generic folder like "applicants" or "resumes"
                 if len(parts) >= 3 and parts[0].lower() in ("applicants", "resumes", "candidates", "eval_cases", "batch"):
@@ -188,9 +272,14 @@ class BulkIngestionEngine:
                 # Flat file structure: file name without extension is candidate key
                 cand_key = os.path.splitext(parts[0])[0]
 
+            # Strip dangerous characters from cand_key
+            cand_key = re.sub(r'[^a-zA-Z0-9_\-\. ]', '_', cand_key).strip()
+            if not cand_key:
+                cand_key = "candidate"
+
             if cand_key not in candidate_groups:
                 candidate_groups[cand_key] = []
-            candidate_groups[cand_key].append((path_str, data))
+            candidate_groups[cand_key].append((clean_path, data))
 
         # 2. Process each candidate dossier
         for cand_key, file_items in candidate_groups.items():
@@ -378,6 +467,26 @@ class BulkIngestionEngine:
 
         batch.updated_at = time.time()
         return batch
+
+    def run_bulk(self, dossiers: list, pipeline: Optional[HireTracePipeline] = None) -> list:
+        """
+        Requirements depend only on (jd_text, target_role). Resolve once per
+        distinct requisition instead of once per candidate, eliminating redundant LLM calls.
+        """
+        pipe = pipeline or HireTracePipeline()
+        by_requisition: Dict[Tuple[str, str], Any] = {}
+        for dossier in dossiers:
+            key = (getattr(dossier, "jd_text", ""), getattr(dossier, "target_role", ""))
+            if key not in by_requisition:
+                by_requisition[key] = pipe.req_mapper.map_requirements(*key)
+        return [
+            pipe.run(
+                d,
+                precomputed_requirements=by_requisition[(getattr(d, "jd_text", ""), getattr(d, "target_role", ""))]
+            )
+            for d in dossiers
+        ]
+
 
 
 # Global singleton bulk ingestion engine

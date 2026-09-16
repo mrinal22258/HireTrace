@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_22_fe_strong_01",
+  "name": "Maya Lindqvist",
+  "target_role": "Senior Frontend & Web Platform Architect",
+  "category": "frontend_strong",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 97.0,
+    "expert_scores": {
+      "reviewer_1": 95,
+      "reviewer_2": 96,
+      "reviewer_3": 95
+    },
+    "expert_composite_score": 95.33
+  },
+  "cv_text": "# Maya Lindqvist - Senior Frontend Architect\n5+ years experience building high-performance web applications with React, Next.js, and TypeScript.\n## Experience\nSenior Frontend Engineer at Omnichannel Web (2020 - Present | 4.5 years)\n- Architected enterprise Next.js App Router migration, improving Core Web Vitals (LCP reduced from 3.8s to 0.9s).\n- Implemented state architecture with Zustand and TanStack Query with optimistic UI mutations and offline synchronization.\n- Authored design system component library with 100% WCAG 2.1 AA accessibility compliance.\n",
+  "interview_notes": "# Interview: Maya Lindqvist\nMaya gave exceptionally detailed explanations of React Server Components, hydration boundaries, streaming SSR, and virtualized windowing for 50k item grids.\n",
+  "technical_assessment": "# Technical Assessment: Maya Lindqvist\nScore: 98 / 100\nFlawless TypeScript component implementation with sub-millisecond render benchmarks and comprehensive Vitest test coverage.\n"
+}

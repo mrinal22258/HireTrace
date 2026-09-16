@@ -1,0 +1,33 @@
+{
+  "candidate_name": "Amina Diop",
+  "employment_history": [
+    {
+      "employer": "FinData Mesh",
+      "title": "Lead Data Platform Architect",
+      "start_date": "2020",
+      "end_date": null,
+      "is_current": true
+    }
+  ],
+  "education": [],
+  "skills": [
+    "Apache Spark",
+    "Delta Lake",
+    "Snowflake",
+    "dbt",
+    "SQL",
+    "Python",
+    "Kafka"
+  ],
+  "project_claims": [
+    {
+      "project_name": "Streaming Data Lakehouse",
+      "description": "Built streaming data lakehouse processing 25TB of daily financial market data",
+      "technologies": [
+        "Apache Spark",
+        "Delta Lake",
+        "Snowflake"
+      ]
+    }
+  ]
+}

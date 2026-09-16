@@ -20,85 +20,30 @@ from typing import Dict, Any, Optional, List, Tuple
 from fastapi import Request, HTTPException, status
 from pydantic import BaseModel, Field, field_validator
 
+from cachetools import LRUCache
+
 from agents.db import DB
+from agents.observability import METRICS
 
 logger = logging.getLogger("hiretrace.security")
+_DEFAULT_RATE_LIMIT_MAX_KEYS = 10000
 
 
-def parse_api_keys() -> Dict[str, str]:
-    """
-    Parses configured API keys from environment.
-    Supports:
-    - HIRETRACE_API_KEYS as JSON: '{"key1": "tenant_a", "key2": "tenant_b"}'
-    - HIRETRACE_API_KEYS as comma-separated: 'key1:tenant_a,key2:tenant_b'
-    - Single HIRETRACE_API_KEY: 'my-secret-key' (maps to 'default_tenant')
-    """
-    keys_map = {}
-    raw_keys = os.environ.get("HIRETRACE_API_KEYS", "").strip()
-    if raw_keys:
-        if raw_keys.startswith("{"):
-            try:
-                keys_map.update(json.loads(raw_keys))
-            except Exception:
-                pass
-        else:
-            for item in raw_keys.split(","):
-                if ":" in item:
-                    k, v = item.split(":", 1)
-                    keys_map[k.strip()] = v.strip()
-                elif item.strip():
-                    keys_map[item.strip()] = "default_tenant"
-
-    single_key = os.environ.get("HIRETRACE_API_KEY", "").strip()
-    if single_key:
-        keys_map[single_key] = "default_tenant"
-
-    return keys_map
-
-
-def validate_security_configuration():
-    """
-    Startup validation for security configuration.
-    Raises RuntimeError if HIRETRACE_REQUIRE_AUTH is truthy and:
-    - Any configured API key equals 'prod_hiretrace_secret_key_change_me'
-    - Any configured API key is shorter than 24 characters
-    - No API keys are configured at all
-    """
-    require_auth = os.environ.get("HIRETRACE_REQUIRE_AUTH", "0").lower() in ("1", "true", "yes")
-    if not require_auth:
-        return
-
-    # Allow test suite overrides when specifically designated
-    if os.environ.get("HIRETRACE_TEST_BYPASS_KEY_LENGTH", "0") in ("1", "true"):
-        return
-
-    keys_map = parse_api_keys()
-    if not keys_map:
-        raise RuntimeError(
-            "Security configuration error: HIRETRACE_REQUIRE_AUTH=1 is enabled, but no API keys were configured. "
-            "Set HIRETRACE_API_KEY (minimum 24 characters) in your environment."
-        )
-
-    for key in keys_map.keys():
-        if key == "prod_hiretrace_secret_key_change_me":
-            raise RuntimeError(
-                "Security configuration error: Insecure placeholder API key 'prod_hiretrace_secret_key_change_me' "
-                "detected in production configuration. You must set a unique, secret HIRETRACE_API_KEY."
-            )
-        if len(key) < 24:
-            raise RuntimeError(
-                f"Security configuration error: Configured API key is too short ({len(key)} characters). "
-                "Production API keys must be at least 24 characters long for adequate entropy."
-            )
+def get_rate_limit_max_keys() -> int:
+    try:
+        return int(os.environ.get("HIRETRACE_RATE_LIMIT_MAX_KEYS", str(_DEFAULT_RATE_LIMIT_MAX_KEYS)))
+    except ValueError:
+        return _DEFAULT_RATE_LIMIT_MAX_KEYS
 
 
 class RateLimiter:
-    """Thread-safe sliding-window rate limiter per tenant / client IP."""
+    """Thread-safe sliding-window rate limiter per tenant / client IP bounded by LRUCache."""
 
-    def __init__(self, max_requests: int = 30, window_seconds: int = 60):
+    def __init__(self, max_requests: int = 30, window_seconds: int = 60, max_keys: Optional[int] = None):
         self.max_requests = max_requests
         self.window_seconds = window_seconds
-        self._history: Dict[str, List[float]] = {}
+        self.max_keys = max_keys if max_keys is not None else get_rate_limit_max_keys()
+        self._history: LRUCache = LRUCache(maxsize=self.max_keys)
         self._lock = threading.Lock()
 
     def check(self, key: str) -> Tuple[bool, int]:
@@ -144,6 +89,8 @@ class RedisRateLimiter:
         self.window_seconds = window_seconds
         self.prefix = prefix
         self._fallback_limiter = RateLimiter(max_requests=max_requests, window_seconds=window_seconds)
+        self._last_log_time = 0.0
+        self._log_lock = threading.Lock()
 
     def check(self, key: str) -> Tuple[bool, int]:
         """
@@ -152,7 +99,7 @@ class RedisRateLimiter:
         - ZCARD: counts remaining entries in current window
         - If >= max_requests: calculate retry_after from oldest surviving entry
         - If < max_requests: ZADD current timestamp and set EXPIRE
-        - Fails open to in-memory RateLimiter on any Redis failure (logged as warning).
+        - Fails open to in-memory RateLimiter on any Redis failure (logged with rate-limiting and incrementing metrics).
         """
         now = time.time()
         cutoff = now - self.window_seconds
@@ -182,7 +129,16 @@ class RedisRateLimiter:
             return True, 0
 
         except Exception as e:
-            logger.warning(f"Redis rate limiter error ({e}); failing open to in-memory limiter.")
+            # (a) Increment Prometheus metric counter for fallback events
+            METRICS.record_redis_ratelimit_fallback()
+
+            # (b) Rate-limit warning logs (max once every 10 seconds)
+            log_now = time.time()
+            with self._log_lock:
+                if log_now - self._last_log_time >= 10.0:
+                    logger.warning(f"Redis rate limiter error ({e}); failing open to in-memory limiter (metrics incremented).")
+                    self._last_log_time = log_now
+
             return self._fallback_limiter.check(key)
 
     def reset(self):
@@ -195,16 +151,135 @@ class RedisRateLimiter:
         self._fallback_limiter.reset()
 
 
+def parse_api_keys() -> Dict[str, str]:
+    """
+    Parses configured API keys from environment.
+    Supports:
+    - HIRETRACE_API_KEYS as JSON: '{"key1": "tenant_a", "key2": "tenant_b"}'
+    - HIRETRACE_API_KEYS as comma-separated: 'key1:tenant_a,key2:tenant_b'
+    - Single HIRETRACE_API_KEY: 'my-secret-key' (maps to 'default_tenant')
+    """
+    keys_map = {}
+    raw_keys = os.environ.get("HIRETRACE_API_KEYS", "").strip()
+    if raw_keys:
+        if raw_keys.startswith("{"):
+            try:
+                keys_map.update(json.loads(raw_keys))
+            except Exception:
+                pass
+        else:
+            for item in raw_keys.split(","):
+                if ":" in item:
+                    k, v = item.split(":", 1)
+                    keys_map[k.strip()] = v.strip()
+                elif item.strip():
+                    keys_map[item.strip()] = "default_tenant"
+
+    single_key = os.environ.get("HIRETRACE_API_KEY", "").strip()
+    if single_key:
+        keys_map[single_key] = "default_tenant"
+
+    return keys_map
+
+
+def is_auth_required() -> bool:
+    """
+    Secure-by-default: Authentication is required by default in production.
+    Can be bypassed only when HIRETRACE_DEV_MODE=1 is set, or HIRETRACE_REQUIRE_AUTH=0 is explicitly configured.
+    """
+    req_auth = os.environ.get("HIRETRACE_REQUIRE_AUTH")
+    if req_auth is not None and req_auth != "":
+        return req_auth.lower() in ("1", "true", "yes")
+    dev_mode = os.environ.get("HIRETRACE_DEV_MODE", "0").lower() in ("1", "true", "yes")
+    return not dev_mode
+
+
+def check_dev_mode_production_bind(host: Optional[str] = None, port: Optional[int] = None):
+    """
+    Startup guard: Ensures HIRETRACE_DEV_MODE=1 or disabled auth cannot silently ship
+    to a public/non-loopback network interface (e.g. 0.0.0.0 or public IP).
+    Refuses to start unless HIRETRACE_I_UNDERSTAND_DEV_MODE_IS_INSECURE=1 is set.
+    """
+    dev_mode = os.environ.get("HIRETRACE_DEV_MODE", "0").lower() in ("1", "true", "yes")
+    auth_disabled = not is_auth_required()
+    override = os.environ.get("HIRETRACE_I_UNDERSTAND_DEV_MODE_IS_INSECURE", "0").lower() in ("1", "true", "yes")
+
+    check_host = host or os.environ.get("HOST", "")
+    is_public_host = check_host in ("0.0.0.0", "::") or (
+        bool(check_host) and not (check_host.startswith("127.") or check_host in ("localhost", "::1"))
+    )
+
+    if (dev_mode or auth_disabled) and is_public_host:
+        if not override:
+            err_msg = (
+                f"FATAL SECURITY CONFIGURATION: HireTrace is configured with DEV_MODE=1 / unauthenticated access "
+                f"while binding to public interface '{check_host}'. Refusing to start without explicit "
+                f"HIRETRACE_I_UNDERSTAND_DEV_MODE_IS_INSECURE=1 override."
+            )
+            logger.critical(err_msg)
+            raise RuntimeError(err_msg)
+        logger.warning(
+            f"SECURITY WARNING: Running DEV_MODE=1 on public interface '{check_host}' "
+            "with HIRETRACE_I_UNDERSTAND_DEV_MODE_IS_INSECURE=1 override."
+        )
+
+
+def validate_security_configuration(host: Optional[str] = None, port: Optional[int] = None):
+    """
+    Startup validation for security configuration.
+    Raises RuntimeError if auth is required (default in production) and:
+    - Any configured API key equals 'prod_hiretrace_secret_key_change_me'
+    - Any configured API key is shorter than 24 characters
+    - No API keys are configured at all
+    Also validates that DEV_MODE is not bound to a public interface.
+    """
+    check_dev_mode_production_bind(host=host, port=port)
+
+    if not is_auth_required():
+        return
+
+    # Allow test suite overrides when specifically designated
+    if os.environ.get("HIRETRACE_TEST_BYPASS_KEY_LENGTH", "0") in ("1", "true"):
+        return
+
+    keys_map = parse_api_keys()
+    if not keys_map:
+        raise RuntimeError(
+            "Security configuration error: Authentication is enabled by default, but no API keys were configured. "
+            "Set HIRETRACE_API_KEY (minimum 24 characters) in your environment, or run with HIRETRACE_DEV_MODE=1 for local development."
+        )
+
+    for key in keys_map.keys():
+        if key == "prod_hiretrace_secret_key_change_me":
+            raise RuntimeError(
+                "Security configuration error: Insecure placeholder API key 'prod_hiretrace_secret_key_change_me' "
+                "detected in production configuration. You must set a unique, secret HIRETRACE_API_KEY."
+            )
+        if len(key) < 24:
+            raise RuntimeError(
+                f"Security configuration error: Configured API key is too short ({len(key)} characters). "
+                "Production API keys must be at least 24 characters long for adequate entropy."
+            )
+
+
+
+
+
+
 def create_rate_limiter(max_requests: int = 30, window_seconds: int = 60) -> Any:
     """
     Selects distributed RedisRateLimiter if REDIS_URL is reachable,
     otherwise falls back to local in-memory RateLimiter.
     """
     redis_url = os.environ.get("REDIS_URL")
+    redis_password = os.environ.get("REDIS_PASSWORD")
     if redis_url:
         try:
             import redis
-            client = redis.Redis.from_url(redis_url, socket_connect_timeout=1.0)
+            kwargs: Dict[str, Any] = {"socket_connect_timeout": 1.0}
+            if redis_password:
+                kwargs["password"] = redis_password
+            client = redis.Redis.from_url(redis_url, **kwargs)
             client.ping()
             logger.info(f"Connected to Redis at {redis_url}; using RedisRateLimiter for multi-replica rate limiting.")
             return RedisRateLimiter(client, max_requests=max_requests, window_seconds=window_seconds)
@@ -231,7 +306,7 @@ def authenticate_and_authorize(request: Request) -> str:
     If HIRETRACE_REQUIRE_AUTH is false (zero-config local demo mode):
       - Returns X-Tenant-ID header if provided, else 'default_tenant'
     """
-    require_auth = os.environ.get("HIRETRACE_REQUIRE_AUTH", "0").lower() in ("1", "true", "yes")
+    require_auth = is_auth_required()
 
     # Extract API key
     api_key = request.headers.get("x-api-key")
@@ -326,8 +401,8 @@ class CandidateCreateRequest(BaseModel):
             v_str = v.strip()
             if not v_str:
                 return None
-            if not re.match(r"^[a-zA-Z0-9_\-\.]{1,128}$", v_str):
-                raise ValueError(f"Invalid candidate_id format: '{v}'. Must match ^[a-zA-Z0-9_.-]+$")
+            if not re.match(r"^[A-Za-z0-9_-]{1,128}$", v_str):
+                raise ValueError(f"Invalid candidate_id format: '{v}'. Must match ^[A-Za-z0-9_-]+$")
             return v_str
         return v
 
@@ -343,5 +418,5 @@ class CandidateCreateRequest(BaseModel):
 
 class BatchEvaluationRequest(BaseModel):
     """Schema for batch evaluation triggers."""
-    candidate_ids: List[str] = Field(..., min_items=1, description="List of candidate IDs to evaluate")
+    candidate_ids: List[str] = Field(..., min_length=1, description="List of candidate IDs to evaluate")
     force_refresh: Optional[bool] = Field(False, description="Whether to bypass cached evaluation results")

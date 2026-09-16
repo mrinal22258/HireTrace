@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_23_fe_strong_02",
+  "name": "Derek O'Connor",
+  "target_role": "Senior Frontend & Web Platform Architect",
+  "category": "frontend_strong",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 95.0,
+    "expert_scores": {
+      "reviewer_1": 92,
+      "reviewer_2": 91,
+      "reviewer_3": 93
+    },
+    "expert_composite_score": 92.0
+  },
+  "cv_text": "# Derek O'Connor, Senior Fullstack Engineer\n4 years experience building distributed web apps with TypeScript, React, Tailwind CSS, and Node.js microservices.\nExperience at FinApp Platforms (2021 - Present | 3.5 years).\n",
+  "interview_notes": "# Interview: Derek O'Connor\nDerek articulated deep understanding of bundle splitting, tree shaking in Vite, and Web Workers for heavy client-side computations.\n",
+  "technical_assessment": "# Technical Assessment: Derek O'Connor\nScore: 93 / 100\nClean component structure, responsive mobile-first layouts, and resilient error boundary integration.\n"
+}

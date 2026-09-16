@@ -12,8 +12,8 @@ services:
       - HOST=0.0.0.0
       - PORT=8000
       - DATABASE_URL=postgresql://${POSTGRES_USER:-hiretrace}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-hiretrace}
-      - REDIS_URL=redis://redis:6379/0
-      - CELERY_BROKER_URL=redis://redis:6379/0
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/0
+      - CELERY_BROKER_URL=redis://:${REDIS_PASSWORD}@redis:6379/0
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
       - CONCURRENCY_WORKERS=4
       - HIRETRACE_REQUIRE_AUTH=1
@@ -46,8 +46,8 @@ services:
     command: ["python", "worker.py", "--mode", "celery", "--concurrency", "4"]
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-hiretrace}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-hiretrace}
-      - REDIS_URL=redis://redis:6379/0
-      - CELERY_BROKER_URL=redis://redis:6379/0
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/0
+      - CELERY_BROKER_URL=redis://:${REDIS_PASSWORD}@redis:6379/0
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
       - CONCURRENCY_WORKERS=4
       - HIRETRACE_REQUIRE_AUTH=1
@@ -70,11 +70,11 @@ services:
 
   redis:
     image: redis:7-alpine
-    command: ["redis-server", "--appendonly", "yes"]
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:?REDIS_PASSWORD must be set — see .env.example}"]
     volumes:
       - redis_prod_data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD-SHELL", "redis-cli -a \"$$REDIS_PASSWORD\" ping || redis-cli ping"]
       interval: 10s
       timeout: 3s
       retries: 3

@@ -35,11 +35,32 @@ class MockOllamaClient(OllamaClient):
         system_prompt: Optional[str] = None,
         temperature: float = 0.1,
         max_tokens: int = 1024,
-        max_retries: int = 2
+        max_retries: int = 2,
+        schema: Optional[Dict[str, Any]] = None,
+        schema_model: Optional[Any] = None,
+        **kwargs
     ) -> Dict[str, Any]:
         self.total_calls += 1
         self.successful_calls += 1
         prompt_lower = prompt.lower()
+
+        # 0. Bespoke Job Description Generation for Novel Roles
+        if "generate a realistic job description" in prompt_lower:
+            match = re.search(r"role:\s*([^\n\r]+)", prompt, re.IGNORECASE)
+            role_name = match.group(1).strip() if match else "Specialist Engineer"
+            return {
+                "title": role_name,
+                "company": "Enterprise Technology Solutions",
+                "department": "Advanced Engineering",
+                "about": f"We are seeking an exceptional {role_name} to design and execute mission-critical systems in our specialized domain.",
+                "requirements": [
+                    f"Domain Mastery in {role_name}: Deep practical competency and domain expertise.",
+                    "Core Architecture & System Implementation: Designing robust, fault-tolerant technical components.",
+                    "Empirical Problem Solving & Debugging: Tackling complex domain bottlenecks and production challenges.",
+                    "Cross-Functional Alignment: Collaborating with distributed technical and stakeholder teams.",
+                    "Operational Excellence & Quality: Establishing automated testing and release discipline."
+                ]
+            }
 
         # 1. Requirement Mapping Agent
         if "decompose into 4-6 key requirements" in prompt_lower or "job description" in prompt_lower:

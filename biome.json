@@ -1,0 +1,32 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "organizeImports": {
+    "enabled": false
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": false,
+      "correctness": {
+        "noUnusedVariables": "warn",
+        "noUnreachable": "error",
+        "noConstantCondition": "warn",
+        "noDuplicateCase": "error"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "indentStyle": "space",
+      "indentWidth": 2
+    }
+  },
+  "files": {
+    "ignore": [
+      "vendor/**",
+      "ui/vendor/**",
+      "eval_cases/**",
+      "trajectories/**"
+    ]
+  }
+}

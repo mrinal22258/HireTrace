@@ -1,0 +1,7 @@
+[
+  {
+    "id": "2026-09-16-hardening",
+    "date": "2026-09-16",
+    "text": "HireTrace v2.1 Pre-Launch Hardening: Async non-blocking evaluation, automated stale job self-healing, zero-fabrication audit fallback, and GZip wire compression active."
+  }
+]

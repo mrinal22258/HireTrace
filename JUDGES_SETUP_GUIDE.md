@@ -12,6 +12,22 @@
 
 ---
 
+## ⚡ 1-Click Unified Live Launcher (Zero Hassle)
+
+To run everything with a single command — automatically starting `ollama serve` in the background, checking the model, launching the dashboard, and opening your browser:
+
+```bash
+# Windows (double-click or terminal):
+run_live.bat
+
+# macOS / Linux / Cross-platform:
+python run_live.py
+```
+*Press `Ctrl+C` in the terminal when finished to shut down cleanly.*
+
+---
+
+
 ## 🛠️ Prerequisites (For a Fresh Machine)
 
 ### 1. Python
@@ -49,6 +65,13 @@ pip install -r requirements.txt
 ## 🚀 Path A: Instant 60-Second Evaluation (No Model Download)
 
 The repository includes **pre-computed, validated execution trajectories** in [`trajectories/`](trajectories/) for all 15 benchmark cases (including the centerpiece deceptive case `Alexander Sterling`).
+
+### Step 0: Fresh Start & Demo Reset (Optional Clean Slate)
+Before running a recorded live demo or if you wish to reset any uploaded test files back to canonical benchmark cases:
+```bash
+python scripts/reset_demo_data.py
+```
+*This one-command script wipes any custom test uploads, clears scratch caches, and reseeds strictly the 15 canonical benchmark candidates into `hiretrace.db`.*
 
 ### Step 1: Launch the Interactive Dashboard
 ```bash
@@ -112,6 +135,10 @@ copy .env.example .env
 cp .env.example .env
 ```
 
+> **Note on Ollama Server-Side Performance:**
+> `OLLAMA_NUM_PARALLEL=4` and `OLLAMA_MAX_LOADED_MODELS=1` are server-side environment variables read by the `ollama serve` process itself (not by HireTrace client processes). Setting these in your shell before starting Ollama maximizes GPU concurrency and prevents model unloading.
+
+
 ### Step 5: Run the Full 15-Case Benchmark Evaluation
 ```bash
 python -m eval.run_eval
@@ -134,7 +161,9 @@ The results will generate/update [`eval/eval_report.md`](eval/eval_report.md) an
 | **Deliverable #2: Architecture & Problem Framing** | [`README.md`](README.md) §1–§5 | Problem bottleneck, 2D quadrant philosophy, and multi-agent pipeline design. |
 | **Deliverable #3: Benchmark & Empirical Report** | [`eval/eval_report.md`](eval/eval_report.md) & [`METHODOLOGY.md`](METHODOLOGY.md) | Formal ground truth consensus, 15 synthetic cases, Spearman ρ, Contradiction Recall/Precision. |
 | **Deliverable #4: Agent Execution Trajectories** | [`trajectories/`](trajectories/) | Step-by-step LLM reasoning traces, tool inputs/outputs, and [`agent_trajectories_breakdown.md`](trajectories/agent_trajectories_breakdown.md). |
-| **Interactive UI Dashboard** | `python -m ui.server 8080` | Live web dashboard with 2D quadrant visualization & dynamic candidate intake. |
+| **Quality Scoreboard & Perf Baselines** | [`docs/QUALITY_BASELINE.md`](docs/QUALITY_BASELINE.md) & [`docs/PERF_BASELINE.md`](docs/PERF_BASELINE.md) | Empirical latency scoreboard (~26.25s), grounding rate, citation precision, and regression bounds. |
+| **LongExtractBench CV Benchmark** | [`vendor/longextract_bench/`](vendor/longextract_bench/) & [`eval/eval_report.md`](eval/eval_report.md) | Deterministic grader measuring 84.8% matched leaf extraction accuracy across 16 documents. |
+| **Interactive UI Dashboard** | `python -m ui.server 8080` | Live web dashboard with 2D quadrant visualization, EEOC Governance telemetry, & dynamic intake. |
 
 ---
 

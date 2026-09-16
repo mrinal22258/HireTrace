@@ -44,6 +44,23 @@ celery_app.conf.update(
     broker_connection_retry_on_startup=True
 )
 
+# Optional scheduled data retention purge task
+retention_days_env = os.getenv("HIRETRACE_DATA_RETENTION_DAYS", "").strip()
+if retention_days_env:
+    try:
+        r_days = int(retention_days_env)
+        if r_days > 0:
+            celery_app.conf.beat_schedule = {
+                "daily-candidate-data-retention-purge": {
+                    "task": "agents.tasks.purge_expired_candidates_task",
+                    "schedule": 86400.0,  # Run daily
+                    "args": (r_days,),
+                }
+            }
+    except ValueError:
+        pass
+
+
 # Cached pipeline instance for worker process
 _GLOBAL_PIPELINE: Optional[HireTracePipeline] = None
 
@@ -77,16 +94,31 @@ def run_candidate_evaluation_core(
                 f"Idempotency guard: candidate {cid} has status '{job_status}' (not 'evaluating'). Aborting evaluation to prevent double-processing."
             )
             return case_data
-    else:
+    def notify_progress(step_data: Dict[str, Any]):
+        DB.save_job(
+            candidate_id=cid,
+            status=step_data.get("status", "evaluating"),
+            progress_pct=step_data.get("progress_pct", 0),
+            current_step=step_data.get("current_step", ""),
+            error_msg=step_data.get("error"),
+        )
+        if update_callback:
+            update_callback(cid, step_data)
+        else:
+            try:
+                from agents.job_manager import JOB_MANAGER
+                JOB_MANAGER.update_job(cid, **step_data)
+            except Exception:
+                pass
+
+    if not job_record:
         # Direct execution without prior queue record: initialize as evaluating
-        DB.save_job(cid, status="evaluating", progress_pct=10, current_step="Starting evaluation...")
+        notify_progress({"status": "evaluating", "progress_pct": 10, "current_step": "Starting evaluation..."})
 
     try:
         # Step 1: Chunking & Dossier Construction
         current_step = "Chunking evidence spans & building candidate dossier..."
-        DB.save_job(cid, status="evaluating", progress_pct=20, current_step=current_step)
-        if update_callback:
-            update_callback(cid, {"status": "evaluating", "progress_pct": 20, "current_step": current_step})
+        notify_progress({"status": "evaluating", "progress_pct": 20, "current_step": current_step})
 
         dossier = EvidenceLoader.load_case_from_dict(case_data)
         target_role = case_data.get("target_role", "Senior Software Engineer")
@@ -120,38 +152,30 @@ def run_candidate_evaluation_core(
             )
 
             finish_step = "Tier-0 Fast Triage Complete: Low Domain Fit (Bypassed LLM)"
-            DB.save_job(cid, status="done", progress_pct=100, current_step=finish_step)
-            if update_callback:
-                update_callback(cid, {
-                    "status": "done",
-                    "progress_pct": 100,
-                    "current_step": finish_step,
-                    "report": triage_report,
-                    "baseline_a": rubric.to_dict()
-                })
+            notify_progress({
+                "status": "done",
+                "progress_pct": 100,
+                "current_step": finish_step,
+                "report": triage_report,
+                "baseline_a": rubric.to_dict()
+            })
             return case_data
 
         # Step 2: Deterministic Baseline Rubric
         current_step = "Calculating deterministic CareerCheck rubric baseline..."
-        DB.save_job(cid, status="evaluating", progress_pct=40, current_step=current_step)
-        if update_callback:
-            update_callback(cid, {"status": "evaluating", "progress_pct": 40, "current_step": current_step})
+        notify_progress({"status": "evaluating", "progress_pct": 40, "current_step": current_step})
 
         rubric = RubricScorer.evaluate_from_dict(dossier.structured_cv_profile)
 
         # Step 3: Run Multi-Agent Verification Pipeline
         current_step = "Retrieval indexing & cross-source contradiction verification..."
-        DB.save_job(cid, status="evaluating", progress_pct=60, current_step=current_step)
-        if update_callback:
-            update_callback(cid, {"status": "evaluating", "progress_pct": 60, "current_step": current_step})
+        notify_progress({"status": "evaluating", "progress_pct": 60, "current_step": current_step})
 
         pipe = pipeline or get_worker_pipeline()
         report = pipe.run(dossier, log_trajectory=True)
 
         current_step = "Writing 2D quadrant assessment report card..."
-        DB.save_job(cid, status="evaluating", progress_pct=90, current_step=current_step)
-        if update_callback:
-            update_callback(cid, {"status": "evaluating", "progress_pct": 90, "current_step": current_step})
+        notify_progress({"status": "evaluating", "progress_pct": 90, "current_step": current_step})
 
         # Step 4: Persist Evaluated Case to Disk & DB
         case_data["evaluation_report"] = report.to_dict()
@@ -178,16 +202,14 @@ def run_candidate_evaluation_core(
 
         is_degraded = getattr(report, "degraded", False)
         done_step = "Assessment complete. Report ready." if not is_degraded else "Assessment complete (DEGRADED: Local LLM offline)."
-        DB.save_job(cid, status="done", progress_pct=100, current_step=done_step)
-        if update_callback:
-            update_callback(cid, {
-                "status": "done",
-                "progress_pct": 100,
-                "current_step": done_step,
-                "report": report.to_dict(),
-                "baseline_a": rubric.to_dict(),
-                "degraded": is_degraded
-            })
+        notify_progress({
+            "status": "done",
+            "progress_pct": 100,
+            "current_step": done_step,
+            "report": report.to_dict(),
+            "baseline_a": rubric.to_dict(),
+            "degraded": is_degraded
+        })
 
         return case_data
 
@@ -195,14 +217,12 @@ def run_candidate_evaluation_core(
         err_msg = str(err)
         logger.error(f"Error evaluating candidate {cid}: {err_msg}", exc_info=True)
         fail_step = f"Evaluation failed: {err_msg}"
-        DB.save_job(cid, status="failed", progress_pct=100, current_step=fail_step, error_msg=err_msg)
-        if update_callback:
-            update_callback(cid, {
-                "status": "failed",
-                "progress_pct": 100,
-                "current_step": fail_step,
-                "error": err_msg
-            })
+        notify_progress({
+            "status": "failed",
+            "progress_pct": 100,
+            "current_step": fail_step,
+            "error": err_msg
+        })
         raise err
 
 
@@ -210,17 +230,30 @@ def run_candidate_evaluation_core(
 def evaluate_candidate_celery_task(self, case_data: Dict[str, Any], cases_dir: str):
     """
     Celery task wrapper for candidate evaluation.
-    Supports automatic retry on worker failure and late ACKs.
+    Supports automatic retry on worker failure and late ACKs with monotonic progress preservation.
     """
     cid = case_data.get("candidate_id")
-    DB.save_job(cid, status="evaluating", progress_pct=15, current_step="Claimed by Celery worker. Starting evaluation...")
+    from agents.job_manager import JOB_MANAGER
+    JOB_MANAGER.update_job(cid, status="evaluating", progress_pct=15, current_step="Claimed by Celery worker. Starting evaluation...")
     try:
         return run_candidate_evaluation_core(cid, case_data, cases_dir)
     except Exception as exc:
         if self.request.retries < self.max_retries:
-            retry_step = f"Worker transient failure. Retrying attempt {self.request.retries + 1}/{self.max_retries}..."
-            DB.save_job(cid, status="queued", progress_pct=10, current_step=retry_step, error_msg=str(exc))
+            retry_step = f"Retrying after transient failure — resuming from last checkpoint..."
+            existing_job = DB.get_job(cid)
+            last_pct = existing_job.get("progress_pct", 15) if existing_job else 15
+            JOB_MANAGER.update_job(cid, status="retrying", progress_pct=last_pct, current_step=retry_step, error=str(exc))
             raise self.retry(exc=exc)
         else:
-            DB.save_job(cid, status="failed", progress_pct=100, current_step=f"Evaluation failed permanently: {str(exc)}", error_msg=str(exc))
+            JOB_MANAGER.update_job(cid, status="failed", progress_pct=100, current_step=f"Evaluation failed permanently: {str(exc)}", error=str(exc))
             raise exc
+
+
+@celery_app.task
+def purge_expired_candidates_task(retention_days: Optional[int] = None):
+    """
+    Scheduled task to purge candidates older than the retention threshold.
+    """
+    from agents.retention import purge_expired_candidates
+    return purge_expired_candidates(retention_days=retention_days)
+

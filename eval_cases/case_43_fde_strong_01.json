@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_43_fde_strong_01",
+  "name": "Maya Chen",
+  "target_role": "Forward Deployed Engineer",
+  "category": "fde_strong",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 95.0,
+    "expert_scores": {
+      "reviewer_1": 93,
+      "reviewer_2": 95,
+      "reviewer_3": 94
+    },
+    "expert_composite_score": 94.0
+  },
+  "cv_text": "# Maya Chen - Lead Forward Deployed Engineer\n5+ years experience deploying mission-critical analytics platforms on-prem and in customer cloud environments.\n## Experience\nLead Solutions & Forward Deployed Engineer at Palantir-Style Platforms (2020 - Present | 4.2 years)\n- Embedded on-site with Fortune 50 clients to design and deploy real-time ETL pipelines and custom API connectors under tight delivery deadlines.\n- Triaged live customer production outages, debugging distributed log streams, Kubernetes ingress bottlenecks, and database replication lag.\n- Rapidly prototyped specialized API adapters and Python microservices under high-pressure customer SLAs, driving 99.8% customer satisfaction.\n- Partnered with enterprise client executives and engineering leads to define technical RFCs and overcome ambiguous legacy architecture constraints.\n",
+  "interview_notes": "# Technical Interview: Maya Chen\nInterviewer: Alex Vance\nAlex: \"How do you approach deploying into an ambiguous, poorly-documented customer environment under high pressure?\"\nMaya: \"I first map boundary APIs and network topology with tracing probes, isolate dependency failure modes, and build containerized mock harnesses so we can iterate rapidly without breaking live client systems.\"\n",
+  "technical_assessment": "# Technical Assessment: Maya Chen\nScore: 94 / 100 | Result: Exceptional\nExemplary execution of live customer troubleshooting scenario, rapid Python connector prototyping, and robust ambiguity tolerance.\n"
+}

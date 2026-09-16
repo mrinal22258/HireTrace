@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_19_aiml_med_02",
+  "name": "Rohan Gupta",
+  "target_role": "Senior Applied AI & Model Architect",
+  "category": "aiml_med",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 88.0,
+    "expert_scores": {
+      "reviewer_1": 75,
+      "reviewer_2": 76,
+      "reviewer_3": 77
+    },
+    "expert_composite_score": 76.0
+  },
+  "cv_text": "# Rohan Gupta - Applied ML Engineer\n2.5 years experience implementing RAG applications with LangChain, ChromaDB, and OpenAI API wrappers.\nSenior Associate at DataMinds (2022 - Present).\n",
+  "interview_notes": "# Interview: Rohan Gupta\nRohan demonstrated good understanding of prompt engineering and document loaders, but lacks low-level GPU kernel optimization or open-weights model fine-tuning depth.\n",
+  "technical_assessment": "# Technical Assessment: Rohan Gupta\nScore: 76 / 100\nClean RAG pipeline setup, but basic understanding of quantization and KV cache dynamics.\n"
+}

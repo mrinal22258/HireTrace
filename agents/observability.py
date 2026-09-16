@@ -59,6 +59,12 @@ class MetricsCollector:
         }
         self.pipeline_runs_total = 0
         self.pipeline_degraded_total = 0
+        self.redis_ratelimit_fallbacks_total = 0
+
+    def record_redis_ratelimit_fallback(self):
+        """Records a Redis rate limiter fallback to in-memory RateLimiter."""
+        with self._lock:
+            self.redis_ratelimit_fallbacks_total += 1
 
     def record_agent_latency(self, agent: str, duration_sec: float):
         """Records an agent run duration."""
@@ -169,6 +175,11 @@ class MetricsCollector:
             lines.append("# HELP hiretrace_llm_concurrency_capacity Max concurrent queries supported across backends")
             lines.append("# TYPE hiretrace_llm_concurrency_capacity gauge")
             lines.append(f"hiretrace_llm_concurrency_capacity {telemetry.get('total_capacity', 1)}")
+
+        # 5. Rate Limiter Telemetry
+        lines.append("# HELP hiretrace_redis_ratelimit_fallbacks_total Total fallback occurrences from Redis to in-memory rate limiter")
+        lines.append("# TYPE hiretrace_redis_ratelimit_fallbacks_total counter")
+        lines.append(f"hiretrace_redis_ratelimit_fallbacks_total {self.redis_ratelimit_fallbacks_total}")
 
         lines.append("")
         return "\n".join(lines)

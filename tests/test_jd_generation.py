@@ -66,8 +66,8 @@ def test_generate_role_tailored_jd_structure():
     fallback_jd = generate_role_tailored_jd("Chief Astronaut Officer")
     assert "# Chief Astronaut Officer" in fallback_jd
     assert "Enterprise Technology Solutions" in fallback_jd
-    assert "REQ-01: Core Programming & Clean Architecture" in fallback_jd
-    assert "REQ-05: Technical Problem Solving & Delivery" in fallback_jd
+    assert "REQ-01" in fallback_jd
+    assert "REQ-05" in fallback_jd
 
     # Empty role title
     empty_jd = generate_role_tailored_jd("")

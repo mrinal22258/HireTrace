@@ -49,8 +49,36 @@ def run_standalone_db_worker(concurrency: int = 2, poll_interval: float = 1.0, c
     signal.signal(signal.SIGINT, _sig_handler)
     signal.signal(signal.SIGTERM, _sig_handler)
 
+    from agents.retention import purge_expired_candidates, get_retention_days
+    last_retention_check = 0.0
+    retention_interval = 3600.0  # Check hourly in standalone mode
+    last_stale_sweep = 0.0
+    stale_sweep_interval = 15.0  # Check for stale evaluating jobs periodically
+
     while running:
         try:
+            # Check data retention purge if configured
+            now = time.time()
+            if get_retention_days() and (now - last_retention_check >= retention_interval):
+                last_retention_check = now
+                try:
+                    purged = purge_expired_candidates()
+                    if purged:
+                        logger.info(f"Data retention check: purged {len(purged)} expired candidate(s).")
+                except Exception as ret_err:
+                    logger.error(f"Error during retention purge: {ret_err}")
+
+            # Periodic stale-job sweep for crashed workers
+            stale_timeout = float(os.getenv("HIRETRACE_JOB_STALE_TIMEOUT_SECONDS", "300"))
+            if now - last_stale_sweep >= stale_sweep_interval:
+                last_stale_sweep = now
+                try:
+                    reaped = DB.reap_stale_jobs(stale_timeout)
+                    if reaped:
+                        logger.warning(f"Reaped {len(reaped)} stale evaluating job(s): {reaped}")
+                except Exception as stale_err:
+                    logger.error(f"Error during stale job reaper: {stale_err}")
+
             # Atomically claim next queued job (no check-then-act race across workers)
             claimed_job = DB.claim_next_queued_job()
             if not claimed_job:

@@ -61,11 +61,13 @@
             "notes": []
           }
         }
-      }
+      },
+      "duration_sec": 0.0
     },
     {
       "step": "retrieval_index_built",
-      "total_spans_indexed": 8
+      "total_spans_indexed": 8,
+      "duration_sec": 0.0499
     },
     {
       "step": "requirement_mapping",
@@ -73,9 +75,9 @@
       "output": [
         {
           "req_id": "REQ-01",
-          "name": "Core Python & AsyncIO",
+          "name": "Core Python & AsyncIO Concurrency",
           "category": "technical_skills",
-          "description": "Proficiency in Python 3.10+, asynchronous programming, and clean architecture.",
+          "description": "Proficiency in Python 3.10+, asynchronous programming, uvloop, and internal concurrency models.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
@@ -85,9 +87,9 @@
         },
         {
           "req_id": "REQ-02",
-          "name": "Distributed Systems & Message Queues",
+          "name": "Distributed Systems & Event Streaming",
           "category": "architecture",
-          "description": "Hands-on experience designing and operating event streams (Kafka/RabbitMQ) and distributed state.",
+          "description": "Hands-on experience deploying and operating event streams (Kafka/RabbitMQ) and partitioned event logs.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
@@ -97,9 +99,21 @@
         },
         {
           "req_id": "REQ-03",
-          "name": "Technical Leadership & Initiative",
+          "name": "Database Sharding & Data Consistency",
+          "category": "architecture",
+          "description": "Managing distributed state consistency across partitioned databases and distributed caches.",
+          "importance": "MUST_HAVE",
+          "expected_sources": [
+            "cv",
+            "project",
+            "interview"
+          ]
+        },
+        {
+          "req_id": "REQ-04",
+          "name": "Technical Architecture & RFC Writing",
           "category": "leadership",
-          "description": "Demonstrated track record of leading migrations, architectural decisions, and mentoring engineers.",
+          "description": "Authoring production RFCs, defining component boundaries, and leading cross-service migrations.",
           "importance": "IMPORTANT",
           "expected_sources": [
             "cv",
@@ -108,17 +122,18 @@
           ]
         },
         {
-          "req_id": "REQ-04",
-          "name": "Production Tenure & Operational Reliability",
+          "req_id": "REQ-05",
+          "name": "Production Operations & Reliability",
           "category": "production_experience",
-          "description": "At least 3+ years of commercial production experience managing live services and on-call.",
+          "description": "Managing live customer-facing systems, telemetry instrumentation, and production incident response.",
           "importance": "MUST_HAVE",
           "expected_sources": [
             "cv",
             "interview"
           ]
         }
-      ]
+      ],
+      "duration_sec": 0.0
     },
     {
       "step": "evidence_aggregation",
@@ -126,7 +141,7 @@
       "output": [
         {
           "req_id": "REQ-01",
-          "requirement_name": "Core Python & AsyncIO",
+          "requirement_name": "Core Python & AsyncIO Concurrency",
           "sources_present": [
             "cv",
             "interview",
@@ -144,7 +159,7 @@
               "metadata": {
                 "raw_line": "- Basic familiarity with Python and Docker."
               },
-              "similarity_score": 0.264
+              "similarity_score": 0.271
             },
             {
               "span_id": "CV-002",
@@ -155,18 +170,7 @@
               "metadata": {
                 "raw_line": "Location: Denver, CO | Experience: 1.8 years total"
               },
-              "similarity_score": 0.219
-            },
-            {
-              "span_id": "CV-005",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "No commercial Kafka or large-scale distributed systems experience.",
-              "metadata": {
-                "raw_line": "- No commercial Kafka or large-scale distributed systems experience."
-              },
-              "similarity_score": 0.176
+              "similarity_score": 0.225
             },
             {
               "span_id": "CV-003",
@@ -177,7 +181,18 @@
               "metadata": {
                 "raw_line": "- Built REST endpoints using Django and SQLite/PostgreSQL."
               },
-              "similarity_score": 0.161
+              "similarity_score": 0.215
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "No commercial Kafka or large-scale distributed systems experience.",
+              "metadata": {
+                "raw_line": "- No commercial Kafka or large-scale distributed systems experience."
+              },
+              "similarity_score": 0.165
             }
           ],
           "interview_spans": [
@@ -188,7 +203,7 @@
               "section": "interview",
               "text": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django applications and has not operated production Kafka or participated in high-severity on-call rotations.",
               "metadata": {},
-              "similarity_score": 0.294
+              "similarity_score": 0.327
             }
           ],
           "assessment_spans": [
@@ -199,7 +214,7 @@
               "section": "assessment",
               "text": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints blocked during concurrent database calls.",
               "metadata": {},
-              "similarity_score": 0.267
+              "similarity_score": 0.246
             }
           ],
           "project_spans": [
@@ -210,7 +225,7 @@
               "section": "project",
               "text": "# RFC-04: Internal Dashboard API\nAuthor: Tom Bradley | Status: Prototype",
               "metadata": {},
-              "similarity_score": 0.23
+              "similarity_score": 0.241
             }
           ],
           "jd_spans": [],
@@ -222,7 +237,7 @@
         },
         {
           "req_id": "REQ-02",
-          "requirement_name": "Distributed Systems & Message Queues",
+          "requirement_name": "Distributed Systems & Event Streaming",
           "sources_present": [
             "cv",
             "interview",
@@ -240,7 +255,7 @@
               "metadata": {
                 "raw_line": "- No commercial Kafka or large-scale distributed systems experience."
               },
-              "similarity_score": 0.312
+              "similarity_score": 0.266
             },
             {
               "span_id": "CV-004",
@@ -251,7 +266,7 @@
               "metadata": {
                 "raw_line": "- Basic familiarity with Python and Docker."
               },
-              "similarity_score": 0.226
+              "similarity_score": 0.238
             },
             {
               "span_id": "CV-003",
@@ -262,7 +277,7 @@
               "metadata": {
                 "raw_line": "- Built REST endpoints using Django and SQLite/PostgreSQL."
               },
-              "similarity_score": 0.148
+              "similarity_score": 0.146
             },
             {
               "span_id": "CV-002",
@@ -273,7 +288,7 @@
               "metadata": {
                 "raw_line": "Location: Denver, CO | Experience: 1.8 years total"
               },
-              "similarity_score": 0.118
+              "similarity_score": 0.134
             }
           ],
           "interview_spans": [
@@ -284,7 +299,7 @@
               "section": "interview",
               "text": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django applications and has not operated production Kafka or participated in high-severity on-call rotations.",
               "metadata": {},
-              "similarity_score": 0.398
+              "similarity_score": 0.331
             }
           ],
           "assessment_spans": [
@@ -295,7 +310,103 @@
               "section": "assessment",
               "text": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints blocked during concurrent database calls.",
               "metadata": {},
-              "similarity_score": 0.267
+              "similarity_score": 0.279
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-04: Internal Dashboard API\nAuthor: Tom Bradley | Status: Prototype",
+              "metadata": {},
+              "similarity_score": 0.092
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "self_projects",
+            "score": 20.0,
+            "normalized_total": 25.0
+          }
+        },
+        {
+          "req_id": "REQ-03",
+          "requirement_name": "Database Sharding & Data Consistency",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Location: Denver, CO | Experience: 1.8 years total",
+              "metadata": {
+                "raw_line": "Location: Denver, CO | Experience: 1.8 years total"
+              },
+              "similarity_score": 0.208
+            },
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "No commercial Kafka or large-scale distributed systems experience.",
+              "metadata": {
+                "raw_line": "- No commercial Kafka or large-scale distributed systems experience."
+              },
+              "similarity_score": 0.197
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Basic familiarity with Python and Docker.",
+              "metadata": {
+                "raw_line": "- Basic familiarity with Python and Docker."
+              },
+              "similarity_score": 0.162
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Built REST endpoints using Django and SQLite/PostgreSQL.",
+              "metadata": {
+                "raw_line": "- Built REST endpoints using Django and SQLite/PostgreSQL."
+              },
+              "similarity_score": 0.157
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django applications and has not operated production Kafka or participated in high-severity on-call rotations.",
+              "metadata": {},
+              "similarity_score": 0.287
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints blocked during concurrent database calls.",
+              "metadata": {},
+              "similarity_score": 0.236
             }
           ],
           "project_spans": [
@@ -317,8 +428,8 @@
           }
         },
         {
-          "req_id": "REQ-03",
-          "requirement_name": "Technical Leadership & Initiative",
+          "req_id": "REQ-04",
+          "requirement_name": "Technical Architecture & RFC Writing",
           "sources_present": [
             "cv",
             "interview",
@@ -328,17 +439,6 @@
           "total_spans_count": 7,
           "cv_spans": [
             {
-              "span_id": "CV-003",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Built REST endpoints using Django and SQLite/PostgreSQL.",
-              "metadata": {
-                "raw_line": "- Built REST endpoints using Django and SQLite/PostgreSQL."
-              },
-              "similarity_score": 0.215
-            },
-            {
               "span_id": "CV-005",
               "source_file": "cv.txt",
               "document_type": "cv",
@@ -347,18 +447,18 @@
               "metadata": {
                 "raw_line": "- No commercial Kafka or large-scale distributed systems experience."
               },
-              "similarity_score": 0.193
+              "similarity_score": 0.276
             },
             {
-              "span_id": "CV-004",
+              "span_id": "CV-002",
               "source_file": "cv.txt",
               "document_type": "cv",
               "section": "resume",
-              "text": "Basic familiarity with Python and Docker.",
+              "text": "Location: Denver, CO | Experience: 1.8 years total",
               "metadata": {
-                "raw_line": "- Basic familiarity with Python and Docker."
+                "raw_line": "Location: Denver, CO | Experience: 1.8 years total"
               },
-              "similarity_score": 0.169
+              "similarity_score": 0.199
             },
             {
               "span_id": "CV-001",
@@ -369,7 +469,18 @@
               "metadata": {
                 "raw_line": "# Tom Bradley, Junior-Mid Backend Engineer"
               },
-              "similarity_score": 0.132
+              "similarity_score": 0.165
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Basic familiarity with Python and Docker.",
+              "metadata": {
+                "raw_line": "- Basic familiarity with Python and Docker."
+              },
+              "similarity_score": 0.14
             }
           ],
           "interview_spans": [
@@ -380,7 +491,7 @@
               "section": "interview",
               "text": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django applications and has not operated production Kafka or participated in high-severity on-call rotations.",
               "metadata": {},
-              "similarity_score": 0.303
+              "similarity_score": 0.315
             }
           ],
           "assessment_spans": [
@@ -391,7 +502,103 @@
               "section": "assessment",
               "text": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints blocked during concurrent database calls.",
               "metadata": {},
-              "similarity_score": 0.285
+              "similarity_score": 0.294
+            }
+          ],
+          "project_spans": [
+            {
+              "span_id": "PRO-001",
+              "source_file": "project_doc.txt",
+              "document_type": "project",
+              "section": "project",
+              "text": "# RFC-04: Internal Dashboard API\nAuthor: Tom Bradley | Status: Prototype",
+              "metadata": {},
+              "similarity_score": 0.259
+            }
+          ],
+          "jd_spans": [],
+          "rubric_signal": {
+            "category": "bonus_points",
+            "score": 0.0,
+            "normalized_total": 25.0
+          }
+        },
+        {
+          "req_id": "REQ-05",
+          "requirement_name": "Production Operations & Reliability",
+          "sources_present": [
+            "cv",
+            "interview",
+            "assessment",
+            "project"
+          ],
+          "total_spans_count": 7,
+          "cv_spans": [
+            {
+              "span_id": "CV-005",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "No commercial Kafka or large-scale distributed systems experience.",
+              "metadata": {
+                "raw_line": "- No commercial Kafka or large-scale distributed systems experience."
+              },
+              "similarity_score": 0.24
+            },
+            {
+              "span_id": "CV-004",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Basic familiarity with Python and Docker.",
+              "metadata": {
+                "raw_line": "- Basic familiarity with Python and Docker."
+              },
+              "similarity_score": 0.208
+            },
+            {
+              "span_id": "CV-002",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Location: Denver, CO | Experience: 1.8 years total",
+              "metadata": {
+                "raw_line": "Location: Denver, CO | Experience: 1.8 years total"
+              },
+              "similarity_score": 0.169
+            },
+            {
+              "span_id": "CV-003",
+              "source_file": "cv.txt",
+              "document_type": "cv",
+              "section": "resume",
+              "text": "Built REST endpoints using Django and SQLite/PostgreSQL.",
+              "metadata": {
+                "raw_line": "- Built REST endpoints using Django and SQLite/PostgreSQL."
+              },
+              "similarity_score": 0.164
+            }
+          ],
+          "interview_spans": [
+            {
+              "span_id": "INT-001",
+              "source_file": "interview_notes.txt",
+              "document_type": "interview",
+              "section": "interview",
+              "text": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django applications and has not operated production Kafka or participated in high-severity on-call rotations.",
+              "metadata": {},
+              "similarity_score": 0.32
+            }
+          ],
+          "assessment_spans": [
+            {
+              "span_id": "ASS-001",
+              "source_file": "assessment_report.txt",
+              "document_type": "assessment",
+              "section": "assessment",
+              "text": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints blocked during concurrent database calls.",
+              "metadata": {},
+              "similarity_score": 0.251
             }
           ],
           "project_spans": [
@@ -407,235 +614,186 @@
           ],
           "jd_spans": [],
           "rubric_signal": {
-            "category": "bonus_points",
-            "score": 0.0,
-            "normalized_total": 25.0
-          }
-        },
-        {
-          "req_id": "REQ-04",
-          "requirement_name": "Production Tenure & Operational Reliability",
-          "sources_present": [
-            "cv",
-            "interview",
-            "assessment",
-            "project"
-          ],
-          "total_spans_count": 7,
-          "cv_spans": [
-            {
-              "span_id": "CV-005",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "No commercial Kafka or large-scale distributed systems experience.",
-              "metadata": {
-                "raw_line": "- No commercial Kafka or large-scale distributed systems experience."
-              },
-              "similarity_score": 0.254
-            },
-            {
-              "span_id": "CV-002",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Location: Denver, CO | Experience: 1.8 years total",
-              "metadata": {
-                "raw_line": "Location: Denver, CO | Experience: 1.8 years total"
-              },
-              "similarity_score": 0.19
-            },
-            {
-              "span_id": "CV-003",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Built REST endpoints using Django and SQLite/PostgreSQL.",
-              "metadata": {
-                "raw_line": "- Built REST endpoints using Django and SQLite/PostgreSQL."
-              },
-              "similarity_score": 0.182
-            },
-            {
-              "span_id": "CV-004",
-              "source_file": "cv.txt",
-              "document_type": "cv",
-              "section": "resume",
-              "text": "Basic familiarity with Python and Docker.",
-              "metadata": {
-                "raw_line": "- Basic familiarity with Python and Docker."
-              },
-              "similarity_score": 0.113
-            }
-          ],
-          "interview_spans": [
-            {
-              "span_id": "INT-001",
-              "source_file": "interview_notes.txt",
-              "document_type": "interview",
-              "section": "interview",
-              "text": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django applications and has not operated production Kafka or participated in high-severity on-call rotations.",
-              "metadata": {},
-              "similarity_score": 0.357
-            }
-          ],
-          "assessment_spans": [
-            {
-              "span_id": "ASS-001",
-              "source_file": "assessment_report.txt",
-              "document_type": "assessment",
-              "section": "assessment",
-              "text": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints blocked during concurrent database calls.",
-              "metadata": {},
-              "similarity_score": 0.306
-            }
-          ],
-          "project_spans": [
-            {
-              "span_id": "PRO-001",
-              "source_file": "project_doc.txt",
-              "document_type": "project",
-              "section": "project",
-              "text": "# RFC-04: Internal Dashboard API\nAuthor: Tom Bradley | Status: Prototype",
-              "metadata": {},
-              "similarity_score": 0.178
-            }
-          ],
-          "jd_spans": [],
-          "rubric_signal": {
             "category": "production",
             "score": 0.0,
             "normalized_total": 25.0
           }
         }
-      ]
+      ],
+      "duration_sec": 0.001
     },
     {
       "step": "cross_source_verification",
       "agent": "CrossSourceVerificationAgent",
       "output": {
         "candidate_id": "case_06_weak_01",
-        "total_requirements": 4,
-        "supported_count": 4,
+        "total_requirements": 5,
+        "supported_count": 5,
         "contradicted_count": 0,
         "insufficient_count": 0,
         "consistency_score": 100.0,
+        "degraded": false,
+        "degraded_reason": null,
         "verifications": [
           {
             "req_id": "REQ-01",
-            "requirement_name": "Core Python & AsyncIO",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
             "status": "SUPPORTED",
-            "confidence": 0.8,
-            "synthesis": "The candidate's technical skills, as evidenced by the interview and technical assessment, do not support proficiency in Python 3.10+, asynchronous programming, and clean architecture, contradicting the requirement.",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
             "supporting_citations": [
-              "INT-001",
-              "ASS-001"
+              "CV-004",
+              "CV-002"
             ],
             "citations": [
-              "INT-001",
-              "ASS-001"
+              "CV-004",
+              "CV-002"
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django app",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints block",
-                "document_type": "assessment"
-              }
-            ],
-            "discrepancies": []
-          },
-          {
-            "req_id": "REQ-02",
-            "requirement_name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "confidence": 0.8,
-            "synthesis": "The candidate's experience and skills do not support the requirement of hands-on experience with Kafka and RabbitMQ, as evidenced by the interview and CV, but the technical assessment score suggests a lack of proficiency.",
-            "supporting_citations": [
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations": [
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django app",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints block",
-                "document_type": "assessment"
-              }
-            ],
-            "discrepancies": []
-          },
-          {
-            "req_id": "REQ-03",
-            "requirement_name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "confidence": 0.8,
-            "synthesis": "The candidate's CV and interview evidence suggest limited experience with distributed systems and high-severity on-call rotations, which contradicts the requirement for technical leadership and initiative.",
-            "supporting_citations": [
-              "INT-001",
-              "CV-001"
-            ],
-            "citations": [
-              "INT-001",
-              "CV-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Tom Bradley, Junior-Mid Backend Engineer",
+                "span_id": "CV-004",
+                "quote": "Basic familiarity with Python and Docker.",
                 "document_type": "cv"
               },
               {
-                "span_id": "INT-001",
-                "quote": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django app",
-                "document_type": "interview"
+                "span_id": "CV-002",
+                "quote": "Location: Denver, CO | Experience: 1.8 years total",
+                "document_type": "cv"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           },
           {
-            "req_id": "REQ-04",
-            "requirement_name": "Production Tenure & Operational Reliability",
+            "req_id": "REQ-02",
+            "requirement_name": "Distributed Systems & Event Streaming",
             "status": "SUPPORTED",
-            "confidence": 0.8,
-            "synthesis": "The candidate's experience does not meet the requirement of at least 3+ years of commercial production experience managing live services and on-call, as evidenced by the interview and technical assessment.",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
             "supporting_citations": [
-              "INT-001",
-              "ASS-001"
+              "CV-005",
+              "CV-004"
             ],
             "citations": [
-              "INT-001",
-              "ASS-001"
+              "CV-005",
+              "CV-004"
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django app",
-                "document_type": "interview"
+                "span_id": "CV-005",
+                "quote": "No commercial Kafka or large-scale distributed systems experience.",
+                "document_type": "cv"
               },
               {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints block",
-                "document_type": "assessment"
+                "span_id": "CV-004",
+                "quote": "Basic familiarity with Python and Docker.",
+                "document_type": "cv"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
+          },
+          {
+            "req_id": "REQ-03",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "SUPPORTED",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
+            "supporting_citations": [
+              "CV-005",
+              "CV-002"
+            ],
+            "citations": [
+              "CV-005",
+              "CV-002"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-005",
+                "quote": "No commercial Kafka or large-scale distributed systems experience.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-002",
+                "quote": "Location: Denver, CO | Experience: 1.8 years total",
+                "document_type": "cv"
+              }
+            ],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
+          },
+          {
+            "req_id": "REQ-04",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "SUPPORTED",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
+            "supporting_citations": [
+              "CV-005",
+              "CV-002"
+            ],
+            "citations": [
+              "CV-005",
+              "CV-002"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-005",
+                "quote": "No commercial Kafka or large-scale distributed systems experience.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-002",
+                "quote": "Location: Denver, CO | Experience: 1.8 years total",
+                "document_type": "cv"
+              }
+            ],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
+          },
+          {
+            "req_id": "REQ-05",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "SUPPORTED",
+            "confidence": 0.85,
+            "synthesis": "Analyzed 4 source(s).",
+            "supporting_citations": [
+              "CV-005",
+              "CV-004"
+            ],
+            "citations": [
+              "CV-005",
+              "CV-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-005",
+                "quote": "No commercial Kafka or large-scale distributed systems experience.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-004",
+                "quote": "Basic familiarity with Python and Docker.",
+                "document_type": "cv"
+              }
+            ],
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           }
         ],
         "all_discrepancies": []
-      }
+      },
+      "duration_sec": 29.6132
     },
     {
       "step": "recommendation_writing",
@@ -647,117 +805,196 @@
         "role_fit_score": 70.0,
         "evidence_consistency_score": 100.0,
         "quadrant": "WEAK MATCH",
+        "degraded": false,
+        "degraded_reason": null,
         "recommendation": "Proceed to human review.",
         "priority_questions": [
-          "Verify high-scale production trade-offs in candidate's primary architecture project",
-          "Review code quality standards and testing practices across past contributions",
-          "Assess team leadership and cross-functional communication style"
+          "Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project",
+          "Review code quality standards, telemetry instrumentation, and testing practices across past contributions",
+          "Assess team leadership, RFC authoring, and cross-functional communication style"
         ],
         "key_discrepancies": [],
         "requirement_table": [
           {
             "req_id": "REQ-01",
-            "name": "Core Python & AsyncIO",
+            "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
+            "confidence": 0.85,
             "citations": [
-              "INT-001",
-              "ASS-001"
+              "CV-004",
+              "CV-002"
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django app",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints block",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The candidate's technical skills, as evidenced by the interview and technical assessment, do not support proficiency in Python 3.10+, asynchronous programming, and clean architecture, contradicting the requirement."
-          },
-          {
-            "req_id": "REQ-02",
-            "name": "Distributed Systems & Message Queues",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "INT-001",
-              "ASS-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "INT-001",
-                "quote": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django app",
-                "document_type": "interview"
-              },
-              {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints block",
-                "document_type": "assessment"
-              }
-            ],
-            "synthesis": "The candidate's experience and skills do not support the requirement of hands-on experience with Kafka and RabbitMQ, as evidenced by the interview and CV, but the technical assessment score suggests a lack of proficiency."
-          },
-          {
-            "req_id": "REQ-03",
-            "name": "Technical Leadership & Initiative",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
-            "citations": [
-              "INT-001",
-              "CV-001"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Tom Bradley, Junior-Mid Backend Engineer",
+                "span_id": "CV-004",
+                "quote": "Basic familiarity with Python and Docker.",
                 "document_type": "cv"
               },
               {
-                "span_id": "INT-001",
-                "quote": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django app",
-                "document_type": "interview"
+                "span_id": "CV-002",
+                "quote": "Location: Denver, CO | Experience: 1.8 years total",
+                "document_type": "cv"
               }
             ],
-            "synthesis": "The candidate's CV and interview evidence suggest limited experience with distributed systems and high-severity on-call rotations, which contradicts the requirement for technical leadership and initiative."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Flagged by LLM critic as insufficiently grounded in context"
           },
           {
-            "req_id": "REQ-04",
-            "name": "Production Tenure & Operational Reliability",
+            "req_id": "REQ-02",
+            "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.8,
+            "confidence": 0.85,
             "citations": [
-              "INT-001",
-              "ASS-001"
+              "CV-005",
+              "CV-004"
             ],
             "citations_detail": [
               {
-                "span_id": "INT-001",
-                "quote": "# Interview: Tom Bradley\nCandidate was candid about having limited distributed systems experience. Has primarily built monolithic Django app",
-                "document_type": "interview"
+                "span_id": "CV-005",
+                "quote": "No commercial Kafka or large-scale distributed systems experience.",
+                "document_type": "cv"
               },
               {
-                "span_id": "ASS-001",
-                "quote": "# Technical Assessment: Tom Bradley\nScore: 58 / 100 | Grade: Below Threshold (Tier: Bronze)\nFailed asynchronous stress test; endpoints block",
-                "document_type": "assessment"
+                "span_id": "CV-004",
+                "quote": "Basic familiarity with Python and Docker.",
+                "document_type": "cv"
               }
             ],
-            "synthesis": "The candidate's experience does not meet the requirement of at least 3+ years of commercial production experience managing live services and on-call, as evidenced by the interview and technical assessment."
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Flagged by LLM critic as insufficiently grounded in context"
+          },
+          {
+            "req_id": "REQ-03",
+            "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.85,
+            "citations": [
+              "CV-005",
+              "CV-002"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-005",
+                "quote": "No commercial Kafka or large-scale distributed systems experience.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-002",
+                "quote": "Location: Denver, CO | Experience: 1.8 years total",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords; Flagged by LLM critic as insufficiently grounded in context"
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.85,
+            "citations": [
+              "CV-005",
+              "CV-002"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-005",
+                "quote": "No commercial Kafka or large-scale distributed systems experience.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-002",
+                "quote": "Location: Denver, CO | Experience: 1.8 years total",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords; Flagged by LLM critic as insufficiently grounded in context"
+          },
+          {
+            "req_id": "REQ-05",
+            "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.85,
+            "citations": [
+              "CV-005",
+              "CV-004"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-005",
+                "quote": "No commercial Kafka or large-scale distributed systems experience.",
+                "document_type": "cv"
+              },
+              {
+                "span_id": "CV-004",
+                "quote": "Basic familiarity with Python and Docker.",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Analyzed 4 source(s).",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords; Flagged by LLM critic as insufficiently grounded in context"
           }
         ],
         "unsupported_claim_count": 0,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 25.0,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Tom Bradley | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           70.0 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [WEAK MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO        [PASS] SUPPORTED\n  Distributed Systems & Mess   [PASS] SUPPORTED\n  Technical Leadership & Ini   [PASS] SUPPORTED\n  Production Tenure & Operat   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs in candidate's primary architecture project\n  -> Review code quality standards and testing practices across past contributions\n  -> Assess team leadership and cross-functional communication style\n===================================================================="
-      }
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": 100.0,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": 100.0,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 25.0,
+          "rubric_weight": 0.4,
+          "role_fit_score": 70.0
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-15 13:53:32 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Tom Bradley | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           70.0 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [WEAK MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [PASS] SUPPORTED [GROUNDED: CV-004, CV-002]\n  Distributed Systems & Even   [PASS] SUPPORTED [GROUNDED: CV-005, CV-004]\n  Database Sharding & Data C   [PASS] SUPPORTED [GROUNDED: CV-005, CV-002]\n  Technical Architecture & R   [PASS] SUPPORTED [GROUNDED: CV-005, CV-002]\n  Production Operations & Re   [PASS] SUPPORTED [GROUNDED: CV-005, CV-004]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
+      },
+      "duration_sec": 0.0
+    },
+    {
+      "step": "claim_critic_review",
+      "agent": "ClaimCriticAgent",
+      "output": {
+        "total_claims": 5,
+        "grounded_claims": 0,
+        "synthesized_inferences": 5,
+        "grounding_rate": 0.0
+      },
+      "duration_sec": 12.8533
     }
   ],
-  "pipeline_latency_sec": 33.15
+  "pipeline_latency_sec": 42.52,
+  "degraded": false
 }

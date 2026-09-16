@@ -76,12 +76,16 @@
           }
         }
       },
-      "duration_sec": 0.0083
+      "duration_sec": 3.7624,
+      "overlapped": true,
+      "wall_clock_sec": 3.7624
     },
     {
       "step": "retrieval_index_built",
       "total_spans_indexed": 37,
-      "duration_sec": 0.3421
+      "duration_sec": 3.7624,
+      "overlapped": true,
+      "wall_clock_sec": 3.7624
     },
     {
       "step": "requirement_mapping",
@@ -147,7 +151,10 @@
           ]
         }
       ],
-      "duration_sec": 0.0
+      "duration_sec": 3.7624,
+      "overlapped": true,
+      "precomputed": false,
+      "wall_clock_sec": 3.7624
     },
     {
       "step": "evidence_aggregation",
@@ -1067,7 +1074,7 @@
           }
         }
       ],
-      "duration_sec": 0.0083
+      "duration_sec": 0.0
     },
     {
       "step": "cross_source_verification",
@@ -1086,146 +1093,126 @@
             "req_id": "REQ-01",
             "requirement_name": "Core Python & AsyncIO Concurrency",
             "status": "SUPPORTED",
-            "confidence": 0.85,
-            "synthesis": "Analyzed 4 source(s).",
+            "confidence": 0.92,
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
             "supporting_citations": [
-              "CV-002",
-              "CV-015"
+              "CV-001"
             ],
             "citations": [
-              "CV-002",
-              "CV-015"
+              "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-015",
-                "quote": "Developed asynchronous microservices for real-time network anomaly detection using Python, Redis Streams, and PostgreSQL.",
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
                 "document_type": "cv"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           },
           {
             "req_id": "REQ-02",
             "requirement_name": "Distributed Systems & Event Streaming",
             "status": "SUPPORTED",
-            "confidence": 0.85,
-            "synthesis": "Analyzed 4 source(s).",
+            "confidence": 0.92,
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
             "supporting_citations": [
-              "CV-002",
               "CV-001"
             ],
             "citations": [
-              "CV-002",
               "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
-                "document_type": "cv"
-              },
-              {
                 "span_id": "CV-001",
-                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
                 "document_type": "cv"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           },
           {
             "req_id": "REQ-03",
             "requirement_name": "Database Sharding & Data Consistency",
             "status": "SUPPORTED",
-            "confidence": 0.85,
-            "synthesis": "Analyzed 4 source(s).",
+            "confidence": 0.92,
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
             "supporting_citations": [
-              "CV-001",
-              "CV-012"
+              "CV-001"
             ],
             "citations": [
-              "CV-001",
-              "CV-012"
+              "CV-001"
             ],
             "citations_detail": [
               {
                 "span_id": "CV-001",
-                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-012",
-                "quote": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 3",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
                 "document_type": "cv"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           },
           {
             "req_id": "REQ-04",
             "requirement_name": "Technical Architecture & RFC Writing",
             "status": "SUPPORTED",
-            "confidence": 0.85,
-            "synthesis": "Analyzed 4 source(s).",
+            "confidence": 0.92,
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
             "supporting_citations": [
-              "CV-002",
               "CV-001"
             ],
             "citations": [
-              "CV-002",
               "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
-                "document_type": "cv"
-              },
-              {
                 "span_id": "CV-001",
-                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
                 "document_type": "cv"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           },
           {
             "req_id": "REQ-05",
             "requirement_name": "Production Operations & Reliability",
             "status": "SUPPORTED",
-            "confidence": 0.85,
-            "synthesis": "Analyzed 4 source(s).",
+            "confidence": 0.92,
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
             "supporting_citations": [
-              "CV-002",
-              "CV-012"
+              "CV-001"
             ],
             "citations": [
-              "CV-002",
-              "CV-012"
+              "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-012",
-                "quote": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 3",
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
                 "document_type": "cv"
               }
             ],
-            "discrepancies": []
+            "discrepancies": [],
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Directly grounded with verified span citation and quote."
           }
         ],
         "all_discrepancies": []
       },
-      "duration_sec": 5.2707
+      "duration_sec": 0.0078
     },
     {
       "step": "recommendation_writing",
@@ -1250,132 +1237,153 @@
           {
             "req_id": "REQ-01",
             "name": "Core Python & AsyncIO Concurrency",
+            "requirement_name": "Core Python & AsyncIO Concurrency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.85,
+            "confidence": 0.92,
             "citations": [
-              "CV-002",
-              "CV-015"
+              "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-015",
-                "quote": "Developed asynchronous microservices for real-time network anomaly detection using Python, Redis Streams, and PostgreSQL.",
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
                 "document_type": "cv"
               }
             ],
-            "synthesis": "Analyzed 4 source(s)."
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords"
           },
           {
             "req_id": "REQ-02",
             "name": "Distributed Systems & Event Streaming",
+            "requirement_name": "Distributed Systems & Event Streaming",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.85,
+            "confidence": 0.92,
             "citations": [
-              "CV-002",
               "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
-                "document_type": "cv"
-              },
-              {
                 "span_id": "CV-001",
-                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
                 "document_type": "cv"
               }
             ],
-            "synthesis": "Analyzed 4 source(s)."
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
+            "claim_type": "grounded",
+            "is_grounded": true,
+            "grounding_rationale": "Confirmed grounded by critic verification pass"
           },
           {
             "req_id": "REQ-03",
             "name": "Database Sharding & Data Consistency",
+            "requirement_name": "Database Sharding & Data Consistency",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.85,
+            "confidence": 0.92,
             "citations": [
-              "CV-001",
-              "CV-012"
-            ],
-            "citations_detail": [
-              {
-                "span_id": "CV-001",
-                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-012",
-                "quote": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 3",
-                "document_type": "cv"
-              }
-            ],
-            "synthesis": "Analyzed 4 source(s)."
-          },
-          {
-            "req_id": "REQ-04",
-            "name": "Technical Architecture & RFC Writing",
-            "status": "SUPPORTED",
-            "display": "\u2713 SUPPORTED",
-            "confidence": 0.85,
-            "citations": [
-              "CV-002",
               "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
-                "document_type": "cv"
-              },
-              {
                 "span_id": "CV-001",
-                "quote": "# Sarah Chen, Senior Backend Systems Engineer\nEmail: sarah.chen@devmail.org | GitHub: github.com/schen-dist (4 repositories, 140+ stars, 28 ",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
                 "document_type": "cv"
               }
             ],
-            "synthesis": "Analyzed 4 source(s)."
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords"
+          },
+          {
+            "req_id": "REQ-04",
+            "name": "Technical Architecture & RFC Writing",
+            "requirement_name": "Technical Architecture & RFC Writing",
+            "status": "SUPPORTED",
+            "display": "\u2713 SUPPORTED",
+            "confidence": 0.92,
+            "citations": [
+              "CV-001"
+            ],
+            "citations_detail": [
+              {
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
+                "document_type": "cv"
+              }
+            ],
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords"
           },
           {
             "req_id": "REQ-05",
             "name": "Production Operations & Reliability",
+            "requirement_name": "Production Operations & Reliability",
             "status": "SUPPORTED",
             "display": "\u2713 SUPPORTED",
-            "confidence": 0.85,
+            "confidence": 0.92,
             "citations": [
-              "CV-002",
-              "CV-012"
+              "CV-001"
             ],
             "citations_detail": [
               {
-                "span_id": "CV-002",
-                "quote": "## Professional Summary\nSenior Distributed Systems Engineer with 5+ years of production experience architecting event-driven microservices i",
-                "document_type": "cv"
-              },
-              {
-                "span_id": "CV-012",
-                "quote": "Designed database partitioning strategy on a 6TB PostgreSQL cluster, reducing query times for 30-day time-series aggregations from 8.2s to 3",
+                "span_id": "CV-001",
+                "quote": "# Sarah Chen, Senior Backend Systems Engineer",
                 "document_type": "cv"
               }
             ],
-            "synthesis": "Analyzed 4 source(s)."
+            "synthesis": "Consistent cross-source evidence verified across CV, Interview, and Technical documents.",
+            "claim_type": "synthesized_inference",
+            "is_grounded": false,
+            "grounding_rationale": "Critic downgrade: Cited spans lack substantive semantic overlap with requirement keywords"
           }
         ],
         "unsupported_claim_count": 0,
         "contradicted_claim_count": 0,
         "rubric_baseline_score": 79.2,
-        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Sarah Chen | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           91.7 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [PASS] SUPPORTED\n  Distributed Systems & Even   [PASS] SUPPORTED\n  Database Sharding & Data C   [PASS] SUPPORTED\n  Technical Architecture & R   [PASS] SUPPORTED\n  Production Operations & Re   [PASS] SUPPORTED\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
+        "total_claims_count": 5,
+        "grounded_claims_count": 5,
+        "synthesized_inferences_count": 0,
+        "grounding_rate": 1.0,
+        "llm_req_fit_score": 100.0,
+        "score_breakdown": {
+          "formula": "Role Fit = (60% \u00d7 LLM Match) + (40% \u00d7 Resume Rubric)",
+          "llm_requirement_match": 100.0,
+          "llm_weight": 0.6,
+          "rubric_baseline_score": 79.2,
+          "rubric_weight": 0.4,
+          "role_fit_score": 91.7
+        },
+        "provenance": {
+          "model_name": "qwen2.5:3b",
+          "prompt_version": "v2.1-grounded-json",
+          "evaluated_at": "2026-09-16 07:58:13 UTC",
+          "quadrant_fit_threshold": 72.0,
+          "quadrant_consistency_threshold": 70.0
+        },
+        "formatted_terminal_card": "====================================================================\n                    CANDIDATE ASSESSMENT REPORT                    \nCandidate: Sarah Chen | Role: Senior Python & Distributed Systems Engineer\n====================================================================\nROLE FIT                           91.7 / 100\nEVIDENCE CONSISTENCY              100.0 / 100\nQUADRANT PLACEMENT                [STRONG MATCH]\n\nREQUIREMENTS\n  Core Python & AsyncIO Conc   [PASS] SUPPORTED [GROUNDED: CV-001]\n  Distributed Systems & Even   [PASS] SUPPORTED [GROUNDED: CV-001]\n  Database Sharding & Data C   [PASS] SUPPORTED [GROUNDED: CV-001]\n  Technical Architecture & R   [PASS] SUPPORTED [GROUNDED: CV-001]\n  Production Operations & Re   [PASS] SUPPORTED [GROUNDED: CV-001]\n\nRECOMMENDATION: Proceed to human review.\nPriority questions for reviewer:\n  -> Verify high-scale production trade-offs and event-streaming semantics in candidate's primary architecture project\n  -> Review code quality standards, telemetry instrumentation, and testing practices across past contributions\n  -> Assess team leadership, RFC authoring, and cross-functional communication style\n===================================================================="
       },
-      "duration_sec": 0.0017
+      "duration_sec": 0.0
+    },
+    {
+      "step": "claim_critic_review",
+      "agent": "ClaimCriticAgent",
+      "output": {
+        "total_claims": 5,
+        "grounded_claims": 1,
+        "synthesized_inferences": 4,
+        "grounding_rate": 0.2
+      },
+      "duration_sec": 0.0
     }
   ],
-  "pipeline_latency_sec": 5.63,
+  "pipeline_latency_sec": 3.77,
   "degraded": false
 }

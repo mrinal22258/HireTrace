@@ -15,24 +15,34 @@ import threading
 import logging
 from typing import Dict, List, Optional, Tuple, Any
 import numpy as np
+from cachetools import LRUCache
 
 logger = logging.getLogger("hiretrace.embedding_cache")
 
 DEFAULT_CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "eval_cases", "cache")
+DEFAULT_MAX_CACHE_ENTRIES = 10000
 
 
 class EmbeddingCache:
-    """Thread-safe, on-disk persisted embedding and index cache."""
+    """Thread-safe, on-disk persisted embedding and index cache with LRU memory bounds."""
 
-    def __init__(self, cache_dir: Optional[str] = None):
+    def __init__(self, cache_dir: Optional[str] = None, max_entries: Optional[int] = None):
         self.cache_dir = cache_dir or DEFAULT_CACHE_DIR
         os.makedirs(self.cache_dir, exist_ok=True)
         self.cache_file = os.path.join(self.cache_dir, "chunk_embeddings.npz")
         self.indices_dir = os.path.join(self.cache_dir, "candidate_indices")
         os.makedirs(self.indices_dir, exist_ok=True)
 
+        if max_entries is not None:
+            self.max_entries = max_entries
+        else:
+            try:
+                self.max_entries = int(os.environ.get("EMBEDDING_CACHE_MAX_ENTRIES", str(DEFAULT_MAX_CACHE_ENTRIES)))
+            except ValueError:
+                self.max_entries = DEFAULT_MAX_CACHE_ENTRIES
+
         self._jd_cache: Dict[str, np.ndarray] = {}  # jd_hash -> vector
-        self._chunk_cache: Dict[str, np.ndarray] = {}  # sha256 -> vector
+        self._chunk_cache: LRUCache = LRUCache(maxsize=self.max_entries)
         self._lock = threading.Lock()
 
         self._load_from_disk()
@@ -129,6 +139,22 @@ class EmbeddingCache:
                 f.write(fingerprint.strip())
         except Exception as e:
             logger.warning(f"Failed to write candidate index fingerprint: {e}")
+
+    def evict_candidate(self, candidate_id: str):
+        """Evicts candidate-specific cached fingerprints and index artifacts."""
+        fp_path = os.path.join(self.indices_dir, f"{candidate_id}.fp")
+        if os.path.exists(fp_path):
+            try:
+                os.remove(fp_path)
+            except Exception as e:
+                logger.warning(f"Failed to remove candidate fingerprint file {fp_path}: {e}")
+        # Also clean up any candidate index file if stored
+        index_file = os.path.join(self.indices_dir, f"{candidate_id}.index")
+        if os.path.exists(index_file):
+            try:
+                os.remove(index_file)
+            except Exception:
+                pass
 
     def clear(self):
         with self._lock:

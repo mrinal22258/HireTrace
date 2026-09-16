@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_39_sre_strong_02",
+  "name": "Zoe Kravitz-Vance",
+  "target_role": "Lead Site Reliability & Cloud Infrastructure Engineer",
+  "category": "sre_strong",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 94.0,
+    "expert_scores": {
+      "reviewer_1": 92,
+      "reviewer_2": 93,
+      "reviewer_3": 91
+    },
+    "expert_composite_score": 92.0
+  },
+  "cv_text": "# Zoe Kravitz-Vance, Senior Cloud DevOps Engineer\n4 years experience building automated CI/CD pipelines and managing AWS infrastructure via Terraform and ArgoCD.\nSenior DevOps Engineer at InfraMesh (2021 - Present | 3.6 years).\n",
+  "interview_notes": "# Interview: Zoe Kravitz-Vance\nStrong grasp of GitOps principles, progressive delivery with Argo Rollouts, and IAM least-privilege security controls.\n",
+  "technical_assessment": "# Technical Assessment: Zoe Kravitz-Vance\nScore: 93 / 100\nHigh marks on infrastructure-as-code linting, container security scanning, and automated deployment pipelines.\n"
+}

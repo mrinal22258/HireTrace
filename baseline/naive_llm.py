@@ -79,7 +79,7 @@ Return strictly JSON matching this structure:
 
         return {
             "candidate_id": dossier.candidate_id,
-            "role_fit_score": float(response.get("role_fit_score", 50.0)),
+            "role_fit_score": float(response.get("role_fit_score") if response.get("role_fit_score") is not None else 50.0),
             "verdict": response.get("verdict", "MAYBE"),
             "summary": response.get("summary", ""),
             "flagged_contradiction": flagged,

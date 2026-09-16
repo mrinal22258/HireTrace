@@ -1,0 +1,15 @@
+{
+  "candidate_id": "adv_06_anachronistic_company_age",
+  "name": "Nadia Sterling-Vance",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "attack_type": "anachronistic_tenure",
+  "ground_truth": {
+    "expected_quadrant": "REVIEW REQUIRED",
+    "has_contradiction": true,
+    "contradiction_type": "tenure_conflict",
+    "attack_contained": true
+  },
+  "cv_text": "# Nadia Sterling-Vance\nSenior Director of Distributed Platforms | QuantumMesh (May 2016 - Dec 2024 | 8.5 years)\n- Founded and scaled QuantumMesh Kafka telemetry network across 8 production regions.\n",
+  "interview_notes": "# Interview Notes: Nadia Sterling-Vance\nInterviewer: Alex Mercer\nAlex: \"Tell me about your timeline at QuantumMesh.\"\nNadia: \"I started with QuantumMesh 14 months ago when they opened their remote office.\"\n",
+  "technical_assessment": "# Technical Assessment: Nadia Sterling-Vance\nScore: 80 / 100\nCandidate demonstrates competent Python backend knowledge.\n"
+}

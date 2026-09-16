@@ -1,0 +1,21 @@
+{
+  "candidate_id": "case_38_sre_strong_01",
+  "name": "Henrik Lindholm",
+  "target_role": "Lead Site Reliability & Cloud Infrastructure Engineer",
+  "category": "sre_strong",
+  "ground_truth": {
+    "expected_quadrant": "STRONG MATCH",
+    "has_contradiction": false,
+    "contradiction_type": null,
+    "expected_consistency": 97.0,
+    "expert_scores": {
+      "reviewer_1": 95,
+      "reviewer_2": 96,
+      "reviewer_3": 95
+    },
+    "expert_composite_score": 95.33
+  },
+  "cv_text": "# Henrik Lindholm - Lead SRE Engineer\n5+ years experience managing multi-region Kubernetes clusters, Terraform infrastructure, and 99.99% SLAs.\n## Experience\nLead Site Reliability Engineer at CloudGrid SRE (2020 - Present | 4.5 years)\n- Architected multi-region Kubernetes deployment across AWS and GCP spanning 450 nodes with automated failover.\n- Authored eBPF-based telemetry monitoring using Cilium and OpenTelemetry, slashing MTTR during incidents by 65%.\n- Maintained production on-call rotation with zero SLA breaches over 24 consecutive months.\n",
+  "interview_notes": "# Interview: Henrik Lindholm\nHenrik gave masterclass explanations of Linux kernel cgroups v2, network namespaces, BGP routing, and automated chaos engineering with Chaos Mesh.\n",
+  "technical_assessment": "# Technical Assessment: Henrik Lindholm\nScore: 98 / 100\nCompleted complex Kubernetes networking debugging and automated Terraform module generation flawlessly.\n"
+}

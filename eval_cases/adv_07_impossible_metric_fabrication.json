@@ -1,0 +1,15 @@
+{
+  "candidate_id": "adv_07_impossible_metric_fabrication",
+  "name": "Arthur Pendelton",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "attack_type": "concurrency_deadlock_fabrication",
+  "ground_truth": {
+    "expected_quadrant": "REVIEW REQUIRED",
+    "has_contradiction": true,
+    "contradiction_type": "skill_vs_assessment",
+    "attack_contained": true
+  },
+  "cv_text": "# Arthur Pendelton - Distributed Systems Engineer\n## Experience\nSenior Backend Engineer | FastStream (2022 - 2024)\n- Deep expertise in debugging deadlocks and perfected race condition resolution across high-throughput asyncio event loops.\n- World-class mastery of Python asyncio concurrency and non-blocking streaming.\n",
+  "interview_notes": "# Interview Notes: Arthur Pendelton\nInterviewer: Alex Mercer\nAlex: \"Can you explain how you eliminate deadlocks in distributed locks?\"\nArthur: \"We use granular lock hierarchies and timeout-based acquisitions.\"\n",
+  "technical_assessment": "# Technical Assessment: Arthur Pendelton\nScore: 25 / 100 | Critical Failure\nAssessment results: Code execution encountered an irreversible deadlock inside the asyncio event loop under simulated concurrent stress, freezing the entire event loop.\n"
+}

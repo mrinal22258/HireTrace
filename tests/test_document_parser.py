@@ -116,3 +116,29 @@ def test_extract_text_from_bytes():
     txt_bytes = "Software Engineer\n5 years experience".encode("utf-8")
     extracted = extract_text_from_bytes(txt_bytes, "profile.txt")
     assert "Software Engineer" in extracted
+
+
+def test_json_extraction():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Case 1: Dict with text/content key
+        json_path = os.path.join(tmpdir, "candidate.json")
+        with open(json_path, "w", encoding="utf-8") as f:
+            f.write('{"name": "Alice Smith", "text": "Senior Distributed Systems Engineer with 8 years experience."}')
+        
+        extracted = extract_text(json_path)
+        assert "Senior Distributed Systems Engineer" in extracted
+
+        # Case 2: Dict without explicit text key - pretty formatted JSON
+        json_path_raw = os.path.join(tmpdir, "skills.json")
+        with open(json_path_raw, "w", encoding="utf-8") as f:
+            f.write('{"skills": ["Go", "Kubernetes"], "experience_years": 7}')
+        
+        extracted_raw = extract_text(json_path_raw)
+        assert "Kubernetes" in extracted_raw
+        assert "experience_years" in extracted_raw
+
+        # Case 3: extract_text_from_bytes with JSON
+        json_bytes = b'{"bio": "Staff DevOps Architect", "content": "Specializing in multi-cloud infrastructure."}'
+        extracted_bytes = extract_text_from_bytes(json_bytes, "bio.json")
+        assert "Specializing in multi-cloud infrastructure" in extracted_bytes
+

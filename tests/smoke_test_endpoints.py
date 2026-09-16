@@ -51,14 +51,14 @@ def test_smoke_static_pages(smoke_server):
 
 def test_smoke_cases_endpoints(smoke_server):
     # 1. All cases summary
-    r = requests.get(f"{smoke_server}/api/cases")
+    r = requests.get(f"{smoke_server}/api/cases?include_demo=true")
     assert r.status_code == 200
     cases = r.json()
     assert isinstance(cases, list)
     assert len(cases) > 0
 
     # 2. Paginated cases
-    r = requests.get(f"{smoke_server}/api/cases?page=1&limit=5")
+    r = requests.get(f"{smoke_server}/api/cases?page=1&limit=5&include_demo=true")
     assert r.status_code == 200
     paged = r.json()
     assert "items" in paged

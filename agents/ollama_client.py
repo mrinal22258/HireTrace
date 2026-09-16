@@ -25,6 +25,9 @@ logger = logging.getLogger("hiretrace.ollama")
 DEFAULT_OLLAMA_URL = os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434").rstrip("/")
 DEFAULT_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5:3b")
 DEFAULT_TIMEOUT = float(os.getenv("LLM_TIMEOUT", "90.0"))
+DEFAULT_KEEP_ALIVE = os.getenv("OLLAMA_KEEP_ALIVE", "30m")  # "-1" pins forever
+DEFAULT_NUM_CTX = int(os.getenv("OLLAMA_NUM_CTX", "8192"))
+DEFAULT_NUM_THREAD = int(os.getenv("OLLAMA_NUM_THREAD", "0"))  # 0 = let Ollama decide
 LLM_BACKEND = os.getenv("LLM_BACKEND", "ollama").lower()  # "ollama" or "vllm"
 VLLM_BASE_URL = os.getenv("VLLM_BASE_URL", "http://127.0.0.1:8000/v1").rstrip("/")
 CONCURRENCY_PER_ENDPOINT = int(os.getenv("CONCURRENCY_PER_ENDPOINT", "1"))
@@ -122,6 +125,30 @@ class EndpointState:
             }
 
 
+def _extract_json_schema(model: Any) -> Optional[Dict[str, Any]]:
+    """Extracts JSON schema from a Pydantic model or returns dict schema."""
+    if model is None:
+        return None
+    if isinstance(model, dict):
+        return model
+    if hasattr(model, "model_json_schema"):
+        return model.model_json_schema()
+    if hasattr(model, "schema"):
+        return model.schema()
+    return None
+
+
+def _validate_with_model(model: Any, data: Any) -> Any:
+    """Validates data against a Pydantic model class."""
+    if model is None:
+        return data
+    if hasattr(model, "model_validate"):
+        return model.model_validate(data)
+    if hasattr(model, "parse_obj"):
+        return model.parse_obj(data)
+    return data
+
+
 class OllamaClient:
     """
     High-throughput Client for querying local Ollama or local vLLM instances.
@@ -135,7 +162,8 @@ class OllamaClient:
         model: str = DEFAULT_MODEL,
         timeout: float = DEFAULT_TIMEOUT,
         mock: bool = False,
-        concurrency_per_endpoint: int = CONCURRENCY_PER_ENDPOINT
+        concurrency_per_endpoint: int = CONCURRENCY_PER_ENDPOINT,
+        backend: Optional[str] = None
     ):
         if base_urls:
             self.endpoints = [EndpointState(u) for u in base_urls if u.strip()]
@@ -167,7 +195,7 @@ class OllamaClient:
         if mock or has_mock_url or (is_mock_env and not explicit_url_provided):
             self.backend = "mock"
         else:
-            self.backend = LLM_BACKEND
+            self.backend = (backend or LLM_BACKEND or "ollama").lower()
 
         self.total_calls = 0
         self.successful_calls = 0
@@ -181,15 +209,12 @@ class OllamaClient:
         with self._routing_lock:
             healthy = [ep for ep in self.endpoints if ep.is_available()]
             if not healthy:
-                # All circuits open or down
                 return None
 
-            # Sort by current in-flight connections (least loaded first)
             healthy.sort(key=lambda ep: ep.in_flight)
             min_in_flight = healthy[0].in_flight
             candidates = [ep for ep in healthy if ep.in_flight == min_in_flight]
 
-            # Round robin among candidate endpoints with equal minimum load
             chosen = candidates[self._rr_index % len(candidates)]
             self._rr_index += 1
             return chosen
@@ -237,9 +262,10 @@ class OllamaClient:
         return False, f"0/{total} endpoints reachable ({'; '.join(diagnostics)})"
 
     def is_available(self) -> bool:
-        """Checks whether at least one backend endpoint is healthy (cached 5s)."""
+        """Checks whether at least one backend endpoint is healthy (cached 5s online, 60s offline)."""
         now = time.time()
-        if hasattr(self, "_cached_available") and (now - getattr(self, "_cached_available_time", 0) < 5.0):
+        ttl = 60.0 if not getattr(self, "_cached_available", True) else 5.0
+        if hasattr(self, "_cached_available") and (now - getattr(self, "_cached_available_time", 0) < ttl):
             return self._cached_available
 
         ready, msg = self.check_health()
@@ -260,8 +286,16 @@ class OllamaClient:
             "endpoints": [ep.to_dict() for ep in self.endpoints]
         }
 
-    def _generate_vllm_on_endpoint(self, endpoint_url: str, prompt: str, system_prompt: Optional[str], temperature: float, max_tokens: int) -> Dict[str, Any]:
-        """Queries self-hosted vLLM endpoint (OpenAI protocol)."""
+    def _generate_vllm_on_endpoint(
+        self,
+        endpoint_url: str,
+        prompt: str,
+        system_prompt: Optional[str],
+        temperature: float,
+        max_tokens: int,
+        schema_dict: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
+        """Queries self-hosted vLLM endpoint (OpenAI protocol) with optional schema constraint."""
         url = f"{endpoint_url}/chat/completions"
         headers = {"Content-Type": "application/json"}
         messages = []
@@ -272,7 +306,7 @@ class OllamaClient:
         payload = {
             "model": self.model,
             "messages": messages,
-            "response_format": {"type": "json_object"},
+            "response_format": {"type": "json_object", "schema": schema_dict} if schema_dict else {"type": "json_object"},
             "temperature": temperature,
             "max_tokens": max_tokens
         }
@@ -288,11 +322,13 @@ class OllamaClient:
         system_prompt: Optional[str] = None,
         temperature: float = 0.1,
         max_tokens: int = 1024,
-        max_retries: int = 2
+        max_retries: int = 2,
+        schema: Optional[Dict[str, Any]] = None,
+        schema_model: Optional[Any] = None
     ) -> Dict[str, Any]:
         """
-        Sends prompt to local open-weights backend with load balancing across available endpoints.
-        If all endpoints fail or are unavailable, cleanly flags DEGRADED state with diagnostic reasoning.
+        Sends prompt to local open-weights backend with load balancing across available endpoints,
+        structured output enforcement (JSON schema), and a Pydantic validate-and-repair retry loop.
         """
         self.total_calls += 1
 
@@ -305,7 +341,9 @@ class OllamaClient:
                 system_prompt=system_prompt,
                 temperature=temperature,
                 max_tokens=max_tokens,
-                max_retries=max_retries
+                max_retries=max_retries,
+                schema=schema,
+                schema_model=schema_model
             )
 
         if not self.is_available():
@@ -321,6 +359,9 @@ class OllamaClient:
                 "_latency_sec": 0.0,
                 "_model": self.model
             }
+
+        schema_dict = schema if isinstance(schema, dict) else _extract_json_schema(schema_model)
+        current_prompt = prompt
 
         # Bounded acquisition matching total configured multi-endpoint capacity
         with self.semaphore:
@@ -339,8 +380,22 @@ class OllamaClient:
 
                 try:
                     if self.backend == "vllm":
-                        out = self._generate_vllm_on_endpoint(ep.url, prompt, system_prompt, temperature, max_tokens)
+                        out = self._generate_vllm_on_endpoint(ep.url, current_prompt, system_prompt, temperature, max_tokens, schema_dict)
                         elapsed = time.time() - start_time
+                        
+                        # Validate with model if schema_model provided
+                        if schema_model:
+                            try:
+                                _validate_with_model(schema_model, out)
+                            except Exception as val_err:
+                                last_error = f"[SCHEMA_VALIDATION_ERROR] {val_err}"
+                                last_code = "SCHEMA_VALIDATION_ERROR"
+                                logger.warning("Attempt %d validation failure on vLLM: %s", attempt + 1, val_err)
+                                current_prompt = f"{prompt}\n\n[REPAIR: Output failed validation: {val_err}. Please output valid JSON strictly conforming to the requested schema.]"
+                                ep.record_failure(last_error)
+                                time.sleep(0.3 * (2 ** attempt))
+                                continue
+
                         ep.record_success(elapsed)
                         self.successful_calls += 1
                         out["_latency_sec"] = round(elapsed, 2)
@@ -348,17 +403,30 @@ class OllamaClient:
                         out["_endpoint"] = ep.url
                         return out
 
-                    # Ollama generation path
+                    # Ollama generation path with structured format schema
                     generate_url = f"{ep.url}/api/generate"
                     payload = {
                         "model": self.model,
-                        "prompt": prompt,
-                        "format": "json",
+                        "prompt": current_prompt,
+                        "format": schema_dict if schema_dict else "json",
                         "stream": False,
+                        # Keeps the model resident between calls. Without this Ollama unloads
+                        # after ~5 minutes idle and every evaluation pays a cold load.
+                        "keep_alive": DEFAULT_KEEP_ALIVE,
                         "options": {
                             "temperature": temperature,
-                            "num_predict": max_tokens
-                        }
+                            "num_predict": max_tokens,
+                            # Explicit context window. The Ollama default is small enough that
+                            # long dossiers were being silently truncated.
+                            "num_ctx": DEFAULT_NUM_CTX,
+                            # Deterministic sampling for a scoring product. top_k/top_p are
+                            # pinned so two runs of the same dossier give the same verdict.
+                            "top_k": 1 if temperature <= 0.01 else 40,
+                            "top_p": 1.0 if temperature <= 0.01 else 0.9,
+                            "repeat_penalty": 1.05,
+                            "num_batch": 512,
+                            **({"num_thread": DEFAULT_NUM_THREAD} if DEFAULT_NUM_THREAD > 0 else {}),
+                        },
                     }
                     if system_prompt:
                         payload["system"] = system_prompt
@@ -392,6 +460,20 @@ class OllamaClient:
                         raw_text = "\n".join(lines).strip()
 
                     parsed = json.loads(raw_text)
+
+                    # Pydantic Validate-and-Repair check
+                    if schema_model:
+                        try:
+                            _validate_with_model(schema_model, parsed)
+                        except Exception as val_err:
+                            last_error = f"[SCHEMA_VALIDATION_ERROR] {val_err}"
+                            last_code = "SCHEMA_VALIDATION_ERROR"
+                            logger.warning("Attempt %d validation failure on Ollama: %s", attempt + 1, val_err)
+                            current_prompt = f"{prompt}\n\n[REPAIR: Output failed validation: {val_err}. Please output valid JSON strictly conforming to the requested schema.]"
+                            ep.record_failure(last_error)
+                            time.sleep(0.3 * (2 ** attempt))
+                            continue
+
                     ep.record_success(elapsed)
                     self.successful_calls += 1
 
@@ -408,6 +490,7 @@ class OllamaClient:
                         parsed["_output_tokens"] = eval_count
                         parsed["_eval_duration_sec"] = eval_duration_sec
                         parsed["_total_duration_sec"] = total_duration_sec
+                        parsed["schema_repair_attempts"] = attempt
                         return parsed
                     elif isinstance(parsed, list):
                         return {
@@ -418,7 +501,8 @@ class OllamaClient:
                             "_prompt_tokens": prompt_eval_count,
                             "_output_tokens": eval_count,
                             "_eval_duration_sec": eval_duration_sec,
-                            "_total_duration_sec": total_duration_sec
+                            "_total_duration_sec": total_duration_sec,
+                            "schema_repair_attempts": attempt
                         }
                     else:
                         last_error = f"[INVALID_RESPONSE] Output is {type(parsed).__name__}, expected JSON object"
@@ -436,6 +520,7 @@ class OllamaClient:
                 except json.JSONDecodeError as jde:
                     last_error = f"[JSON_PARSE_ERROR] Failed to parse model output as JSON from {ep.url}: {jde}"
                     last_code = "JSON_PARSE_ERROR"
+                    current_prompt = f"{prompt}\n\n[REPAIR: The previous output was not valid JSON ({jde}). Output strictly valid JSON.]"
                 except Exception as exc:
                     last_error = f"[UNKNOWN_ERROR] Unexpected error at {ep.url}: {exc}"
                     last_code = "UNKNOWN_ERROR"
@@ -454,17 +539,30 @@ class OllamaClient:
                 "_model": self.model
             }
 
-    def get_telemetry(self) -> Dict[str, Any]:
-        """Returns aggregated LLM invocation counters and endpoint states."""
-        return {
-            "total_calls": self.total_calls,
-            "successful_calls": self.successful_calls,
-            "fallback_calls": self.fallback_calls,
-            "configured_endpoints": len(self.endpoints),
-            "max_concurrency": self.total_capacity,
-            "endpoints": [ep.to_dict() for ep in self.endpoints],
-            "total_capacity": self.total_capacity,
-            "backend": self.backend,
-            "model": self.model
+    def generate(self, prompt: str = "ok", max_tokens: int = 16, temperature: float = 0.0) -> str:
+        """Raw generation helper for model probing and boot-time warming."""
+        if self.backend == "mock":
+            return "ok"
+        if not self.endpoints:
+            return ""
+        ep = self._get_best_endpoint() or self.endpoints[0]
+        payload = {
+            "model": self.model,
+            "prompt": prompt,
+            "stream": False,
+            "keep_alive": DEFAULT_KEEP_ALIVE,
+            "options": {
+                "num_predict": max_tokens,
+                "temperature": temperature,
+                "num_ctx": DEFAULT_NUM_CTX,
+            }
         }
+        try:
+            res = requests.post(f"{ep.url}/api/generate", json=payload, timeout=min(10.0, self.timeout))
+            if res.status_code == 200:
+                return res.json().get("response", "").strip()
+        except Exception as exc:
+            logger.debug("Raw generate error: %s", exc)
+        return ""
+
 

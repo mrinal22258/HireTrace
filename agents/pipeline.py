@@ -6,18 +6,20 @@ Requirement Mapping -> Retrieval & Evidence Aggregation -> Cross-Source Verifica
 Saves agent execution trajectories and returns the complete Assessment Report.
 """
 
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 import os
 import json
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 from agents.evidence_loader import EvidenceLoader, CandidateDossier
 from agents.retrieval_layer import EvidenceRetriever
 from agents.ollama_client import OllamaClient
-from agents.requirement_mapping_agent import RequirementMappingAgent
+from agents.requirement_mapping_agent import RequirementMappingAgent, JobRequirement
 from agents.evidence_aggregation_agent import EvidenceAggregationAgent
 from agents.cross_source_verification_agent import CrossSourceVerificationAgent, EvidenceMatrix
 from agents.recommendation_writer_agent import RecommendationWriterAgent, AssessmentReport
+from agents.critic_agent import ClaimCriticAgent
 from agents.observability import METRICS, log_agent_event
 from baseline.rubric_scorer import RubricScorer, RubricScoreBreakdown
 
@@ -34,8 +36,14 @@ class HireTracePipeline:
         self.req_mapper = RequirementMappingAgent(self.client)
         self.verifier = CrossSourceVerificationAgent(self.client, enable_generic_comparator=enable_generic_comparator)
         self.writer = RecommendationWriterAgent(self.client)
+        self.critic = ClaimCriticAgent(self.client)
 
-    def run(self, dossier: CandidateDossier, log_trajectory: bool = True) -> AssessmentReport:
+    def run(
+        self,
+        dossier: CandidateDossier,
+        log_trajectory: bool = True,
+        precomputed_requirements: Optional[List[JobRequirement]] = None
+    ) -> AssessmentReport:
         """Runs the complete assessment pipeline for a candidate."""
         t0 = time.time()
         trajectory: Dict[str, Any] = {
@@ -45,41 +53,52 @@ class HireTracePipeline:
             "steps": []
         }
 
-        # Step 1: Baseline Rubric Scoring (Deterministic, no LLM)
-        t_rubric = time.time()
-        rubric_breakdown = RubricScorer.evaluate_from_dict(dossier.structured_cv_profile)
-        dur_rubric = time.time() - t_rubric
-        METRICS.record_agent_latency("RubricScorer", dur_rubric)
-        log_agent_event("RubricScorer", dossier.candidate_id, dur_rubric, "success")
+        # Steps 1, 2, 3: Concurrently execute independent preparation passes
+        # Step 1 (RubricScorer, CPU), Step 2 (FAISS index, CPU/embeddings), Step 3 (RequirementMapping, LLM)
+        t_parallel_start = time.time()
+        with ThreadPoolExecutor(max_workers=3) as pool:
+            fut_rubric = pool.submit(RubricScorer.evaluate_from_dict, dossier.structured_cv_profile)
+            fut_index = pool.submit(EvidenceRetriever, dossier.spans)
+            fut_reqs = (
+                pool.submit(lambda: precomputed_requirements)
+                if precomputed_requirements is not None
+                else pool.submit(self.req_mapper.map_requirements, dossier.jd_text, dossier.target_role)
+            )
+            rubric_breakdown = fut_rubric.result()
+            retriever = fut_index.result()
+            requirements = fut_reqs.result()
+        dur_prep = time.time() - t_parallel_start
+
+        METRICS.record_agent_latency("RubricScorer", dur_prep)
+        log_agent_event("RubricScorer", dossier.candidate_id, dur_prep, "success")
         trajectory["steps"].append({
             "step": "rubric_scoring",
             "agent": "RubricScorer (Deterministic Baseline A)",
             "output": rubric_breakdown.to_dict(),
-            "duration_sec": round(dur_rubric, 4)
+            "duration_sec": round(dur_prep, 4),
+            "overlapped": True,
+            "wall_clock_sec": round(dur_prep, 4)
         })
 
-        # Step 2: Build FAISS Vector Index over evidence spans
-        t_retriever = time.time()
-        retriever = EvidenceRetriever(dossier.spans)
         aggregator = EvidenceAggregationAgent(retriever)
-        dur_retriever = time.time() - t_retriever
         trajectory["steps"].append({
             "step": "retrieval_index_built",
             "total_spans_indexed": len(dossier.spans),
-            "duration_sec": round(dur_retriever, 4)
+            "duration_sec": round(dur_prep, 4),
+            "overlapped": True,
+            "wall_clock_sec": round(dur_prep, 4)
         })
 
-        # Step 3: Requirement Mapping Agent
-        t_req = time.time()
-        requirements = self.req_mapper.map_requirements(dossier.jd_text, dossier.target_role)
-        dur_req = time.time() - t_req
-        METRICS.record_agent_latency("RequirementMappingAgent", dur_req)
-        log_agent_event("RequirementMappingAgent", dossier.candidate_id, dur_req, "success")
+        METRICS.record_agent_latency("RequirementMappingAgent", dur_prep)
+        log_agent_event("RequirementMappingAgent", dossier.candidate_id, dur_prep, "success")
         trajectory["steps"].append({
             "step": "requirement_mapping",
             "agent": "RequirementMappingAgent",
             "output": [r.to_dict() for r in requirements],
-            "duration_sec": round(dur_req, 4)
+            "duration_sec": round(dur_prep, 4),
+            "overlapped": True,
+            "precomputed": precomputed_requirements is not None,
+            "wall_clock_sec": round(dur_prep, 4)
         })
 
         # Step 4: Evidence Aggregation Agent
@@ -109,12 +128,27 @@ class HireTracePipeline:
         })
 
         # Step 6: Recommendation Writer Agent
+        from agents.jd_templates import classify_role
+        custom_jd = getattr(dossier, "custom_jd_provided", False)
+        if custom_jd:
+            tax_matched = True
+            match_note = None
+        else:
+            _, tax_matched = classify_role(dossier.target_role)
+            if not tax_matched:
+                match_note = f"No specialized rubric matched for '{dossier.target_role}' — using a generated/general evaluation. Paste a full JD for a tailored assessment."
+            else:
+                match_note = None
+
         t_wri = time.time()
         report = self.writer.generate_report(
             candidate_name=dossier.name,
             target_role=dossier.target_role,
             matrix=evidence_matrix,
-            rubric=rubric_breakdown
+            rubric=rubric_breakdown,
+            taxonomy_matched=tax_matched,
+            role_match_note=match_note,
+            custom_jd_provided=custom_jd
         )
         dur_wri = time.time() - t_wri
         is_degraded = getattr(report, "degraded", False)
@@ -125,6 +159,28 @@ class HireTracePipeline:
             "agent": "RecommendationWriterAgent",
             "output": report.to_dict(),
             "duration_sec": round(dur_wri, 4)
+        })
+
+        # Step 7: Claim Critic Review Pass
+        t_critic = time.time()
+        report = self.critic.review_report(
+            report=report,
+            matrix=evidence_matrix,
+            spans=dossier.spans
+        )
+        dur_critic = time.time() - t_critic
+        METRICS.record_agent_latency("ClaimCriticAgent", dur_critic)
+        log_agent_event("ClaimCriticAgent", dossier.candidate_id, dur_critic, "success")
+        trajectory["steps"].append({
+            "step": "claim_critic_review",
+            "agent": "ClaimCriticAgent",
+            "output": {
+                "total_claims": report.total_claims_count,
+                "grounded_claims": report.grounded_claims_count,
+                "synthesized_inferences": report.synthesized_inferences_count,
+                "grounding_rate": report.grounding_rate
+            },
+            "duration_sec": round(dur_critic, 4)
         })
 
         elapsed = round(time.time() - t0, 2)

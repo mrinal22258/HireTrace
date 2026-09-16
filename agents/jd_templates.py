@@ -1,13 +1,19 @@
 """
-Curated Job Description Template Library & Role Taxonomy for HireTrace (Phase 9).
+Curated Job Description Template Library & Role Taxonomy for HireTrace (Phases 7 & 9).
 
-Replaces brittle keyword branching with an extensible taxonomy-mapped template library
-and graceful fallback to a universal software engineering rubric for novel/unrecognized roles.
+Replaces brittle keyword branching with an extensible JSON-driven taxonomy template library
+and graceful LLM-powered bespoke JD generation for novel/unrecognized roles.
 """
 
+import os
 import re
+import json
+import hashlib
+import logging
 from enum import Enum
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Any
+
+logger = logging.getLogger("hiretrace.jd_templates")
 
 
 class RoleTaxonomy(str, Enum):
@@ -18,183 +24,82 @@ class RoleTaxonomy(str, Enum):
     DATA_ENGINEERING = "data_engineering"
     SECURITY_CYBERSECURITY = "security_cybersecurity"
     MOBILE_ENGINEERING = "mobile_engineering"
+    FORWARD_DEPLOYED_ENGINEER = "forward_deployed_engineer"
+    DEVELOPER_RELATIONS = "developer_relations"
+    ENGINEERING_MANAGEMENT = "engineering_management"
+    QA_TEST_ENGINEERING = "qa_test_engineering"
+    HARDWARE_FIRMWARE_EMBEDDED = "hardware_firmware_embedded"
     GENERAL_SOFTWARE = "general_software"
 
 
-# Keywords and regular expression tokens mapping to canonical taxonomy categories
-TAXONOMY_KEYWORDS: Dict[RoleTaxonomy, List[str]] = {
-    RoleTaxonomy.ROBOTICS_AUTONOMOUS: [
-        "robot", "autonomous", "drone", "slam", "perception", "lidar", "ros", "ros2",
-        "state estimation", "odometry", "sensor fusion", "embedded robotics", "uav"
-    ],
-    RoleTaxonomy.AI_MACHINE_LEARNING: [
-        "ai", "machine learning", "deep learning", "nlp", "llm", "rag", "data science",
-        "computer vision", "neural", "pytorch", "tensorflow", "applied scientist",
-        "ml engineer", "research engineer"
-    ],
-    RoleTaxonomy.FRONTEND_FULLSTACK: [
-        "frontend", "front-end", "fullstack", "full stack", "react", "next.js", "vue",
-        "typescript", "javascript", "ui", "ux", "web developer", "client engineer"
-    ],
-    RoleTaxonomy.DISTRIBUTED_SYSTEMS_INFRA: [
-        "distributed", "infra", "infrastructure", "kafka", "sre", "devops", "cloud",
-        "backend", "back-end", "platform engineer", "systems engineer", "kubernetes",
-        "microservices", "high throughput"
-    ],
-    RoleTaxonomy.DATA_ENGINEERING: [
-        "data engineer", "etl", "spark", "databricks", "data warehouse", "dbt",
-        "big data", "hadoop", "snowflake", "data pipeline"
-    ],
-    RoleTaxonomy.SECURITY_CYBERSECURITY: [
-        "security", "infosec", "appsec", "devsecops", "cyber", "penetration", "soc",
-        "cryptography", "identity", "vulnerability"
-    ],
-    RoleTaxonomy.MOBILE_ENGINEERING: [
-        "mobile", "ios", "android", "swift", "kotlin", "react native", "flutter"
-    ],
-}
+# Load role taxonomy and templates from external JSON configuration
+_CONFIG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "role_taxonomy.json")
 
+try:
+    with open(_CONFIG_PATH, "r", encoding="utf-8") as _f:
+        _CONFIG_DATA = json.load(_f)
+except Exception as _err:
+    logger.error(f"Failed loading role taxonomy from {_CONFIG_PATH}: {_err}")
+    _CONFIG_DATA = {"taxonomy_keywords": {}, "role_jd_templates": {}}
+
+_RAW_KEYWORDS: Dict[str, List[str]] = _CONFIG_DATA.get("taxonomy_keywords", {})
+_RAW_TEMPLATES: Dict[str, str] = _CONFIG_DATA.get("role_jd_templates", {})
 
 try:
     from eval_cases.dataset import SHARED_JD
 except Exception:
     SHARED_JD = None
 
-# Curated, authoritative job descriptions keyed by canonical taxonomy
-ROLE_JD_TEMPLATES: Dict[RoleTaxonomy, str] = {
-    RoleTaxonomy.ROBOTICS_AUTONOMOUS: """# {title}
-Company: NextGen Autonomous Systems
-Role: {title}
-Department: Robotics Research & Core Perception
+# Dual-keyed dictionaries supporting both RoleTaxonomy Enum and raw string keys
+class _TaxonomyDict(dict):
+    """Dictionary that seamlessly looks up by both RoleTaxonomy enum and str key."""
+    def __getitem__(self, key):
+        if isinstance(key, Enum):
+            key = key.value
+        return super().__getitem__(key)
 
-### About the Role
-We are seeking a talented {title} to build, test, and validate next-generation perception, state estimation, and sensor fusion algorithms for physical robotic platforms and autonomous drones.
+    def get(self, key, default=None):
+        if isinstance(key, Enum):
+            key = key.value
+        return super().get(key, default)
 
-### Core Requirements
-- REQ-01: Perception & Sensor Fusion: Expertise in multi-modal sensor fusion (LiDAR, Camera, ToF) and spatial calibration pipelines.
-- REQ-02: SLAM & State Estimation: Developing visual odometry, graph-based SLAM, and map-free localization algorithms.
-- REQ-03: Robotics Software & Middleware (ROS/ROS2): Proficiency integrating algorithms into ROS/ROS2, OpenCV, PyTorch, and C++/Python runtimes.
-- REQ-04: Research Rigor & Academic Publications: Demonstrated record of research publications in top robotics venues (IROS, ICRA, RA-L, ECCV).
-- REQ-05: Physical Drone/Robot Deployment & Testing: Hands-on verification of algorithms on physical autonomous drones/robots and Sim-to-Real validation.
-""",
+    def __contains__(self, key):
+        if isinstance(key, Enum):
+            key = key.value
+        return super().__contains__(key)
 
-    RoleTaxonomy.AI_MACHINE_LEARNING: """# {title}
-Company: Frontier AI Labs
-Role: {title}
-Department: Applied AI & Model Architecture
 
-### About the Role
-We are looking for an exceptional {title} to design, train, evaluate, and deploy high-performance machine learning models, retrieval systems, and agentic workflows.
+TAXONOMY_KEYWORDS = _TaxonomyDict()
+for _k, _v in _RAW_KEYWORDS.items():
+    TAXONOMY_KEYWORDS[_k] = _v
+    try:
+        TAXONOMY_KEYWORDS[RoleTaxonomy(_k)] = _v
+    except ValueError:
+        pass
 
-### Core Requirements
-- REQ-01: Deep Learning & Neural Architectures: Designing and training neural network models (Transformers, CNNs, BiLSTMs) using PyTorch or TensorFlow.
-- REQ-02: Retrieval & Vector Data Infrastructure: Architecting vector retrieval systems, dense embeddings, FAISS, and semantic search pipelines.
-- REQ-03: Empirical Benchmarking & Evaluation: Conducting rigorous benchmark evaluations, ablation studies, and error analysis across shared tasks.
-- REQ-04: Model Serving & Production Deployment: Deploying machine learning models via containerized APIs (FastAPI, Docker, ONNX) with low latency.
-- REQ-05: Technical Initiative & Applied Research: Translating cutting-edge research literature into maintainable open-source code or production systems.
-""",
+ROLE_JD_TEMPLATES = _TaxonomyDict()
+for _k, _v in _RAW_TEMPLATES.items():
+    if _k == "distributed_systems_infra" and SHARED_JD:
+        ROLE_JD_TEMPLATES[_k] = SHARED_JD
+    else:
+        ROLE_JD_TEMPLATES[_k] = _v
+    try:
+        ROLE_JD_TEMPLATES[RoleTaxonomy(_k)] = ROLE_JD_TEMPLATES[_k]
+    except ValueError:
+        pass
 
-    RoleTaxonomy.FRONTEND_FULLSTACK: """# {title}
-Company: Cloud Platform Technologies
-Role: {title}
-Department: Product Engineering
+# Ensure GENERAL_SOFTWARE fallback exists
+if "general_software" not in ROLE_JD_TEMPLATES:
+    ROLE_JD_TEMPLATES["general_software"] = "# {title}\nCore Software Engineer Requirements..."
+    ROLE_JD_TEMPLATES[RoleTaxonomy.GENERAL_SOFTWARE] = ROLE_JD_TEMPLATES["general_software"]
 
-### About the Role
-We are seeking an experienced {title} to craft world-class interactive user interfaces, design resilient frontend systems, and deliver responsive, high-performance web applications.
-
-### Core Requirements
-- REQ-01: Modern TypeScript & Component Architecture: Deep mastery of TypeScript, component lifecycles, and modular web architecture (React/Next.js).
-- REQ-02: UI Performance & Responsive Design: Delivering sub-second interaction speeds, Core Web Vitals optimization, accessibility, and fluid layouts.
-- REQ-03: API Integration & Asynchronous State: Clean integration with REST/GraphQL APIs, optimistic UI updates, and client-side caching.
-- REQ-04: Automated Testing & Build Tooling: Robust test coverage (Jest, Vitest, Playwright, Cypress) and modern build pipelines (Vite, Webpack).
-- REQ-05: End-to-End Product Ownership: Track record of collaborating with design and product teams to deliver polished user experiences.
-""",
-
-    RoleTaxonomy.DISTRIBUTED_SYSTEMS_INFRA: SHARED_JD or """# {title}
-Company: Apex Cloud Infrastructure
-Role: {title}
-Department: Distributed Platform Engineering
-
-### About the Role
-We are looking for a high-caliber {title} to design, build, and scale resilient distributed streaming backends, fault-tolerant message buses, and cloud infrastructure.
-
-### Core Requirements
-- REQ-01: Advanced Modern Python & AsyncIO: Internal concurrency, asyncio paradigms, memory profiling, and non-blocking I/O.
-- REQ-02: Distributed Systems & Event Streaming: Experience deploying and scaling Apache Kafka or RabbitMQ clusters, consumer rebalance handling, and event schemas.
-- REQ-03: Microservices & Data Layer Architecture: Designing resilient distributed microservices, database sharding/partitioning, and caching strategies.
-- REQ-04: Technical Leadership & System Design: Track record of authoring production RFCs, leading complex technical migrations, and code reviews.
-- REQ-05: Production Engineering & Operational Tenure: Commercial production experience managing live customer-facing systems and telemetry monitoring.
-""",
-
-    RoleTaxonomy.DATA_ENGINEERING: """# {title}
-Company: Global Data Systems
-Role: {title}
-Department: Data Platform & Analytics Engineering
-
-### About the Role
-We are seeking a skilled {title} to design, construct, and optimize enterprise data pipelines, lakehouse architectures, and scalable analytics infrastructure.
-
-### Core Requirements
-- REQ-01: Data Pipeline Construction: Designing robust batch and streaming ETL/ELT pipelines using Spark, Airflow, or Kafka.
-- REQ-02: Data Modeling & Lakehouse Architecture: Deep experience with modern data warehouse and lakehouse technologies (Snowflake, BigQuery, Delta Lake, dbt).
-- REQ-03: Query Optimization & SQL Mastery: Advanced proficiency in SQL tuning, partitioning strategies, and high-volume data performance.
-- REQ-04: Data Governance & Quality: Implementing automated data validation, schema evolution checks, and lineage tracking.
-- REQ-05: Engineering Rigor & Automation: Applying software engineering best practices (CI/CD, unit testing, Infrastructure-as-Code) to data platforms.
-""",
-
-    RoleTaxonomy.SECURITY_CYBERSECURITY: """# {title}
-Company: CyberTrust Defense Systems
-Role: {title}
-Department: Information Security & SecOps
-
-### About the Role
-We are looking for a dedicated {title} to harden infrastructure, audit applications, and implement proactive threat detection and incident response mechanisms.
-
-### Core Requirements
-- REQ-01: Application & Infrastructure Security: Conducting threat modeling, secure code reviews, and vulnerability assessments across cloud infrastructure.
-- REQ-02: DevSecOps & CI/CD Hardening: Integrating static and dynamic security analysis (SAST/DAST) into automated deployment pipelines.
-- REQ-03: Identity & Access Management: Designing zero-trust architectures, RBAC/ABAC models, and cryptographic key management.
-- REQ-04: Incident Response & Threat Hunting: Triaging security anomalies, conducting root-cause forensics, and automating remediation playbooks.
-- REQ-05: Security Compliance & Standards: Knowledge of security frameworks and compliance standards (SOC 2, ISO 27001, OWASP Top 10).
-""",
-
-    RoleTaxonomy.MOBILE_ENGINEERING: """# {title}
-Company: Mobile Horizons
-Role: {title}
-Department: Client Applications
-
-### About the Role
-We are seeking a talented {title} to build responsive, elegant mobile experiences on iOS and Android platforms.
-
-### Core Requirements
-- REQ-01: Native & Cross-Platform Mobile: Deep knowledge of Swift/iOS, Kotlin/Android, or modern cross-platform frameworks (React Native, Flutter).
-- REQ-02: Offline Synchronization & Storage: Designing resilient local storage (CoreData, SQLite, Room) and seamless background sync.
-- REQ-03: Mobile Performance & Battery Optimization: Profiling memory usage, render cycles, and power consumption for buttery-smooth 60fps UX.
-- REQ-04: Mobile CI/CD & App Store Delivery: Automated mobile build pipelines (Fastlane), test automation, and release management.
-- REQ-05: Design System Collaboration: Partnering closely with UI/UX designers to translate Figma design systems into pixel-perfect components.
-""",
-
-    RoleTaxonomy.GENERAL_SOFTWARE: """# {title}
-Company: Enterprise Technology Solutions
-Role: {title}
-Department: Core Software Engineering
-
-### About the Role
-We are seeking a talented and versatile {title} to design, implement, and maintain scalable software services, clean APIs, and robust application logic.
-
-### Core Requirements
-- REQ-01: Core Programming & Clean Architecture: Strong proficiency in modern programming languages, data structures, algorithms, and clean system design.
-- REQ-02: System Implementation & API Design: Designing, implementing, and deploying robust software services and clean RESTful/gRPC API interfaces.
-- REQ-03: Persistence & Data Layer Competence: Experience with relational or NoSQL database querying, schema modeling, and data access pipelines.
-- REQ-04: Code Quality, Testing & CI/CD: Writing testable code with automated unit and integration tests and continuous integration workflows.
-- REQ-05: Technical Problem Solving & Delivery: Track record of solving complex technical problems and delivering working software end-to-end.
-""",
-}
+# In-memory SHA-256 cache for LLM-generated JDs
+_GENERATED_JD_CACHE: Dict[str, str] = {}
 
 
 def classify_role(target_role: Optional[str]) -> Tuple[RoleTaxonomy, bool]:
     """
-    Classifies a candidate role into a taxonomy bucket using keyword matching.
+    Classifies a candidate role into a taxonomy bucket using keyword matching against the JSON config.
     
     Returns:
         Tuple[RoleTaxonomy, bool]: (matched_taxonomy, is_exact_or_keyword_match)
@@ -208,26 +113,125 @@ def classify_role(target_role: Optional[str]) -> Tuple[RoleTaxonomy, bool]:
         return RoleTaxonomy.GENERAL_SOFTWARE, False
 
     # Check each taxonomy category in priority order
-    for taxonomy, keywords in TAXONOMY_KEYWORDS.items():
+    for cat_name, keywords in _RAW_KEYWORDS.items():
         for kw in keywords:
-            # Word boundary or containment match
-            if re.search(r"\b" + re.escape(kw) + r"\b", clean) or kw in clean:
-                return taxonomy, True
+            # Word boundary match
+            if re.search(r"\b" + re.escape(kw) + r"\b", clean):
+                try:
+                    return RoleTaxonomy(cat_name), True
+                except ValueError:
+                    # If config defines a custom category outside the Enum, map gracefully
+                    return RoleTaxonomy.GENERAL_SOFTWARE, True
 
     return RoleTaxonomy.GENERAL_SOFTWARE, False
 
 
-def generate_role_tailored_jd(target_role: Optional[str]) -> str:
+def _get_active_llm_client():
+    """Lazily retrieves active LLM client (or MockOllamaClient in offline mode)."""
+    try:
+        from agents.ollama_client import OllamaClient
+        if os.environ.get("HIRETRACE_OFFLINE_MOCK", "").lower() in ("1", "true", "yes"):
+            from agents.mock_ollama_client import MockOllamaClient
+            return MockOllamaClient()
+        return OllamaClient()
+    except Exception:
+        return None
+
+
+def generate_role_tailored_jd(target_role: Optional[str], client: Optional[Any] = None) -> str:
     """
     Generates an authoritative domain-tailored Job Description based on target role.
     
-    Gracefully degrades to the curated GENERAL_SOFTWARE taxonomy template when novel,
-    unrecognized, or non-technical roles are passed.
+    If role matches a known taxonomy bucket, uses the curated template.
+    If role is novel/unrecognized, attempts bespoke LLM generation with SHA-256 caching.
+    Gracefully falls back to static GENERAL_SOFTWARE template only when LLM is unavailable.
+    """
+    jd_text, _, _, _ = generate_role_tailored_jd_with_meta(target_role, client=client)
+    return jd_text
+
+
+def generate_role_tailored_jd_with_meta(
+    target_role: Optional[str],
+    client: Optional[Any] = None
+) -> Tuple[str, RoleTaxonomy, bool, str]:
+    """
+    Generates tailored JD and returns comprehensive metadata:
+    (jd_text, taxonomy, matched_bool, source_string)
+    
+    source_string is one of:
+      - 'taxonomy': Matched curated taxonomy bucket
+      - 'llm_generated': Novel role, bespoke JD generated via local LLM
+      - 'fallback': Novel role, LLM offline/degraded, fell back to GENERAL_SOFTWARE
     """
     role_title = (target_role or "").strip()
     if not role_title:
         role_title = "Software Engineer"
 
     taxonomy, matched = classify_role(role_title)
-    template = ROLE_JD_TEMPLATES.get(taxonomy, ROLE_JD_TEMPLATES[RoleTaxonomy.GENERAL_SOFTWARE])
-    return template.format(title=role_title)
+
+    # 1. Direct taxonomy match
+    if matched:
+        template = ROLE_JD_TEMPLATES.get(taxonomy, ROLE_JD_TEMPLATES.get(RoleTaxonomy.GENERAL_SOFTWARE))
+        return template.format(title=role_title), taxonomy, True, "taxonomy"
+
+    # 2. Novel role: attempt LLM-generated bespoke JD with SHA-256 caching
+    normalized_role = role_title.strip().lower()
+    cache_key = hashlib.sha256(f"jd_gen::{normalized_role}".encode("utf-8")).hexdigest()
+
+    if cache_key in _GENERATED_JD_CACHE:
+        return _GENERATED_JD_CACHE[cache_key], RoleTaxonomy.GENERAL_SOFTWARE, False, "llm_generated"
+
+    llm = client or _get_active_llm_client()
+    if llm:
+        try:
+            if hasattr(llm, "is_available") and not llm.is_available():
+                raise RuntimeError("LLM backend reports unavailable")
+
+            prompt = (
+                f"Generate a realistic job description for the role: {role_title}\n"
+                f"Include an 'About the Role' section and exactly 5 discrete 'Core Requirements' labeled REQ-01 through REQ-05."
+            )
+            system_prompt = (
+                "You are an expert technical talent architect. Output valid JSON containing:\n"
+                '{"title": str, "company": str, "department": str, "about": str, "requirements": [str]}'
+            )
+
+            resp = llm.generate_json(
+                prompt=prompt,
+                system_prompt=system_prompt,
+                max_tokens=768
+            )
+
+            reqs = resp.get("requirements") or resp.get("items") or []
+            about = resp.get("about") or f"We are seeking a high-caliber {role_title} to join our engineering organization."
+            company = resp.get("company") or "Enterprise Technology Solutions"
+            dept = resp.get("department") or "Specialized Engineering"
+
+            if reqs and isinstance(reqs, list) and len(reqs) >= 3:
+                lines = [
+                    f"# {role_title}",
+                    f"Company: {company}",
+                    f"Role: {role_title}",
+                    f"Department: {dept}\n",
+                    "### About the Role",
+                    f"{about}\n",
+                    "### Core Requirements"
+                ]
+                for idx, r in enumerate(reqs[:5], 1):
+                    r_clean = str(r).strip()
+                    if not r_clean.startswith(f"REQ-{idx:02d}"):
+                        r_clean = re.sub(r"^[-*•\d\.]+\s*", "", r_clean).strip()
+                        r_clean = f"REQ-{idx:02d}: {r_clean}"
+                    lines.append(f"- {r_clean}")
+
+                bespoke_jd = "\n".join(lines) + "\n"
+                _GENERATED_JD_CACHE[cache_key] = bespoke_jd
+                return bespoke_jd, RoleTaxonomy.GENERAL_SOFTWARE, False, "llm_generated"
+
+        except Exception as err:
+            logger.warning(f"LLM bespoke JD generation failed for '{role_title}' ({err}); falling back to GENERAL_SOFTWARE.")
+
+    # 3. Last-resort fallback: static GENERAL_SOFTWARE template
+    fallback_template = ROLE_JD_TEMPLATES.get(RoleTaxonomy.GENERAL_SOFTWARE)
+    fallback_jd = fallback_template.format(title=role_title)
+    return fallback_jd, RoleTaxonomy.GENERAL_SOFTWARE, False, "fallback"

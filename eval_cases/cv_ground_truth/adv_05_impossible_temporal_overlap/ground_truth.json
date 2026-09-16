@@ -1,0 +1,28 @@
+{
+  "candidate_name": "Marcus Chronos",
+  "employment_history": [
+    {
+      "employer": "Tokyo FinTech",
+      "title": "Lead Infrastructure Architect",
+      "start_date": "2021-01",
+      "end_date": null,
+      "is_current": true
+    }
+  ],
+  "education": [],
+  "skills": [
+    "Python",
+    "Exchange Architecture",
+    "Distributed Systems"
+  ],
+  "project_claims": [
+    {
+      "project_name": "Exchange Infrastructure",
+      "description": "Directed platform team building real-time exchange infrastructure",
+      "technologies": [
+        "Python",
+        "Exchange Architecture"
+      ]
+    }
+  ]
+}

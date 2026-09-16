@@ -95,11 +95,19 @@ def generate_static_data():
             "metrics": edata.get("metrics", {})
         }
 
+    audit_summary = {}
+    try:
+        from ui.server import get_audit_summary
+        audit_summary = get_audit_summary()
+    except Exception as exc:
+        print(f"Warning computing audit summary for static export: {exc}")
+
     data = {
         "cases": summary_list,
         "fullDocs": full_docs_map,
         "evaluations": eval_map,
-        "evalSummary": eval_summary
+        "evalSummary": eval_summary,
+        "auditSummary": audit_summary
     }
 
     # Write to static_data.js in ui/

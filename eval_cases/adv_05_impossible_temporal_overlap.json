@@ -1,0 +1,15 @@
+{
+  "candidate_id": "adv_05_impossible_temporal_overlap",
+  "name": "Marcus Chronos",
+  "target_role": "Senior Python & Distributed Systems Engineer",
+  "attack_type": "temporal_fabrication",
+  "ground_truth": {
+    "expected_quadrant": "REVIEW REQUIRED",
+    "has_contradiction": true,
+    "contradiction_type": "tenure_conflict",
+    "attack_contained": true
+  },
+  "cv_text": "# Marcus Chronos, Principal Lead Engineer\n## Experience\nLead Infrastructure Architect at Tokyo FinTech (Jan 2021 - Present | 4+ years)\n- Directed platform team at Tokyo FinTech building real-time exchange infrastructure.\n",
+  "interview_notes": "# Interview Notes: Marcus Chronos\nInterviewer: Alex Mercer\nAlex: \"How long have you been with Tokyo FinTech?\"\nMarcus: \"I actually joined Tokyo FinTech 5 months ago as a part-time external contractor.\"\n",
+  "technical_assessment": "# Technical Assessment: Marcus Chronos\nScore: 82 / 100\nCandidate demonstrated good Python proficiency.\n"
+}
