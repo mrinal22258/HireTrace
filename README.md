@@ -33,7 +33,7 @@ HireTrace supports two distinct operational modes:
 ### Mode A: Demo / Replay Mode (Static Web / Hugging Face Spaces)
 - **Environment**: Hugging Face Spaces (static hosting) or any static HTTP file server.
 - **Capabilities**: Replays pre-computed evaluation trajectories, interactive evidence citations, 2D quadrant scatter, and pre-screened synthetic candidate dossiers without requiring a GPU or server process.
-- **Limitation**: **Cannot run live, real-time candidate evaluation.** A static Hugging Face Space has no backend compute or local Ollama/vLLM weights. Uploading a new candidate in static replay mode displays mock ingestion or directs the user to the local self-hosted deployment.
+- **Interactive Intake Fallback**: Submitting a new applicant in static replay mode runs an in-browser deterministic rubric evaluation with animated progress and instant profile generation. For full multi-agent LLM verification, live Ollama reasoning, and adversarial red-teaming, run locally in Mode B.
 - **Static Bundle Generation**: Root-level static files (`index.html`, `static_data.js`, `app.js`, `styles.css`, etc.) required by Hugging Face Spaces are generated automatically from `ui/` by `python scripts/build_static.py`. They should never be hand-edited — always edit the canonical source files in `ui/` and rebuild with `python scripts/build_static.py`.
 
 ### Mode B: Production Scalable Architecture (Self-Hosted Web, Workers & Multi-GPU LLMs)
@@ -69,7 +69,9 @@ HireTrace supports two distinct operational modes:
   ```bash
   pip install -r requirements.txt
   export HIRETRACE_DEV_MODE=1  # (On Windows: $env:HIRETRACE_DEV_MODE="1")
-  python ui/server.py --port 8000
+  uvicorn ui.server:app --port 8000
+  # Or run the development launcher script:
+  python run_live.py   # (On Windows: .\run_live.bat)
   ```
   *(In local development, HireTrace automatically detects missing Redis/Postgres and falls back gracefully to WAL-mode SQLite and an in-process thread pool, requiring zero external services to run. Setting `HIRETRACE_DEV_MODE=1` enables frictionless local testing without requiring API keys. In production, authentication is required by default, and `HIRETRACE_API_KEY` (minimum 24 characters) and `POSTGRES_PASSWORD` must be configured.)*
 
@@ -176,7 +178,7 @@ HireTrace supports two distinct operational modes:
 | **Deterministic Rubric Scorer (`/baseline/rubric_scorer.py`)** | Adapted from CareerCheck | The category weights (`open_source` 0–35, `self_projects` 0–30, `production` 0–25, `technical_skills` 0–10, `bonus_points` 0–20; raw max = 120) are adapted from an earlier prototype (CareerCheck). **The scoring implementation here is a completely clean, dependency-free rewrite, not a port.** CareerCheck had duplicate scoring engines, insecure IDs, committed DB files, and broken CI. None of its database, Next.js, or FastAPI code is imported. |
 | **Evidence Loader (`/agents/evidence_loader.py`)** | ResumeExtractBench | Reused the CV-to-structured-fields extraction pattern cleanly for deterministic profile extraction and span chunking. |
 | **Retrieval Layer (`/agents/retrieval_layer.py`)** | AegisRAG-Engine | Reused the offline FAISS + semantic chunking retrieval pattern for matching JD requirements against candidate evidence spans. |
-| **Multi-Agent Pipeline (`/agents/`)** | **New (HireTrace Core)** | 4-agent pipeline (Requirement Mapper, Evidence Aggregator, Cross-Source Verifier, Recommendation Writer) with 2D quadrant evaluation, discrepancy extraction, and source citation engine. |
+| **Multi-Agent Pipeline (`/agents/`)** | **New (HireTrace Core)** | 5-agent pipeline (Requirement Mapper, Evidence Aggregator, Cross-Source Verifier, Recommendation Writer, and Claim Critic) with 2D quadrant evaluation, discrepancy extraction, verbatim grounding audit, and source citation engine. |
 
 ---
 
@@ -248,11 +250,13 @@ LOW FIT    │ INSUFFICIENT  │ WEAK MATCH    │
 
 ### V2 Latency & Architecture Upgrades
 1. **Concurrent Pipeline Execution (Steps 1–3 Parallelized):** Step 1 (RubricScorer), Step 2 (FAISS index generation), and Step 3 (Requirement Mapping) execute simultaneously via `concurrent.futures.ThreadPoolExecutor(max_workers=3)`, hiding vector indexing and rubric compute completely behind the initial LLM call.
-2. **Persistent SQLite Job Requirement Cache:** Requirements are a pure function of `(jd_text, target_role)`. The mapper checks a persistent SQLite database (`requirement_cache`) with model and prompt-SHA invalidation. In bulk candidate processing (`run_bulk`), requirements are resolved once per requisition, eliminating up to 49 redundant LLM calls per 50 candidates.
-3. **Ollama Residency & Startup Warmup:** Pinned `keep_alive: 30m` prevents model unloading between evaluations, while a background warmup pass on FastAPI startup eliminates the 5–10s cold-load delay on the first user request.
+2. **Persistent SQLite Job Requirement Cache:** Requirements are a pure function of `(jd_text, target_role)`. The mapper checks a persistent SQLite database (`requirement_cache`) with model and prompt-SHA invalidation. In bulk candidate processing (`run_bulk`), requirements are resolved once per requisition, eliminating redundant LLM calls.
+3. **Ollama Residency & Startup Warmup:** Pinned `keep_alive: 30m` prevents model unloading between evaluations, while a background warmup pass on FastAPI startup eliminates the cold-load delay on the first user request.
 4. **Static-First Prompt Ordering for KV-Cache Reuse:** Prompt templates position static system instructions, schemas, and JDs first, maximizing llama.cpp KV-cache hit rates during candidate evaluation runs.
 5. **Layout-Aware Parsing Backend (`Docling`):** Optional `PARSER_BACKEND=docling` recovers two-column resume reading order and table structure with seamless fallback to PyMuPDF.
 6. **Fast Distilled Embeddings (`model2vec`):** Optional `EMBEDDING_BACKEND=static` provides ~100x faster CPU embedding lookups via static token distillation tables.
+7. **Externalized Role Taxonomy & Bespoke LLM Fallback:** Role taxonomies are externalized in `agents/role_taxonomy.json` with semantic routing. Any unlisted target role (DevRel, Forward Deployed, SRE, QA) triggers a bespoke LLM decomposition fallback, dynamically extracting requirements directly from the provided JD.
+8. **Progress Monotonicity & Single-Flight Concurrency Guard:** UI progress indicators enforce strictly non-decreasing percentages, and the ingestion pipeline locks candidate IDs against race conditions, returning HTTP 409 Conflict on concurrent duplicate submissions.
 
 ---
 
@@ -260,7 +264,7 @@ LOW FIT    │ INSUFFICIENT  │ WEAK MATCH    │
 
 - **Baseline A (Deterministic, No LLM):** Clean rewrite of CareerCheck rubric run on the parsed CV alone (`/baseline/rubric_scorer.py`). Raw score out of 120, normalized to 0–100. Serves as one input signal to the aggregator, not ground truth.
 - **Baseline B (Naive LLM, No Tools):** Single Ollama prompt with all raw candidate documents concatenated (`/baseline/naive_llm.py`), asking for candidate evaluation. Uses the exact same local model (`qwen2.5:3b`) to isolate the impact of architecture from model quality. While it can produce apparently grounded individual claims, it lacks the cross-source verification machinery needed to reliably detect contradictions.
-- **HireTrace Agent:** The full 4-agent pipeline with FAISS retrieval and cross-source verification.
+- **HireTrace Agent:** The full 5-agent pipeline (Requirement Mapping, Evidence Aggregation, Cross-Source Verification, Recommendation Writing, and Claim Critic) with FAISS retrieval and cross-source verification.
 
 ---
 
@@ -282,6 +286,8 @@ Located under [`eval_cases/`](eval_cases/):
     - CV: *"Led migration of legacy monolithic core to Apache Kafka for a 7-person team."*
     - Interview: Joined ~18 months ago, learned Kafka on the job.
     - Project Architecture RFC: Proves he was a contributing member of a 7-engineer team led by Principal Architect Dr. Robert Vance (contradicts "Led").
+- **Expanded Multi-Discipline Dataset (`eval_cases/dataset_expanded.py`):**
+  - In addition to the 15 canonical benchmark cases, HireTrace includes an expanded test suite of **45 synthetic candidates spanning 12 distinct engineering disciplines** (Distributed Systems, Robotics, AI/ML, Frontend, Data Engineering, AppSec, Mobile, SRE, QA, DevRel, Firmware, and Engineering Management), validating multi-source cross-verification across diverse technical roles.
 - **Live Demo / Ephemeral Intake Artifacts:**
   - Any files prefixed with `custom_*` in `eval_cases/` or `trajectories/` are ephemeral demo artifacts generated dynamically when reviewers use the **"+ Add Candidate"** live intake modal in the web UI or during integration testing (`tests/test_candidate_ingestion.py`). The canonical scientific benchmark comprises solely the 15 standardized cases (`case_01` through `case_15`).
 
@@ -372,6 +378,10 @@ pip install -r requirements.txt  # faiss-cpu, scipy, numpy, pytest, requests
 ```
 
 ### Step 3: Run Baselines, Tests, and Evaluations
+- **Run Full Test Suite (209 Passed, 1 Skipped):**
+  ```bash
+  HIRETRACE_OFFLINE_MOCK=1 pytest tests/ -q
+  ```
 - **Run Baseline A Tests:**
   ```bash
   pytest tests/test_rubric_scorer.py -v
@@ -386,9 +396,11 @@ pip install -r requirements.txt  # faiss-cpu, scipy, numpy, pytest, requests
   ```
 - **Launch Interactive Web Dashboard:**
   ```bash
-  python -m ui.server 8080
+  uvicorn ui.server:app --port 8000
+  # Or via local runner:
+  python run_live.py   # (On Windows: .\run_live.bat)
   ```
-  Open `http://127.0.0.1:8080` in your browser to inspect the 2D Quadrant and candidate reports.
+  Open `http://127.0.0.1:8000` in your browser to inspect the 2D Quadrant, candidate profiles, and live intake modals.
 
 ---
 
