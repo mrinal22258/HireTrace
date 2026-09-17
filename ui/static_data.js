@@ -5396,7 +5396,7 @@ window.HIRETRACE_STATIC = {
         "provenance": {
           "model_name": "qwen2.5:3b",
           "prompt_version": "v2.1-grounded-json",
-          "evaluated_at": "2026-09-16 10:07:32 UTC",
+          "evaluated_at": "2026-09-17 06:31:25 UTC",
           "quadrant_fit_threshold": 72.0,
           "quadrant_consistency_threshold": 70.0
         },

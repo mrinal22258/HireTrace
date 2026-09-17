@@ -68,19 +68,31 @@
     function deduplicateCandidates(list) {
       if (!Array.isArray(list)) return [];
       const seenIds = new Set();
-      const seenNames = new Set();
       const out = [];
       for (const c of list) {
         if (!c || !c.candidate_id) continue;
         const cid = c.candidate_id;
-        const nameKey = (c.name || "").trim().toLowerCase();
         if (seenIds.has(cid)) continue;
-        if (nameKey && seenNames.has(nameKey)) continue;
         seenIds.add(cid);
-        if (nameKey) seenNames.add(nameKey);
         out.push(c);
       }
       return out;
+    }
+
+    /* Helper: Candidate ID disambiguation suffix for duplicate names */
+    function getCandidateIdSuffix(c) {
+      if (!c || !c.candidate_id) return "";
+      const cName = (c.name || "").trim().toLowerCase();
+      if (!cName || !Array.isArray(AppState.cases)) return "";
+      const matchingCount = AppState.cases.filter(
+        item => item && (item.name || "").trim().toLowerCase() === cName
+      ).length;
+      if (matchingCount > 1) {
+        const rawId = String(c.candidate_id || "");
+        const shortId = rawId.length > 6 ? rawId.slice(-4) : rawId;
+        return ` · #${escapeHtml(shortId)}`;
+      }
+      return "";
     }
 
     /* Helper: Check Benchmark / Demo Candidate */
@@ -1250,7 +1262,7 @@
               </a>
             </td>
             <td style="color: var(--text-secondary); font-size: 0.78rem;">
-              ${escapeHtml(c.target_role || 'Senior Software Engineer')}
+              ${escapeHtml(c.target_role || 'Senior Software Engineer')}${getCandidateIdSuffix(c)}
               ${isDegradedCandidate ? '<span class="degraded-mode-chip" style="margin-left: 0.25rem;">⚡ Demo</span>' : ''}
             </td>
             <td><strong class="tabular-nums" style="font-family: var(--font-mono);">${fit}</strong></td>
@@ -1316,7 +1328,7 @@
               <div class="card-title-group">
                 <div class="card-candidate-name">${escapeHtml(c.name || 'Candidate')}</div>
                 <div class="card-target-role">
-                  ${escapeHtml(c.target_role || 'Senior Software Engineer')}
+                  ${escapeHtml(c.target_role || 'Senior Software Engineer')}${getCandidateIdSuffix(c)}
                   ${isDegradedCandidate ? `<span class="degraded-mode-chip" style="margin-left: 0.35rem;">⚡ Demo</span>` : ''}
                 </div>
               </div>
@@ -2064,7 +2076,7 @@
               </a>
             </td>
             <td style="color: var(--text-secondary); font-size: 0.75rem;">
-              ${escapeHtml(c.target_role || 'Senior Software Engineer')}
+              ${escapeHtml(c.target_role || 'Senior Software Engineer')}${getCandidateIdSuffix(c)}
               ${isDegradedCandidate ? '<span class="degraded-mode-chip" style="margin-left: 0.25rem;">⚡ Demo</span>' : ''}
             </td>
             <td><strong style="font-family: var(--font-mono);">${fit}</strong></td>

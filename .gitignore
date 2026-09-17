@@ -12,6 +12,7 @@ trajectories/cand_alpha_*
 eval_cases/rate_limit_test_*
 eval_cases/cand_alpha_*
 eval_cases/cand_persistence_*
+eval_cases/custom_uploads/
 powershell.cmd
 *.zip
 *.mp4

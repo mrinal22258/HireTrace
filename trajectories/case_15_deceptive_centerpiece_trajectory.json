@@ -78,16 +78,16 @@
           }
         }
       },
-      "duration_sec": 0.0565,
+      "duration_sec": 0.0373,
       "overlapped": true,
-      "wall_clock_sec": 0.0565
+      "wall_clock_sec": 0.0373
     },
     {
       "step": "retrieval_index_built",
       "total_spans_indexed": 40,
-      "duration_sec": 0.0565,
+      "duration_sec": 0.0373,
       "overlapped": true,
-      "wall_clock_sec": 0.0565
+      "wall_clock_sec": 0.0373
     },
     {
       "step": "requirement_mapping",
@@ -163,10 +163,10 @@
           "source_note": "generic requirements \u2014 offline mode"
         }
       ],
-      "duration_sec": 0.0565,
+      "duration_sec": 0.0373,
       "overlapped": true,
       "precomputed": false,
-      "wall_clock_sec": 0.0565
+      "wall_clock_sec": 0.0373
     },
     {
       "step": "evidence_aggregation",
@@ -1074,7 +1074,7 @@
           }
         }
       ],
-      "duration_sec": 0.0031
+      "duration_sec": 0.0
     },
     {
       "step": "cross_source_verification",
@@ -1281,7 +1281,7 @@
           }
         ]
       },
-      "duration_sec": 0.0039
+      "duration_sec": 0.0
     },
     {
       "step": "recommendation_writing",
@@ -1484,7 +1484,7 @@
         "provenance": {
           "model_name": "qwen2.5:3b",
           "prompt_version": "v2.1-grounded-json",
-          "evaluated_at": "2026-09-16 10:07:32 UTC",
+          "evaluated_at": "2026-09-17 06:31:25 UTC",
           "quadrant_fit_threshold": 72.0,
           "quadrant_consistency_threshold": 70.0
         },
@@ -1504,6 +1504,6 @@
       "duration_sec": 0.0
     }
   ],
-  "pipeline_latency_sec": 0.06,
+  "pipeline_latency_sec": 0.04,
   "degraded": false
 }

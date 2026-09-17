@@ -300,11 +300,11 @@ Located under [`eval_cases/`](eval_cases/):
 | **3. Contradiction Precision / FPR (Task A)** | N/A | 30.8% Precision (**81.8% FPR**) | **100.0% Precision (0.0% FPR)** | Baseline B triggers 9 false alarms on clean controls; HireTrace has **0 false alarms** |
 | **4. Contradiction F1 Score** | 0.000 | 0.471 | **1.000** | Perfect harmonic balance between precision and recall |
 | **5. Evidence Sufficiency Recall (Task B)** | N/A | N/A | **100.0% (3/3)** | Identifies incomplete dossiers without confusing missing data for factual conflict |
-| **6. Claim Grounding & Quote Fidelity** | N/A | 88.9% Grounding (32/36), 79.1% Quotes | **66.7% Grounding (54/81), 100.0% Quotes** | 100% citation validity & quote containment (0% hallucinations); see Granularity Note below |
+| **6. Claim Grounding & Quote Fidelity** | N/A | 88.9% Grounding (32/36), 79.1% Quotes | **66.7% Grounding (54/81), 100.0% Quotes** | 100% quote containment, 100% citation validity, 66.7% claim grounding on 15 synthetic cases; see Granularity Note below |
 | **7. Estimated Reviewer Time** | 18.0 min (manual) | 12.5 min | **3.5 min** | **+80.6% estimated time saved** (Standardized cognitive load model: 2,200 words @ 220 wpm + reconciliation) |
 | **8. Pipeline Median Latency (p50)** | ~40s+ (cold load) | ~35s | **26.25s** | Concurrency (Steps 1–3 parallel) + warm model cache drops wall-clock evaluation time |
 
-*Note on Grounding Rate (66.7% vs 88.9%) & Quote Fidelity: HireTrace emits over 2.25× more atomic claims than Baseline B (81 claims vs 36), resulting in 54 verified grounded claims compared to Baseline B's 32. Baseline B outputs coarse, un-cited paragraphs that superficially match broad resume terms, but fabricates quotes 20.9% of the time (79.1% containment). HireTrace breaks evaluation down into granular per-competency claims; when the Recommendation Writer synthesizes holistic cross-source conclusions, claims lacking an exact 1:1 single-span quote are conservatively flagged as ungrounded by the automated evaluator. Crucially, 100.0% of citations emitted by HireTrace reference valid document span IDs (100% validity) and 100.0% of extracted quotes match source text verbatim (100% containment) — completely eliminating fabricated evidence.*
+*Note on Grounding Rate (66.7% vs 88.9%) & Quote Fidelity: HireTrace emits over 2.25× more atomic claims than Baseline B (81 claims vs 36), resulting in 54 verified grounded claims compared to Baseline B's 32. Baseline B outputs coarse, un-cited paragraphs that superficially match broad resume terms, but fabricates quotes 20.9% of the time (79.1% containment). HireTrace breaks evaluation down into granular per-competency claims; when the Recommendation Writer synthesizes holistic cross-source conclusions, claims lacking an exact 1:1 single-span quote are conservatively flagged as ungrounded by the automated evaluator. Measured across 15 synthetic cases: 100.0% of citations reference valid document span IDs (100% citation validity) and 100.0% of extracted quotes match source text verbatim (100% quote containment) with 66.7% atomic claim grounding.*
 
 *Execution Mode: Baseline B and HireTrace Agent ran on the exact same local open-weights model (`qwen2.5:3b`) via local Ollama with zero paid APIs (`execution_mode: "local_ollama_open_weights"`, 79/79 successful LLM calls, 0 fallbacks).*
 
@@ -333,10 +333,12 @@ HireTrace is built from the ground up to prevent the civil rights and compliance
    - **Minimum Disparate Impact Ratio (DIR):** **1.0000** (far exceeding the 0.8000 EEOC threshold)
    - **Quadrant Stability:** **100.0% Invariant** across demographic mutations.
 
-3. **Zero-Hallucination & Anti-Fabrication Guarantee:**
-   - **Citation Validity Rate:** **100.0%** (every citation maps directly to a valid candidate document span ID).
-   - **Exact Quote Containment:** **100.0%** (every quote attributed to candidate materials matches source text verbatim).
-   - **Adversarial Red-Teaming:** **100% Defense Rate** across 8 attack vectors (prompt injection, delimiter escaping, conversational interview jailbreaks, JSON schema smuggling, tenure fabrication, and seniority usurpation).
+3. **Measured Claim Grounding & Evidence Containment:**
+   - **Exact Quote Containment:** **100.0%** (every quote attributed to candidate materials matches source text verbatim on 15 synthetic cases).
+   - **Citation Validity Rate:** **100.0%** (every citation maps directly to a valid candidate document span ID on 15 synthetic cases).
+   - **Claim Grounding Rate:** **66.7%** (54/81 granular claims strictly grounded on 15 synthetic cases; remaining 27 represent holistic cross-source inferences conservatively flagged).
+   - **Adversarial Red-Teaming:** **100% Defense Rate** across 8 evaluated attack vectors on synthetic benchmarks (prompt injection, delimiter escaping, conversational interview jailbreaks, JSON schema smuggling, tenure fabrication, and seniority usurpation).
+   - *Note on claims*: No absolute zero-hallucination or anti-fabrication guarantees are made. Performance reflects empirical measurements on the 15-case synthetic evaluation suite.
 
 4. **Air-Gapped Confidentiality ($0.00 External Cost):**
    - Resumes, interview transcripts, and evaluation scores never leave the self-hosted environment. Zero telemetry or inference is routed to third-party proprietary APIs.
@@ -354,7 +356,28 @@ HireTrace is built from the ground up to prevent the civil rights and compliance
 
 ---
 
-## 9. Clean Reproduction Guide ($0 Cost, 100% Offline)
+## 9. Limitations & Operational Constraints
+
+While HireTrace demonstrates high empirical grounding, fairness parity, and contradiction detection on our benchmark suite, users and evaluators should recognize key operational limitations:
+
+1. **Synthetic Data Benchmark ($N=15$):**
+   - All evaluation cases and counterfactual dossiers are expert-authored synthetic benchmarks designed to stress-test specific cross-source edge cases (contradictions, tenure gaps, prompt injections). Performance on real-world applicant pools with noisy OCR, informal language, or non-standard formatting may differ.
+
+2. **Small Sample Size ($N=15$ Cases, 44 Counterfactuals):**
+   - The primary evaluation benchmark comprises 15 candidate profiles, and the demographic audit evaluates 44 counterfactual mutations across 11 groups. As indicated by bootstrap 95% confidence intervals ($\rho \in [0.446, 0.983]$), statistical uncertainty remains non-trivial due to sample size constraints.
+
+3. **Mock-Backed CI & Local Test Harness:**
+   - In continuous integration (CI) and offline environments without GPU access, automated test suites execute against deterministic mock LLM clients (`MockOllamaClient`). While mocks rigorously validate parsing, logic flow, and schema compliance, they do not simulate live model nondeterminism.
+
+4. **Live-Model Variance & Open-Weights Portability:**
+   - When running on local hardware with open-weights models (`qwen2.5:3b`), slight inference variations may occur across diverse hardware platforms (GPU vs. CPU, quantizations `q4_k_m` vs `fp16`), driver versions, or Ollama server configurations. Live-model score variance across heterogeneous deployment environments is unquantified.
+
+5. **Non-Autonomous Assistive Nature:**
+   - HireTrace is strictly an evidence-surfacing copilot. Algorithmic scores and quadrant placements must never be used as autonomous hiring determinations; all evaluations mandate qualified human-in-the-loop review.
+
+---
+
+## 10. Clean Reproduction Guide ($0 Cost, 100% Offline)
 
 ### Step 1: Install and Launch Ollama
 1. Download Ollama from [ollama.com](https://ollama.com).
@@ -404,7 +427,7 @@ pip install -r requirements.txt  # faiss-cpu, scipy, numpy, pytest, requests
 
 ---
 
-## 10. Hot Take
+## 11. Hot Take
 
 > **"Verification can establish consistency, not truth."**  
 > If a candidate's CV, interview transcript, and assessment report all state that they architected a distributed system, the evidence is **internally consistent across recorded documents** — it is not automatically true in the physical world.
@@ -413,6 +436,6 @@ pip install -r requirements.txt  # faiss-cpu, scipy, numpy, pytest, requests
 
 ---
 
-## 11. License
+## 12. License
 
 HireTrace is open-source software licensed under the [MIT License](LICENSE). You are free to inspect, adapt, fork, and build upon this codebase.

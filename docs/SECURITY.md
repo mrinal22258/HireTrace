@@ -74,4 +74,4 @@ For production deployments processing real applicant PII:
 
 ### PII Handling & Minimization
 1. **Redaction**: Strip or hash candidate personally identifiable information (government IDs, SSNs, credit cards, dates of birth) prior to storing resumes in the database or passing them to the local embedding/LLM pipeline.
-2. **Offline Inference Guarantee**: Because HireTrace operates over local Ollama / vLLM instances, applicant data is never transmitted across third-party public API networks, satisfying strict GDPR, HIPAA, and SOC-2 data residency requirements.
+2. **Offline Inference Architecture**: Because HireTrace operates over local Ollama / vLLM instances, applicant data is never transmitted across third-party public API networks, satisfying strict GDPR, HIPAA, and SOC-2 data residency requirements.

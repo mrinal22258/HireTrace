@@ -38,13 +38,13 @@ Evaluated with unified ground checking and claim critic auditing (valid span ID 
 | **Verified Grounded Claims** | 52 | 0 | Passed citation validity + quote containment |
 | **Synthesized Inferences** | 1 | 75 | Explicitly distinguished missing evidence / synthesis |
 | **Grounded Claim Fidelity** | **100.0%** | **0.0%** | **100% of asserted grounded claims are strictly verified** |
-| **Citation ID Validity** | 100.0% | **0.0%** | Zero hallucinated or broken span citations |
+| **Citation ID Validity** | 100.0% | **0.0%** | Measured 0 broken span citations on benchmark |
 | **Exact Quote Containment** | 100.0% | **0.0%** | Verbatim substring containment in source text |
 
 > **Scientific Analysis on Grounding Fidelity & Claim Delineation:**
 > - **Resolution of the Grounding Rate Gap:** Previously, a naive 66.7% grounding rate was reported because negative evidence evaluations (`INSUFFICIENT_EVIDENCE`) and holistic synthesis were lumped together with positive citations without distinction.
 > - **Dual Classification & Critic Verification:** The Recommendation Writer and Claim Critic now explicitly categorize assertions into **Asserted Grounded Claims** (0) and **Synthesized Inferences** (75).
-> - **100.0% Grounded Claim Fidelity:** Every single claim asserted with a citation passes exact substring containment (**0.0%**) and valid span ID existence (**0.0%**), with zero ungrounded assertions masquerading as evidence.
+> - **100.0% Grounded Claim Fidelity:** Every claim asserted with a citation passes exact substring containment and valid span ID existence on evaluated benchmark cases.
 > - **Contrast with Baseline B:** Baseline B outputs un-cited summaries that mimic CV keywords (98.1% surface match) but hallucinates quotes 0.0% of the time.
 
 ## 4. Component Ablation Study
